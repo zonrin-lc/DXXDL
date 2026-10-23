@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>比大小 · 估测游戏中心</title>
+<style>
+  :root {
+    --bg: #f4f6f8;
+    --card: #ffffff;
+    --ink: #1a2230;
+    --sub: #6b7686;
+    --blue: #2f6bff;
+    --blue-soft: #e8efff;
+    --red: #e5484d;
+    --red-soft: #fdecec;
+    --green: #2f9e63;
+    --purple: #7048e8;
+    --purple-soft: #efe9fd;
+    --orange: #e8590c;
+    --orange-soft: #fdeee3;
+    --line: #e4e8ee;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; }
+  body {
+    font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    touch-action: manipulation;
+    display: flex;
+    justify-content: center;
+  }
+  .app {
+    width: 100%;
+    max-width: 480px;
+    min-height: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 16px 16px 28px;
+  }
+  header { text-align: center; padding: 10px 0 4px; }
+  header h1 { font-size: 24px; letter-spacing: 1px; }
+  header p { font-size: 12px; color: var(--sub); margin-top: 3px; }
+
+  .btn {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    border: none;
+    border-radius: 14px;
+    font-size: 17px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--blue);
+    cursor: pointer;
+    transition: transform .1s, opacity .2s;
+  }
+  .btn:active { transform: scale(.97); }
+  .btn.red { background: var(--red); }
+  .btn.ghost {
+    background: transparent; color: var(--blue);
+    border: 2px solid var(--blue); font-weight: 600;
+  }
+  .btn.sub { background: #eceff4; color: var(--sub); font-size: 14px; padding: 11px; }
+
+  .hidden { display: none !important; }
+  .fadein { animation: pop .35s ease; }
+  @keyframes pop { from { transform: scale(.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+  /* ================= 主页 ================= */
+  .modes { display: flex; flex-direction: column; gap: 12px; margin-top: 16px; }
+  .mode-card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 18px;
+    padding: 16px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    cursor: pointer;
+    transition: transform .1s;
+  }
+  .mode-card:active { transform: scale(.98); }
+  .mode-card .ic {
+    width: 52px; height: 52px; border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 28px; flex: none;
+  }
+  .mode-card .tx { flex: 1; min-width: 0; }
+  .mode-card .tx h3 { font-size: 16px; }
+  .mode-card .tx p { font-size: 12px; color: var(--sub); margin-top: 2px; }
+  .mode-card .best { font-size: 11px; color: var(--sub); background: #f0f2f6; border-radius: 8px; padding: 5px 9px; flex: none; white-space: nowrap; }
+  .tag { font-size: 10px; font-weight: 700; padding: 2px 7px; border-radius: 6px; margin-left: 6px; vertical-align: 2px; }
+  .tag.daily { background: var(--purple-soft); color: var(--purple); }
+  .tag.week  { background: var(--orange-soft); color: var(--orange); }
+
+  /* ================= 视觉模式 ================= */
+  .hud {
+    display: flex; justify-content: space-between; align-items: center;
+    margin: 12px 0; font-size: 13px; color: var(--sub);
+  }
+  .dots { display: flex; gap: 6px; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; background: #d6dce4; transition: all .3s; }
+  .dot.on { background: var(--blue); transform: scale(1.2); }
+  .dot.done-90 { background: var(--green); }
+  .dot.done-mid { background: #f0a02f; }
+  .dot.done-bad { background: var(--red); }
+
+  .stage {
+    background: var(--card); border: 1px solid var(--line);
+    border-radius: 20px; padding: 16px 12px 10px;
+  }
+  .arena {
+    height: 300px; display: flex; justify-content: center;
+    align-items: flex-end; gap: 34px; overflow: hidden; position: relative;
+  }
+  .obj { display: flex; flex-direction: column; align-items: center; justify-content: flex-end; }
+  .obj .emoji { line-height: 1; user-select: none; filter: drop-shadow(0 4px 8px rgba(0,0,0,.12)); }
+  .obj .bar { width: 2px; margin-top: 4px; opacity: .25; }
+  .obj.ref .bar { background: var(--blue); }
+  .obj.tgt .bar { background: var(--red); }
+
+  .labels { display: flex; justify-content: center; gap: 34px; margin-top: 10px; }
+  .label {
+    min-width: 110px; max-width: 46%; text-align: center; font-size: 13px; font-weight: 600;
+    padding: 7px 10px; border-radius: 10px;
+  }
+  .label small { display: block; font-weight: 400; font-size: 11px; color: var(--sub); margin-top: 1px; }
+  .label.ref { background: var(--blue-soft); color: var(--blue); }
+  .label.tgt { background: var(--red-soft); color: var(--red); }
+
+  .controls { margin-top: 18px; }
+  input[type="range"] { width: 100%; height: 44px; -webkit-appearance: none; background: transparent; }
+  input[type="range"]::-webkit-slider-runnable-track {
+    height: 10px; border-radius: 5px;
+    background: linear-gradient(90deg, #dfe5ec, #c9d4e4);
+  }
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none; width: 34px; height: 34px; border-radius: 50%;
+    background: var(--red); border: 4px solid #fff;
+    box-shadow: 0 2px 8px rgba(229,72,77,.45); margin-top: -12px; cursor: pointer;
+  }
+  input[type="range"]::-moz-range-track { height: 10px; border-radius: 5px; background: #c9d4e4; }
+  input[type="range"]::-moz-range-thumb {
+    width: 30px; height: 30px; border-radius: 50%;
+    background: var(--red); border: 4px solid #fff;
+    box-shadow: 0 2px 8px rgba(229,72,77,.45);
+  }
+
+  .reveal {
+    margin-top: 14px; background: var(--card); border: 1px solid var(--line);
+    border-radius: 16px; padding: 14px 16px; text-align: center;
+  }
+  .reveal .verdict { font-size: 16px; font-weight: 700; }
+  .reveal .detail { font-size: 13px; color: var(--sub); margin-top: 6px; line-height: 1.7; }
+  .reveal .detail b { color: var(--ink); }
+  .reveal .score-line { font-size: 26px; font-weight: 800; margin-top: 4px; }
+  .reveal .score-line b { color: var(--blue); }
+  .reveal .btn { margin-top: 12px; }
+
+  /* ================= 数值模式 ================= */
+  .q-card {
+    background: var(--card); border: 1px solid var(--line); border-radius: 18px;
+    padding: 20px 18px; margin-top: 4px;
+  }
+  .q-card .q-tag { font-size: 11px; color: var(--purple); font-weight: 700; letter-spacing: 1px; }
+  .q-card .q-text { font-size: 19px; font-weight: 700; line-height: 1.55; margin-top: 8px; }
+  .q-card .q-hint { font-size: 12px; color: var(--sub); margin-top: 10px; line-height: 1.7; }
+
+  .num-input-row {
+    display: flex; align-items: center; gap: 8px;
+    background: var(--card); border: 2px solid var(--line);
+    border-radius: 14px; padding: 12px 14px; margin-top: 14px;
+  }
+  .num-input-row:focus-within { border-color: var(--purple); }
+  .num-input-row input {
+    flex: 1; border: none; outline: none; font-size: 22px; font-weight: 800;
+    font-family: inherit; color: var(--ink); min-width: 0; background: transparent;
+  }
+  .num-input-row .unit { font-size: 13px; color: var(--sub); flex: none; }
+  .chips { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .chip {
+    flex: 1; min-width: 60px; padding: 10px 4px; border: none; border-radius: 10px;
+    background: var(--purple-soft); color: var(--purple); font-weight: 700; font-size: 13px;
+    cursor: pointer;
+  }
+  .chip:active { transform: scale(.95); }
+  .chip:disabled { opacity: .4; }
+
+  /* 生存模式 */
+  .life-bar {
+    display: flex; align-items: center; gap: 8px;
+    margin: 12px 0 2px; font-size: 15px; font-weight: 800;
+  }
+  .life-hearts { color: var(--red); letter-spacing: 2px; font-size: 13px; }
+  .timer-track {
+    height: 8px; background: #e4e8ee; border-radius: 4px; overflow: hidden; margin-top: 8px;
+  }
+  .timer-fill { height: 100%; width: 100%; background: var(--green); border-radius: 4px; }
+  .surv-count { font-size: 12px; color: var(--sub); margin-top: 8px; }
+
+  /* ================= 结算 ================= */
+  .screen-end { text-align: center; animation: pop .4s ease; margin-top: 14px; }
+  .screen-end .big { font-size: 50px; font-weight: 900; margin: 6px 0 2px; }
+  .screen-end .big small { font-size: 19px; color: var(--sub); font-weight: 600; }
+  .screen-end .comment { font-size: 15px; color: var(--sub); margin: 6px 0 16px; }
+  .squares { display: flex; justify-content: center; gap: 8px; font-size: 24px; margin: 10px 0 18px; }
+  .roundlist { text-align: left; font-size: 13px; color: var(--sub); margin: 0 0 18px; line-height: 2; }
+  .roundlist b { color: var(--ink); }
+  .btn + .btn { margin-top: 10px; }
+  .back-row { margin-top: 18px; text-align: center; }
+  .back-row button {
+    background: none; border: none; color: var(--sub); font-size: 13px;
+    text-decoration: underline; cursor: pointer; padding: 8px;
+  }
+
+  /* ===== v1.1 手感包 ===== */
+  header { position: relative; }
+  #mute-btn {
+    position: absolute; top: 10px; right: 0;
+    background: none; border: none; font-size: 18px; cursor: pointer; padding: 6px;
+  }
+  .hint-bar {
+    background: var(--blue-soft); color: var(--blue);
+    font-size: 13px; font-weight: 600; line-height: 1.5;
+    border-radius: 12px; padding: 10px 14px; margin: 10px 0 0;
+    animation: pop .3s ease;
+  }
+  #screen-numeric .hint-bar { background: var(--purple-soft); color: var(--purple); }
+  .tick-wrap { position: relative; height: 16px; margin-top: 2px; }
+  .tick {
+    position: absolute; transform: translateX(-50%);
+    font-size: 10px; color: #9aa3b0; font-weight: 600;
+  }
+  .tick::before {
+    content: ''; position: absolute; left: 50%; top: -6px;
+    width: 1px; height: 4px; background: #c3cad4;
+  }
+  .draft-toggle {
+    display: block; margin: 12px auto 0; background: none; border: none;
+    color: var(--purple); font-size: 13px; font-weight: 700; cursor: pointer;
+    padding: 4px 10px;
+  }
+  .draft-area {
+    width: 100%; min-height: 90px; margin-top: 8px;
+    border: 2px dashed var(--purple); border-radius: 12px;
+    padding: 10px; font-size: 14px; font-family: inherit;
+    resize: vertical; outline: none; background: #fbfaff; color: var(--ink);
+  }
+  .countdown {
+    font-size: 13px; color: var(--purple); font-weight: 700;
+    background: var(--purple-soft); border-radius: 10px;
+    padding: 8px; margin-bottom: 12px;
+  }
+</style>
+</head>
+<body>
+<div class="app">
+  <header id="hd">
+    <h1>📏 比大小</h1>
+    <p>估测游戏中心 · 5 种玩法 · 凭直觉，不需要专业知识</p>
+    <button id="mute-btn" title="音效开关">🔊</button>
+  </header>
+
+  <!-- ===== 主页 ===== -->
+  <div id="screen-home">
+    <div class="modes" id="mode-list"></div>
+    <div id="pack-info" style="text-align:center;font-size:11px;color:#a5adb9;margin-top:16px">内容包 · 内置</div>
+  </div>
+
+  <!-- ===== 视觉模式 ===== -->
+  <div id="screen-visual" class="hidden">
+    <div id="v-hint" class="hint-bar hidden"></div>
+    <div class="hud">
+      <span id="v-round"></span>
+      <div class="dots" id="v-dots"></div>
+      <span id="v-total"></span>
+    </div>
+    <div class="stage">
+      <div class="arena" id="v-arena">
+        <div class="obj ref">
+          <div class="emoji" id="v-ref-emoji">🧍</div>
+          <div class="bar" style="height:6px"></div>
+        </div>
+        <div class="obj tgt">
+          <div class="emoji" id="v-tgt-emoji">🐘</div>
+          <div class="bar" style="height:6px"></div>
+        </div>
+      </div>
+      <div class="labels">
+        <div class="label ref"><span id="v-ref-label"></span><small id="v-ref-size"></small></div>
+        <div class="label tgt" id="v-tgt-label"></div>
+      </div>
+    </div>
+    <div class="controls">
+      <input type="range" id="v-slider" min="0" max="1000" value="500">
+      <div class="tick-wrap" id="v-ticks"></div>
+      <button class="btn red" id="v-lock">🔒 锁定答案</button>
+    </div>
+    <div class="reveal hidden" id="v-reveal">
+      <div class="verdict" id="v-verdict"></div>
+      <div class="detail" id="v-detail"></div>
+      <div class="score-line">得分 <b id="v-score"></b></div>
+      <button class="btn" id="v-next">下一题 →</button>
+    </div>
+  </div>
+
+  <!-- ===== 数值模式（每日 / 生存共用） ===== -->
+  <div id="screen-numeric" class="hidden">
+    <div id="n-hintbar" class="hint-bar hidden"></div>
+    <div id="n-survival-head" class="hidden">
+      <div class="life-bar">❤️ 生命 <span id="n-life">10</span>
+        <span style="flex:1"></span>
+        <span class="life-hearts" id="n-hearts"></span>
+      </div>
+      <div class="timer-track"><div class="timer-fill" id="n-timer"></div></div>
+      <div class="surv-count" id="n-count"></div>
+    </div>
+    <div class="q-card">
+      <div class="q-tag" id="n-tag">数量级估测</div>
+      <div class="q-text" id="n-text"></div>
+      <div class="q-hint" id="n-hint">不用知道确切数字——把问题拆成你能估的小块，相乘得到正确的「数量级」。差一点没关系，差五个零才致命。</div>
+    </div>
+    <button class="draft-toggle" id="n-draft-btn">📝 草稿板</button>
+    <textarea id="n-draft" class="draft-area hidden" placeholder="把大问题拆成小块再相乘…&#10;例：80 亿人 × 10 万次/天 = 8×10¹⁴"></textarea>
+    <div class="num-input-row">
+      <input type="text" id="n-input" inputmode="decimal" placeholder="输入你的估测">
+      <span class="unit" id="n-unit"></span>
+    </div>
+    <div class="chips">
+      <button class="chip" data-m="1000">×1千</button>
+      <button class="chip" data-m="10000">×1万</button>
+      <button class="chip" data-m="100000000">×1亿</button>
+      <button class="chip" data-m="1000000000000">×1万亿</button>
+      <button class="chip" data-m="clear" style="background:#f0f2f6;color:var(--sub)">清零</button>
+    </div>
+    <button class="btn" id="n-lock" style="margin-top:14px;background:var(--purple)">🔒 锁定答案</button>
+    <div class="reveal hidden" id="n-reveal">
+      <div class="verdict" id="n-verdict"></div>
+      <div class="detail" id="n-detail"></div>
+      <div class="score-line" id="n-scoreline"></div>
+      <button class="btn" id="n-next" style="background:var(--purple)">下一题 →</button>
+    </div>
+  </div>
+
+  <!-- ===== 结算页 ===== -->
+  <div id="screen-end" class="hidden">
+    <div class="screen-end" id="end-body"></div>
+  </div>
+
+  <div class="back-row" id="back-row" style="display:none">
+    <button id="back-btn">← 返回主页</button>
+  </div>
+</div>
+
+<script>
+// =====================================================
+// 题库
+// =====================================================
+// ---- 视觉题库：ref 参考物（显示真实尺寸），tgt 目标物 ----
+const POOL_EVERYDAY = [
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🐘',n:'非洲象',s:3.3} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🦒',n:'长颈鹿',s:5.5} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🐱',n:'家猫（肩高）',s:0.25} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🐧',n:'帝企鹅',s:1.2} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🦘',n:'红袋鼠',s:2.0} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🚦',n:'红绿灯',s:4.5} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🚪',n:'标准房门',s:2.0} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🐋',n:'蓝鲸（体长）',s:26} },
+  { ref:{e:'🚗',n:'小轿车',s:1.5},   tgt:{e:'🚌',n:'双层巴士',s:4.4} },
+  { ref:{e:'🚗',n:'小轿车',s:1.5},   tgt:{e:'🚲',n:'自行车（车把高）',s:1.0} },
+  { ref:{e:'🍎',n:'苹果',s:0.08},    tgt:{e:'🎾',n:'网球',s:0.067} },
+  { ref:{e:'🍎',n:'苹果',s:0.08},    tgt:{e:'🥚',n:'鸡蛋',s:0.055} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🌳',n:'成年橡树',s:20} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🚏',n:'公交站牌',s:2.5} },
+  { ref:{e:'📱',n:'手机',s:0.15},    tgt:{e:'🥤',n:'易拉罐',s:0.12} },
+  { ref:{e:'🏀',n:'篮球',s:0.24},    tgt:{e:'⚽',n:'足球',s:0.22} },
+];
+const POOL_POP = [
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'⚡',n:'皮卡丘',s:0.4} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🤖',n:'哆啦A梦',s:1.29} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🤖',n:'大白（超能陆战队）',s:2.2} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🍃',n:'大龙猫',s:2.0} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🧽',n:'海绵宝宝',s:0.1} },
+  { ref:{e:'🧍',n:'成年人',s:1.7},   tgt:{e:'🔵',n:'纳美人（阿凡达）',s:3.0} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🚚',n:'擎天柱（电影版）',s:10.6} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🦖',n:'霸王龙（侏罗纪）',s:4.0} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🦸',n:'奥特曼（巨大化）',s:40} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🦎',n:'哥斯拉',s:100} },
+];
+const POOL_GEO = [
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🗿',n:'复活节岛石像',s:4} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🗽',n:'自由女神像（含基座）',s:93} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🕰️',n:'大本钟',s:96} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🌉',n:'金门大桥桥塔',s:227} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🗼',n:'埃菲尔铁塔',s:330} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🗼',n:'东京铁塔',s:333} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🏙️',n:'上海中心大厦',s:632} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🏢',n:'哈利法塔',s:828} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'⛰️',n:'泰山',s:1545} },
+  { ref:{e:'🏠',n:'一层楼房',s:3.0}, tgt:{e:'🏔️',n:'珠穆朗玛峰',s:8849} },
+];
+// ---- 数值题库：q 问题，a 标准答案，u 单位，note 揭晓时的冷知识 ----
+const POOL_NUM = [
+  { q:'全世界人类一天的心跳总数大约是多少？', a:8e14, u:'次', note:'80 亿人 × 每人每天约 10 万次 ≈ 8×10¹⁴' },
+  { q:'胡夫大金字塔的总重量大约是多少？', a:5.9e6, u:'吨', note:'约 230 万块巨石，平均每块 2.5 吨' },
+  { q:'地球上现存树木的总数大约是多少？', a:3e12, u:'棵', note:'人均约 400 棵，但每年净减少约 100 亿棵' },
+  { q:'全世界一年要喝掉多少杯咖啡？', a:8e11, u:'杯', note:'全球每天约 22 亿杯' },
+  { q:'月球的质量大约是多少？', a:7.35e22, u:'千克', note:'约为地球质量的 1/81' },
+  { q:'《哈利·波特》全系列英文版总词数大约是多少？', a:1.08e6, u:'词', note:'约 108 万词，读一遍要 60+ 小时' },
+  { q:'阳光从太阳到达地球需要多长时间？', a:499, u:'秒', note:'约 8 分 19 秒' },
+  { q:'人体内大约有多少个细胞？', a:3.7e13, u:'个', note:'约 37 万亿个' },
+  { q:'地球上的蚂蚁总数大约是多少？', a:2e16, u:'只', note:'约 2 亿亿只，总重比全人类还重约 20 倍' },
+  { q:'地球的质量大约是多少？', a:5.97e24, u:'千克', note:'约 60 亿亿亿吨' },
+  { q:'长江一年流入海洋的水量大约是多少？', a:9.6e11, u:'立方米', note:'接近 1 万亿立方米' },
+  { q:'一个人一生的心跳总数大约是多少？', a:2.8e9, u:'次', note:'按 80 岁、平均 70 次/分估算' },
+  { q:'全球每年发生的大小地震总数大约是多少？', a:5e5, u:'次', note:'大部分小到人类无感' },
+  { q:'大堡礁的总长度大约是多少？', a:2.3e6, u:'米', note:'约 2300 公里，从太空可见' },
+  { q:'中国一年发出的快递包裹大约是多少件？', a:1.7e11, u:'件', note:'人均每年约 120 件' },
+  { q:'一支圆珠笔大约能写出多长的字迹？', a:2e3, u:'米', note:'约 2 公里' },
+  { q:'英文维基百科的条目总数大约是多少？', a:7e6, u:'条', note:'约 700 万条' },
+  { q:'太阳到最近的恒星比邻星的距离大约是多少？', a:4e13, u:'千米', note:'约 4.2 光年，光也要跑 4 年多' },
+  { q:'全世界一天大约发送多少条短信？', a:2.3e11, u:'条', note:'远没想象中多——聊天软件取代了它' },
+  { q:'一座标准足球场的草坪上大约有多少根草？', a:1e8, u:'根', note:'每平方米约 1 万根' },
+];
+
+// =====================================================
+// 模式定义
+// =====================================================
+const MODES = {
+  everyday: { type:'visual', name:'比大小 · 日常', icon:'📏', color:'var(--blue)', desc:'把目标物调到真实比例', pool:POOL_EVERYDAY, rounds:5 },
+  pop:      { type:'visual', name:'比大小 · 奇幻', icon:'🎬', color:'var(--red)',   desc:'知名角色的真实尺度', pool:POOL_POP, rounds:5 },
+  geo:      { type:'visual', name:'比大小 · 地理', icon:'🌍', color:'var(--green)', desc:'从石像到珠穆朗玛峰', pool:POOL_GEO, rounds:5 },
+  daily:    { type:'daily',  name:'数量级 · 每日一题', icon:'🔢', color:'var(--purple)', desc:'一题、一次机会、按数量级计分' },
+  survival: { type:'survival', name:'数量级 · 生存模式', icon:'💀', color:'var(--orange)', desc:'10 点生命 · 每题 15 秒 · 答到死', tag:'week' },
+};
+
+// =====================================================
+// 工具
+// =====================================================
+const $ = id => document.getElementById(id);
+function shuffle(a){ for(let i=a.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [a[i],a[j]]=[a[j],a[i]]; } return a; }
+function fmtSize(m){ return m >= 1 ? (m >= 1000 ? m.toLocaleString('zh-CN') : m) + ' 米' : Math.round(m*100) + ' 厘米'; }
+function fmtRatio(r){
+  if (r >= 1000) return Math.round(r).toLocaleString('zh-CN') + ' 倍';
+  if (r >= 1)  return r.toFixed(1) + ' 倍';
+  if (r >= 0.0001) return (r*100).toFixed(r >= 0.01 ? 0 : 2) + '%';
+  return r.toExponential(1) + ' 倍';
+}
+function fmtCN(n){
+  const t = x => x >= 10 ? Math.round(x).toLocaleString('zh-CN') : String(Math.round(x*10)/10);
+  if (n >= 1e16) return t(n/1e16) + ' 亿亿';
+  if (n >= 1e12) return t(n/1e12) + ' 万亿';
+  if (n >= 1e8)  return t(n/1e8) + ' 亿';
+  if (n >= 1e4)  return t(n/1e4) + ' 万';
+  return Math.round(n).toLocaleString('zh-CN');
+}
+function fmtInput(n){ return n.toLocaleString('zh-CN', {maximumFractionDigits:4}); }
+// 安全存储：沙箱 iframe / file:// 下 localStorage 会抛 SecurityError，降级为内存存储
+const store = (() => {
+  try {
+    const t = window.localStorage;
+    t.setItem('__bsz_test', '1'); t.removeItem('__bsz_test');
+    return t;
+  } catch (e) {
+    const mem = {};
+    return {
+      getItem: k => (k in mem ? mem[k] : null),
+      setItem: (k, v) => { mem[k] = String(v); },
+      removeItem: k => { delete mem[k]; },
+    };
+  }
+})();
+function getBest(k){ return +(store.getItem('bsz_' + k) || 0); }
+function setBest(k, v){ if (v > getBest(k)) store.setItem('bsz_' + k, v); }
+function todayKey(){ const d = new Date(); return d.getFullYear()*10000 + (d.getMonth()+1)*100 + d.getDate(); }
+
+// 视觉计分：对数误差，≤6% 满分，差 5 倍以上 0 分
+function calcVisualScore(guess, actual){
+  const err = Math.abs(Math.log(guess/actual));
+  if (err <= 0.06) return 100;
+  return Math.max(0, Math.round(100 * (1 - (err - 0.06) / 1.54)));
+}
+// 数值计分：≤12% 满分，差 5 个数量级 0 分
+function calcNumScore(guess, actual){
+  const d = Math.abs(Math.log10(guess/actual));
+  if (d <= 0.06) return 100;
+  return Math.max(0, Math.round(100 * (1 - (d - 0.06) / 4.94)));
+}
+function verdictText(s){
+  if (s === 100) return '🎯 完美！';
+  if (s >= 90)  return '🔥 非常接近！';
+  if (s >= 60)  return '😊 有点偏差';
+  if (s >= 30)  return '😅 差挺多的';
+  return '💥 完全跑偏';
+}
+function sq(s){ return s >= 90 ? '🟩' : s >= 60 ? '🟨' : s >= 30 ? '🟧' : '🟥'; }
+function dotClass(s){ return s >= 90 ? 'done-90' : s >= 60 ? 'done-mid' : 'done-bad'; }
+
+// =====================================================
+// v1.1 手感包：音效合成 / 震动 / 彩带 / 数字滚动 / 提示条
+// =====================================================
+let AC = null;
+let MUTE = store.getItem('bsz_mute') === '1';
+function beep(freq, dur, type, vol, when){
+  if (MUTE) return;
+  try {
+    AC = AC || new (window.AudioContext || window.webkitAudioContext)();
+    if (AC.state === 'suspended') AC.resume();
+    const o = AC.createOscillator(), g = AC.createGain();
+    o.type = type || 'sine'; o.frequency.value = freq;
+    const t0 = AC.currentTime + (when || 0);
+    g.gain.setValueAtTime(vol || 0.15, t0);
+    g.gain.exponentialRampToValueAtTime(0.001, t0 + dur);
+    o.connect(g); g.connect(AC.destination);
+    o.start(t0); o.stop(t0 + dur + 0.05);
+  } catch (e) {}
+}
+const SFX = {
+  lock:    () => beep(220, .08, 'square', .07),
+  good:    () => { beep(523, .12, 'sine', .14); beep(784, .18, 'sine', .14, .1); },
+  mid:     () => beep(392, .15, 'sine', .11),
+  bad:     () => beep(180, .22, 'sawtooth', .09),
+  perfect: () => [523, 659, 784, 1047].forEach((f, i) => beep(f, .16, 'sine', .14, i * .09)),
+  end:     () => [392, 494, 587, 784].forEach((f, i) => beep(f, .2, 'triangle', .11, i * .12)),
+  tick:    () => beep(880, .04, 'square', .05),
+};
+function buzz(p){ try { navigator.vibrate && navigator.vibrate(p); } catch (e) {} }
+function sfxFor(score){
+  if (score === 100){ SFX.perfect(); buzz([15, 40, 15]); }
+  else if (score >= 90){ SFX.good(); buzz(20); }
+  else if (score >= 60){ SFX.mid(); buzz(12); }
+  else { SFX.bad(); buzz([30, 30, 30]); }
+}
+function rollCount(el, to, ms){
+  if (!el) return;
+  const t0 = performance.now(), dur = ms || 600;
+  (function step(t){
+    if (!document.body.contains(el)) return;
+    const k = Math.min(1, (t - t0) / dur);
+    el.textContent = Math.round(to * (1 - Math.pow(1 - k, 3)));
+    if (k < 1) requestAnimationFrame(step);
+  })(t0);
+}
+function confetti(){
+  try {
+    const cv = document.createElement('canvas');
+    cv.style.cssText = 'position:fixed;inset:0;pointer-events:none;z-index:99';
+    cv.width = window.innerWidth; cv.height = window.innerHeight;
+    document.body.appendChild(cv);
+    const ctx = cv.getContext('2d');
+    const colors = ['#2f6bff', '#e5484d', '#2f9e63', '#f0a02f', '#7048e8'];
+    const ps = Array.from({length: 90}, () => ({
+      x: Math.random()*cv.width, y: -20 - Math.random()*cv.height*0.3,
+      vx: (Math.random()-0.5)*3, vy: 2 + Math.random()*4,
+      s: 4 + Math.random()*6, r: Math.random()*Math.PI, vr: (Math.random()-0.5)*0.3,
+      c: colors[Math.floor(Math.random()*colors.length)]
+    }));
+    const t0 = performance.now();
+    (function frame(t){
+      ctx.clearRect(0, 0, cv.width, cv.height);
+      ps.forEach(p => {
+        p.x += p.vx; p.y += p.vy; p.r += p.vr;
+        ctx.save(); ctx.translate(p.x, p.y); ctx.rotate(p.r);
+        ctx.fillStyle = p.c; ctx.fillRect(-p.s/2, -p.s/2, p.s, p.s*0.6); ctx.restore();
+      });
+      if (t - t0 < 2500 && document.body.contains(cv)) requestAnimationFrame(frame);
+      else cv.remove();
+    })(t0);
+  } catch (e) {}
+}
+function showHint(barId, text, seenKey){
+  const bar = $(barId);
+  if (!bar) return;
+  if (seenKey && store.getItem('seen_' + seenKey)) return;
+  if (seenKey) store.setItem('seen_' + seenKey, '1');
+  bar.textContent = text;
+  bar.classList.remove('hidden');
+  clearTimeout(bar._t);
+  bar._t = setTimeout(() => bar.classList.add('hidden'), 6000);
+}
+// 对数滑块刻度尺：×0.1 / ×1 / ×10 / ×100…
+function renderTicks(){
+  const wrap = $('v-ticks'); if (!wrap) return;
+  wrap.innerHTML = '';
+  const lo = Math.log10(V.minR), hi = Math.log10(V.maxR);
+  for (let e = Math.ceil(lo); e <= Math.floor(hi); e++){
+    const r = Math.pow(10, e);
+    const pos = (Math.log10(r) - lo) / (hi - lo) * 100;
+    if (pos < 4 || pos > 96) continue;
+    const s = document.createElement('span');
+    s.className = 'tick'; s.style.left = pos + '%';
+    s.textContent = '×' + (r < 1 ? String(r) : fmtCN(Math.round(r)));
+    wrap.appendChild(s);
+  }
+}
+// 音效开关
+$('mute-btn').addEventListener('click', () => {
+  MUTE = !MUTE;
+  store.setItem('bsz_mute', MUTE ? '1' : '0');
+  $('mute-btn').textContent = MUTE ? '🔇' : '🔊';
+});
+if (MUTE) $('mute-btn').textContent = '🔇';
+// 草稿板
+$('n-draft-btn').addEventListener('click', () => {
+  const d = $('n-draft');
+  d.classList.toggle('hidden');
+  $('n-draft-btn').textContent = d.classList.contains('hidden') ? '📝 草稿板' : '📝 收起草稿板';
+  if (!d.classList.contains('hidden')) d.focus();
+});
+$('n-draft').addEventListener('input', e => store.setItem('bsz_draft', e.target.value));
+// 每日倒计时（距次日 0 点）
+let countdownTimer = null;
+function startDailyCountdown(container){
+  if (countdownTimer) clearInterval(countdownTimer);
+  const el = document.createElement('div');
+  el.className = 'countdown';
+  const firstBtn = container.querySelector('.btn');
+  container.insertBefore(el, firstBtn);
+  const tick = () => {
+    if (!document.body.contains(el)){ clearInterval(countdownTimer); return; }
+    const now = new Date();
+    const mid = new Date(now); mid.setHours(24, 0, 0, 0);
+    const s = Math.floor((mid - now) / 1000);
+    const hh = String(Math.floor(s/3600)).padStart(2,'0');
+    const mm = String(Math.floor(s%3600/60)).padStart(2,'0');
+    const ss = String(s%60).padStart(2,'0');
+    el.textContent = '⏳ 距下一题 ' + hh + ':' + mm + ':' + ss;
+  };
+  tick();
+  countdownTimer = setInterval(tick, 1000);
+}
+
+// =====================================================
+// 屏幕切换
+// =====================================================
+const SCREENS = ['screen-home','screen-visual','screen-numeric','screen-end'];
+let currentMode = null;
+function show(name){
+  SCREENS.forEach(s => $(s).classList.add('hidden'));
+  $(name).classList.remove('hidden');
+  $('back-row').style.display = (name === 'screen-home') ? 'none' : 'block';
+  $('hd').style.display = (name === 'screen-home') ? 'block' : 'none';
+  window.scrollTo(0, 0);
+}
+$('back-btn').addEventListener('click', () => { stopTimer(); renderHome(); show('screen-home'); });
+
+// =====================================================
+// 主页
+// =====================================================
+function renderHome(){
+  const list = $('mode-list'); list.innerHTML = '';
+  for (const [key, m] of Object.entries(MODES)){
+    const card = document.createElement('div');
+    card.className = 'mode-card';
+    let best = '未玩过';
+    if (m.type === 'visual'){ const b = getBest(key); if (b) best = '最佳 ' + b; }
+    if (m.type === 'survival'){ const b = getBest('survival_q'); if (b) best = '最佳 ' + b + ' 题'; }
+    if (m.type === 'daily'){
+      const done = store.getItem('bsz_daily_' + todayKey());
+      const streak = +(store.getItem('bsz_daily_streak') || 0);
+      if (done !== null){
+        best = '今日 ' + done + ' 分' + (streak > 1 ? ' · 🔥' + streak : '');
+      } else {
+        best = streak > 0 ? '🔥 连胜 ' + streak + ' 天' : '今日待挑战';
+      }
+    }
+    card.innerHTML =
+      '<div class="ic" style="background:color-mix(in srgb, ' + m.color + ' 12%, white)">' + m.icon + '</div>' +
+      '<div class="tx"><h3>' + m.name + '</h3><p>' + m.desc + '</p></div>' +
+      '<div class="best">' + best + '</div>';
+    card.addEventListener('click', () => startMode(key));
+    list.appendChild(card);
+  }
+}
+
+function startMode(key){
+  currentMode = key;
+  const m = MODES[key];
+  if (m.type === 'visual') startVisual(m);
+  else if (m.type === 'daily') startDaily();
+  else startSurvival();
+}
+
+// =====================================================
+// 视觉模式引擎（日常 / 奇幻 / 地理共用）
+// =====================================================
+const V = { game:[], round:0, total:0, results:[], guessing:true, mode:null,
+            minR:0.02, maxR:100000, guessRatio:1, actualRatio:1 };
+const GLOBAL_MIN = 0.02, GLOBAL_MAX = 100000;
+
+function startVisual(mode){
+  V.mode = mode;
+  V.game = shuffle([...mode.pool]).slice(0, mode.rounds);
+  V.round = 0; V.total = 0; V.results = [];
+  show('screen-visual');
+  showHint('v-hint', '👆 拖动滑块，让目标物与参考物的大小比例符合真实世界，然后锁定', 'visual');
+  renderVisualRound();
+}
+
+function renderVisualRound(){
+  V.guessing = true;
+  const pair = V.game[V.round];
+  V.actualRatio = pair.tgt.s / pair.ref.s;
+  // 每题自适应量程：真实值两侧各 100 倍（封顶全局量程）
+  V.minR = Math.max(GLOBAL_MIN, V.actualRatio / 100);
+  V.maxR = Math.min(GLOBAL_MAX, V.actualRatio * 100);
+  renderTicks();
+  // 极端比例提示：视图被缩放了，但相对关系是真实的
+  if (V.actualRatio > 30 || V.actualRatio < 1/30){
+    showHint('v-hint', '🔍 本题尺度跨度极大，视图已自动缩放——两物体的大小「比例」是真实的');
+  }
+  $('v-round').textContent = '第 ' + (V.round+1) + ' / ' + V.mode.rounds + ' 题';
+  $('v-total').textContent = '总分 ' + V.total;
+  $('v-ref-emoji').textContent = pair.ref.e;
+  $('v-ref-label').textContent = '参考 · ' + pair.ref.n;
+  $('v-ref-size').textContent = fmtSize(pair.ref.s);
+  $('v-tgt-emoji').textContent = pair.tgt.e;
+  $('v-tgt-emoji').style.transition = 'none';
+  $('v-tgt-label').innerHTML = pair.tgt.e + ' ❓<small>它有多大？</small>';
+  $('v-reveal').classList.add('hidden');
+  $('v-slider').disabled = false;
+  $('v-lock').classList.remove('hidden');
+  $('v-slider').value = 380 + Math.floor(Math.random()*240);
+  V.guessRatio = sliderToRatio(+$('v-slider').value);
+  updateVisualArena(false, false);
+  renderVisualDots();
+}
+
+function renderVisualDots(){
+  const d = $('v-dots'); d.innerHTML = '';
+  for (let i = 0; i < V.mode.rounds; i++){
+    const s = document.createElement('div');
+    s.className = 'dot';
+    if (V.results[i] != null) s.classList.add(dotClass(V.results[i]));
+    else if (i === V.round) s.classList.add('on');
+    d.appendChild(s);
+  }
+}
+
+function sliderToRatio(v){ return V.minR * Math.pow(V.maxR/V.minR, v/1000); }
+
+function updateVisualArena(animate, showTruth){
+  const arenaH = $('v-arena').clientHeight - 30;
+  const ratio = showTruth ? V.actualRatio : V.guessRatio;
+  const refBase = 90;
+  const fit = Math.min(1, arenaH / Math.max(refBase, refBase * ratio));
+  $('v-ref-emoji').style.fontSize = Math.max(4, refBase * fit) + 'px';
+  const tgtEl = $('v-tgt-emoji');
+  tgtEl.style.fontSize = Math.max(4, refBase * ratio * fit) + 'px';
+  tgtEl.style.transition = animate ? 'font-size .8s cubic-bezier(.22,1,.36,1), filter .4s' : 'none';
+  // emoji 是彩色字形，color 无效；用 filter 做单色染色：
+  // 猜测态 = 单色红（对齐原版红色目标剪影），揭晓态 = 单色绿
+  tgtEl.style.filter = showTruth
+    ? 'grayscale(1) sepia(1) saturate(2.4) hue-rotate(75deg) brightness(1.05)'
+    : 'grayscale(1) sepia(1) saturate(3) hue-rotate(-30deg) brightness(1.05)';
+}
+
+$('v-slider').addEventListener('input', e => {
+  if (!V.guessing) return;
+  V.guessRatio = sliderToRatio(+e.target.value);
+  updateVisualArena(false, false);
+});
+
+$('v-lock').addEventListener('click', () => {
+  if (!V.guessing) return;
+  V.guessing = false;
+  SFX.lock(); buzz(10);
+  const pair = V.game[V.round];
+  const score = calcVisualScore(V.guessRatio, V.actualRatio);
+  V.total += score; V.results.push(score);
+  $('v-slider').disabled = true;
+  updateVisualArena(true, true);
+  const errPct = Math.round(Math.abs(V.guessRatio - V.actualRatio) / V.actualRatio * 100);
+  $('v-verdict').textContent = verdictText(score);
+  $('v-tgt-label').innerHTML = pair.tgt.e + ' ' + pair.tgt.n + '<small>' + fmtSize(pair.tgt.s) + '</small>';
+  $('v-detail').innerHTML =
+    '它其实是参考物的 <b>' + fmtRatio(V.actualRatio) + '</b> —— ' + fmtSize(pair.tgt.s) + '<br>' +
+    '你调到了 <b>' + fmtRatio(V.guessRatio) + '</b>，偏差 ' + errPct + '%';
+  $('v-score').textContent = '0';
+  rollCount($('v-score'), score, 600);
+  sfxFor(score);
+  if (score === 100) confetti();
+  $('v-total').textContent = '总分 ' + V.total;
+  $('v-reveal').classList.remove('hidden');
+  $('v-lock').classList.add('hidden');
+  renderVisualDots();
+  setTimeout(() => { try { $('v-reveal').scrollIntoView({behavior:'smooth', block:'nearest'}); } catch(e){} }, 80);
+});
+
+$('v-next').addEventListener('click', () => {
+  V.round++;
+  if (V.round >= V.mode.rounds) endVisual();
+  else renderVisualRound();
+});
+
+function endVisual(){
+  const m = V.mode;
+  setBest(currentMode, V.total);
+  const best = getBest(currentMode);
+  SFX.end();
+  let c = '';
+  if (V.total >= m.rounds*90) c = '🏆 尺度感之神！';
+  else if (V.total >= m.rounds*70) c = '👍 尺度感相当靠谱';
+  else if (V.total >= m.rounds*50) c = '🤔 还行，再练练直觉';
+  else c = '🙈 世界对你来说还是太大了';
+  showEnd({
+    title: m.icon + ' ' + m.name,
+    big: V.total + '<small> / ' + m.rounds*100 + '</small>',
+    squares: V.results.map(sq).join(''),
+    comment: c + '　历史最高：' + best,
+    list: V.game.map((p,i) =>
+      '<div>' + sq(V.results[i]) + ' 第' + (i+1) + '题 ' + p.tgt.e + ' ' + p.tgt.n + ' → <b>' + V.results[i] + ' 分</b>（真实 ' + fmtSize(p.tgt.s) + '）</div>').join(''),
+    replay: () => startVisual(m),
+    celebrate: V.total >= m.rounds * 90,
+  });
+}
+
+// =====================================================
+// 热更新：内容与代码分离
+// 远程数据包 data/pools.json 带 version；拉新包→应用+缓存；
+// 断网→用本地缓存；无缓存→内置兜底题库。代码永不需要重发。
+// =====================================================
+let DAILY_OVERRIDE = {};   // {"2026-10-20": {q,a,u,note}}，运营按日期推题
+
+function todayStr(){
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+}
+
+function replacePool(dst, src){
+  if (!Array.isArray(src) || !src.length) return;
+  dst.length = 0;
+  src.forEach(x => dst.push(x));
+}
+
+function applyPack(pack){
+  replacePool(POOL_EVERYDAY, pack.everyday);
+  replacePool(POOL_POP,      pack.pop);
+  replacePool(POOL_GEO,      pack.geo);
+  replacePool(POOL_NUM,      pack.numeric);
+  DAILY_OVERRIDE = pack.daily || {};
+  renderHome();
+}
+
+function markPack(text){
+  const el = $('pack-info');
+  if (el) el.textContent = '内容包 · ' + text;
+}
+
+async function hotUpdate(){
+  let pack = null, source = '';
+  // 1) 尝试远程拉包（带超时，禁缓存）
+  if (typeof fetch === 'function'){
+    try {
+      const ctrl = new AbortController();
+      const timer = setTimeout(() => ctrl.abort(), 2500);
+      const res = await fetch(HOT.url + '?t=' + Date.now(), { cache:'no-store', signal: ctrl.signal });
+      clearTimeout(timer);
+      if (res.ok){
+        const p = await res.json();
+        if (p && p.version){
+          pack = p; source = 'v' + p.version + ' · 已同步';
+          store.setItem('bsz_pack', JSON.stringify(pack));
+          store.setItem('bsz_pack_ver', String(p.version));
+        }
+      }
+    } catch (e) { /* 网络不可用，走兜底 */ }
+  }
+  // 2) 远程失败 → 本地缓存
+  if (!pack){
+    try {
+      const c = JSON.parse(store.getItem('bsz_pack') || 'null');
+      if (c && c.version){ pack = c; source = 'v' + c.version + ' · 离线缓存'; }
+    } catch (e) {}
+  }
+  // 3) 都没有 → 内置兜底，不动
+  if (pack){ applyPack(pack); markPack(source); }
+}
+
+// =====================================================
+// 每日一题（热更新可按日期覆盖，否则按日期种子轮换）
+// =====================================================
+function dailyQuestion(){
+  const o = DAILY_OVERRIDE[todayStr()];
+  if (o && o.q && o.a) return o;
+  return POOL_NUM[todayKey() % POOL_NUM.length];
+}
+
+function startDaily(){
+  const done = store.getItem('bsz_daily_' + todayKey());
+  const q = dailyQuestion();
+  if (done !== null){
+    showEnd({
+      title: '🔢 每日一题 · 已完成',
+      big: done + '<small> / 100</small>',
+      squares: sq(+done),
+      comment: '明天 0 点刷新新题，保持连胜！',
+      list: '<div>今日题目：' + q.q + '</div><div>正确答案：<b>' + fmtCN(q.a) + ' ' + q.u + '</b></div>',
+      replay: null,
+      countdown: true,
+    });
+    return;
+  }
+  setupNumeric(q, { tag: '每日一题 · ' + (new Date().getMonth()+1) + '月' + new Date().getDate() + '日', single: true });
+  show('screen-numeric');
+}
+
+// =====================================================
+// 生存模式
+// =====================================================
+const S = { life:10, score:0, count:0, current:null, timer:null, tLeft:0 };
+const SURV_TIME = 15;
+
+function startSurvival(){
+  S.life = 10; S.score = 0; S.count = 0; S.current = null;
+  show('screen-numeric');
+  nextSurvivalQ();
+}
+
+function nextSurvivalQ(){
+  S.current = POOL_NUM[Math.floor(Math.random()*POOL_NUM.length)];
+  setupNumeric(S.current, { tag: '第 ' + (S.count+1) + ' 题', single: false });
+  S.tLeft = SURV_TIME;
+  updateSurvivalHead();
+  startTimer();
+}
+
+function updateSurvivalHead(){
+  $('n-life').textContent = S.life;
+  $('n-hearts').textContent = '❤'.repeat(Math.min(10, Math.max(0, S.life)));
+  $('n-count').textContent = '已答对 ' + S.count + ' 题 · 累计 ' + S.score + ' 分';
+  const fill = $('n-timer');
+  fill.style.width = (S.tLeft / SURV_TIME * 100) + '%';
+  fill.style.background = S.tLeft > SURV_TIME*0.5 ? 'var(--green)' : S.tLeft > SURV_TIME*0.25 ? '#f0a02f' : 'var(--red)';
+}
+
+function startTimer(){
+  stopTimer();
+  S._lastTick = Math.ceil(SURV_TIME);
+  S.timer = setInterval(() => {
+    S.tLeft -= 0.1;
+    if (S.tLeft <= 0){ S.tLeft = 0; updateSurvivalHead(); onSurvivalTimeout(); return; }
+    // 最后 3 秒每秒滴答，制造紧迫感
+    const secLeft = Math.ceil(S.tLeft);
+    if (secLeft <= 3 && secLeft < S._lastTick){ S._lastTick = secLeft; SFX.tick(); buzz(8); }
+    updateSurvivalHead();
+  }, 100);
+}
+function stopTimer(){ if (S.timer){ clearInterval(S.timer); S.timer = null; } }
+
+function onSurvivalTimeout(){
+  S.life -= 3;
+  updateSurvivalHead();
+  SFX.bad(); buzz([40, 40, 40]);
+  showNumericReveal('⏰ 超时！直接扣 3 点生命', 3, false);
+}
+
+function showNumericReveal(msg, penalty, good){
+  const q = S.current;
+  $('n-reveal').classList.remove('hidden');
+  $('n-verdict').textContent = msg;
+  $('n-detail').innerHTML =
+    (good ? '你的估测：<b>' + fmtCN(N.lastGuess) + ' ' + q.u + '</b><br>' : '') +
+    '正确答案：<b>' + fmtCN(q.a) + ' ' + q.u + '</b><br>' + q.note;
+  $('n-scoreline').innerHTML = S.life <= 0 ? '' : (good ? '得分 <b>' + N.lastScore + '</b>' : '剩余生命 <b>' + S.life + '</b>');
+  $('n-next').textContent = S.life <= 0 ? '查看战绩 →' : '继续 →';
+  $('n-lock').classList.add('hidden');
+  $('n-input').disabled = true;
+  document.querySelectorAll('.chip').forEach(c => c.disabled = true);
+}
+
+$('n-next').addEventListener('click', () => {
+  if (N.cfg && N.cfg.single){ finishDaily(); return; }   // 每日一题：去战绩页，不进生存
+  if (S.life <= 0){ endSurvival(); return; }
+  $('n-reveal').classList.add('hidden');
+  nextSurvivalQ();
+});
+
+function finishDaily(){
+  const q = N.q, score = N.lastScore;
+  const streak = +(store.getItem('bsz_daily_streak') || 0);
+  stopTimer();
+  showEnd({
+    title: '🔢 每日一题',
+    big: score + '<small> / 100</small>',
+    squares: sq(score),
+    comment: verdictText(score) + '　当前连胜：' + streak + ' 天',
+    list: '<div>正确答案：<b>' + fmtCN(q.a) + ' ' + q.u + '</b></div><div>' + q.note + '</div>',
+    replay: null,
+    countdown: true,
+    celebrate: score >= 90,
+  });
+}
+
+function endSurvival(){
+  stopTimer();
+  setBest('survival_q', S.count);
+  setBest('survival', S.score);
+  const bestQ = getBest('survival_q');
+  SFX.end();
+  showEnd({
+    title: '💀 生存模式 · 结算',
+    big: S.count + '<small> 题</small>',
+    squares: '',
+    comment: '累计 ' + S.score + ' 分　历史最佳：' + bestQ + ' 题',
+    list: '',
+    replay: () => startSurvival(),
+    celebrate: S.count >= 10,
+  });
+}
+
+// =====================================================
+// 数值输入引擎（每日 / 生存共用）
+// =====================================================
+const N = { q:null, cfg:null, lastGuess:0, lastScore:0 };
+function setupNumeric(q, cfg){
+  N.q = q; N.cfg = cfg;
+  $('n-survival-head').classList.toggle('hidden', cfg.single);
+  $('n-tag').textContent = cfg.tag;
+  $('n-text').textContent = q.q;
+  $('n-input').value = '';
+  $('n-input').disabled = false;
+  $('n-unit').textContent = q.u;
+  $('n-reveal').classList.add('hidden');
+  $('n-lock').classList.remove('hidden');
+  document.querySelectorAll('.chip').forEach(c => c.disabled = false);
+  $('n-draft').value = store.getItem('bsz_draft') || '';
+  showHint('n-hintbar', cfg.single
+    ? '✍️ 输入一个数字锁定，差一个零没事，差五个零才致命。可展开草稿板做拆解'
+    : '⏱️ 15 秒内作答！扣血 = 差的数量级，答得极准回血 +1', cfg.single ? 'daily' : 'survival');
+  window.scrollTo(0, 0);
+}
+
+document.querySelectorAll('.chip').forEach(c => {
+  c.addEventListener('click', () => {
+    const m = c.dataset.m;
+    if (m === 'clear'){ $('n-input').value = ''; return; }
+    const base = parseFloat($('n-input').value.replace(/,/g, '')) || 0;
+    const v = base * +m;
+    $('n-input').value = v >= 1e15 ? v.toExponential(0) : fmtInput(v);
+  });
+});
+
+$('n-lock').addEventListener('click', () => {
+  const raw = parseFloat($('n-input').value.replace(/,/g, ''));
+  if (!raw || raw <= 0){ $('n-input').focus(); return; }
+  stopTimer();
+  SFX.lock(); buzz(10);
+  const q = N.q;
+  const d = Math.abs(Math.log10(raw / q.a));
+  const score = calcNumScore(raw, q.a);
+  N.lastGuess = raw; N.lastScore = score;
+  const orders = d < 0.06 ? 0 : Math.max(1, Math.round(d));
+
+  if (N.cfg.single){
+    localStorage_safe_daily(score);
+    const streak = +(store.getItem('bsz_daily_streak') || 0) + 1;
+    store.setItem('bsz_daily_streak', streak);
+    $('n-reveal').classList.remove('hidden');
+    $('n-verdict').textContent = verdictText(score);
+    $('n-detail').innerHTML =
+      '你的估测：<b>' + fmtCN(raw) + ' ' + q.u + '</b><br>' +
+      '正确答案：<b>' + fmtCN(q.a) + ' ' + q.u + '</b>（相差 ' + (orders === 0 ? '不到一个' : orders + ' 个') + '数量级）<br>' + q.note;
+    $('n-scoreline').innerHTML = '得分 <b id="n-roll">0</b>';
+    rollCount($('n-roll'), score, 600);
+    sfxFor(score);
+    if (score === 100) confetti();
+    $('n-next').textContent = '查看战绩 →';
+    $('n-lock').classList.add('hidden');
+    $('n-input').disabled = true;
+    document.querySelectorAll('.chip').forEach(c => c.disabled = true);
+    return;
+  }
+
+  // 生存模式
+  S.score += score; S.count++;
+  if (d < 0.06){
+    S.life = Math.min(10, S.life + 1);   // 答得很近反而回血
+    updateSurvivalHead();
+    showNumericReveal('🎯 完美！+1 生命', 0, true);
+    SFX.perfect(); buzz([15, 40, 15]);
+    if (score === 100) confetti();
+  } else {
+    S.life -= Math.max(1, Math.round(d));
+    updateSurvivalHead();
+    showNumericReveal('💔 扣 ' + Math.max(1, Math.round(d)) + ' 点生命（差 ' + orders + ' 个数量级）', Math.max(1, Math.round(d)), true);
+    SFX.bad(); buzz([30, 30, 30]);
+  }
+});
+
+// 当日成绩落盘（store 封装）
+function localStorage_safe_daily(score){
+  store.setItem('bsz_daily_' + todayKey(), score);
+}
+
+// =====================================================
+// 结算页（复用）
+// =====================================================
+function showEnd(o){
+  show('screen-end');
+  let html =
+    '<div style="font-size:13px;color:var(--sub);margin-top:10px">' + o.title + '</div>' +
+    '<div class="big">' + o.big + '</div>' +
+    (o.squares ? '<div class="squares">' + o.squares + '</div>' : '') +
+    '<div class="comment">' + o.comment + '</div>' +
+    (o.list ? '<div class="roundlist">' + o.list + '</div>' : '') +
+    (o.countdown ? '<div id="end-countdown-slot"></div>' : '');
+  if (o.replay) html += '<button class="btn" id="end-replay">🔄 再来一局</button>';
+  html += '<button class="btn sub" id="end-copy">📋 复制战绩</button>';
+  $('end-body').innerHTML = html;
+  if (o.replay) $('end-replay').addEventListener('click', o.replay);
+  if (o.countdown) startDailyCountdown($('end-body'));
+  if (o.celebrate) confetti();
+  const shareText = o.title + '\n' + (o.squares || '') + '\n' + o.comment;
+  $('end-copy').addEventListener('click', () => {
+    if (navigator.clipboard) navigator.clipboard.writeText(shareText).then(() => {
+      $('end-copy').textContent = '✅ 已复制';
+      setTimeout(() => $('end-copy').textContent = '📋 复制战绩', 2000);
+    });
+  });
+}
+
+// 热更新配置：改成任意可 GET 的 JSON 地址（同域或开 CORS）
+const HOT = { url: './data/pools.json' };
+
+renderHome();
+show('screen-home');
+hotUpdate();   // 异步热更新：拉到新包自动重渲染主页，失败静默走兜底
+</script>
+</body>
+</html>

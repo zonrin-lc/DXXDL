@@ -1,0 +1,4266 @@
+{
+  "version": "2.6.0",
+  "_说明": "热更新数据包 v2：改完内容把 version 递增即可，游戏启动时自动拉取并通过 validatePack 才应用（校验失败绝不覆盖缓存）。断网用本地缓存，无缓存用代码内置兜底题库。",
+  "_字段": {
+    "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
+    "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
+    "dailySchedule": "每日排期：YYYY-MM-DD → {questionId(必须存在于题库), revision(正整数)}，已发布日期不可变",
+    "fallbackPools": "版本化兜底快照：排期未覆盖的日期按『日期数字 % questionIds 长度』轮换"
+  },
+  "everyday": [
+    {
+      "id": "ev-0",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "非洲象",
+        "size": 3.3,
+        "emoji": "🐘",
+        "assetId": "african-elephant"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "ev-1",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "长颈鹿",
+        "size": 5.5,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "ev-2",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "家猫（肩高）",
+        "size": 0.25,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "ev-3",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "帝企鹅",
+        "size": 1.2,
+        "emoji": "🐧",
+        "assetId": "emperor-penguin"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "ev-4",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "红袋鼠",
+        "size": 2,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "ev-5",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "红绿灯",
+        "size": 4.5,
+        "emoji": "🚦",
+        "assetId": "traffic-light"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "ev-6",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "标准房门",
+        "size": 2,
+        "emoji": "🚪",
+        "assetId": "standard-door"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "ev-7",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "蓝鲸（体长）",
+        "size": 26,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "dimension": "长度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 3,
+      "memorable": true
+    },
+    {
+      "id": "ev-8",
+      "reference": {
+        "name": "小轿车",
+        "size": 1.5,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "target": {
+        "name": "双层巴士",
+        "size": 4.4,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "ev-9",
+      "reference": {
+        "name": "小轿车",
+        "size": 1.5,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "target": {
+        "name": "自行车（车把高）",
+        "size": 1,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "ev-10",
+      "reference": {
+        "name": "苹果",
+        "size": 0.08,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "target": {
+        "name": "网球",
+        "size": 0.067,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "dimension": "直径",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "ev-11",
+      "reference": {
+        "name": "苹果",
+        "size": 0.08,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "target": {
+        "name": "鸡蛋",
+        "size": 0.055,
+        "emoji": "🥚",
+        "assetId": "egg"
+      },
+      "dimension": "直径",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "ev-12",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "ev-13",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "公交站牌",
+        "size": 2.5,
+        "emoji": "🚏",
+        "assetId": "bus-stop-sign"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "ev-14",
+      "reference": {
+        "name": "手机",
+        "size": 0.15,
+        "emoji": "📱",
+        "assetId": "smartphone"
+      },
+      "target": {
+        "name": "易拉罐",
+        "size": 0.12,
+        "emoji": "🥤",
+        "assetId": "soda-can"
+      },
+      "dimension": "长度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "ev-15",
+      "reference": {
+        "name": "篮球",
+        "size": 0.24,
+        "emoji": "🏀",
+        "assetId": "basketball"
+      },
+      "target": {
+        "name": "足球",
+        "size": 0.22,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "dimension": "直径",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 3,
+      "memorable": true
+    },
+    {
+      "id": "ev-16",
+      "reference": {
+        "name": "苹果",
+        "size": 0.08,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "target": {
+        "name": "篮球",
+        "size": 0.24,
+        "emoji": "🏀",
+        "assetId": "basketball"
+      },
+      "dimension": "直径",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-17",
+      "reference": {
+        "name": "苹果",
+        "size": 0.08,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "target": {
+        "name": "手机",
+        "size": 0.15,
+        "emoji": "📱",
+        "assetId": "smartphone"
+      },
+      "dimension": "长度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-18",
+      "reference": {
+        "name": "网球",
+        "size": 0.067,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "target": {
+        "name": "鸡蛋",
+        "size": 0.055,
+        "emoji": "🥚",
+        "assetId": "egg"
+      },
+      "dimension": "直径",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-19",
+      "reference": {
+        "name": "足球",
+        "size": 0.22,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "target": {
+        "name": "网球",
+        "size": 0.067,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "dimension": "直径",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-20",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-21",
+      "reference": {
+        "name": "标准房门",
+        "size": 2,
+        "emoji": "🚪",
+        "assetId": "standard-door"
+      },
+      "target": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-22",
+      "reference": {
+        "name": "非洲象",
+        "size": 3.3,
+        "emoji": "🐘",
+        "assetId": "african-elephant"
+      },
+      "target": {
+        "name": "长颈鹿",
+        "size": 5.5,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "dimension": "身高",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-23",
+      "reference": {
+        "name": "红绿灯",
+        "size": 4.5,
+        "emoji": "🚦",
+        "assetId": "traffic-light"
+      },
+      "target": {
+        "name": "标准房门",
+        "size": 2,
+        "emoji": "🚪",
+        "assetId": "standard-door"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-24",
+      "reference": {
+        "name": "公交站牌",
+        "size": 2.5,
+        "emoji": "🚏",
+        "assetId": "bus-stop-sign"
+      },
+      "target": {
+        "name": "标准房门",
+        "size": 2,
+        "emoji": "🚪",
+        "assetId": "standard-door"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-25",
+      "reference": {
+        "name": "自行车（车把高）",
+        "size": 1,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "target": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-26",
+      "reference": {
+        "name": "蓝鲸（体长）",
+        "size": 26,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "target": {
+        "name": "双层巴士",
+        "size": 4.4,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "dimension": "长度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-27",
+      "reference": {
+        "name": "帝企鹅",
+        "size": 1.2,
+        "emoji": "🐧",
+        "assetId": "emperor-penguin"
+      },
+      "target": {
+        "name": "家猫（肩高）",
+        "size": 0.25,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-28",
+      "reference": {
+        "name": "长颈鹿",
+        "size": 5.5,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "target": {
+        "name": "红绿灯",
+        "size": 4.5,
+        "emoji": "🚦",
+        "assetId": "traffic-light"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-29",
+      "reference": {
+        "name": "篮球",
+        "size": 0.24,
+        "emoji": "🏀",
+        "assetId": "basketball"
+      },
+      "target": {
+        "name": "鸡蛋",
+        "size": 0.055,
+        "emoji": "🥚",
+        "assetId": "egg"
+      },
+      "dimension": "直径",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-30",
+      "reference": {
+        "name": "长颈鹿",
+        "size": 5.5,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "target": {
+        "name": "双层巴士",
+        "size": 4.4,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-31",
+      "reference": {
+        "name": "非洲象",
+        "size": 3.3,
+        "emoji": "🐘",
+        "assetId": "african-elephant"
+      },
+      "target": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-32",
+      "reference": {
+        "name": "红袋鼠",
+        "size": 2,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "target": {
+        "name": "标准房门",
+        "size": 2,
+        "emoji": "🚪",
+        "assetId": "standard-door"
+      },
+      "dimension": "身高",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-33",
+      "reference": {
+        "name": "帝企鹅",
+        "size": 1.2,
+        "emoji": "🐧",
+        "assetId": "emperor-penguin"
+      },
+      "target": {
+        "name": "易拉罐",
+        "size": 0.12,
+        "emoji": "🥤",
+        "assetId": "soda-can"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-34",
+      "reference": {
+        "name": "足球",
+        "size": 0.22,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "target": {
+        "name": "苹果",
+        "size": 0.08,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "dimension": "直径",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-35",
+      "reference": {
+        "name": "网球",
+        "size": 0.067,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "target": {
+        "name": "篮球",
+        "size": 0.24,
+        "emoji": "🏀",
+        "assetId": "basketball"
+      },
+      "dimension": "直径",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-36",
+      "reference": {
+        "name": "公交站牌",
+        "size": 2.5,
+        "emoji": "🚏",
+        "assetId": "bus-stop-sign"
+      },
+      "target": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-37",
+      "reference": {
+        "name": "双层巴士",
+        "size": 4.4,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "target": {
+        "name": "红绿灯",
+        "size": 4.5,
+        "emoji": "🚦",
+        "assetId": "traffic-light"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-38",
+      "reference": {
+        "name": "小轿车",
+        "size": 1.5,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "target": {
+        "name": "标准房门",
+        "size": 2,
+        "emoji": "🚪",
+        "assetId": "standard-door"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-39",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "长颈鹿",
+        "size": 5.5,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-40",
+      "reference": {
+        "name": "帝企鹅",
+        "size": 1.2,
+        "emoji": "🐧",
+        "assetId": "emperor-penguin"
+      },
+      "target": {
+        "name": "自行车（车把高）",
+        "size": 1,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-41",
+      "reference": {
+        "name": "红袋鼠",
+        "size": 2,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "target": {
+        "name": "双层巴士",
+        "size": 4.4,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "dimension": "身高",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-42",
+      "reference": {
+        "name": "手机",
+        "size": 0.15,
+        "emoji": "📱",
+        "assetId": "smartphone"
+      },
+      "target": {
+        "name": "网球",
+        "size": 0.067,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "dimension": "长度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-43",
+      "reference": {
+        "name": "双层巴士",
+        "size": 4.4,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "target": {
+        "name": "易拉罐",
+        "size": 0.12,
+        "emoji": "🥤",
+        "assetId": "soda-can"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-44",
+      "reference": {
+        "name": "长颈鹿",
+        "size": 5.5,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "target": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-45",
+      "reference": {
+        "name": "篮球",
+        "size": 0.24,
+        "emoji": "🏀",
+        "assetId": "basketball"
+      },
+      "target": {
+        "name": "苹果",
+        "size": 0.08,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "dimension": "直径",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-46",
+      "reference": {
+        "name": "鸡蛋",
+        "size": 0.055,
+        "emoji": "🥚",
+        "assetId": "egg"
+      },
+      "target": {
+        "name": "足球",
+        "size": 0.22,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "dimension": "直径",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-47",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "小轿车",
+        "size": 1.5,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-48",
+      "reference": {
+        "name": "自行车（车把高）",
+        "size": 1,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "target": {
+        "name": "公交站牌",
+        "size": 2.5,
+        "emoji": "🚏",
+        "assetId": "bus-stop-sign"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "ev-49",
+      "reference": {
+        "name": "蓝鲸（体长）",
+        "size": 26,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "target": {
+        "name": "家猫（肩高）",
+        "size": 0.25,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "dimension": "长度",
+      "memorable": true,
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    }
+  ],
+  "pop": [
+    {
+      "id": "pop-0",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "芽芽豆",
+        "size": 0.4,
+        "emoji": "🌱",
+        "assetId": "sproutling"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "原创设定",
+        "year": 2026
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "pop-1",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "齿轮小铜",
+        "size": 1.29,
+        "emoji": "🤖",
+        "assetId": "brass-bot"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "原创设定",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "pop-2",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "云绒团子",
+        "size": 2.2,
+        "emoji": "☁️",
+        "assetId": "cloud-giant"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "原创设定",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "pop-3",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "苔毛兽",
+        "size": 2,
+        "emoji": "🌿",
+        "assetId": "moss-beast"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "原创设定",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "pop-4",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "方糖仔",
+        "size": 0.1,
+        "emoji": "🟨",
+        "assetId": "cube-sprite"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "原创设定",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "pop-5",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "星藤猎人",
+        "size": 3,
+        "emoji": "👽",
+        "assetId": "starvine-hunter"
+      },
+      "dimension": "身高",
+      "status": "published",
+      "source": {
+        "name": "原创设定",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "pop-6",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "银岩机甲",
+        "size": 10.6,
+        "emoji": "🦾",
+        "assetId": "mecha-colossus"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "原创设定",
+        "year": 2026
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "pop-7",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "霸王龙（科学复原）",
+        "size": 4,
+        "emoji": "🦖",
+        "assetId": "t-rex"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "pop-8",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "晶石巨人",
+        "size": 40,
+        "emoji": "💎",
+        "assetId": "crystal-titan"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "原创设定",
+        "year": 2026
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "pop-9",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "深渊巨蜥",
+        "size": 100,
+        "emoji": "🦎",
+        "assetId": "abyss-lizard"
+      },
+      "dimension": "长度",
+      "status": "published",
+      "source": {
+        "name": "原创设定",
+        "year": 2026
+      },
+      "difficulty": 3,
+      "memorable": true
+    },
+    {
+      "id": "pop-10",
+      "reference": {
+        "name": "芽芽豆",
+        "size": 0.4,
+        "emoji": "🌱",
+        "assetId": "sproutling"
+      },
+      "target": {
+        "name": "方糖仔",
+        "size": 0.1,
+        "emoji": "🧊",
+        "assetId": "cube-sprite"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-11",
+      "reference": {
+        "name": "云绒团子",
+        "size": 2.2,
+        "emoji": "☁️",
+        "assetId": "cloud-giant"
+      },
+      "target": {
+        "name": "苔毛兽",
+        "size": 2,
+        "emoji": "🍄",
+        "assetId": "moss-beast"
+      },
+      "dimension": "身高",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-12",
+      "reference": {
+        "name": "星藤猎人",
+        "size": 3,
+        "emoji": "🌟",
+        "assetId": "starvine-hunter"
+      },
+      "target": {
+        "name": "齿轮小铜",
+        "size": 1.29,
+        "emoji": "🤖",
+        "assetId": "brass-bot"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-13",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "银岩机甲",
+        "size": 10.6,
+        "emoji": "🦾",
+        "assetId": "mecha-colossus"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-14",
+      "reference": {
+        "name": "霸王龙（科学复原）",
+        "size": 4,
+        "emoji": "🦖",
+        "assetId": "t-rex"
+      },
+      "target": {
+        "name": "银岩机甲",
+        "size": 10.6,
+        "emoji": "🦾",
+        "assetId": "mecha-colossus"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-15",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "苔毛兽",
+        "size": 2,
+        "emoji": "🍄",
+        "assetId": "moss-beast"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-16",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "霸王龙（科学复原）",
+        "size": 4,
+        "emoji": "🦖",
+        "assetId": "t-rex"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-17",
+      "reference": {
+        "name": "齿轮小铜",
+        "size": 1.29,
+        "emoji": "🤖",
+        "assetId": "brass-bot"
+      },
+      "target": {
+        "name": "苔毛兽",
+        "size": 2,
+        "emoji": "🍄",
+        "assetId": "moss-beast"
+      },
+      "dimension": "身高",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-18",
+      "reference": {
+        "name": "云绒团子",
+        "size": 2.2,
+        "emoji": "☁️",
+        "assetId": "cloud-giant"
+      },
+      "target": {
+        "name": "银岩机甲",
+        "size": 10.6,
+        "emoji": "🦾",
+        "assetId": "mecha-colossus"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-19",
+      "reference": {
+        "name": "方糖仔",
+        "size": 0.1,
+        "emoji": "🧊",
+        "assetId": "cube-sprite"
+      },
+      "target": {
+        "name": "齿轮小铜",
+        "size": 1.29,
+        "emoji": "🤖",
+        "assetId": "brass-bot"
+      },
+      "dimension": "身高",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-20",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "熔岩魔像",
+        "size": 6.5,
+        "emoji": "🔥",
+        "assetId": "molten-golem"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-21",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "风暴狮鹫",
+        "size": 3.2,
+        "emoji": "🦅",
+        "assetId": "tempest-griffin"
+      },
+      "dimension": "身高",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-22",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "冰霜幼龙（体长）",
+        "size": 9,
+        "emoji": "🐲",
+        "assetId": "frost-wyrm"
+      },
+      "dimension": "长度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-23",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "暗影豹（肩高）",
+        "size": 1.1,
+        "emoji": "🐾",
+        "assetId": "gloom-stalker"
+      },
+      "dimension": "身高",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-24",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "熔岩魔像",
+        "size": 6.5,
+        "emoji": "🔥",
+        "assetId": "molten-golem"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-25",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "冰霜幼龙（体长）",
+        "size": 9,
+        "emoji": "🐲",
+        "assetId": "frost-wyrm"
+      },
+      "dimension": "长度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-26",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "风暴狮鹫",
+        "size": 3.2,
+        "emoji": "🦅",
+        "assetId": "tempest-griffin"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-27",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "暗影豹（肩高）",
+        "size": 1.1,
+        "emoji": "🐾",
+        "assetId": "gloom-stalker"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-28",
+      "reference": {
+        "name": "银岩机甲",
+        "size": 10.6,
+        "emoji": "🦾",
+        "assetId": "mecha-colossus"
+      },
+      "target": {
+        "name": "熔岩魔像",
+        "size": 6.5,
+        "emoji": "🔥",
+        "assetId": "molten-golem"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-29",
+      "reference": {
+        "name": "霸王龙（科学复原）",
+        "size": 4,
+        "emoji": "🦖",
+        "assetId": "t-rex"
+      },
+      "target": {
+        "name": "熔岩魔像",
+        "size": 6.5,
+        "emoji": "🔥",
+        "assetId": "molten-golem"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-30",
+      "reference": {
+        "name": "冰霜幼龙（体长）",
+        "size": 9,
+        "emoji": "🐲",
+        "assetId": "frost-wyrm"
+      },
+      "target": {
+        "name": "深渊巨蜥",
+        "size": 100,
+        "emoji": "🦎",
+        "assetId": "abyss-lizard"
+      },
+      "dimension": "长度",
+      "memorable": true,
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-31",
+      "reference": {
+        "name": "晶石巨人",
+        "size": 40,
+        "emoji": "💎",
+        "assetId": "crystal-titan"
+      },
+      "target": {
+        "name": "银岩机甲",
+        "size": 10.6,
+        "emoji": "🦾",
+        "assetId": "mecha-colossus"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-32",
+      "reference": {
+        "name": "熔岩魔像",
+        "size": 6.5,
+        "emoji": "🔥",
+        "assetId": "molten-golem"
+      },
+      "target": {
+        "name": "晶石巨人",
+        "size": 40,
+        "emoji": "💎",
+        "assetId": "crystal-titan"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-33",
+      "reference": {
+        "name": "风暴狮鹫",
+        "size": 3.2,
+        "emoji": "🦅",
+        "assetId": "tempest-griffin"
+      },
+      "target": {
+        "name": "星藤猎人",
+        "size": 3,
+        "emoji": "🌟",
+        "assetId": "starvine-hunter"
+      },
+      "dimension": "身高",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-34",
+      "reference": {
+        "name": "暗影豹（肩高）",
+        "size": 1.1,
+        "emoji": "🐾",
+        "assetId": "gloom-stalker"
+      },
+      "target": {
+        "name": "方糖仔",
+        "size": 0.1,
+        "emoji": "🧊",
+        "assetId": "cube-sprite"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-35",
+      "reference": {
+        "name": "齿轮小铜",
+        "size": 1.29,
+        "emoji": "🤖",
+        "assetId": "brass-bot"
+      },
+      "target": {
+        "name": "暗影豹（肩高）",
+        "size": 1.1,
+        "emoji": "🐾",
+        "assetId": "gloom-stalker"
+      },
+      "dimension": "身高",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-36",
+      "reference": {
+        "name": "云绒团子",
+        "size": 2.2,
+        "emoji": "☁️",
+        "assetId": "cloud-giant"
+      },
+      "target": {
+        "name": "熔岩魔像",
+        "size": 6.5,
+        "emoji": "🔥",
+        "assetId": "molten-golem"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-37",
+      "reference": {
+        "name": "星藤猎人",
+        "size": 3,
+        "emoji": "🌟",
+        "assetId": "starvine-hunter"
+      },
+      "target": {
+        "name": "冰霜幼龙（体长）",
+        "size": 9,
+        "emoji": "🐲",
+        "assetId": "frost-wyrm"
+      },
+      "dimension": "长度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-38",
+      "reference": {
+        "name": "苔毛兽",
+        "size": 2,
+        "emoji": "🍄",
+        "assetId": "moss-beast"
+      },
+      "target": {
+        "name": "风暴狮鹫",
+        "size": 3.2,
+        "emoji": "🦅",
+        "assetId": "tempest-griffin"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-39",
+      "reference": {
+        "name": "芽芽豆",
+        "size": 0.4,
+        "emoji": "🌱",
+        "assetId": "sproutling"
+      },
+      "target": {
+        "name": "暗影豹（肩高）",
+        "size": 1.1,
+        "emoji": "🐾",
+        "assetId": "gloom-stalker"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-40",
+      "reference": {
+        "name": "方糖仔",
+        "size": 0.1,
+        "emoji": "🧊",
+        "assetId": "cube-sprite"
+      },
+      "target": {
+        "name": "苔毛兽",
+        "size": 2,
+        "emoji": "🍄",
+        "assetId": "moss-beast"
+      },
+      "dimension": "身高",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-41",
+      "reference": {
+        "name": "风暴狮鹫",
+        "size": 3.2,
+        "emoji": "🦅",
+        "assetId": "tempest-griffin"
+      },
+      "target": {
+        "name": "银岩机甲",
+        "size": 10.6,
+        "emoji": "🦾",
+        "assetId": "mecha-colossus"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-42",
+      "reference": {
+        "name": "方糖仔",
+        "size": 0.1,
+        "emoji": "🧊",
+        "assetId": "cube-sprite"
+      },
+      "target": {
+        "name": "晶石巨人",
+        "size": 40,
+        "emoji": "💎",
+        "assetId": "crystal-titan"
+      },
+      "dimension": "身高",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-43",
+      "reference": {
+        "name": "芽芽豆",
+        "size": 0.4,
+        "emoji": "🌱",
+        "assetId": "sproutling"
+      },
+      "target": {
+        "name": "银岩机甲",
+        "size": 10.6,
+        "emoji": "🦾",
+        "assetId": "mecha-colossus"
+      },
+      "dimension": "身高",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-44",
+      "reference": {
+        "name": "方糖仔",
+        "size": 0.1,
+        "emoji": "🧊",
+        "assetId": "cube-sprite"
+      },
+      "target": {
+        "name": "深渊巨蜥",
+        "size": 100,
+        "emoji": "🦎",
+        "assetId": "abyss-lizard"
+      },
+      "dimension": "长度",
+      "memorable": true,
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-45",
+      "reference": {
+        "name": "齿轮小铜",
+        "size": 1.29,
+        "emoji": "🤖",
+        "assetId": "brass-bot"
+      },
+      "target": {
+        "name": "晶石巨人",
+        "size": 40,
+        "emoji": "💎",
+        "assetId": "crystal-titan"
+      },
+      "dimension": "身高",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-46",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "晶石巨人",
+        "size": 40,
+        "emoji": "💎",
+        "assetId": "crystal-titan"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-47",
+      "reference": {
+        "name": "苔毛兽",
+        "size": 2,
+        "emoji": "🍄",
+        "assetId": "moss-beast"
+      },
+      "target": {
+        "name": "深渊巨蜥",
+        "size": 100,
+        "emoji": "🦎",
+        "assetId": "abyss-lizard"
+      },
+      "dimension": "长度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-48",
+      "reference": {
+        "name": "霸王龙（科学复原）",
+        "size": 4,
+        "emoji": "🦖",
+        "assetId": "t-rex"
+      },
+      "target": {
+        "name": "深渊巨蜥",
+        "size": 100,
+        "emoji": "🦎",
+        "assetId": "abyss-lizard"
+      },
+      "dimension": "长度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "pop-49",
+      "reference": {
+        "name": "方糖仔",
+        "size": 0.1,
+        "emoji": "🧊",
+        "assetId": "cube-sprite"
+      },
+      "target": {
+        "name": "银岩机甲",
+        "size": 10.6,
+        "emoji": "🦾",
+        "assetId": "mecha-colossus"
+      },
+      "dimension": "身高",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    }
+  ],
+  "geo": [
+    {
+      "id": "geo-0",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "复活节岛石像",
+        "size": 4,
+        "emoji": "🗿",
+        "assetId": "easter-island-statue"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 1
+    },
+    {
+      "id": "geo-1",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "自由女神像（含基座）",
+        "size": 93,
+        "emoji": "🗽",
+        "assetId": "statue-of-liberty"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "geo-2",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "大本钟",
+        "size": 96,
+        "emoji": "🕰️",
+        "assetId": "big-ben"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "geo-3",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "金门大桥桥塔",
+        "size": 227,
+        "emoji": "🌉",
+        "assetId": "golden-gate-tower"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 2
+    },
+    {
+      "id": "geo-4",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "埃菲尔铁塔",
+        "size": 330,
+        "emoji": "🗼",
+        "assetId": "eiffel-tower"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "geo-5",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "东京铁塔",
+        "size": 333,
+        "emoji": "🗼",
+        "assetId": "tokyo-tower"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "geo-6",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "上海中心大厦",
+        "size": 632,
+        "emoji": "🏙️",
+        "assetId": "shanghai-tower"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "geo-7",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "哈利法塔",
+        "size": 828,
+        "emoji": "🏢",
+        "assetId": "burj-khalifa"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 3,
+      "memorable": true
+    },
+    {
+      "id": "geo-8",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "泰山",
+        "size": 1545,
+        "emoji": "⛰️",
+        "assetId": "mount-tai"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "geo-9",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "珠穆朗玛峰",
+        "size": 8849,
+        "emoji": "🏔️",
+        "assetId": "mount-everest"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      },
+      "difficulty": 3,
+      "memorable": true
+    },
+    {
+      "id": "geo-10",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "复活节岛石像",
+        "size": 4,
+        "emoji": "🗿",
+        "assetId": "easter-island-statue"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-11",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "自由女神像（含基座）",
+        "size": 93,
+        "emoji": "🗽",
+        "assetId": "statue-of-liberty"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-12",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "大本钟",
+        "size": 96,
+        "emoji": "🕰️",
+        "assetId": "big-ben"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-13",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "埃菲尔铁塔",
+        "size": 330,
+        "emoji": "🗼",
+        "assetId": "eiffel-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-14",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "哈利法塔",
+        "size": 828,
+        "emoji": "🏢",
+        "assetId": "burj-khalifa"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-15",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "金门大桥桥塔",
+        "size": 227,
+        "emoji": "🌉",
+        "assetId": "golden-gate-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-16",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "东京铁塔",
+        "size": 333,
+        "emoji": "📡",
+        "assetId": "tokyo-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-17",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "上海中心大厦",
+        "size": 632,
+        "emoji": "🏙️",
+        "assetId": "shanghai-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-18",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "泰山",
+        "size": 1545,
+        "emoji": "⛰️",
+        "assetId": "mount-tai"
+      },
+      "dimension": "高度",
+      "memorable": true,
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-19",
+      "reference": {
+        "name": "双层巴士",
+        "size": 4.4,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "target": {
+        "name": "自由女神像（含基座）",
+        "size": 93,
+        "emoji": "🗽",
+        "assetId": "statue-of-liberty"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-20",
+      "reference": {
+        "name": "双层巴士",
+        "size": 4.4,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "target": {
+        "name": "大本钟",
+        "size": 96,
+        "emoji": "🕰️",
+        "assetId": "big-ben"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-21",
+      "reference": {
+        "name": "红绿灯",
+        "size": 4.5,
+        "emoji": "🚦",
+        "assetId": "traffic-light"
+      },
+      "target": {
+        "name": "复活节岛石像",
+        "size": 4,
+        "emoji": "🗿",
+        "assetId": "easter-island-statue"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-22",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "东京铁塔",
+        "size": 333,
+        "emoji": "📡",
+        "assetId": "tokyo-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-23",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "上海中心大厦",
+        "size": 632,
+        "emoji": "🏙️",
+        "assetId": "shanghai-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-24",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "珠穆朗玛峰",
+        "size": 8849,
+        "emoji": "🏔️",
+        "assetId": "mount-everest"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-25",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "胡夫金字塔（原高）",
+        "size": 146.6,
+        "emoji": "🏛️",
+        "assetId": "pyramid-giza"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-26",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "胡夫金字塔（原高）",
+        "size": 146.6,
+        "emoji": "🏛️",
+        "assetId": "pyramid-giza"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-27",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "胡夫金字塔（原高）",
+        "size": 146.6,
+        "emoji": "🏛️",
+        "assetId": "pyramid-giza"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-28",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "台北101",
+        "size": 508,
+        "emoji": "🏢",
+        "assetId": "taipei-101"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-29",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "台北101",
+        "size": 508,
+        "emoji": "🏢",
+        "assetId": "taipei-101"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-30",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "台北101",
+        "size": 508,
+        "emoji": "🏢",
+        "assetId": "taipei-101"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-31",
+      "reference": {
+        "name": "双层巴士",
+        "size": 4.4,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "target": {
+        "name": "台北101",
+        "size": 508,
+        "emoji": "🏢",
+        "assetId": "taipei-101"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-32",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "广州塔",
+        "size": 604,
+        "emoji": "🗼",
+        "assetId": "canton-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-33",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "广州塔",
+        "size": 604,
+        "emoji": "🗼",
+        "assetId": "canton-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-34",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "东方明珠",
+        "size": 468,
+        "emoji": "📡",
+        "assetId": "oriental-pear-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-35",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "东方明珠",
+        "size": 468,
+        "emoji": "📡",
+        "assetId": "oriental-pear-tower"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-36",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "帝国大厦（含天线）",
+        "size": 443,
+        "emoji": "🏙️",
+        "assetId": "empire-state-building"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-37",
+      "reference": {
+        "name": "红绿灯",
+        "size": 4.5,
+        "emoji": "🚦",
+        "assetId": "traffic-light"
+      },
+      "target": {
+        "name": "帝国大厦（含天线）",
+        "size": 443,
+        "emoji": "🏙️",
+        "assetId": "empire-state-building"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-38",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "悉尼歌剧院",
+        "size": 65,
+        "emoji": "🎭",
+        "assetId": "sydney-opera-house"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-39",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "悉尼歌剧院",
+        "size": 65,
+        "emoji": "🎭",
+        "assetId": "sydney-opera-house"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-40",
+      "reference": {
+        "name": "胡夫金字塔（原高）",
+        "size": 146.6,
+        "emoji": "🏛️",
+        "assetId": "pyramid-giza"
+      },
+      "target": {
+        "name": "伦敦眼",
+        "size": 135,
+        "emoji": "🎡",
+        "assetId": "london-eye"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-41",
+      "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "泰姬陵（主体高）",
+        "size": 74,
+        "emoji": "🕌",
+        "assetId": "taj-mahal"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-42",
+      "reference": {
+        "name": "罗马斗兽场",
+        "size": 48,
+        "emoji": "🏟️",
+        "assetId": "colosseum"
+      },
+      "target": {
+        "name": "比萨斜塔",
+        "size": 56,
+        "emoji": "📐",
+        "assetId": "leaning-tower-of-pisa"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-43",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "罗马斗兽场",
+        "size": 48,
+        "emoji": "🏟️",
+        "assetId": "colosseum"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-44",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "罗马斗兽场",
+        "size": 48,
+        "emoji": "🏟️",
+        "assetId": "colosseum"
+      },
+      "dimension": "高度",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-45",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "比萨斜塔",
+        "size": 56,
+        "emoji": "📐",
+        "assetId": "leaning-tower-of-pisa"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-46",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "伦敦眼",
+        "size": 135,
+        "emoji": "🎡",
+        "assetId": "london-eye"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-47",
+      "reference": {
+        "name": "成年人",
+        "size": 1.7,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "泰姬陵（主体高）",
+        "size": 74,
+        "emoji": "🕌",
+        "assetId": "taj-mahal"
+      },
+      "dimension": "高度",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-48",
+      "reference": {
+        "name": "成年橡树",
+        "size": 20,
+        "emoji": "🌳",
+        "assetId": "mature-oak-tree"
+      },
+      "target": {
+        "name": "万里长城（明长城全长）",
+        "size": 8851000,
+        "emoji": "🐉",
+        "assetId": "great-wall"
+      },
+      "dimension": "长度",
+      "memorable": true,
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "geo-49",
+      "reference": {
+        "name": "蓝鲸（体长）",
+        "size": 26,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "target": {
+        "name": "万里长城（明长城全长）",
+        "size": 8851000,
+        "emoji": "🐉",
+        "assetId": "great-wall"
+      },
+      "dimension": "长度",
+      "memorable": true,
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    }
+  ],
+  "numeric": [
+    {
+      "id": "num-0",
+      "q": "全世界人类一天的心跳总数大约是多少？",
+      "a": 800000000000000,
+      "u": "次",
+      "note": "80 亿人 × 每人每天约 10 万次 ≈ 8×10¹⁴",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-1",
+      "q": "胡夫大金字塔的总重量大约是多少？",
+      "a": 5900000,
+      "u": "吨",
+      "note": "约 230 万块巨石，平均每块 2.5 吨",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-2",
+      "q": "地球上现存树木的总数大约是多少？",
+      "a": 3000000000000,
+      "u": "棵",
+      "note": "人均约 400 棵，但每年净减少约 100 亿棵",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-3",
+      "q": "全世界一年要喝掉多少杯咖啡？",
+      "a": 800000000000,
+      "u": "杯",
+      "note": "全球每天约 22 亿杯",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-4",
+      "q": "月球的质量大约是多少？",
+      "a": 7.35e+22,
+      "u": "千克",
+      "note": "约为地球质量的 1/81",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-5",
+      "q": "《哈利·波特》全系列英文版总词数大约是多少？",
+      "a": 1080000,
+      "u": "词",
+      "note": "约 108 万词，读一遍要 60+ 小时",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-6",
+      "q": "阳光从太阳到达地球需要多长时间？",
+      "a": 499,
+      "u": "秒",
+      "note": "约 8 分 19 秒",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-7",
+      "q": "人体内大约有多少个细胞？",
+      "a": 37000000000000,
+      "u": "个",
+      "note": "约 37 万亿个",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-8",
+      "q": "地球上的蚂蚁总数大约是多少？",
+      "a": 20000000000000000,
+      "u": "只",
+      "note": "约 2 亿亿只，总重比全人类还重约 20 倍",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-9",
+      "q": "地球的质量大约是多少？",
+      "a": 5.97e+24,
+      "u": "千克",
+      "note": "约 60 亿亿亿吨",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-10",
+      "q": "长江一年流入海洋的水量大约是多少？",
+      "a": 960000000000,
+      "u": "立方米",
+      "note": "接近 1 万亿立方米",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-11",
+      "q": "一个人一生的心跳总数大约是多少？",
+      "a": 2800000000,
+      "u": "次",
+      "note": "按 80 岁、平均 70 次/分估算",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-12",
+      "q": "全球每年发生的大小地震总数大约是多少？",
+      "a": 500000,
+      "u": "次",
+      "note": "大部分小到人类无感",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-13",
+      "q": "大堡礁的总长度大约是多少？",
+      "a": 2300000,
+      "u": "米",
+      "note": "约 2300 公里，从太空可见",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-14",
+      "q": "中国一年发出的快递包裹大约是多少件？",
+      "a": 170000000000,
+      "u": "件",
+      "note": "人均每年约 120 件",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-15",
+      "q": "一支圆珠笔大约能写出多长的字迹？",
+      "a": 2000,
+      "u": "米",
+      "note": "约 2 公里",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-16",
+      "q": "英文维基百科的条目总数大约是多少？",
+      "a": 7000000,
+      "u": "条",
+      "note": "约 700 万条",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-17",
+      "q": "太阳到最近的恒星比邻星的距离大约是多少？",
+      "a": 40000000000000,
+      "u": "千米",
+      "note": "约 4.2 光年，光也要跑 4 年多",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-18",
+      "q": "全世界一天大约发送多少条短信？",
+      "a": 230000000000,
+      "u": "条",
+      "note": "远没想象中多——聊天软件取代了它",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-19",
+      "q": "一座标准足球场的草坪上大约有多少根草？",
+      "a": 100000000,
+      "u": "根",
+      "note": "每平方米约 1 万根",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-20",
+      "q": "全世界所有家猫加起来，一年大约要吃掉多少吨猫粮？",
+      "a": 12000000,
+      "u": "吨",
+      "note": "约 6 亿只家猫 × 每只年吃约 20 千克 ≈ 1200 万吨，差不多是 2 座胡夫金字塔",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-21",
+      "q": "一个人每天大约会眨眼多少次？",
+      "u": "次",
+      "answerRange": {
+        "min": 12000,
+        "max": 20000
+      },
+      "note": "口径：清醒时每分钟约 15~20 次、每天约 16 小时清醒时间折算；个体与用眼强度差异大，故给区间。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开医学资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-22",
+      "q": "银河系大约有多少颗恒星？",
+      "u": "个",
+      "answerRange": {
+        "min": 100000000000,
+        "max": 400000000000
+      },
+      "note": "口径：不同巡天与暗物质模型给出 1000 亿~4000 亿颗的估计，无单一精确值。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开天文资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-23",
+      "q": "一个成年人体内的血液总量大约是多少升？",
+      "u": "升",
+      "answerRange": {
+        "min": 3.5,
+        "max": 5.5
+      },
+      "note": "口径：约为体重的 7%~8%，按 50~70 千克体重折算；性别与个体差异导致区间。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开医学资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-24",
+      "q": "太阳表面（光球层）的温度大约是多少摄氏度？",
+      "u": "度",
+      "answerRange": {
+        "min": 5000,
+        "max": 6000
+      },
+      "note": "口径：光球层平均约 5500℃，不同测量波段与太阳活动周期存在数百摄氏度差异。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开天文资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-25",
+      "q": "世界海洋的平均深度大约是多少米？",
+      "u": "米",
+      "answerRange": {
+        "min": 3500,
+        "max": 3800
+      },
+      "note": "口径：船测声呐与卫星测高反演结果不一，常用均值约 3680 米，故取 3500~3800。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开海洋资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-26",
+      "q": "月球到地球的距离大约是多少千米？",
+      "u": "千米",
+      "answerRange": {
+        "min": 356000,
+        "max": 407000
+      },
+      "note": "口径：月球轨道为椭圆，近地点约 35.65 万千米、远地点约 40.67 万千米，平均 38.44 万千米。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开天文资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-27",
+      "q": "全球人均预期寿命大约是多少年？",
+      "u": "年",
+      "answerRange": {
+        "min": 71,
+        "max": 74
+      },
+      "note": "口径：联合国 2024 年估算约 73.3 岁，各机构统计口径与年份略有出入。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开人口资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-28",
+      "q": "一天大约有多少秒？",
+      "a": 86400,
+      "u": "秒",
+      "note": "24 小时 × 60 分钟 × 60 秒 = 86,400 秒（闰秒除外）。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-29",
+      "q": "一位成年人全身大约有多少块骨头？",
+      "a": 206,
+      "u": "个",
+      "note": "成人 206 块；婴儿约 300 块，成长中逐渐融合。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开医学资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-30",
+      "q": "长江的全长大约是多少千米？",
+      "a": 6300,
+      "u": "千米",
+      "note": "干流约 6,300 千米，长度居世界第三。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-31",
+      "q": "赤道的周长大约是多少千米？",
+      "a": 40075,
+      "u": "千米",
+      "note": "约 40,075 千米；地球是扁球体，两极方向的周长要短约 120 千米。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-32",
+      "q": "一个人一天大约心跳多少次？",
+      "a": 100000,
+      "u": "次",
+      "note": "静息约 60~100 次/分，叠加全天活动 ≈ 10 万次。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开医学资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-33",
+      "q": "亚马逊河的全长大约是多少千米？",
+      "a": 6400,
+      "u": "千米",
+      "note": "约 6,400 千米；与尼罗河的「世界第一长河」之争随测量口径变化。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-34",
+      "q": "地球自转一周大约是多少分钟？",
+      "a": 1440,
+      "u": "分钟",
+      "note": "太阳日 24 小时 = 1,440 分钟；恒星日约 23 小时 56 分。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-35",
+      "q": "京沪高速铁路的全长大约是多少千米？",
+      "a": 1318,
+      "u": "千米",
+      "note": "北京南—上海虹桥 1,318 千米，设计时速 350 千米。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-36",
+      "q": "声音在空气中传播 1 千米大约需要多少秒？",
+      "a": 3,
+      "u": "秒",
+      "note": "15℃ 空气中声速约 340 米/秒，1,000 ÷ 340 ≈ 2.9 秒。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-37",
+      "q": "地球上的水大约有多少立方米？",
+      "a": 1400000000000000000,
+      "u": "立方米",
+      "note": "约 13.86 亿立方千米 = 1.4×10¹⁸ 立方米，其中 97.5% 是海水。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-38",
+      "q": "河马一次潜水大约能屏息多少分钟？",
+      "a": 5,
+      "u": "分钟",
+      "note": "河马可潜水约 5 分钟，出水时会从耳鼻喷出水柱。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-39",
+      "q": "珠穆朗玛峰比泰山大约高多少米？",
+      "a": 7304,
+      "u": "米",
+      "note": "8,849 − 1,545 = 7,304 米，接近再叠 3 座泰山。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-40",
+      "q": "恐龙灭绝距今大约多少年？",
+      "a": 66000000,
+      "u": "年",
+      "note": "白垩纪末大灭绝约 6,600 万年前，小行星撞击与德干火山活动共同作用。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-41",
+      "q": "一个 50 米标准泳池大约蓄水多少立方米？",
+      "a": 2500,
+      "u": "立方米",
+      "note": "50 × 25 × 平均水深 2 米 = 2,500 立方米，约 2,500 吨。",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "内部整理",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-42",
+      "q": "成年人平静时每分钟大约呼吸多少次？",
+      "u": "次",
+      "answerRange": {
+        "min": 12,
+        "max": 20
+      },
+      "note": "参考范围：静息 12~20 次/分；运动、情绪与年龄都会让数值明显变化，故不给单点。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开医学资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-43",
+      "q": "一个成年人头上大约有多少根头发？",
+      "u": "根",
+      "answerRange": {
+        "min": 80000,
+        "max": 150000
+      },
+      "note": "参考范围：常见估算 8~15 万根，随种族、年龄、发色差异明显，个体差异大。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-44",
+      "q": "一位成年人大约有多少颗牙齿？",
+      "u": "个",
+      "answerRange": {
+        "min": 28,
+        "max": 32
+      },
+      "note": "参考范围：恒牙 28~32 颗，是否长出 4 颗智齿因人而异。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开医学资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-45",
+      "q": "马里亚纳海沟最深处大约有多深？",
+      "u": "米",
+      "answerRange": {
+        "min": 10500,
+        "max": 11000
+      },
+      "note": "参考范围：挑战者深渊约 10,900~11,000 米，不同测次存在数十米误差。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-46",
+      "q": "地球的年龄大约是多少年？",
+      "u": "年",
+      "answerRange": {
+        "min": 450000000,
+        "max": 460000000
+      },
+      "note": "参考范围：同位素测年约 45.4 亿年，± 数千万年的不确定度。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-47",
+      "q": "一只家猫每天大约睡多少小时？",
+      "u": "小时",
+      "answerRange": {
+        "min": 12,
+        "max": 16
+      },
+      "note": "参考范围：猫每天睡 12~16 小时且多为浅睡，幼猫与老年猫睡得更多。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-48",
+      "q": "成年人的体温大约是多少摄氏度？",
+      "u": "度",
+      "answerRange": {
+        "min": 36.1,
+        "max": 37.2
+      },
+      "note": "参考范围：常规口/腋温 36.1~37.2℃，一天内自然波动约 0.5℃。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开医学资料估算",
+        "year": 2026
+      }
+    },
+    {
+      "id": "num-49",
+      "q": "一个成年人每天大约走多少步？",
+      "u": "次",
+      "answerRange": {
+        "min": 3000,
+        "max": 8000
+      },
+      "note": "参考范围：研究常见区间 3,000~8,000 步，职业与生活方式差异极大，步数以「次」计。",
+      "answerType": "range",
+      "status": "published",
+      "source": {
+        "name": "公开研究资料估算",
+        "year": 2026
+      }
+    }
+  ],
+  "dailySchedule": {
+    "2026-10-20": {
+      "questionId": "num-20",
+      "revision": 1
+    },
+    "2026-10-23": {
+      "questionId": "num-7",
+      "revision": 1
+    },
+    "2026-10-24": {
+      "questionId": "num-25",
+      "revision": 1
+    },
+    "2026-10-25": {
+      "questionId": "num-10",
+      "revision": 1
+    },
+    "2026-10-26": {
+      "questionId": "num-13",
+      "revision": 1
+    },
+    "2026-10-27": {
+      "questionId": "num-21",
+      "revision": 1
+    },
+    "2026-10-28": {
+      "questionId": "num-19",
+      "revision": 1
+    },
+    "2026-10-29": {
+      "questionId": "num-1",
+      "revision": 1
+    },
+    "2026-10-30": {
+      "questionId": "num-0",
+      "revision": 1
+    },
+    "2026-10-31": {
+      "questionId": "num-23",
+      "revision": 1
+    },
+    "2026-11-01": {
+      "questionId": "num-3",
+      "revision": 1
+    },
+    "2026-11-02": {
+      "questionId": "num-17",
+      "revision": 1
+    },
+    "2026-11-03": {
+      "questionId": "num-24",
+      "revision": 1
+    },
+    "2026-11-04": {
+      "questionId": "num-4",
+      "revision": 1
+    },
+    "2026-11-05": {
+      "questionId": "num-20",
+      "revision": 1
+    },
+    "2026-11-06": {
+      "questionId": "num-22",
+      "revision": 1
+    },
+    "2026-11-07": {
+      "questionId": "num-16",
+      "revision": 1
+    },
+    "2026-11-08": {
+      "questionId": "num-2",
+      "revision": 1
+    },
+    "2026-11-09": {
+      "questionId": "num-6",
+      "revision": 1
+    },
+    "2026-11-10": {
+      "questionId": "num-26",
+      "revision": 1
+    },
+    "2026-11-11": {
+      "questionId": "num-15",
+      "revision": 1
+    },
+    "2026-11-12": {
+      "questionId": "num-12",
+      "revision": 1
+    },
+    "2026-11-13": {
+      "questionId": "num-27",
+      "revision": 1
+    },
+    "2026-11-14": {
+      "questionId": "num-8",
+      "revision": 1
+    },
+    "2026-11-15": {
+      "questionId": "num-18",
+      "revision": 1
+    },
+    "2026-11-16": {
+      "questionId": "num-9",
+      "revision": 1
+    },
+    "2026-11-17": {
+      "questionId": "num-11",
+      "revision": 1
+    },
+    "2026-11-18": {
+      "questionId": "num-14",
+      "revision": 1
+    },
+    "2026-11-19": {
+      "questionId": "num-5",
+      "revision": 1
+    },
+    "2026-11-20": {
+      "questionId": "num-7",
+      "revision": 1
+    },
+    "2026-11-21": {
+      "questionId": "num-22",
+      "revision": 1
+    }
+  },
+  "fallbackPools": [
+    {
+      "version": "fallback_v1",
+      "questionIds": [
+        "num-0",
+        "num-1",
+        "num-2",
+        "num-3",
+        "num-4",
+        "num-5",
+        "num-6",
+        "num-7",
+        "num-8",
+        "num-9",
+        "num-10",
+        "num-11",
+        "num-12",
+        "num-13",
+        "num-14",
+        "num-15",
+        "num-16",
+        "num-17",
+        "num-18",
+        "num-19",
+        "num-20"
+      ]
+    },
+    {
+      "version": "fallback_v2",
+      "questionIds": [
+        "num-0",
+        "num-1",
+        "num-2",
+        "num-3",
+        "num-4",
+        "num-5",
+        "num-6",
+        "num-7",
+        "num-8",
+        "num-9",
+        "num-10",
+        "num-11",
+        "num-12",
+        "num-13",
+        "num-14",
+        "num-15",
+        "num-16",
+        "num-17",
+        "num-18",
+        "num-19",
+        "num-20",
+        "num-21",
+        "num-22",
+        "num-23",
+        "num-24",
+        "num-25",
+        "num-26",
+        "num-27"
+      ]
+    },
+    {
+      "version": "fallback_v3",
+      "questionIds": [
+        "num-0",
+        "num-1",
+        "num-2",
+        "num-3",
+        "num-4",
+        "num-5",
+        "num-6",
+        "num-7",
+        "num-8",
+        "num-9",
+        "num-10",
+        "num-11",
+        "num-12",
+        "num-13",
+        "num-14",
+        "num-15",
+        "num-16",
+        "num-17",
+        "num-18",
+        "num-19",
+        "num-20",
+        "num-21",
+        "num-22",
+        "num-23",
+        "num-24",
+        "num-25",
+        "num-26",
+        "num-27",
+        "num-28",
+        "num-29",
+        "num-30",
+        "num-31",
+        "num-32",
+        "num-33",
+        "num-34",
+        "num-35",
+        "num-36",
+        "num-37",
+        "num-38",
+        "num-39",
+        "num-40",
+        "num-41",
+        "num-42",
+        "num-43",
+        "num-44",
+        "num-45",
+        "num-46",
+        "num-47",
+        "num-48",
+        "num-49"
+      ]
+    }
+  ]
+}

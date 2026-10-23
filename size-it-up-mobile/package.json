@@ -1,0 +1,18 @@
+{
+  "name": "size-it-up",
+  "version": "1.2.0",
+  "private": true,
+  "type": "module",
+  "description": "比大小 Scale Sense —— 单 HTML 零依赖 H5 估测游戏（源码拆分 + 打包发布）",
+  "scripts": {
+    "build": "node build.mjs",
+    "test": "vitest run",
+    "check": "node tools/validate-pools.mjs",
+    "verify": "npm run test && npm run check && npm run build"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "jimp": "^1.6.1",
+    "vitest": "^3.0.0"
+  }
+}

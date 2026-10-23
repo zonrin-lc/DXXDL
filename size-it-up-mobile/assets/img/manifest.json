@@ -1,0 +1,971 @@
+{
+  "statue-of-liberty": {
+    "file": "assets/img/statue-of-liberty.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 161,
+      "y": 26,
+      "w": 190,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "big-ben": {
+    "file": "assets/img/big-ben.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 208,
+      "y": 26,
+      "w": 97,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "burj-khalifa": {
+    "file": "assets/img/burj-khalifa.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 210,
+      "y": 26,
+      "w": 92,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "easter-island-statue": {
+    "file": "assets/img/easter-island-statue.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 144,
+      "y": 26,
+      "w": 225,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "eiffel-tower": {
+    "file": "assets/img/eiffel-tower.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 158,
+      "y": 26,
+      "w": 196,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "golden-gate-tower": {
+    "file": "assets/img/golden-gate-tower.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 180,
+      "y": 26,
+      "w": 153,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "mount-everest": {
+    "file": "assets/img/mount-everest.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 159,
+      "w": 461,
+      "h": 195
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "mount-tai": {
+    "file": "assets/img/mount-tai.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 99,
+      "w": 461,
+      "h": 314
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "shanghai-tower": {
+    "file": "assets/img/shanghai-tower.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 208,
+      "y": 26,
+      "w": 97,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "tokyo-tower": {
+    "file": "assets/img/tokyo-tower.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 171,
+      "y": 26,
+      "w": 171,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "bicycle": {
+    "file": "assets/img/bicycle.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 115,
+      "w": 461,
+      "h": 282
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "bus-stop-sign": {
+    "file": "assets/img/bus-stop-sign.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 142,
+      "y": 26,
+      "w": 229,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "double-decker-bus": {
+    "file": "assets/img/double-decker-bus.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 169,
+      "w": 461,
+      "h": 175
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "mature-oak-tree": {
+    "file": "assets/img/mature-oak-tree.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 30,
+      "w": 461,
+      "h": 453
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "sedan-car": {
+    "file": "assets/img/sedan-car.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 184,
+      "w": 461,
+      "h": 145
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "single-storey-house": {
+    "file": "assets/img/single-storey-house.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 130,
+      "w": 461,
+      "h": 252
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "standard-door": {
+    "file": "assets/img/standard-door.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 150,
+      "y": 26,
+      "w": 213,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "traffic-light": {
+    "file": "assets/img/traffic-light.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 198,
+      "y": 26,
+      "w": 117,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "abyss-lizard": {
+    "file": "assets/img/abyss-lizard.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 178,
+      "w": 461,
+      "h": 157
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "adult-human": {
+    "file": "assets/img/adult-human.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 181,
+      "y": 26,
+      "w": 151,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "brass-bot": {
+    "file": "assets/img/brass-bot.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 68,
+      "y": 26,
+      "w": 376,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "cloud-giant": {
+    "file": "assets/img/cloud-giant.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 112,
+      "y": 26,
+      "w": 289,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "crystal-titan": {
+    "file": "assets/img/crystal-titan.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 89,
+      "y": 26,
+      "w": 334,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "cube-sprite": {
+    "file": "assets/img/cube-sprite.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 56,
+      "w": 461,
+      "h": 400
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "mecha-colossus": {
+    "file": "assets/img/mecha-colossus.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 123,
+      "y": 26,
+      "w": 266,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "moss-beast": {
+    "file": "assets/img/moss-beast.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 90,
+      "y": 26,
+      "w": 333,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "sproutling": {
+    "file": "assets/img/sproutling.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 68,
+      "y": 26,
+      "w": 376,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "starvine-hunter": {
+    "file": "assets/img/starvine-hunter.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 158,
+      "y": 26,
+      "w": 196,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "t-rex": {
+    "file": "assets/img/t-rex.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 156,
+      "w": 461,
+      "h": 200
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "african-elephant": {
+    "file": "assets/img/african-elephant.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 93,
+      "w": 461,
+      "h": 327
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "apple": {
+    "file": "assets/img/apple.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 60,
+      "y": 26,
+      "w": 393,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "basketball": {
+    "file": "assets/img/basketball.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 26,
+      "w": 461,
+      "h": 460
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "blue-whale": {
+    "file": "assets/img/blue-whale.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 179,
+      "w": 461,
+      "h": 155
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "egg": {
+    "file": "assets/img/egg.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 103,
+      "w": 461,
+      "h": 306
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "emperor-penguin": {
+    "file": "assets/img/emperor-penguin.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 143,
+      "y": 26,
+      "w": 226,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "giraffe": {
+    "file": "assets/img/giraffe.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 138,
+      "y": 26,
+      "w": 237,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "house-cat": {
+    "file": "assets/img/house-cat.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 71,
+      "w": 461,
+      "h": 370
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "red-kangaroo": {
+    "file": "assets/img/red-kangaroo.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 26,
+      "w": 461,
+      "h": 461
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "smartphone": {
+    "file": "assets/img/smartphone.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 143,
+      "w": 461,
+      "h": 226
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "soccer-ball": {
+    "file": "assets/img/soccer-ball.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 38,
+      "w": 461,
+      "h": 436
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "soda-can": {
+    "file": "assets/img/soda-can.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 142,
+      "w": 461,
+      "h": 228
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "tennis-ball": {
+    "file": "assets/img/tennis-ball.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 30,
+      "y": 26,
+      "w": 453,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "canton-tower": {
+    "file": "assets/img/canton-tower.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 203,
+      "y": 26,
+      "w": 106,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "colosseum": {
+    "file": "assets/img/colosseum.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 86,
+      "w": 461,
+      "h": 340
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "empire-state-building": {
+    "file": "assets/img/empire-state-building.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 196,
+      "y": 26,
+      "w": 121,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "frost-wyrm": {
+    "file": "assets/img/frost-wyrm.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 38,
+      "w": 461,
+      "h": 436
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "gloom-stalker": {
+    "file": "assets/img/gloom-stalker.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 34,
+      "y": 26,
+      "w": 444,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "great-wall": {
+    "file": "assets/img/great-wall.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 165,
+      "w": 461,
+      "h": 182
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "leaning-tower-of-pisa": {
+    "file": "assets/img/leaning-tower-of-pisa.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 157,
+      "y": 26,
+      "w": 198,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "london-eye": {
+    "file": "assets/img/london-eye.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 28,
+      "y": 26,
+      "w": 456,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "molten-golem": {
+    "file": "assets/img/molten-golem.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 45,
+      "w": 461,
+      "h": 422
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "oriental-pear-tower": {
+    "file": "assets/img/oriental-pear-tower.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 191,
+      "y": 26,
+      "w": 130,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "pyramid-giza": {
+    "file": "assets/img/pyramid-giza.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 101,
+      "w": 461,
+      "h": 310
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "sydney-opera-house": {
+    "file": "assets/img/sydney-opera-house.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 157,
+      "w": 461,
+      "h": 198
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "taipei-101": {
+    "file": "assets/img/taipei-101.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 212,
+      "y": 26,
+      "w": 88,
+      "h": 461
+    },
+    "axis": "h",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "taj-mahal": {
+    "file": "assets/img/taj-mahal.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 107,
+      "w": 461,
+      "h": 299
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  },
+  "tempest-griffin": {
+    "file": "assets/img/tempest-griffin.png",
+    "canvas": {
+      "w": 512,
+      "h": 512
+    },
+    "bounds": {
+      "x": 26,
+      "y": 58,
+      "w": 461,
+      "h": 396
+    },
+    "axis": "w",
+    "source": "AI 生成（Trae text-to_image）",
+    "license": "AI 生成素材，随游戏包分发",
+    "generatedAt": "2026-10-23"
+  }
+}

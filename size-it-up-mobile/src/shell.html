@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f6ecd4">
+<title>比大小 · 估测游戏中心</title>
+<style>
+/*__CSS__*/
+</style>
+</head>
+<body>
+<div class="app">
+  <header id="hd">
+    <h1>📏 比大小</h1>
+    <p>5 种玩法 + 免费练习场 · 凭直觉，不需要专业知识</p>
+    <button id="settings-btn" title="设置" aria-label="设置">⚙️</button>
+  </header>
+
+  <!-- ===== 主页 ===== -->
+  <div id="screen-home">
+    <div class="streak-row hidden" id="home-streak"></div>
+    <div class="modes" id="mode-list"></div>
+    <div id="pack-info" class="pack-info">内容包 · 内置</div>
+    <div class="home-actions">
+      <button class="link-btn" id="home-achievements">🏆 成就</button>
+      <button class="link-btn" id="home-howto">📖 玩法说明</button>
+    </div>
+  </div>
+
+  <!-- ===== 视觉模式 ===== -->
+  <div id="screen-visual" class="hidden">
+    <div id="v-hint" class="hint-bar hidden" aria-live="polite"></div>
+    <div class="hud">
+      <span id="v-round"></span>
+      <div class="dots" id="v-dots"></div>
+      <span id="v-total"></span>
+    </div>
+    <div class="stage">
+      <div class="arena" id="v-arena">
+        <div class="obj ref">
+          <div class="emoji" id="v-ref-emoji">🧍</div>
+          <div class="bar"></div>
+        </div>
+        <div class="obj tgt" id="v-tgt-obj">
+          <div class="emoji" id="v-tgt-emoji">🐘</div>
+          <div class="bar"></div>
+        </div>
+      </div>
+      <div class="stage-scale hidden" id="v-stagescale">🔍 舞台已缩放，比较的是相对比例</div>
+      <div class="labels">
+        <div class="label ref"><span id="v-ref-label"></span><small id="v-ref-size"></small></div>
+        <div class="label tgt"><span id="v-tgt-label"></span><small id="v-tgt-size"></small></div>
+      </div>
+    </div>
+    <div class="controls">
+      <input type="range" id="v-slider" min="0" max="1000" value="500" aria-label="估测比例滑块">
+      <div class="tick-wrap" id="v-ticks"></div>
+      <div class="fine-row">
+        <button class="fine-btn" id="v-minus" aria-label="微调减小">− 微调</button>
+        <div class="fine-tip">拖动或微调，让大小比例符合真实世界</div>
+        <button class="fine-btn" id="v-plus" aria-label="微调增大">+ 微调</button>
+      </div>
+      <button class="btn lock" id="v-lock">🔒 锁定答案</button>
+    </div>
+    <div class="reveal hidden" id="v-reveal">
+      <div class="verdict" id="v-verdict"></div>
+      <div class="detail" id="v-detail"></div>
+      <div class="note" id="v-note"></div>
+      <div class="score-line">得分 <b id="v-score">0</b></div>
+      <div class="reveal-actions">
+        <button class="mini-btn" id="v-report">🛠️ 复制反馈报告</button>
+      </div>
+      <button class="btn" id="v-next">下一题 →</button>
+    </div>
+  </div>
+
+  <!-- ===== 数值模式（每日 / 生存 / 练习共用） ===== -->
+  <div id="screen-numeric" class="hidden">
+    <div id="n-hintbar" class="hint-bar hidden" aria-live="polite"></div>
+    <div id="n-survival-head" class="hidden">
+      <div class="life-bar">❤️ 生命 <span id="n-life">10</span>
+        <span style="flex:1"></span>
+        <span class="life-hearts" id="n-hearts"></span>
+      </div>
+      <div class="timer-track"><div class="timer-fill" id="n-timer"></div></div>
+      <div class="surv-count" id="n-count"></div>
+    </div>
+    <div class="q-card">
+      <div class="q-tag" id="n-tag">数量级估测</div>
+      <div class="q-text" id="n-text"></div>
+      <div class="q-hint">不用知道确切数字——把问题拆成你能估的小块，相乘得到正确的「数量级」。差一点没关系，差五个零才致命。</div>
+      <button class="link-btn" id="n-tip-btn">💡 估算思路提示</button>
+      <div class="tip-box hidden" id="n-tip"></div>
+    </div>
+    <button class="draft-toggle" id="n-draft-btn">📝 草稿板</button>
+    <textarea id="n-draft" class="draft-area hidden" aria-label="估算草稿" placeholder="把大问题拆成小块再相乘…&#10;例：80 亿人 × 10 万次/天 = 8×10¹⁴"></textarea>
+    <div class="num-input-row">
+      <input type="text" id="n-input" inputmode="text" aria-label="你的估测" placeholder="输入你的估测，如 3.5 亿…" autocomplete="off">
+      <span class="unit" id="n-unit"></span>
+    </div>
+    <div class="norm-hint hidden" id="n-norm"></div>
+    <div class="chips">
+      <button class="chip" data-m="1000">×1千</button>
+      <button class="chip" data-m="10000">×1万</button>
+      <button class="chip" data-m="100000000">×1亿</button>
+      <button class="chip" data-m="1000000000000">×1万亿</button>
+      <button class="chip" data-m="clear" style="background:#f1ece0;color:var(--sub)">清零</button>
+    </div>
+    <button class="btn lock" id="n-lock" style="margin-top:14px">🔒 锁定答案</button>
+    <div class="reveal hidden" id="n-reveal">
+      <div class="verdict" id="n-verdict"></div>
+      <div class="detail" id="n-detail"></div>
+      <div class="note" id="n-note"></div>
+      <div class="score-line" id="n-scoreline"></div>
+      <div class="reveal-actions">
+        <button class="mini-btn" id="n-report">🛠️ 复制反馈报告</button>
+      </div>
+      <button class="btn" id="n-next">下一题 →</button>
+    </div>
+  </div>
+
+  <!-- ===== 结算页 ===== -->
+  <div id="screen-end" class="hidden">
+    <div class="screen-end" id="end-body"></div>
+  </div>
+
+  <div class="back-row" id="back-row" style="display:none">
+    <button id="back-btn">← 返回主页</button>
+  </div>
+</div>
+
+<!-- ===== 设置弹层 ===== -->
+<div class="modal hidden" id="settings-modal">
+  <div class="modal-card">
+    <div class="modal-title">⚙️ 设置</div>
+    <div class="setting-row"><span id="set-sfx-label">🔊 音效</span><button class="toggle" id="set-sfx" role="switch" aria-labelledby="set-sfx-label"></button></div>
+    <div class="setting-row"><span id="set-vibrate-label">📳 震动</span><button class="toggle" id="set-vibrate" role="switch" aria-labelledby="set-vibrate-label"></button></div>
+    <div class="setting-row"><span id="set-motion-label">🎬 减少动态效果</span><button class="toggle" id="set-motion" role="switch" aria-labelledby="set-motion-label"></button></div>
+    <div class="modal-note" id="set-storage"></div>
+    <button class="btn" id="set-close" style="margin-top:14px">完成</button>
+  </div>
+</div>
+
+<!-- ===== 通用确认/说明弹层（引导、生存规则、玩法说明、成就列表） ===== -->
+<div class="modal hidden" id="info-modal">
+  <div class="modal-card" id="info-card"></div>
+</div>
+
+<!-- ===== 分步高亮引导 ===== -->
+<div class="guide-layer hidden" id="guide-layer">
+  <div class="guide-spot" id="guide-spot"></div>
+  <div class="guide-bubble" id="guide-bubble">
+    <div class="guide-text" id="guide-text"></div>
+    <div class="guide-ops">
+      <button class="link-btn" id="guide-skip">跳过引导</button>
+      <button class="btn guide-next" id="guide-next">下一步</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 成就达成提示 ===== -->
+<div class="ach-toast hidden" id="ach-toast" role="status" aria-live="polite"><span id="ach-icon"></span><span id="ach-text"></span></div>
+
+<!-- ===== 轻提示 ===== -->
+<div class="toast hidden" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+/*__JS__*/
+</script>
+</body>
+</html>

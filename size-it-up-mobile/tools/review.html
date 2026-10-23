@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>题库审核 · data/pools.json</title>
+<style>
+  :root { --fg:#1f2430; --sub:#6b7280; --line:#e5e7eb; --ok:#16a34a; --bad:#dc2626; --bg:#f7f8fa; }
+  * { box-sizing: border-box; }
+  body { margin:0; padding:24px; font:14px/1.6 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; color:var(--fg); background:var(--bg); }
+  h1 { font-size:20px; margin:0 0 4px; }
+  h2 { font-size:16px; margin:28px 0 8px; }
+  .muted { color:var(--sub); }
+  .banner { padding:10px 14px; border-radius:8px; margin:14px 0; font-weight:600; }
+  .banner.ok { background:#e7f7ec; color:var(--ok); border:1px solid #b7e4c7; }
+  .banner.bad { background:#fdecec; color:var(--bad); border:1px solid #f5c2c2; white-space:pre-wrap; font-family:ui-monospace,Menlo,Consolas,monospace; font-weight:400; font-size:13px; }
+  .stats { display:flex; flex-wrap:wrap; gap:10px; }
+  .stat { background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px 16px; min-width:110px; }
+  .stat b { display:block; font-size:20px; }
+  table { border-collapse:collapse; width:100%; background:#fff; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
+  th, td { border-bottom:1px solid var(--line); padding:6px 10px; text-align:left; font-size:13px; vertical-align:top; }
+  th { background:#f1f3f6; font-weight:600; white-space:nowrap; }
+  tr:last-child td { border-bottom:none; }
+  td.num { font-family:ui-monospace,Menlo,Consolas,monospace; white-space:nowrap; }
+  .tag { display:inline-block; padding:0 6px; border-radius:4px; background:#eef2ff; color:#4338ca; font-size:12px; }
+  .ratio-ok { color:var(--ok); }
+  .ratio-bad { color:var(--bad); font-weight:600; }
+  code { background:#eef0f3; padding:1px 5px; border-radius:4px; font-size:12px; }
+  .err { color:var(--bad); }
+  footer { margin-top:30px; font-size:12px; color:var(--sub); }
+</style>
+</head>
+<body>
+<h1>题库审核 · <code>data/pools.json</code></h1>
+<div class="muted" id="meta">加载中…</div>
+<div id="validation" class="banner">正在运行 validatePack…</div>
+<div class="stats" id="stats"></div>
+
+<div id="content"></div>
+
+<footer>
+  校验逻辑为 <code>src/core/question.js → validatePack</code> 的内联副本，与线上一致；命令行等价校验：<code>npm run check</code>。<br>
+  浏览器直接以 <code>file://</code> 打开时 fetch 受限，请在项目根目录用任意静态服务器打开（如 <code>npx serve .</code> 后访问 <code>/tools/review.html</code>）。
+</footer>
+
+<script>
+// ---- validatePack 内联副本（与 src/core/question.js 保持一致；量程取 constants.js 的 SCALE_MIN/SCALE_MAX）----
+const SCALE_MIN = 1e-6, SCALE_MAX = 1e6;
+const STATUSES = ['draft', 'review', 'approved', 'published', 'retired'];
+const UNITS = ['次', '吨', '棵', '杯', '千克', '词', '秒', '个', '只', '立方米', '件', '米', '条', '根', '千米', '小时', '分钟', '年', '度', '升'];
+
+function validatePack(pack) {
+  const errors = [];
+  if (!pack || typeof pack !== 'object') return [{ path: '$', msg: '数据包不是对象' }];
+  if (!pack.version) errors.push({ path: 'version', msg: '缺少 version' });
+
+  const ids = new Set();
+  const dup = new Set();
+
+  for (const key of ['everyday', 'pop', 'geo']) {
+    const arr = pack[key];
+    if (!Array.isArray(arr)) {
+      errors.push({ path: key, msg: '视觉题库必须是数组' });
+      continue;
+    }
+    arr.forEach((q, i) => {
+      const p = `${key}[${i}]`;
+      if (!q.id) errors.push({ path: p, msg: '缺少稳定 id' });
+      else if (ids.has(q.id)) dup.add(q.id);
+      else ids.add(q.id);
+      if (!q.reference?.name || !q.target?.name) errors.push({ path: p, msg: '缺少 reference/target 名称' });
+      if (!(q.reference?.size > 0) || !(q.target?.size > 0)) errors.push({ path: p, msg: '尺寸必须为正数' });
+      else {
+        const r = q.target.size / q.reference.size;
+        if (r < SCALE_MIN || r > SCALE_MAX) errors.push({ path: p, msg: `真实比例 ${r} 超出固定量程 [1e-6,1e6]，不得发布（GDD 3.3）` });
+      }
+      if (!q.dimension) errors.push({ path: p, msg: '缺少 dimension（比较维度）' });
+      if (q.status && !STATUSES.includes(q.status)) errors.push({ path: p, msg: `非法 status: ${q.status}` });
+      if (q.status === 'published' || q.status === undefined) {
+        if (!q.source || !q.source.name) errors.push({ path: p, msg: '已发布题必须有 source.name' });
+        if (q.source && !q.source.year) errors.push({ path: p, msg: '已发布题必须有 source.year' });
+      }
+      if (q.reference?.size && q.target?.size && !q.dimension) errors.push({ path: p, msg: '缺少 dimension' });
+    });
+  }
+
+  const numArr = pack.numeric;
+  if (!Array.isArray(numArr)) errors.push({ path: 'numeric', msg: '数量级题库必须是数组' });
+  else {
+    numArr.forEach((q, i) => {
+      const p = `numeric[${i}]`;
+      if (!q.id) errors.push({ path: p, msg: '缺少稳定 id' });
+      else if (ids.has(q.id)) dup.add(q.id);
+      else ids.add(q.id);
+      if (!q.q) errors.push({ path: p, msg: '缺少问题文本' });
+      if (q.u && !UNITS.includes(q.u)) errors.push({ path: p, msg: `单位不在合法集合: ${q.u}` });
+      const type = q.answerType;
+      if (type !== 'point' && type !== 'range') {
+        errors.push({ path: p, msg: 'answerType 必须显式为 point 或 range（GDD 4.2）' });
+      } else if (type === 'point') {
+        if (!(q.a > 0) || !isFinite(q.a)) errors.push({ path: p, msg: 'point 题的 a 必须是有限正数' });
+        if (q.answerRange) errors.push({ path: p, msg: 'point 题不得携带 answerRange（字段互斥）' });
+      } else {
+        const r = q.answerRange;
+        if (!r || !(r.min > 0) || !(r.max > 0)) errors.push({ path: p, msg: 'range 题必须携带正数 answerRange' });
+        else if (!(r.min <= r.max)) errors.push({ path: p, msg: 'answerRange.min 必须 ≤ max' });
+        if (q.a !== undefined) errors.push({ path: p, msg: 'range 题不得携带 a（字段互斥）' });
+      }
+      if (q.status && !STATUSES.includes(q.status)) errors.push({ path: p, msg: `非法 status: ${q.status}` });
+      if (q.status === 'published' || q.status === undefined) {
+        if (!q.source || !q.source.name) errors.push({ path: p, msg: '已发布题必须有 source.name' });
+      }
+    });
+  }
+
+  if (pack.dailySchedule) {
+    const seenDates = new Set();
+    for (const [date, entry] of Object.entries(pack.dailySchedule)) {
+      const p = `dailySchedule.${date}`;
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(date)) errors.push({ path: p, msg: '日期必须为 YYYY-MM-DD' });
+      if (seenDates.has(date)) errors.push({ path: p, msg: '日期重复' });
+      seenDates.add(date);
+      if (!entry || !entry.questionId) errors.push({ path: p, msg: '缺少 questionId' });
+      else if (!ids.has(entry.questionId)) errors.push({ path: p, msg: `questionId 不存在: ${entry.questionId}` });
+      if (entry && entry.revision !== undefined && !(Number.isInteger(entry.revision) && entry.revision > 0)) errors.push({ path: p, msg: 'revision 必须为正整数' });
+    }
+  }
+  if (Array.isArray(pack.fallbackPools)) {
+    pack.fallbackPools.forEach((fb, i) => {
+      const p = `fallbackPools[${i}]`;
+      if (!fb.version) errors.push({ path: p, msg: '兜底快照缺少 version' });
+      if (!Array.isArray(fb.questionIds) || !fb.questionIds.length) errors.push({ path: p, msg: '兜底快照缺少 questionIds' });
+      else fb.questionIds.forEach((id, j) => {
+        if (!ids.has(id)) errors.push({ path: `${p}.questionIds[${j}]`, msg: `id 不存在: ${id}` });
+      });
+    });
+  }
+
+  dup.forEach((id) => errors.push({ path: 'id', msg: `重复 id: ${id}` }));
+  return errors;
+}
+
+// ---- 渲染 ----
+const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
+const fmt = (n) => (typeof n === 'number' ? n.toLocaleString('zh-CN', { maximumFractionDigits: 6 }) : esc(n));
+const src = (q) => (q.source ? `${esc(q.source.name)} / ${esc(q.source.year)}` : '—');
+
+async function load() {
+  let pack = null, usedPath = '';
+  for (const p of ['../data/pools.json', './data/pools.json']) {
+    try {
+      const res = await fetch(p);
+      if (res.ok) { pack = await res.json(); usedPath = p; break; }
+    } catch (e) { /* 尝试下一个路径 */ }
+  }
+  if (!pack) {
+    document.getElementById('validation').className = 'banner bad';
+    document.getElementById('validation').textContent =
+      '❌ 无法 fetch data/pools.json（file:// 下浏览器禁止 fetch）。请在项目根目录启动静态服务器后访问本页。';
+    return;
+  }
+
+  const errs = validatePack(pack);
+  document.getElementById('meta').textContent =
+    `来源 ${usedPath} · version ${pack.version} · 生成于 ${new Date().toLocaleString('zh-CN')}`;
+
+  const vEl = document.getElementById('validation');
+  if (errs.length === 0) {
+    vEl.className = 'banner ok';
+    vEl.textContent = '✅ validatePack：0 错误，数据包可发布/热更';
+  } else {
+    vEl.className = 'banner bad';
+    vEl.textContent = `❌ validatePack：${errs.length} 处错误\n` + errs.map((e) => `[${e.path}] ${e.msg}`).join('\n');
+  }
+
+  const stats = [
+    ['everyday', (pack.everyday || []).length],
+    ['pop', (pack.pop || []).length],
+    ['geo', (pack.geo || []).length],
+    ['numeric', (pack.numeric || []).length],
+    ['dailySchedule', pack.dailySchedule ? Object.keys(pack.dailySchedule).length : 0],
+    ['fallbackPools', Array.isArray(pack.fallbackPools) ? pack.fallbackPools.length : 0],
+  ];
+  document.getElementById('stats').innerHTML = stats
+    .map(([k, n]) => `<div class="stat"><b>${n}</b><span class="muted">${k}</span></div>`)
+    .join('');
+
+  const content = document.getElementById('content');
+  let html = '';
+
+  // 视觉题三个分组
+  for (const key of ['everyday', 'pop', 'geo']) {
+    const arr = pack[key] || [];
+    html += `<h2>${key}（${arr.length}）</h2><table><tr>
+      <th>id</th><th>参考物 reference</th><th>目标物 target</th><th>真实比例</th>
+      <th>dimension</th><th>status</th><th>source</th><th>assetId</th></tr>`;
+    arr.forEach((q) => {
+      const r = q.reference || {}, t = q.target || {};
+      const ratio = r.size > 0 && t.size > 0 ? t.size / r.size : NaN;
+      const ok = ratio >= SCALE_MIN && ratio <= SCALE_MAX;
+      html += `<tr>
+        <td class="num">${esc(q.id)}</td>
+        <td>${esc(r.emoji || '')} ${esc(r.name)} <span class="muted">(${fmt(r.size)} m)</span></td>
+        <td>${esc(t.emoji || '')} ${esc(t.name)} <span class="muted">(${fmt(t.size)} m)</span></td>
+        <td class="num ${ok ? 'ratio-ok' : 'ratio-bad'}">${isFinite(ratio) ? ratio.toPrecision(4) : '—'}</td>
+        <td><span class="tag">${esc(q.dimension)}</span></td>
+        <td>${esc(q.status ?? '（缺省=published）')}</td>
+        <td>${src(q)}</td>
+        <td class="num muted">${esc(r.assetId || '')}${r.assetId && t.assetId ? ' + ' : ''}${esc(t.assetId || '') || '—'}</td>
+      </tr>`;
+    });
+    html += '</table>';
+  }
+
+  // 数量级题
+  const nums = pack.numeric || [];
+  html += `<h2>numeric（${nums.length}）</h2><table><tr>
+    <th>id</th><th>问题 q</th><th>答案</th><th>u</th><th>answerType</th><th>status</th><th>source</th><th>note</th></tr>`;
+  nums.forEach((q) => {
+    const ans = q.answerType === 'range' && q.answerRange ? `${fmt(q.answerRange.min)} ~ ${fmt(q.answerRange.max)}` : fmt(q.a);
+    html += `<tr>
+      <td class="num">${esc(q.id)}</td>
+      <td>${esc(q.q)}</td>
+      <td class="num">${ans}</td>
+      <td>${esc(q.u || '—')}</td>
+      <td><span class="tag">${esc(q.answerType ?? '（缺省）')}</span></td>
+      <td>${esc(q.status ?? '（缺省=published）')}</td>
+      <td>${src(q)}</td>
+      <td class="muted">${esc(q.note || '')}</td>
+    </tr>`;
+  });
+  html += '</table>';
+
+  // 排期与兜底
+  const sched = pack.dailySchedule || {};
+  const schedKeys = Object.keys(sched);
+  html += `<h2>dailySchedule（${schedKeys.length}）</h2>`;
+  if (!schedKeys.length) html += '<p class="muted">未配置</p>';
+  else {
+    html += '<table><tr><th>日期</th><th>questionId</th><th>题目</th><th>revision</th></tr>';
+    schedKeys.forEach((d) => {
+      const e = sched[d] || {};
+      const q = nums.find((x) => x.id === e.questionId);
+      html += `<tr><td class="num">${esc(d)}</td><td class="num">${esc(e.questionId)}</td>
+        <td>${q ? esc(q.q) : '<span class="err">题不存在</span>'}</td><td>${esc(e.revision ?? '—')}</td></tr>`;
+    });
+    html += '</table>';
+  }
+
+  const fbs = pack.fallbackPools || [];
+  html += `<h2>fallbackPools（${fbs.length}）</h2>`;
+  if (!fbs.length) html += '<p class="muted">未配置</p>';
+  else {
+    html += '<table><tr><th>version</th><th>题数</th><th>questionIds</th></tr>';
+    fbs.forEach((fb) => {
+      const missing = (fb.questionIds || []).filter((id) => !nums.some((x) => x.id === id));
+      html += `<tr><td class="num">${esc(fb.version)}</td><td>${(fb.questionIds || []).length}</td>
+        <td class="num muted">${esc((fb.questionIds || []).join(', '))}${missing.length ? ` <span class="err">（缺失: ${esc(missing.join(','))}）</span>` : ''}</td></tr>`;
+    });
+    html += '</table>';
+  }
+
+  content.innerHTML = html;
+}
+
+load();
+</script>
+</body>
+</html>
