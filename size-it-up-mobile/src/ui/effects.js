@@ -5,9 +5,11 @@ let reducedMotion = null;
 
 export function setReducedMotion(v) {
   reducedMotion = v;
-  // 同步 CSS 侧：body.reduce-motion 让 base.css 的静态规则生效（v=null 表示跟随系统，由媒体查询接管）
+  // 同步 CSS 侧：reduce-motion=强制减少；motion-forced=强制开启（覆盖系统 reduce 媒体查询）
+  // v=null 表示跟随系统，两者都不加，由媒体查询接管
   if (typeof document !== 'undefined' && document.body) {
     document.body.classList.toggle('reduce-motion', v === true);
+    document.body.classList.toggle('motion-forced', v === false);
   }
 }
 export function prefersReduced() {
@@ -85,8 +87,12 @@ export function showHint(barId, text, seenKey, store) {
   if (!bar) return;
   if (seenKey && store && store.getItem('seen_' + seenKey)) return;
   if (seenKey && store) store.setItem('seen_' + seenKey, '1');
-  bar.textContent = text;
+  // 先清空、显示，再于下一帧写入文本：live region 已渲染，首次出现才能被播报
+  bar.textContent = '';
   bar.classList.remove('hidden');
   clearTimeout(bar._t);
   bar._t = setTimeout(() => bar.classList.add('hidden'), 6000);
+  requestAnimationFrame(() => {
+    bar.textContent = text;
+  });
 }

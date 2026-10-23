@@ -15,6 +15,16 @@ let tickHandle = null;
 
 const GENERIC_TIP = '把问题拆成「人数 × 人均 × 频率」这类小块，分别估出数量级再相乘；10 的幂比精确数字重要。';
 
+/** dateKey（YYYY-MM-DD，存储键保持不变）→ 中文日期展示（仅展示层本地化） */
+export function fmtDateCN(dateKey, withYear = false) {
+  if (!dateKey) return '';
+  const p = String(dateKey).split('-').map(Number);
+  if (p.length < 3 || !p[0]) return dateKey;
+  const opt = { month: 'long', day: 'numeric' };
+  if (withYear) opt.year = 'numeric';
+  return new Intl.DateTimeFormat('zh-CN', opt).format(new Date(p[0], p[1] - 1, p[2]));
+}
+
 export function initNumeric(context) {
   ctx = context;
   $('n-lock').addEventListener('click', lockAnswer);
@@ -22,11 +32,14 @@ export function initNumeric(context) {
   $('n-report').addEventListener('click', copyReport);
   $('n-input').addEventListener('input', onInput);
   $('n-tip-btn').addEventListener('click', () => {
-    $('n-tip').classList.toggle('hidden');
+    const tip = $('n-tip');
+    tip.classList.toggle('hidden');
+    $('n-tip-btn').setAttribute('aria-expanded', String(!tip.classList.contains('hidden')));
   });
   $('n-draft-btn').addEventListener('click', () => {
     const d = $('n-draft');
     d.classList.toggle('hidden');
+    $('n-draft-btn').setAttribute('aria-expanded', String(!d.classList.contains('hidden')));
     if (!d.classList.contains('hidden')) d.focus();
   });
   document.querySelectorAll('.chip').forEach((btn) => {
@@ -64,7 +77,7 @@ export function startNumeric(mode, opts = {}) {
 
   if (mode === 'daily') {
     session.questions = [opts.question];
-    $('n-tag').textContent = `📅 每日一题 · ${opts.dateKey || ''}`;
+    $('n-tag').textContent = `📅 每日一题${opts.dateKey ? ' · ' + fmtDateCN(opts.dateKey) : ''}`;
     showHint('n-hintbar', '每日一题：凭直觉估，今天的答案明天也能复盘。', 'daily_tip_v1', ctx.store);
   } else if (mode === 'practice') {
     session.questions = opts.questions;
@@ -90,9 +103,11 @@ function loadRound() {
   $('n-text').textContent = q.q;
   $('n-unit').textContent = q.u || '';
   $('n-input').value = '';
+  $('n-error').textContent = '';
   $('n-norm').classList.add('hidden');
   $('n-tip').textContent = q.hint || GENERIC_TIP;
   $('n-tip').classList.add('hidden');
+  $('n-tip-btn').setAttribute('aria-expanded', 'false');
   $('n-reveal').classList.add('hidden');
   $('n-lock').classList.remove('hidden');
   $('n-lock').disabled = false;
@@ -128,7 +143,8 @@ function tickTimer() {
   const remain = session.timer.remainingMs();
   const bar = $('n-timer');
   const pct = Math.max(0, Math.min(100, (remain / session.totalMs) * 100));
-  bar.style.width = pct + '%';
+  // 剩余比例改用 transform 缩放，语义不变（从左往右收窄）
+  bar.style.transform = 'scaleX(' + pct / 100 + ')';
   bar.style.background =
     timerColor(remain, session.totalMs) === 'green'
       ? 'var(--green)'
@@ -156,15 +172,18 @@ function checkTimeout() {
     q.answerType === 'range' && q.answerRange
       ? `参考范围 <b>${fmtCN(q.answerRange.min)} ~ ${fmtCN(q.answerRange.max)} ${q.u || ''}</b>（口径见下方说明）`
       : `真实答案 <b>${fmtCN(q.a)} ${q.u || ''}</b>`;
+  // 先显示容器再写入播报文本，保证超时结果也能被朗读
+  $('n-reveal').classList.remove('hidden');
   $('n-verdict').textContent = '⏰ 超时了';
   $('n-detail').innerHTML = `本题超时扣 <b>${-res.delta}</b> 点生命。${q.answerType === 'range' ? '本题' + ansTip + '。' : ansTip + '。'}`;
   setNote(q);
-  $('n-scoreline').innerHTML = '生存扣血 <b style="color:var(--red)">' + res.delta + '</b>';
-  $('n-reveal').classList.remove('hidden');
+  $('n-scoreline').innerHTML = '生存扣血 <b style="color:var(--red-text)">' + res.delta + '</b>';
   $('n-lock').classList.add('hidden');
   $('n-next').textContent = session.life <= 0 ? '查看结算 →' : '继续 →';
   feedbackForScore(0);
   updateLifeUI();
+  // 超时揭晓同样把焦点交给继续按钮
+  $('n-next').focus();
   ctx.emit('numeric_answered', { mode: 'survival', score: 0, timeout: true });
 }
 
@@ -184,6 +203,7 @@ function onInput() {
     const disp = normalizeForDisplay(v);
     norm.textContent = '将提交：' + disp + (session.current && session.current.u ? ' ' + session.current.u : '');
     norm.classList.remove('hidden');
+    $('n-error').textContent = ''; // 输入已可解析，撤掉内联错误
   } else {
     norm.classList.add('hidden');
   }
@@ -220,9 +240,16 @@ function lockAnswer() {
   const q = session.current;
   const x = parseNumericInput($('n-input').value);
   if (x == null) {
-    ctx.toast('这个数字看不懂——支持 1200000000 / 1.2e9 / 12亿 这几种写法');
+    // 解析失败：输入框旁内联错误（aria-live 播报）+ 焦点回到出错输入框，toast 保留
+    const msg = $('n-input').value.trim()
+      ? '这个数字看不懂——支持 1200000000 / 1.2e9 / 12亿 这几种写法'
+      : '先输入你的估测再锁定（支持 1200000000 / 1.2e9 / 12亿）';
+    $('n-error').textContent = msg;
+    ctx.toast(msg);
+    $('n-input').focus();
     return;
   }
+  $('n-error').textContent = '';
 
   session.locked = true;
   $('n-lock').classList.add('hidden');
@@ -242,9 +269,9 @@ function lockAnswer() {
     session.life = res.life;
     updateLifeUI();
     session.scores.push(score);
-    if (res.type === 'heal') $('n-scoreline').innerHTML = '极准回血 <b style="color:var(--green)">+' + res.delta + '</b>';
+    if (res.type === 'heal') $('n-scoreline').innerHTML = '极准回血 <b style="color:var(--green-text)">+' + res.delta + '</b>';
     else if (res.delta < 0)
-      $('n-scoreline').innerHTML = '扣血 <b style="color:var(--red)">' + res.delta + '</b>　得分 <b id="n-score">' + score + '</b>';
+      $('n-scoreline').innerHTML = '扣血 <b style="color:var(--red-text)">' + res.delta + '</b>　得分 <b id="n-score">' + score + '</b>';
     else $('n-scoreline').innerHTML = '得分 <b id="n-score">' + score + '</b>';
   } else {
     session.scores.push(score);
@@ -257,7 +284,6 @@ function lockAnswer() {
   else if (score >= 60) verdict = '👍 方向对了';
   else if (score >= 30) verdict = '🤔 差了几个零';
   else verdict = '😅 偏得有点远';
-  $('n-verdict').textContent = verdict;
 
   let detail = '';
   if (type === 'range') {
@@ -278,7 +304,9 @@ function lockAnswer() {
   $('n-detail').innerHTML = detail;
   setNote(q);
 
+  // 先显示容器再写入播报文本（同帧完成），保证 status 区首次可朗读
   $('n-reveal').classList.remove('hidden');
+  $('n-verdict').textContent = verdict;
   const scoreEl = $('n-score');
   if (scoreEl) rollCount(scoreEl, score, 600);
   feedbackForScore(score);
@@ -290,6 +318,8 @@ function lockAnswer() {
       : session.mode === 'survival'
         ? session.life <= 0 ? '查看结算 →' : '继续 →'
         : session.idx + 1 >= session.questions.length ? '查看结算 →' : '下一题 →';
+  // 揭晓完成，焦点交给「下一题 / 继续」（按钮文案就绪后再移交）
+  $('n-next').focus();
 
   ctx.emit('numeric_answered', { mode: session.mode, score, d, question: q });
 }

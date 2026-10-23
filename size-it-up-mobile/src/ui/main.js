@@ -8,7 +8,7 @@ import { squareFor } from '../core/constants.js';
 import { setPrefs, SFX } from './audio.js';
 import { setReducedMotion } from './effects.js';
 import { initVisual, startVisual } from './visual.js';
-import { initNumeric, startNumeric } from './numeric.js';
+import { initNumeric, startNumeric, fmtDateCN } from './numeric.js';
 
 const $ = (id) => document.getElementById(id);
 // 内置兜底题库：构建时由 build.mjs 以 window.__BSZ_BASE_PACK__ 注入
@@ -83,10 +83,14 @@ async function fetchWithTimeout(url, ms) {
 let toastTimer = null;
 function toast(msg) {
   const el = $('toast');
-  el.textContent = msg;
+  // 先清空并显示、再于下一帧写入文本：live region 已渲染，首次出现才能被播报
+  el.textContent = '';
   el.classList.remove('hidden');
   clearTimeout(toastTimer);
   toastTimer = setTimeout(() => el.classList.add('hidden'), 2400);
+  requestAnimationFrame(() => {
+    el.textContent = msg;
+  });
 }
 
 // ---------- 事件 → 统计 / 成就 ----------
@@ -129,12 +133,29 @@ function modeSeen(mode) {
 }
 
 // ---------- 屏幕切换 ----------
+let currentScreen = 'home';
+
 function showScreen(name) {
+  // 离开数值屏前确认草稿去向：返回主页可取消；进入结算为局终流程，仅提示不拦截
+  if (currentScreen === 'numeric' && name !== 'numeric') {
+    const d = $('n-draft');
+    if (d && d.value.trim()) {
+      if (name === 'home' && !confirm('草稿还没有用完，离开将丢弃，确定返回主页？')) return false;
+      d.value = '';
+    }
+  }
+  currentScreen = name;
   ['home', 'visual', 'numeric', 'end'].forEach((s) => {
     $('screen-' + s).classList.toggle('hidden', s !== name);
   });
   $('back-row').style.display = name === 'home' ? 'none' : 'block';
   window.scrollTo(0, 0);
+  // URL hash 反映当前屏（不做 hashchange 监听，仅初始状态展示）
+  if (location.hash !== '#' + name) location.hash = name;
+  // 焦点移到新屏标题，避免落回 body
+  const heading = $('screen-' + name).querySelector('.sr-only');
+  if (heading) heading.focus();
+  return true;
 }
 
 // ---------- 主页 ----------
@@ -169,8 +190,8 @@ function renderHome() {
     }
     const tag = m.tag ? `<span class="tag ${m.tag}">${m.tag === 'daily' ? '每日' : '练习'}</span>` : '';
     card.innerHTML =
-      `<div class="ic">${m.icon}</div>` +
-      `<div class="tx"><span class="ttl">${m.title}${tag}</span><p>${m.desc}</p></div>${right}`;
+      `<div class="ic" aria-hidden="true">${m.icon}</div>` +
+      `<div class="tx"><span class="ttl">${m.title}${tag}</span><span class="desc">${m.desc}</span></div>${right}`;
     card.addEventListener('click', () => startMode(m.id));
     list.appendChild(card);
   });
@@ -276,7 +297,7 @@ function onVisualEnd(payload) {
   const items = payload.scores.map((s, i) => {
     const q = (lastRun && lastRun.questions && lastRun.questions[i]) || null;
     const name = q ? (q.tgt ? q.tgt.n : (q.target && q.target.name) || '目标') : `第 ${i + 1} 题`;
-    return `<div>${squareFor(s)} <b>${name}</b> · ${s} 分</div>`;
+    return `<li>${squareFor(s)} <b>${name}</b> · ${s} 分</li>`;
   }).join('');
 
   showEnd({
@@ -323,8 +344,8 @@ function onNumericEnd(payload) {
           ? `今日命中！🔥 连胜 ${next.currentStreak} 天`
           : `今日完成 · 🔥 连胜 ${next.currentStreak} 天（最佳 ${next.bestStreak}）`,
       squares: squareFor(score),
-      list: `<div>题目：<b>${(payload.question && payload.question.q) || ''}</b></div>`,
-      shareText: `【比大小 · 每日一题】${payload.dateKey || today} 得 ${score} 分 ${squareFor(score)}　连胜 ${next.currentStreak} 天`,
+      list: `<li>题目：<b>${(payload.question && payload.question.q) || ''}</b></li>`,
+      shareText: `【比大小 · 每日一题】${fmtDateCN(payload.dateKey || today, true)} 得 ${score} 分 ${squareFor(score)}　连胜 ${next.currentStreak} 天`,
       replay: null,
     });
     return;
@@ -340,7 +361,7 @@ function onNumericEnd(payload) {
       big: `${payload.answered}<small> 题</small>`,
       comment: payload.answered >= 30 ? '生存大师！' : '生命耗尽——下次先估数量级再下手',
       squares: payload.scores.slice(-10).map(squareFor).join(''),
-      list: `<div>本局答题 <b>${payload.answered}</b> 题 · 最佳 <b>${Math.max(best, payload.answered)}</b> 题</div>`,
+      list: `<li>本局答题 <b>${payload.answered}</b> 题 · 最佳 <b>${Math.max(best, payload.answered)}</b> 题</li>`,
       shareText: `【比大小 · 生存模式】答对 ${payload.answered} 题，你能撑几题？`,
       replay: () => startMode('survival'),
     });
@@ -363,9 +384,9 @@ function showEnd(opts) {
     `<div class="big">${opts.big}</div>` +
     `<div class="comment">${opts.comment}</div>` +
     (opts.squares ? `<div class="squares">${opts.squares}</div>` : '') +
-    `<div class="roundlist">${opts.list || ''}</div>` +
-    `<button class="btn green" data-act="replay">🔄 再来一局</button>` +
-    `<button class="btn sub" data-act="share">📤 分享成绩</button>` +
+    `<ul class="roundlist">${opts.list || ''}</ul>` +
+    `<button class="btn green" data-act="replay"><span aria-hidden="true">🔄</span> 再来一局</button>` +
+    `<button class="btn sub" data-act="share"><span aria-hidden="true">📤</span> 分享成绩</button>` +
     `<div class="back-row"><button data-act="home">← 返回主页</button></div>`;
   showScreen('end');
   SFX.end();
@@ -413,7 +434,10 @@ function applySettings() {
   setReducedMotion(motion);
   $('set-sfx').setAttribute('aria-checked', String(sfx));
   $('set-vibrate').setAttribute('aria-checked', String(vib));
+  // aria-checked 表示有效状态；「跟随系统」态由标签文案单独表达
   $('set-motion').setAttribute('aria-checked', String(motion == null ? sysReduce : motion));
+  $('set-motion-label').textContent =
+    '🎬 减少动态效果 · ' + (motion == null ? '跟随系统' : motion ? '已减少' : '已开启动效');
   $('set-storage').textContent = store.persistent
     ? '设置与成绩保存在本机浏览器中。'
     : '⚠️ 浏览器禁用了本地存储：本次记录不会持久保存。';
@@ -431,7 +455,14 @@ function bindSettings() {
   };
   bindToggle('set-sfx', 'bsz_set_sfx');
   bindToggle('set-vibrate', 'bsz_set_vibrate');
-  bindToggle('set-motion', 'bsz_set_motion');
+  // 三态循环：跟随系统(null) → 强制减少('1') → 强制开启('0') → 跟随系统
+  $('set-motion').addEventListener('click', () => {
+    const cur = store.getItem('bsz_set_motion');
+    const next = cur == null ? '1' : cur === '1' ? '0' : null;
+    if (next == null) store.removeItem('bsz_set_motion');
+    else store.setItem('bsz_set_motion', next);
+    applySettings();
+  });
   // 弹层焦点管理：打开时把焦点移入弹层，关闭时还给触发元素，避免焦点停在遮罩下
   let modalReturnFocus = null;
   $('settings-btn').addEventListener('click', () => {
@@ -448,7 +479,7 @@ function bindSettings() {
 // ---------- 玩法说明 / 成就列表（通用弹层） ----------
 function openInfo(title, html, btnText, onOk) {
   $('info-card').innerHTML =
-    `<div class="modal-title">${title}</div>${html}` +
+    `<h2 class="modal-title" id="info-title">${title}</h2>${html}` +
     `<button class="btn" id="info-ok" style="margin-top:14px">${btnText || '知道了'}</button>`;
   const returnFocus = document.activeElement;
   $('info-modal').classList.remove('hidden');
@@ -475,13 +506,14 @@ function bindHomeActions() {
   $('home-achievements').addEventListener('click', () => {
     const rows = ACHIEVEMENTS.map((a) => {
       const got = ach.unlocked[a.id];
-      return `<div class="setting-row"><span>${got ? a.icon : '🔒'} ${a.name}${got ? '' : ' <small style="color:var(--sub)">（未解锁）</small>'}</span><span style="font-size:11px;color:var(--sub)">${a.desc}</span></div>`;
+      return `<li class="setting-row"><span>${got ? a.icon : '🔒'} ${a.name}${got ? '' : ' <small style="color:var(--sub)">（未解锁）</small>'}</span><span style="font-size:11px;color:var(--sub)">${a.desc}</span></li>`;
     }).join('');
-    openInfo('🏆 成就', rows);
+    openInfo('🏆 成就', `<ul class="ach-list">${rows}</ul>`);
   });
   $('back-btn').addEventListener('click', () => {
+    // showScreen 内含草稿确认，被取消时不切换
+    if (showScreen('home') === false) return;
     renderHome();
-    showScreen('home');
   });
 }
 
@@ -497,6 +529,7 @@ function startGuide() {
   guideIdx = 0;
   $('guide-layer').classList.remove('hidden');
   renderGuideStep();
+  $('guide-next').focus(); // 焦点进入引导层
 }
 
 function renderGuideStep() {
@@ -505,10 +538,10 @@ function renderGuideStep() {
   if (!target) return endGuide();
   const r = target.getBoundingClientRect();
   const spot = $('guide-spot');
-  spot.style.left = Math.max(6, r.left - 6) + 'px';
-  spot.style.top = Math.max(6, r.top - 6) + 'px';
   spot.style.width = Math.min(window.innerWidth - 12, r.width + 12) + 'px';
   spot.style.height = r.height + 12 + 'px';
+  // 位移走 transform（不触发布局），尺寸直设（三步尺寸接近，无过场也自然）
+  spot.style.transform = `translate(${Math.max(6, r.left - 6)}px, ${Math.max(6, r.top - 6)}px)`;
   $('guide-text').textContent = step.text;
   $('guide-next').textContent = guideIdx >= GUIDE_STEPS.length - 1 ? '开始！' : '下一步';
 }
@@ -516,6 +549,8 @@ function renderGuideStep() {
 function endGuide() {
   $('guide-layer').classList.add('hidden');
   store.setItem('bsz_guide_done', '1');
+  // 焦点从已隐藏的按钮移回当前屏首个输入，避免落回 body
+  if (!$('screen-visual').classList.contains('hidden')) $('v-slider').focus();
 }
 
 function bindGuide() {
@@ -525,8 +560,65 @@ function bindGuide() {
     else renderGuideStep();
   });
   $('guide-skip').addEventListener('click', endGuide);
+  // 点遮罩（气泡以外区域）跳过引导
+  $('guide-layer').addEventListener('click', (e) => {
+    if (!$('guide-bubble').contains(e.target)) endGuide();
+  });
   window.addEventListener('resize', () => {
     if (!$('guide-layer').classList.contains('hidden')) renderGuideStep();
+  });
+}
+
+// ---------- 模态层焦点陷阱（设置 / 说明 / 引导通用） ----------
+const FOCUSABLE_SEL =
+  'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+/** 当前应模态化的层及其关闭方式（Esc 走同一路径，保证焦点还原一致） */
+function activeLayer() {
+  if (!$('settings-modal').classList.contains('hidden')) {
+    return { el: $('settings-modal'), close: () => $('set-close').click() };
+  }
+  if (!$('info-modal').classList.contains('hidden')) {
+    return {
+      el: $('info-modal'),
+      close: () => {
+        const ok = $('info-ok');
+        if (ok) ok.click(); // 说明弹层 = 点确认关闭
+      },
+    };
+  }
+  if (!$('guide-layer').classList.contains('hidden')) {
+    return { el: $('guide-layer'), close: endGuide };
+  }
+  return null;
+}
+
+function bindLayerTrap() {
+  document.addEventListener('keydown', (e) => {
+    const layer = activeLayer();
+    if (!layer) return;
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      layer.close();
+      return;
+    }
+    if (e.key !== 'Tab') return;
+    // 捕获 Tab：焦点在层内首尾循环
+    const nodes = Array.from(layer.el.querySelectorAll(FOCUSABLE_SEL)).filter((n) => n.offsetParent !== null);
+    if (!nodes.length) return;
+    const first = nodes[0];
+    const last = nodes[nodes.length - 1];
+    const active = document.activeElement;
+    const inside = nodes.indexOf(active) >= 0;
+    if (e.shiftKey) {
+      if (!inside || active === first) {
+        e.preventDefault();
+        last.focus();
+      }
+    } else if (!inside || active === last) {
+      e.preventDefault();
+      first.focus();
+    }
   });
 }
 
@@ -536,11 +628,14 @@ async function boot() {
   bindSettings();
   bindHomeActions();
   bindGuide();
+  bindLayerTrap();
   initVisual(ctx);
   initNumeric(ctx);
 
   await loadPack();
   renderHome();
+  // 初始 hash：#home 可直接落地；模式/结算屏没有可恢复的会话（打开即为死屏），
+  // 故统一回首页，showScreen 会把 hash 规范为 #home（详见交付报告「可跳过项」）
   showScreen('home');
 }
 

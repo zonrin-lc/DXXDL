@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#f6ecd4">
 <title>比大小 · 估测游戏中心</title>
 <style>
@@ -18,9 +18,12 @@
   --wood-dark: #a9744a;
   --wood-line: #8a5c36;
   --ink: #4a3728;          /* 深棕文字 */
-  --sub: #9b8467;          /* 次级文字 */
+  --sub: #7a6647;          /* 次级文字（加深至 AA：纸底 5.2:1 / 页面底 4.7:1） */
   --scroll-a: #8dc63f;     /* 绿卷轴 */
   --scroll-b: #66a02c;
+  --scroll-text: #44701a;  /* 绿色文字专用（对纸底/页面底均 ≥4.5:1），卷轴底色仍用 --scroll-b */
+  --green-text: #3d8a4c;   /* 大字绿色（得分等，对纸底 ≥3:1） */
+  --red-text: #c0392b;     /* 红色文字（扣血等，对纸底 ≥4.5:1） */
   --blue: #4fa3e3;         /* 视觉模式强调 */
   --blue-soft: #e6f2fb;
   --red: #ef6a5a;
@@ -42,6 +45,8 @@ body {
   touch-action: manipulation;
   display: flex;
   justify-content: center;
+  /* 刘海屏安全区补偿（配合 viewport-fit=cover） */
+  padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
   background:
     radial-gradient(circle at 20% 10%, rgba(255,255,255,.55), transparent 45%),
     radial-gradient(circle at 80% 30%, rgba(214,189,139,.30), transparent 40%),
@@ -127,11 +132,11 @@ header p { font-size: 12px; color: var(--sub); margin-top: 9px; }
 .btn.lock:active { box-shadow: 0 1px 0 #c14637; }
 .btn.purple { background: linear-gradient(180deg, #b98ae0, var(--purple)); box-shadow: 0 4px 0 #7d4fae, inset 0 1px 0 rgba(255,255,255,.4); }
 .btn.purple:active { box-shadow: 0 1px 0 #7d4fae; }
-.btn.sub { background: linear-gradient(180deg, #f4ead4, #e9dcc0); color: var(--sub); font-size: 14px; padding: 11px; box-shadow: 0 3px 0 #cbb990; }
+.btn.sub { background: linear-gradient(180deg, #f4ead4, #e9dcc0); color: var(--ink); font-size: 14px; padding: 11px; box-shadow: 0 3px 0 #cbb990; }
 .btn.sub:active { box-shadow: 0 1px 0 #cbb990; }
 .btn + .btn { margin-top: 10px; }
 .link-btn {
-  background: none; border: none; color: var(--scroll-b);
+  background: none; border: none; color: var(--scroll-text);
   font-size: 13px; font-weight: 700; cursor: pointer; padding: 6px 10px;
   font-family: inherit; text-decoration: underline;
 }
@@ -172,14 +177,14 @@ header p { font-size: 12px; color: var(--sub); margin-top: 9px; }
 }
 .mode-card .tx { flex: 1; min-width: 0; }
 .mode-card .tx .ttl { display: block; font-size: 16px; font-weight: 700; }
-.mode-card .tx p { font-size: 12px; color: var(--sub); margin-top: 2px; }
+.mode-card .tx .desc { display: block; font-size: 12px; color: var(--sub); margin-top: 2px; }
 .mode-card .best {
   font-size: 11px; color: var(--sub); background: #f4ecd9;
   border: 1px solid var(--line); border-radius: 10px; padding: 5px 9px;
   flex: none; white-space: nowrap;
 }
 .mode-card .howto {
-  font-size: 11px; color: var(--scroll-b); background: #f2f8e6;
+  font-size: 11px; color: var(--scroll-text); background: #f2f8e6;
   border: 1px solid #d7e8b8; border-radius: 8px; padding: 3px 7px;
   margin-left: 6px; white-space: nowrap;
 }
@@ -187,7 +192,7 @@ header p { font-size: 12px; color: var(--sub); margin-top: 9px; }
 .tag.daily { background: var(--purple-soft); color: var(--purple); }
 .tag.week { background: var(--orange-soft); color: var(--orange); }
 .tag.practice { background: #eaf6ec; color: var(--green); }
-.pack-info { text-align: center; font-size: 11px; color: #b8a887; margin-top: 16px; }
+.pack-info { text-align: center; font-size: 11px; color: var(--sub); margin-top: 16px; }
 .home-actions { display: flex; justify-content: center; gap: 8px; margin-top: 6px; }
 
 /* ===== 视觉模式 ===== */
@@ -259,7 +264,7 @@ input[type="range"]::-moz-range-thumb {
 input[type="range"]:disabled { opacity: .55; }
 
 .tick-wrap { position: relative; height: 16px; margin-top: 2px; }
-.tick { position: absolute; transform: translateX(-50%); font-size: 10px; color: #b09a76; font-weight: 600; }
+.tick { position: absolute; transform: translateX(-50%); font-size: 10px; color: var(--sub); font-weight: 600; }
 .tick::before { content: ''; position: absolute; left: 50%; top: -6px; width: 1px; height: 4px; background: #d6c5a1; }
 
 .fine-row { display: flex; align-items: center; gap: 8px; margin-top: 6px; }
@@ -283,7 +288,7 @@ input[type="range"]:disabled { opacity: .55; }
   padding: 8px 10px; margin-top: 9px; line-height: 1.7; text-align: left;
 }
 .reveal .score-line { font-size: 26px; font-weight: 800; margin-top: 6px; }
-.reveal .score-line b { color: var(--green); }
+.reveal .score-line b { color: var(--green-text); }
 .reveal .btn { margin-top: 12px; }
 .reveal-actions { display: flex; justify-content: center; margin-top: 10px; }
 
@@ -335,7 +340,8 @@ input[type="range"]:disabled { opacity: .55; }
 .life-bar { display: flex; align-items: center; gap: 8px; margin: 12px 0 2px; font-size: 15px; font-weight: 800; }
 .life-hearts { color: var(--red); letter-spacing: 2px; font-size: 13px; }
 .timer-track { height: 10px; background: #e9dcc0; border-radius: 5px; overflow: hidden; margin-top: 8px; border: 1px solid #dccca8; }
-.timer-fill { height: 100%; width: 100%; background: var(--green); border-radius: 5px; transition: width .12s linear; }
+/* 计时条改用 transform 缩放，避免 width 动画触发布局 */
+.timer-fill { height: 100%; width: 100%; background: var(--green); border-radius: 5px; transform-origin: left center; transition: transform .12s linear; }
 .surv-count { font-size: 12px; color: var(--sub); margin-top: 8px; }
 .countdown {
   font-size: 13px; color: var(--purple); font-weight: 700;
@@ -349,7 +355,7 @@ input[type="range"]:disabled { opacity: .55; }
 .screen-end .big small { font-size: 19px; color: var(--sub); font-weight: 600; }
 .screen-end .comment { font-size: 15px; color: var(--sub); margin: 6px 0 16px; line-height: 1.6; }
 .squares { display: flex; justify-content: center; gap: 8px; font-size: 24px; margin: 10px 0 18px; }
-.roundlist { text-align: left; font-size: 13px; color: var(--sub); margin: 0 0 18px; line-height: 2; }
+.roundlist { text-align: left; font-size: 13px; color: var(--sub); margin: 0 0 18px; line-height: 2; list-style: none; }
 .roundlist b { color: var(--ink); }
 .back-row { margin-top: 18px; text-align: center; }
 .back-row button { background: none; border: none; color: var(--sub); font-size: 13px; text-decoration: underline; cursor: pointer; padding: 8px; font-family: inherit; }
@@ -397,6 +403,7 @@ input[type="range"]:disabled { opacity: .55; }
   padding: 12px 4px; font-size: 15px; font-weight: 700;
   border-bottom: 1px dashed var(--line);
 }
+.setting-row label { cursor: pointer; }
 .toggle {
   width: 52px; height: 30px; border-radius: 15px; border: none;
   background: #ddd0b4; position: relative; cursor: pointer; transition: background .2s;
@@ -410,7 +417,8 @@ input[type="range"]:disabled { opacity: .55; }
 .toggle[aria-checked="true"]::after { transform: translateX(22px); }
 .info-list { font-size: 14px; line-height: 1.9; color: var(--ink); text-align: left; }
 .info-list li { margin-left: 18px; }
-.info-list h4 { margin: 12px 0 4px; color: var(--scroll-b); }
+.info-list h4 { margin: 12px 0 4px; color: var(--scroll-text); }
+.ach-list { list-style: none; }
 .ach-item {
   display: flex; gap: 12px; align-items: center; padding: 10px 4px;
   border-bottom: 1px dashed var(--line);
@@ -423,11 +431,12 @@ input[type="range"]:disabled { opacity: .55; }
 .ach-item .date { font-size: 11px; color: var(--sub); flex: none; }
 
 /* ===== 分步引导 ===== */
-.guide-layer { position: fixed; inset: 0; z-index: 180; pointer-events: none; }
+.guide-layer { position: fixed; inset: 0; z-index: 180; }
 .guide-spot {
-  position: absolute; border-radius: 16px;
+  position: absolute; left: 0; top: 0; border-radius: 16px;
   box-shadow: 0 0 0 9999px rgba(50, 35, 18, .62), 0 0 0 4px #ffd766;
-  transition: left .3s ease, top .3s ease, width .3s ease, height .3s ease; pointer-events: none;
+  /* 位置改用 transform 移动（合成层动画），尺寸直设不做过场 */
+  transition: transform .3s ease; pointer-events: none;
 }
 .guide-bubble {
   position: absolute; left: 50%; transform: translateX(-50%);
@@ -446,6 +455,10 @@ input[type="range"]:disabled { opacity: .55; }
 .guide-next:active { box-shadow: 0 1px 0 #3d8a4c; }
 
 /* ===== 无障碍 / 动态效果 ===== */
+/* 数字等宽：分数 / 结算 / 计数跳动时不抖动列宽 */
+.score-line, .score-line b, .surv-count, .hud span, .screen-end .big, .roundlist, .countdown {
+  font-variant-numeric: tabular-nums;
+}
 .reduce-motion *, .reduce-motion *::before, .reduce-motion *::after {
   animation-duration: .01ms !important;
   animation-iteration-count: 1 !important;
@@ -456,9 +469,47 @@ input[type="range"]:disabled { opacity: .55; }
     animation-duration: .01ms !important;
     transition-duration: .01ms !important;
   }
+  /* 三态开关「强制开启」：body.motion-forced 覆盖系统 reduce 规则，让动效真实播放 */
+  body.motion-forced *, body.motion-forced *::before, body.motion-forced *::after {
+    animation-duration: .35s !important;
+    transition-duration: .18s !important;
+  }
 }
 button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:focus-visible {
   outline: 3px solid var(--blue); outline-offset: 2px;
+}
+
+/* ===== 无障碍辅助 ===== */
+/* 仅供读屏的文字（各屏 h2 标题等） */
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  margin: -1px; padding: 0; border: 0;
+  clip: rect(0 0 0 0); clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+}
+/* 跳到主内容：聚焦时才显示 */
+.skip-link {
+  position: absolute; left: 8px; top: -60px; z-index: 300;
+  background: var(--ink); color: #fff; font-size: 14px; font-weight: 700;
+  padding: 10px 16px; border-radius: 10px; text-decoration: none;
+  transition: top .15s ease;
+}
+.skip-link:focus { top: 8px; }
+/* 输入解析失败的内联错误（常驻渲染保证 aria-live 首次可播报，空时零高度） */
+.input-error {
+  font-size: 12px; font-weight: 700; color: var(--red-text);
+}
+.input-error:not(:empty) { margin-top: 6px; }
+
+/* 悬停态（仅指针设备；触屏不受影响，:active 逻辑保持不变） */
+@media (hover: hover) {
+  .btn:hover { filter: brightness(1.07); }
+  .link-btn:hover { color: #35601a; }
+  .mini-btn:hover, .fine-btn:hover { filter: brightness(.97); }
+  .mode-card:hover { box-shadow: 0 3px 0 var(--wood-line), 0 10px 22px rgba(120, 84, 45, .24); }
+  #settings-btn:hover, .draft-toggle:hover { filter: brightness(.94); }
+  .chip:hover { filter: brightness(.97); }
+  .toggle:hover { filter: brightness(.96); }
+  .back-row button:hover { color: var(--ink); }
 }
 
 /* 桌面端居中呈现 */
@@ -469,30 +520,34 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
 </style>
 </head>
 <body>
+<a class="skip-link" href="#main">跳到主内容</a>
 <div class="app">
   <header id="hd">
-    <h1>📏 比大小</h1>
+    <h1><span aria-hidden="true">📏</span> 比大小</h1>
     <p>5 种玩法 + 免费练习场 · 凭直觉，不需要专业知识</p>
-    <button id="settings-btn" title="设置" aria-label="设置">⚙️</button>
+    <button id="settings-btn" title="设置" aria-label="设置"><span aria-hidden="true">⚙️</span></button>
   </header>
 
+  <main id="main" tabindex="-1">
   <!-- ===== 主页 ===== -->
   <div id="screen-home">
+    <h2 class="sr-only" tabindex="-1">选择玩法</h2>
     <div class="streak-row hidden" id="home-streak"></div>
     <div class="modes" id="mode-list"></div>
     <div id="pack-info" class="pack-info">内容包 · 内置</div>
     <div class="home-actions">
-      <button class="link-btn" id="home-achievements">🏆 成就</button>
-      <button class="link-btn" id="home-howto">📖 玩法说明</button>
+      <button class="link-btn" id="home-achievements"><span aria-hidden="true">🏆</span> 成就</button>
+      <button class="link-btn" id="home-howto"><span aria-hidden="true">📖</span> 玩法说明</button>
     </div>
   </div>
 
   <!-- ===== 视觉模式 ===== -->
   <div id="screen-visual" class="hidden">
+    <h2 class="sr-only" tabindex="-1">视觉比例挑战</h2>
     <div id="v-hint" class="hint-bar hidden" aria-live="polite"></div>
     <div class="hud">
       <span id="v-round"></span>
-      <div class="dots" id="v-dots"></div>
+      <div class="dots" id="v-dots" role="img" aria-label="答题进度"></div>
       <span id="v-total"></span>
     </div>
     <div class="stage">
@@ -520,15 +575,15 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
         <div class="fine-tip">拖动或微调，让大小比例符合真实世界</div>
         <button class="fine-btn" id="v-plus" aria-label="微调增大">+ 微调</button>
       </div>
-      <button class="btn lock" id="v-lock">🔒 锁定答案</button>
+      <button class="btn lock" id="v-lock"><span aria-hidden="true">🔒</span> 锁定答案</button>
     </div>
     <div class="reveal hidden" id="v-reveal">
-      <div class="verdict" id="v-verdict"></div>
+      <div class="verdict" id="v-verdict" role="status" aria-live="polite"></div>
       <div class="detail" id="v-detail"></div>
       <div class="note" id="v-note"></div>
       <div class="score-line">得分 <b id="v-score">0</b></div>
       <div class="reveal-actions">
-        <button class="mini-btn" id="v-report">🛠️ 复制反馈报告</button>
+        <button class="mini-btn" id="v-report"><span aria-hidden="true">🛠️</span> 复制反馈报告</button>
       </div>
       <button class="btn" id="v-next">下一题 →</button>
     </div>
@@ -536,28 +591,31 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
 
   <!-- ===== 数值模式（每日 / 生存 / 练习共用） ===== -->
   <div id="screen-numeric" class="hidden">
+    <h2 class="sr-only" tabindex="-1">数量级估测</h2>
     <div id="n-hintbar" class="hint-bar hidden" aria-live="polite"></div>
     <div id="n-survival-head" class="hidden">
       <div class="life-bar">❤️ 生命 <span id="n-life">10</span>
         <span style="flex:1"></span>
         <span class="life-hearts" id="n-hearts"></span>
       </div>
-      <div class="timer-track"><div class="timer-fill" id="n-timer"></div></div>
+      <!-- 纯视觉进度条：剩余时间文案由下方 n-count 提供 -->
+      <div class="timer-track" aria-hidden="true"><div class="timer-fill" id="n-timer"></div></div>
       <div class="surv-count" id="n-count"></div>
     </div>
     <div class="q-card">
       <div class="q-tag" id="n-tag">数量级估测</div>
       <div class="q-text" id="n-text"></div>
       <div class="q-hint">不用知道确切数字——把问题拆成你能估的小块，相乘得到正确的「数量级」。差一点没关系，差五个零才致命。</div>
-      <button class="link-btn" id="n-tip-btn">💡 估算思路提示</button>
+      <button class="link-btn" id="n-tip-btn" aria-expanded="false" aria-controls="n-tip"><span aria-hidden="true">💡</span> 估算思路提示</button>
       <div class="tip-box hidden" id="n-tip"></div>
     </div>
-    <button class="draft-toggle" id="n-draft-btn">📝 草稿板</button>
+    <button class="draft-toggle" id="n-draft-btn" aria-expanded="false" aria-controls="n-draft"><span aria-hidden="true">📝</span> 草稿板</button>
     <textarea id="n-draft" class="draft-area hidden" aria-label="估算草稿" placeholder="把大问题拆成小块再相乘…&#10;例：80 亿人 × 10 万次/天 = 8×10¹⁴"></textarea>
     <div class="num-input-row">
       <input type="text" id="n-input" inputmode="text" aria-label="你的估测" placeholder="输入你的估测，如 3.5 亿…" autocomplete="off">
       <span class="unit" id="n-unit"></span>
     </div>
+    <div class="input-error" id="n-error" aria-live="polite"></div>
     <div class="norm-hint hidden" id="n-norm"></div>
     <div class="chips">
       <button class="chip" data-m="1000">×1千</button>
@@ -566,14 +624,14 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
       <button class="chip" data-m="1000000000000">×1万亿</button>
       <button class="chip" data-m="clear" style="background:#f1ece0;color:var(--sub)">清零</button>
     </div>
-    <button class="btn lock" id="n-lock" style="margin-top:14px">🔒 锁定答案</button>
+    <button class="btn lock" id="n-lock" style="margin-top:14px"><span aria-hidden="true">🔒</span> 锁定答案</button>
     <div class="reveal hidden" id="n-reveal">
-      <div class="verdict" id="n-verdict"></div>
+      <div class="verdict" id="n-verdict" role="status" aria-live="polite"></div>
       <div class="detail" id="n-detail"></div>
       <div class="note" id="n-note"></div>
       <div class="score-line" id="n-scoreline"></div>
       <div class="reveal-actions">
-        <button class="mini-btn" id="n-report">🛠️ 复制反馈报告</button>
+        <button class="mini-btn" id="n-report"><span aria-hidden="true">🛠️</span> 复制反馈报告</button>
       </div>
       <button class="btn" id="n-next">下一题 →</button>
     </div>
@@ -581,28 +639,30 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
 
   <!-- ===== 结算页 ===== -->
   <div id="screen-end" class="hidden">
+    <h2 class="sr-only" tabindex="-1">本局结算</h2>
     <div class="screen-end" id="end-body"></div>
   </div>
 
   <div class="back-row" id="back-row" style="display:none">
     <button id="back-btn">← 返回主页</button>
   </div>
+  </main>
 </div>
 
 <!-- ===== 设置弹层 ===== -->
-<div class="modal hidden" id="settings-modal">
+<div class="modal hidden" id="settings-modal" role="dialog" aria-modal="true" aria-labelledby="settings-title">
   <div class="modal-card">
-    <div class="modal-title">⚙️ 设置</div>
-    <div class="setting-row"><span id="set-sfx-label">🔊 音效</span><button class="toggle" id="set-sfx" role="switch" aria-labelledby="set-sfx-label"></button></div>
-    <div class="setting-row"><span id="set-vibrate-label">📳 震动</span><button class="toggle" id="set-vibrate" role="switch" aria-labelledby="set-vibrate-label"></button></div>
-    <div class="setting-row"><span id="set-motion-label">🎬 减少动态效果</span><button class="toggle" id="set-motion" role="switch" aria-labelledby="set-motion-label"></button></div>
+    <h2 class="modal-title" id="settings-title"><span aria-hidden="true">⚙️</span> 设置</h2>
+    <div class="setting-row"><label id="set-sfx-label" for="set-sfx"><span aria-hidden="true">🔊</span> 音效</label><button class="toggle" id="set-sfx" role="switch" aria-labelledby="set-sfx-label"></button></div>
+    <div class="setting-row"><label id="set-vibrate-label" for="set-vibrate"><span aria-hidden="true">📳</span> 震动</label><button class="toggle" id="set-vibrate" role="switch" aria-labelledby="set-vibrate-label"></button></div>
+    <div class="setting-row"><label id="set-motion-label" for="set-motion">🎬 减少动态效果</label><button class="toggle" id="set-motion" role="switch" aria-labelledby="set-motion-label"></button></div>
     <div class="modal-note" id="set-storage"></div>
     <button class="btn" id="set-close" style="margin-top:14px">完成</button>
   </div>
 </div>
 
 <!-- ===== 通用确认/说明弹层（引导、生存规则、玩法说明、成就列表） ===== -->
-<div class="modal hidden" id="info-modal">
+<div class="modal hidden" id="info-modal" role="dialog" aria-modal="true" aria-labelledby="info-title">
   <div class="modal-card" id="info-card"></div>
 </div>
 
@@ -610,7 +670,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
 <div class="guide-layer hidden" id="guide-layer">
   <div class="guide-spot" id="guide-spot"></div>
   <div class="guide-bubble" id="guide-bubble">
-    <div class="guide-text" id="guide-text"></div>
+    <div class="guide-text" id="guide-text" aria-live="polite"></div>
     <div class="guide-ops">
       <button class="link-btn" id="guide-skip">跳过引导</button>
       <button class="btn guide-next" id="guide-next">下一步</button>
@@ -6364,6 +6424,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     reducedMotion = v;
     if (typeof document !== "undefined" && document.body) {
       document.body.classList.toggle("reduce-motion", v === true);
+      document.body.classList.toggle("motion-forced", v === false);
     }
   }
   function prefersReduced() {
@@ -6436,10 +6497,13 @@ window.__BSZ_ASSET_MANIFEST__ = {
     if (!bar) return;
     if (seenKey && store2 && store2.getItem("seen_" + seenKey)) return;
     if (seenKey && store2) store2.setItem("seen_" + seenKey, "1");
-    bar.textContent = text;
+    bar.textContent = "";
     bar.classList.remove("hidden");
     clearTimeout(bar._t);
     bar._t = setTimeout(() => bar.classList.add("hidden"), 6e3);
+    requestAnimationFrame(() => {
+      bar.textContent = text;
+    });
   }
 
   // src/core/scale.js
@@ -6597,7 +6661,9 @@ window.__BSZ_ASSET_MANIFEST__ = {
     return id && MANIFEST[id] ? MANIFEST[id] : null;
   }
   function setArt(el, entry) {
-    el.innerHTML = `<img src="${entry.file}" alt="" draggable="false">`;
+    const w = entry.canvas && entry.canvas.w || 512;
+    const h = entry.canvas && entry.canvas.h || 512;
+    el.innerHTML = `<img src="${entry.file}" alt="" width="${w}" height="${h}" draggable="false">`;
   }
   var DIM_AXIS = { "\u9AD8\u5EA6": "h", "\u8EAB\u9AD8": "h", "\u957F\u5EA6": "w", "\u5BBD\u5EA6": "w", "\u76F4\u5F84": "w" };
   function kOf(entry, dim) {
@@ -6670,6 +6736,11 @@ window.__BSZ_ASSET_MANIFEST__ = {
       if (i === session.idx && !session.locked) d.classList.add("on");
       box.appendChild(d);
     });
+    const right = session.scores.filter((s) => s >= 60).length;
+    box.setAttribute(
+      "aria-label",
+      `\u7B2C ${session.idx + 1} \u9898\uFF0C\u5171 ${session.questions.length} \u9898\uFF0C\u5DF2\u7B54\u5BF9 ${right} \u9898`
+    );
   }
   function layout(ratio) {
     const small = Math.min(1, ratio);
@@ -6732,6 +6803,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     const slider = $("v-slider");
     const v = ratioToV(q);
     if (Math.abs(Number(slider.value) - v) > 0.5) slider.value = String(v);
+    if (truth) slider.setAttribute("aria-valuetext", "\u4F30\u6D4B \u2248 " + fmtSize(q * truth.ref.s));
   }
   function renderTruth() {
     const L = layout(truth.qStar);
@@ -6859,15 +6931,16 @@ window.__BSZ_ASSET_MANIFEST__ = {
     $("v-tgt-size").textContent = fmtSize(truth.tgt.s);
     const pct = linearDeviationPct(q, qStar);
     const verdict = score >= 90 ? "\u{1F389} \u51E0\u4E4E\u5B8C\u7F8E\uFF01" : score >= 60 ? "\u{1F44D} \u4E0D\u9519\u54E6" : score >= 30 ? "\u{1F914} \u5DEE\u4E00\u70B9" : "\u{1F605} \u504F\u5F97\u6709\u70B9\u8FDC";
+    $("v-reveal").classList.remove("hidden");
     $("v-verdict").textContent = verdict;
     $("v-detail").innerHTML = `\u4F60\u4F30\u6D4B\u7684\u300C${truth.tgt.n}\u300D\u662F\u300C${truth.ref.n}\u300D\u7684 <b>${fmtRatio(q)}</b>\uFF0C\u76F8\u5F53\u4E8E\u771F\u5B9E\u503C\u7684 <b>${ratioSentence(q, qStar)}</b>\uFF0C\u4E0E\u771F\u5B9E\u503C\u76F8\u5DEE <b>${pct}%</b>\u3002<br>\u771F\u5B9E\u6BD4\u4F8B <b>${fmtRatio(qStar)}</b>\uFF08${fmtSize(truth.tgt.s)} \xF7 ${fmtSize(truth.ref.s)}\uFF09\uFF0C\u8BEF\u5DEE\u6307\u6570 e = ${e.toFixed(2)}`;
     const note = $("v-note");
     if (!note.textContent) note.classList.add("hidden");
     else note.classList.remove("hidden");
-    $("v-reveal").classList.remove("hidden");
     rollCount($("v-score"), score, 700);
     feedbackForScore(score);
     if (score === 100) confetti();
+    $("v-next").focus();
     showHint(
       "v-hint",
       score >= 90 ? "\u8FD9\u5C31\u662F\u300C\u91CF\u7EA7\u76F4\u89C9\u300D\u2014\u2014\u8BB0\u4F4F\u8FD9\u4E2A\u624B\u611F\u3002" : "\u8BB0\u4F4F\u8FD9\u6B21\u7684\u504F\u5DEE\u65B9\u5411\uFF0C\u4E0B\u4E00\u9898\u5F80\u56DE\u627E\u4E00\u70B9\u3002",
@@ -7011,6 +7084,14 @@ window.__BSZ_ASSET_MANIFEST__ = {
   var session2 = null;
   var tickHandle = null;
   var GENERIC_TIP = "\u628A\u95EE\u9898\u62C6\u6210\u300C\u4EBA\u6570 \xD7 \u4EBA\u5747 \xD7 \u9891\u7387\u300D\u8FD9\u7C7B\u5C0F\u5757\uFF0C\u5206\u522B\u4F30\u51FA\u6570\u91CF\u7EA7\u518D\u76F8\u4E58\uFF1B10 \u7684\u5E42\u6BD4\u7CBE\u786E\u6570\u5B57\u91CD\u8981\u3002";
+  function fmtDateCN(dateKey2, withYear = false) {
+    if (!dateKey2) return "";
+    const p = String(dateKey2).split("-").map(Number);
+    if (p.length < 3 || !p[0]) return dateKey2;
+    const opt = { month: "long", day: "numeric" };
+    if (withYear) opt.year = "numeric";
+    return new Intl.DateTimeFormat("zh-CN", opt).format(new Date(p[0], p[1] - 1, p[2]));
+  }
   function initNumeric(context) {
     ctx3 = context;
     $2("n-lock").addEventListener("click", lockAnswer2);
@@ -7018,11 +7099,14 @@ window.__BSZ_ASSET_MANIFEST__ = {
     $2("n-report").addEventListener("click", copyReport2);
     $2("n-input").addEventListener("input", onInput);
     $2("n-tip-btn").addEventListener("click", () => {
-      $2("n-tip").classList.toggle("hidden");
+      const tip = $2("n-tip");
+      tip.classList.toggle("hidden");
+      $2("n-tip-btn").setAttribute("aria-expanded", String(!tip.classList.contains("hidden")));
     });
     $2("n-draft-btn").addEventListener("click", () => {
       const d = $2("n-draft");
       d.classList.toggle("hidden");
+      $2("n-draft-btn").setAttribute("aria-expanded", String(!d.classList.contains("hidden")));
       if (!d.classList.contains("hidden")) d.focus();
     });
     document.querySelectorAll(".chip").forEach((btn) => {
@@ -7055,7 +7139,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     $2("n-draft").classList.add("hidden");
     if (mode === "daily") {
       session2.questions = [opts.question];
-      $2("n-tag").textContent = `\u{1F4C5} \u6BCF\u65E5\u4E00\u9898 \xB7 ${opts.dateKey || ""}`;
+      $2("n-tag").textContent = `\u{1F4C5} \u6BCF\u65E5\u4E00\u9898${opts.dateKey ? " \xB7 " + fmtDateCN(opts.dateKey) : ""}`;
       showHint("n-hintbar", "\u6BCF\u65E5\u4E00\u9898\uFF1A\u51ED\u76F4\u89C9\u4F30\uFF0C\u4ECA\u5929\u7684\u7B54\u6848\u660E\u5929\u4E5F\u80FD\u590D\u76D8\u3002", "daily_tip_v1", ctx3.store);
     } else if (mode === "practice") {
       session2.questions = opts.questions;
@@ -7079,9 +7163,11 @@ window.__BSZ_ASSET_MANIFEST__ = {
     $2("n-text").textContent = q2.q;
     $2("n-unit").textContent = q2.u || "";
     $2("n-input").value = "";
+    $2("n-error").textContent = "";
     $2("n-norm").classList.add("hidden");
     $2("n-tip").textContent = q2.hint || GENERIC_TIP;
     $2("n-tip").classList.add("hidden");
+    $2("n-tip-btn").setAttribute("aria-expanded", "false");
     $2("n-reveal").classList.add("hidden");
     $2("n-lock").classList.remove("hidden");
     $2("n-lock").disabled = false;
@@ -7111,7 +7197,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     const remain = session2.timer.remainingMs();
     const bar = $2("n-timer");
     const pct = Math.max(0, Math.min(100, remain / session2.totalMs * 100));
-    bar.style.width = pct + "%";
+    bar.style.transform = "scaleX(" + pct / 100 + ")";
     bar.style.background = timerColor(remain, session2.totalMs) === "green" ? "var(--green)" : timerColor(remain, session2.totalMs) === "orange" ? "#f0a02f" : "var(--red)";
     if (remain <= 0) checkTimeout();
   }
@@ -7128,15 +7214,16 @@ window.__BSZ_ASSET_MANIFEST__ = {
     session2.scores.push(0);
     const q2 = session2.current;
     const ansTip = q2.answerType === "range" && q2.answerRange ? `\u53C2\u8003\u8303\u56F4 <b>${fmtCN(q2.answerRange.min)} ~ ${fmtCN(q2.answerRange.max)} ${q2.u || ""}</b>\uFF08\u53E3\u5F84\u89C1\u4E0B\u65B9\u8BF4\u660E\uFF09` : `\u771F\u5B9E\u7B54\u6848 <b>${fmtCN(q2.a)} ${q2.u || ""}</b>`;
+    $2("n-reveal").classList.remove("hidden");
     $2("n-verdict").textContent = "\u23F0 \u8D85\u65F6\u4E86";
     $2("n-detail").innerHTML = `\u672C\u9898\u8D85\u65F6\u6263 <b>${-res.delta}</b> \u70B9\u751F\u547D\u3002${q2.answerType === "range" ? "\u672C\u9898" + ansTip + "\u3002" : ansTip + "\u3002"}`;
     setNote(q2);
-    $2("n-scoreline").innerHTML = '\u751F\u5B58\u6263\u8840 <b style="color:var(--red)">' + res.delta + "</b>";
-    $2("n-reveal").classList.remove("hidden");
+    $2("n-scoreline").innerHTML = '\u751F\u5B58\u6263\u8840 <b style="color:var(--red-text)">' + res.delta + "</b>";
     $2("n-lock").classList.add("hidden");
     $2("n-next").textContent = session2.life <= 0 ? "\u67E5\u770B\u7ED3\u7B97 \u2192" : "\u7EE7\u7EED \u2192";
     feedbackForScore(0);
     updateLifeUI();
+    $2("n-next").focus();
     ctx3.emit("numeric_answered", { mode: "survival", score: 0, timeout: true });
   }
   function updateLifeUI() {
@@ -7152,6 +7239,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
       const disp = normalizeForDisplay(v);
       norm.textContent = "\u5C06\u63D0\u4EA4\uFF1A" + disp + (session2.current && session2.current.u ? " " + session2.current.u : "");
       norm.classList.remove("hidden");
+      $2("n-error").textContent = "";
     } else {
       norm.classList.add("hidden");
     }
@@ -7183,9 +7271,13 @@ window.__BSZ_ASSET_MANIFEST__ = {
     const q2 = session2.current;
     const x = parseNumericInput($2("n-input").value);
     if (x == null) {
-      ctx3.toast("\u8FD9\u4E2A\u6570\u5B57\u770B\u4E0D\u61C2\u2014\u2014\u652F\u6301 1200000000 / 1.2e9 / 12\u4EBF \u8FD9\u51E0\u79CD\u5199\u6CD5");
+      const msg = $2("n-input").value.trim() ? "\u8FD9\u4E2A\u6570\u5B57\u770B\u4E0D\u61C2\u2014\u2014\u652F\u6301 1200000000 / 1.2e9 / 12\u4EBF \u8FD9\u51E0\u79CD\u5199\u6CD5" : "\u5148\u8F93\u5165\u4F60\u7684\u4F30\u6D4B\u518D\u9501\u5B9A\uFF08\u652F\u6301 1200000000 / 1.2e9 / 12\u4EBF\uFF09";
+      $2("n-error").textContent = msg;
+      ctx3.toast(msg);
+      $2("n-input").focus();
       return;
     }
+    $2("n-error").textContent = "";
     session2.locked = true;
     $2("n-lock").classList.add("hidden");
     SFX.lock();
@@ -7202,9 +7294,9 @@ window.__BSZ_ASSET_MANIFEST__ = {
       session2.life = res.life;
       updateLifeUI();
       session2.scores.push(score);
-      if (res.type === "heal") $2("n-scoreline").innerHTML = '\u6781\u51C6\u56DE\u8840 <b style="color:var(--green)">+' + res.delta + "</b>";
+      if (res.type === "heal") $2("n-scoreline").innerHTML = '\u6781\u51C6\u56DE\u8840 <b style="color:var(--green-text)">+' + res.delta + "</b>";
       else if (res.delta < 0)
-        $2("n-scoreline").innerHTML = '\u6263\u8840 <b style="color:var(--red)">' + res.delta + '</b>\u3000\u5F97\u5206 <b id="n-score">' + score + "</b>";
+        $2("n-scoreline").innerHTML = '\u6263\u8840 <b style="color:var(--red-text)">' + res.delta + '</b>\u3000\u5F97\u5206 <b id="n-score">' + score + "</b>";
       else $2("n-scoreline").innerHTML = '\u5F97\u5206 <b id="n-score">' + score + "</b>";
     } else {
       session2.scores.push(score);
@@ -7215,7 +7307,6 @@ window.__BSZ_ASSET_MANIFEST__ = {
     else if (score >= 60) verdict = "\u{1F44D} \u65B9\u5411\u5BF9\u4E86";
     else if (score >= 30) verdict = "\u{1F914} \u5DEE\u4E86\u51E0\u4E2A\u96F6";
     else verdict = "\u{1F605} \u504F\u5F97\u6709\u70B9\u8FDC";
-    $2("n-verdict").textContent = verdict;
     let detail = "";
     if (type === "range") {
       const { min, max } = q2.answerRange;
@@ -7231,11 +7322,13 @@ window.__BSZ_ASSET_MANIFEST__ = {
     $2("n-detail").innerHTML = detail;
     setNote(q2);
     $2("n-reveal").classList.remove("hidden");
+    $2("n-verdict").textContent = verdict;
     const scoreEl = $2("n-score");
     if (scoreEl) rollCount(scoreEl, score, 600);
     feedbackForScore(score);
     if (score === 100) confetti();
     $2("n-next").textContent = session2.mode === "daily" ? "\u5B8C\u6210\u4ECA\u65E5\u6311\u6218 \u2192" : session2.mode === "survival" ? session2.life <= 0 ? "\u67E5\u770B\u7ED3\u7B97 \u2192" : "\u7EE7\u7EED \u2192" : session2.idx + 1 >= session2.questions.length ? "\u67E5\u770B\u7ED3\u7B97 \u2192" : "\u4E0B\u4E00\u9898 \u2192";
+    $2("n-next").focus();
     ctx3.emit("numeric_answered", { mode: session2.mode, score, d, question: q2 });
   }
   function nextStep() {
@@ -7368,10 +7461,13 @@ window.__BSZ_ASSET_MANIFEST__ = {
   var toastTimer = null;
   function toast(msg) {
     const el = $3("toast");
-    el.textContent = msg;
+    el.textContent = "";
     el.classList.remove("hidden");
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => el.classList.add("hidden"), 2400);
+    requestAnimationFrame(() => {
+      el.textContent = msg;
+    });
   }
   function emit(name, payload) {
     if (name === "numeric_answered") {
@@ -7407,12 +7503,25 @@ window.__BSZ_ASSET_MANIFEST__ = {
     unlockBatch(evaluateAchievements(ach, { type: "mode_seen", mode }));
     setJSON(store, "bsz_ach", ach);
   }
+  var currentScreen = "home";
   function showScreen(name) {
+    if (currentScreen === "numeric" && name !== "numeric") {
+      const d = $3("n-draft");
+      if (d && d.value.trim()) {
+        if (name === "home" && !confirm("\u8349\u7A3F\u8FD8\u6CA1\u6709\u7528\u5B8C\uFF0C\u79BB\u5F00\u5C06\u4E22\u5F03\uFF0C\u786E\u5B9A\u8FD4\u56DE\u4E3B\u9875\uFF1F")) return false;
+        d.value = "";
+      }
+    }
+    currentScreen = name;
     ["home", "visual", "numeric", "end"].forEach((s) => {
       $3("screen-" + s).classList.toggle("hidden", s !== name);
     });
     $3("back-row").style.display = name === "home" ? "none" : "block";
     window.scrollTo(0, 0);
+    if (location.hash !== "#" + name) location.hash = name;
+    const heading = $3("screen-" + name).querySelector(".sr-only");
+    if (heading) heading.focus();
+    return true;
   }
   var MODES = [
     { id: "everyday", icon: "\u{1F3D9}\uFE0F", title: "\u65E5\u5E38\u6311\u6218", desc: "\u8EAB\u8FB9\u4E8B\u7269\u7684\u771F\u5B9E\u6BD4\u4F8B \xB7 5 \u9898\u4E00\u5C40", type: "visual", pool: "everyday" },
@@ -7440,7 +7549,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
         right = `<span class="best">\u6700\u4F73 ${m.id === "survival" ? best + " \u9898" : best + " \u5206"}</span>`;
       }
       const tag = m.tag ? `<span class="tag ${m.tag}">${m.tag === "daily" ? "\u6BCF\u65E5" : "\u7EC3\u4E60"}</span>` : "";
-      card.innerHTML = `<div class="ic">${m.icon}</div><div class="tx"><span class="ttl">${m.title}${tag}</span><p>${m.desc}</p></div>${right}`;
+      card.innerHTML = `<div class="ic" aria-hidden="true">${m.icon}</div><div class="tx"><span class="ttl">${m.title}${tag}</span><span class="desc">${m.desc}</span></div>${right}`;
       card.addEventListener("click", () => startMode(m.id));
       list.appendChild(card);
     });
@@ -7531,7 +7640,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     const items = payload.scores.map((s, i) => {
       const q2 = lastRun && lastRun.questions && lastRun.questions[i] || null;
       const name = q2 ? q2.tgt ? q2.tgt.n : q2.target && q2.target.name || "\u76EE\u6807" : `\u7B2C ${i + 1} \u9898`;
-      return `<div>${squareFor(s)} <b>${name}</b> \xB7 ${s} \u5206</div>`;
+      return `<li>${squareFor(s)} <b>${name}</b> \xB7 ${s} \u5206</li>`;
     }).join("");
     showEnd({
       big: `${payload.total}<small> / ${payload.rounds * 100}</small>`,
@@ -7570,8 +7679,8 @@ window.__BSZ_ASSET_MANIFEST__ = {
         big: `${score}<small> / 100</small>`,
         comment: score >= 90 ? `\u4ECA\u65E5\u547D\u4E2D\uFF01\u{1F525} \u8FDE\u80DC ${next.currentStreak} \u5929` : `\u4ECA\u65E5\u5B8C\u6210 \xB7 \u{1F525} \u8FDE\u80DC ${next.currentStreak} \u5929\uFF08\u6700\u4F73 ${next.bestStreak}\uFF09`,
         squares: squareFor(score),
-        list: `<div>\u9898\u76EE\uFF1A<b>${payload.question && payload.question.q || ""}</b></div>`,
-        shareText: `\u3010\u6BD4\u5927\u5C0F \xB7 \u6BCF\u65E5\u4E00\u9898\u3011${payload.dateKey || today} \u5F97 ${score} \u5206 ${squareFor(score)}\u3000\u8FDE\u80DC ${next.currentStreak} \u5929`,
+        list: `<li>\u9898\u76EE\uFF1A<b>${payload.question && payload.question.q || ""}</b></li>`,
+        shareText: `\u3010\u6BD4\u5927\u5C0F \xB7 \u6BCF\u65E5\u4E00\u9898\u3011${fmtDateCN(payload.dateKey || today, true)} \u5F97 ${score} \u5206 ${squareFor(score)}\u3000\u8FDE\u80DC ${next.currentStreak} \u5929`,
         replay: null
       });
       return;
@@ -7586,7 +7695,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
         big: `${payload.answered}<small> \u9898</small>`,
         comment: payload.answered >= 30 ? "\u751F\u5B58\u5927\u5E08\uFF01" : "\u751F\u547D\u8017\u5C3D\u2014\u2014\u4E0B\u6B21\u5148\u4F30\u6570\u91CF\u7EA7\u518D\u4E0B\u624B",
         squares: payload.scores.slice(-10).map(squareFor).join(""),
-        list: `<div>\u672C\u5C40\u7B54\u9898 <b>${payload.answered}</b> \u9898 \xB7 \u6700\u4F73 <b>${Math.max(best, payload.answered)}</b> \u9898</div>`,
+        list: `<li>\u672C\u5C40\u7B54\u9898 <b>${payload.answered}</b> \u9898 \xB7 \u6700\u4F73 <b>${Math.max(best, payload.answered)}</b> \u9898</li>`,
         shareText: `\u3010\u6BD4\u5927\u5C0F \xB7 \u751F\u5B58\u6A21\u5F0F\u3011\u7B54\u5BF9 ${payload.answered} \u9898\uFF0C\u4F60\u80FD\u6491\u51E0\u9898\uFF1F`,
         replay: () => startMode("survival")
       });
@@ -7602,7 +7711,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     });
   }
   function showEnd(opts) {
-    $3("end-body").innerHTML = `<div class="big">${opts.big}</div><div class="comment">${opts.comment}</div>` + (opts.squares ? `<div class="squares">${opts.squares}</div>` : "") + `<div class="roundlist">${opts.list || ""}</div><button class="btn green" data-act="replay">\u{1F504} \u518D\u6765\u4E00\u5C40</button><button class="btn sub" data-act="share">\u{1F4E4} \u5206\u4EAB\u6210\u7EE9</button><div class="back-row"><button data-act="home">\u2190 \u8FD4\u56DE\u4E3B\u9875</button></div>`;
+    $3("end-body").innerHTML = `<div class="big">${opts.big}</div><div class="comment">${opts.comment}</div>` + (opts.squares ? `<div class="squares">${opts.squares}</div>` : "") + `<ul class="roundlist">${opts.list || ""}</ul><button class="btn green" data-act="replay"><span aria-hidden="true">\u{1F504}</span> \u518D\u6765\u4E00\u5C40</button><button class="btn sub" data-act="share"><span aria-hidden="true">\u{1F4E4}</span> \u5206\u4EAB\u6210\u7EE9</button><div class="back-row"><button data-act="home">\u2190 \u8FD4\u56DE\u4E3B\u9875</button></div>`;
     showScreen("end");
     SFX.end();
     $3("end-body").querySelector('[data-act="replay"]').addEventListener("click", () => {
@@ -7643,6 +7752,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     $3("set-sfx").setAttribute("aria-checked", String(sfx));
     $3("set-vibrate").setAttribute("aria-checked", String(vib));
     $3("set-motion").setAttribute("aria-checked", String(motion == null ? sysReduce : motion));
+    $3("set-motion-label").textContent = "\u{1F3AC} \u51CF\u5C11\u52A8\u6001\u6548\u679C \xB7 " + (motion == null ? "\u8DDF\u968F\u7CFB\u7EDF" : motion ? "\u5DF2\u51CF\u5C11" : "\u5DF2\u5F00\u542F\u52A8\u6548");
     $3("set-storage").textContent = store.persistent ? "\u8BBE\u7F6E\u4E0E\u6210\u7EE9\u4FDD\u5B58\u5728\u672C\u673A\u6D4F\u89C8\u5668\u4E2D\u3002" : "\u26A0\uFE0F \u6D4F\u89C8\u5668\u7981\u7528\u4E86\u672C\u5730\u5B58\u50A8\uFF1A\u672C\u6B21\u8BB0\u5F55\u4E0D\u4F1A\u6301\u4E45\u4FDD\u5B58\u3002";
   }
   function bindSettings() {
@@ -7657,7 +7767,13 @@ window.__BSZ_ASSET_MANIFEST__ = {
     };
     bindToggle("set-sfx", "bsz_set_sfx");
     bindToggle("set-vibrate", "bsz_set_vibrate");
-    bindToggle("set-motion", "bsz_set_motion");
+    $3("set-motion").addEventListener("click", () => {
+      const cur = store.getItem("bsz_set_motion");
+      const next = cur == null ? "1" : cur === "1" ? "0" : null;
+      if (next == null) store.removeItem("bsz_set_motion");
+      else store.setItem("bsz_set_motion", next);
+      applySettings();
+    });
     let modalReturnFocus = null;
     $3("settings-btn").addEventListener("click", () => {
       modalReturnFocus = document.activeElement;
@@ -7670,7 +7786,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     });
   }
   function openInfo(title, html, btnText, onOk) {
-    $3("info-card").innerHTML = `<div class="modal-title">${title}</div>${html}<button class="btn" id="info-ok" style="margin-top:14px">${btnText || "\u77E5\u9053\u4E86"}</button>`;
+    $3("info-card").innerHTML = `<h2 class="modal-title" id="info-title">${title}</h2>${html}<button class="btn" id="info-ok" style="margin-top:14px">${btnText || "\u77E5\u9053\u4E86"}</button>`;
     const returnFocus = document.activeElement;
     $3("info-modal").classList.remove("hidden");
     $3("info-ok").focus();
@@ -7695,13 +7811,13 @@ window.__BSZ_ASSET_MANIFEST__ = {
     $3("home-achievements").addEventListener("click", () => {
       const rows = ACHIEVEMENTS.map((a) => {
         const got = ach.unlocked[a.id];
-        return `<div class="setting-row"><span>${got ? a.icon : "\u{1F512}"} ${a.name}${got ? "" : ' <small style="color:var(--sub)">\uFF08\u672A\u89E3\u9501\uFF09</small>'}</span><span style="font-size:11px;color:var(--sub)">${a.desc}</span></div>`;
+        return `<li class="setting-row"><span>${got ? a.icon : "\u{1F512}"} ${a.name}${got ? "" : ' <small style="color:var(--sub)">\uFF08\u672A\u89E3\u9501\uFF09</small>'}</span><span style="font-size:11px;color:var(--sub)">${a.desc}</span></li>`;
       }).join("");
-      openInfo("\u{1F3C6} \u6210\u5C31", rows);
+      openInfo("\u{1F3C6} \u6210\u5C31", `<ul class="ach-list">${rows}</ul>`);
     });
     $3("back-btn").addEventListener("click", () => {
+      if (showScreen("home") === false) return;
       renderHome();
-      showScreen("home");
     });
   }
   var GUIDE_STEPS = [
@@ -7714,6 +7830,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     guideIdx = 0;
     $3("guide-layer").classList.remove("hidden");
     renderGuideStep();
+    $3("guide-next").focus();
   }
   function renderGuideStep() {
     const step = GUIDE_STEPS[guideIdx];
@@ -7721,16 +7838,16 @@ window.__BSZ_ASSET_MANIFEST__ = {
     if (!target) return endGuide();
     const r = target.getBoundingClientRect();
     const spot = $3("guide-spot");
-    spot.style.left = Math.max(6, r.left - 6) + "px";
-    spot.style.top = Math.max(6, r.top - 6) + "px";
     spot.style.width = Math.min(window.innerWidth - 12, r.width + 12) + "px";
     spot.style.height = r.height + 12 + "px";
+    spot.style.transform = `translate(${Math.max(6, r.left - 6)}px, ${Math.max(6, r.top - 6)}px)`;
     $3("guide-text").textContent = step.text;
     $3("guide-next").textContent = guideIdx >= GUIDE_STEPS.length - 1 ? "\u5F00\u59CB\uFF01" : "\u4E0B\u4E00\u6B65";
   }
   function endGuide() {
     $3("guide-layer").classList.add("hidden");
     store.setItem("bsz_guide_done", "1");
+    if (!$3("screen-visual").classList.contains("hidden")) $3("v-slider").focus();
   }
   function bindGuide() {
     $3("guide-next").addEventListener("click", () => {
@@ -7739,8 +7856,57 @@ window.__BSZ_ASSET_MANIFEST__ = {
       else renderGuideStep();
     });
     $3("guide-skip").addEventListener("click", endGuide);
+    $3("guide-layer").addEventListener("click", (e) => {
+      if (!$3("guide-bubble").contains(e.target)) endGuide();
+    });
     window.addEventListener("resize", () => {
       if (!$3("guide-layer").classList.contains("hidden")) renderGuideStep();
+    });
+  }
+  var FOCUSABLE_SEL = 'a[href], button:not([disabled]), input:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+  function activeLayer() {
+    if (!$3("settings-modal").classList.contains("hidden")) {
+      return { el: $3("settings-modal"), close: () => $3("set-close").click() };
+    }
+    if (!$3("info-modal").classList.contains("hidden")) {
+      return {
+        el: $3("info-modal"),
+        close: () => {
+          const ok = $3("info-ok");
+          if (ok) ok.click();
+        }
+      };
+    }
+    if (!$3("guide-layer").classList.contains("hidden")) {
+      return { el: $3("guide-layer"), close: endGuide };
+    }
+    return null;
+  }
+  function bindLayerTrap() {
+    document.addEventListener("keydown", (e) => {
+      const layer = activeLayer();
+      if (!layer) return;
+      if (e.key === "Escape") {
+        e.preventDefault();
+        layer.close();
+        return;
+      }
+      if (e.key !== "Tab") return;
+      const nodes = Array.from(layer.el.querySelectorAll(FOCUSABLE_SEL)).filter((n) => n.offsetParent !== null);
+      if (!nodes.length) return;
+      const first = nodes[0];
+      const last = nodes[nodes.length - 1];
+      const active = document.activeElement;
+      const inside = nodes.indexOf(active) >= 0;
+      if (e.shiftKey) {
+        if (!inside || active === first) {
+          e.preventDefault();
+          last.focus();
+        }
+      } else if (!inside || active === last) {
+        e.preventDefault();
+        first.focus();
+      }
     });
   }
   async function boot() {
@@ -7748,6 +7914,7 @@ window.__BSZ_ASSET_MANIFEST__ = {
     bindSettings();
     bindHomeActions();
     bindGuide();
+    bindLayerTrap();
     initVisual(ctx4);
     initNumeric(ctx4);
     await loadPack();

@@ -40,7 +40,10 @@ function artFor(side) {
 }
 
 function setArt(el, entry) {
-  el.innerHTML = `<img src="${entry.file}" alt="" draggable="false">`;
+  // 同时给出固有宽高（画布尺寸），图片加载前即可确定占位，避免 CLS
+  const w = (entry.canvas && entry.canvas.w) || 512;
+  const h = (entry.canvas && entry.canvas.h) || 512;
+  el.innerHTML = `<img src="${entry.file}" alt="" width="${w}" height="${h}" draggable="false">`;
 }
 
 /** 题目 dimension → 素材度量轴：同一素材在不同题目里可能按不同维度比较（如小轿车 长度/高度），轴随题目走 */
@@ -127,6 +130,12 @@ function renderDots() {
     if (i === session.idx && !session.locked) d.classList.add('on');
     box.appendChild(d);
   });
+  // 进度点对读屏整体播报（60 分及以上视为答对）
+  const right = session.scores.filter((s) => s >= 60).length;
+  box.setAttribute(
+    'aria-label',
+    `第 ${session.idx + 1} 题，共 ${session.questions.length} 题，已答对 ${right} 题`
+  );
 }
 
 /** 布局：内容轴按 (refPx, tgtPx) 渲染进舞台；插画画布盒（含透明留白）按 k 换算，横竖都收进舞台 */
@@ -193,6 +202,8 @@ function render() {
   const slider = $('v-slider');
   const v = ratioToV(q);
   if (Math.abs(Number(slider.value) - v) > 0.5) slider.value = String(v);
+  // 滑块读屏值用自然语言描述估测（揭晓前只含估测值，不泄漏真实答案）
+  if (truth) slider.setAttribute('aria-valuetext', '估测 ≈ ' + fmtSize(q * truth.ref.s));
 }
 
 /** 揭晓后按真实比例渲染舞台 */
@@ -339,6 +350,8 @@ function lockAnswer() {
   const pct = linearDeviationPct(q, qStar);
   const verdict =
     score >= 90 ? '🎉 几乎完美！' : score >= 60 ? '👍 不错哦' : score >= 30 ? '🤔 差一点' : '😅 偏得有点远';
+  // 先显示容器再写入播报文本（同帧完成，视觉无差异），保证 status 区首次可朗读
+  $('v-reveal').classList.remove('hidden');
   $('v-verdict').textContent = verdict;
   $('v-detail').innerHTML =
     `你估测的「${truth.tgt.n}」是「${truth.ref.n}」的 <b>${fmtRatio(q)}</b>，` +
@@ -349,10 +362,11 @@ function lockAnswer() {
   if (!note.textContent) note.classList.add('hidden');
   else note.classList.remove('hidden');
 
-  $('v-reveal').classList.remove('hidden');
   rollCount($('v-score'), score, 700);
   feedbackForScore(score);
   if (score === 100) confetti();
+  // 揭晓完成，焦点交给「下一题」
+  $('v-next').focus();
 
   showHint(
     'v-hint',
