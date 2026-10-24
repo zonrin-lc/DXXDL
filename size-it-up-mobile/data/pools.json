@@ -1,5 +1,5 @@
 {
-  "version": "2.7.4",
+  "version": "2.7.5",
   "_说明": "热更新数据包 v2：v2.7.4 完成 NASA 月地距离页面复核并修正区间下限；目前 4 道题已完成来源页面核验，另有 6 道题处于 review 状态，未纳入新发布/兜底池；其余待复核项仍需逐页核验。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
@@ -3546,8 +3546,8 @@
         "name": "U.S. Geological Survey：Cool Earthquake Facts",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "verified",
-        "reviewNote": "已打开 USGS Cool Earthquake Facts；页面明确写明全球每年约 500,000 次可探测地震，其中约 100,000 次可被感知。题干使用“可探测”限定，口径一致。",
+        "reviewStatus": "pending_source_page_review",
+        "reviewNote": "候选来源注释虽描述了相符数值，但当前记录尚无独立的 source.reviewEvidence 段落定位；在补足可复查的原文位置前保持待逐页核验。",
         "url": "https://www.usgs.gov/programs/earthquake-hazards/cool-earthquake-facts"
       }
     },
@@ -3563,8 +3563,8 @@
         "name": "NOAA National Ocean Service：What is the Great Barrier Reef?",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "verified",
-        "reviewNote": "已打开 NOAA National Ocean Service 页面；原文给出大堡礁系统长度 2,300 公里，换算为 2,300,000 米，与答案一致。页面最近更新日期显示 2026-09-23。",
+        "reviewStatus": "pending_source_page_review",
+        "reviewNote": "候选来源注释虽描述了相符数值，但当前记录尚无独立的 source.reviewEvidence 段落定位；在补足可复查的原文位置前保持待逐页核验。",
         "url": "https://oceanservice.noaa.gov/facts/gbrlargeststructure.html"
       }
     },
