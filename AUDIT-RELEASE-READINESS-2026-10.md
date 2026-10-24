@@ -56,7 +56,7 @@
 ### P1-3 构建与题库校验要成为合并门槛
 
 - 工程：`size-it-up-mobile/package.json` 定义 `npm run verify`，顺序为单测、题库校验、构建。
-- 本次状态：已新增 GitHub Actions 工作流 `.github/workflows/size-it-up-mobile-verify.yml`。截至提交 `6de1634`，CI 已完成 `npm ci` 和 `npm run verify`，测试、题库校验与构建步骤均为 success（[运行记录](https://github.com/zonrin-lc/DXXDL/actions/runs/40078188964)）。后续每次改动仍须以最新提交对应的 CI 结果为准。
+- 本次状态：已新增 GitHub Actions 工作流 `.github/workflows/size-it-up-mobile-verify.yml`。截至提交 `55e73db`，CI 已完成 `npm ci`、依赖告警摘要、生产依赖安全审计和 `npm run verify`，测试、题库校验与构建步骤均为 success（[运行记录](https://github.com/zonrin-lc/DXXDL/actions/runs/40078351367)）。生产依赖审计为 0 项，但开发工具依赖仍有 32 项告警，见 P1-5。后续每次改动仍须以最新提交对应的 CI 结果为准。
 - 建议：每次候选发布前执行 `npm ci` 与 `npm run verify`；将结果保留在 CI 或发布记录；任何一项失败即阻止发布。
 - 还需检查构建产物是否包含最新源码/题库、图片资源是否完整、无控制台错误、无意外外部运行时依赖。
 
@@ -66,6 +66,13 @@
 - 待验收：广告不可用、加载失败、播放中断、未完播、完播回调延迟、奖励回调重复、玩家退出/恢复等状态。
 - 验收：奖励只发放一次；只有平台确认满足奖励条件才复活；失败时不扣除玩家权益、不锁死界面；不通过广告修改每日正式成绩或补签。
 - 备注：本次未确认具体广告 SDK 与目标发布平台，不能认定广告系统已可上线。
+
+### P1-5 开发工具依赖存在安全告警（生产依赖暂未发现漏洞）
+
+- CI 的 `npm audit` 当前报告开发依赖树 **32 项告警：1 moderate、29 high、2 critical**；直接受影响的开发工具包含 `vitest` 与 `jimp`，传递依赖包含 `tinypool`。生产依赖审计 `npm audit --omit=dev` 为 **0 vulnerabilities**。
+- 影响：当前并非游戏运行时依赖漏洞，但会影响开发/CI/素材处理工具的供应链安全，不能因为是 devDependency 就忽略。
+- 处理原则：不要直接执行 `npm audit fix --force`，因为建议的 Jimp 主要版本降级可能破坏素材处理脚本。需要逐项确认修复版本、更新 lockfile，并运行素材处理、测试和构建回归。
+- CI 已加入依赖告警摘要与生产依赖审计；开发依赖告警目前只报告、不阻断。
 
 ## P2：体验与运营优化
 
