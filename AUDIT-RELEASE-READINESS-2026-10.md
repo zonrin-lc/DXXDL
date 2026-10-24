@@ -58,7 +58,7 @@
 ### P1-3 构建与题库校验要成为合并门槛
 
 - 工程：`size-it-up-mobile/package.json` 定义 `npm run verify`，顺序为单测、题库校验、构建。
-- 本次状态：**未执行**，不能报告通过。
+- 本次状态：已新增 GitHub Actions 工作流 `.github/workflows/size-it-up-mobile-verify.yml`，用于在分支推送/PR 上执行 `npm ci` 与 `npm run verify`；当前尚未获得运行结果，不能报告通过。
 - 建议：每次候选发布前执行 `npm ci` 与 `npm run verify`；将结果保留在 CI 或发布记录；任何一项失败即阻止发布。
 - 还需检查构建产物是否包含最新源码/题库、图片资源是否完整、无控制台错误、无意外外部运行时依赖。
 
@@ -91,6 +91,8 @@
 
 ## 本轮已做 / 未做
 
-- 已做：检查 GDD v1.5、`daily.js`、`question.js`、`scale.js`、`scoring.js` 和 `package.json`，整理代码入口与发布门槛。
-- 未做：未修改核心游戏逻辑；未运行 Node 测试/构建；未在真实设备测试；未验证广告 SDK；未做玩家留存或商业化数据分析。
-- 下一步建议：先处理 P0-1 的每日排期不可变性与测试，再处理生存模式后台计时，随后做题库/存档端到端验收。
+- 已做：检查 GDD v1.5、`daily.js`、`question.js`、`scale.js`、`scoring.js`、`streak.js`、题库和 `package.json`；在审查分支修改每日题兜底版本选择、题库发布字段校验和连胜日期回拨保护；补充对应回归测试；新增 GitHub Actions 验证工作流。
+- 已修改的文件：`size-it-up-mobile/src/core/daily.js`、`data/pools.json`、`src/core/question.js`、`src/core/streak.js`、`test/daily.test.js`、`test/question.test.js`、`test/streak.test.js`、`.github/workflows/size-it-up-mobile-verify.yml`。
+- 重要说明：兜底快照现有版本以 `1970-01-01` 作为迁移基线，保留现有最新快照对当前日期的既有选择；以后新建快照必须填写真实的未来生效日期，校验器会拒绝混入缺失生效日期的版本化快照。历史上此前已发出的未排期日期没有独立存档时，无法凭空恢复当时真实使用的旧版本。
+- 未做：当前尚未获得 CI 运行结果；未在本地执行 Node 测试/构建；未在真实设备测试；未验证广告 SDK；未做玩家留存或商业化数据分析。
+- 下一步建议：等待并核对自动化工作流结果；若失败先修复回归；之后继续排查生存计时是否在 UI 中实际使用 deadline、核对真实页面的触控/锁定状态、补充广告奖励状态机验收，再进行真实手机测试。
