@@ -225,18 +225,26 @@ function syncReviveButton() {
 }
 
 function storeRewardAttempt(targetSession, status) {
-  if (!ctx?.store) return;
-  const key = 'bsz_reward_attempt_pending';
-  if (status === 'clear') {
-    ctx.store.removeItem(key);
-    return;
+  if (!ctx?.store || !targetSession?.reviveAttemptId) return false;
+  // Per-attempt keys avoid a late callback from an old round clearing a new attempt.
+  const key = 'bsz_reward_attempt_' + targetSession.reviveAttemptId;
+  try {
+    if (status === 'clear') {
+      ctx.store.removeItem(key);
+      return true;
+    }
+    ctx.store.setItem(key, JSON.stringify({
+      id: targetSession.reviveAttemptId,
+      type: 'survival-revive',
+      status,
+      createdAt: targetSession.reviveAttemptCreatedAt,
+    }));
+    return true;
+  } catch {
+    // localStorage can be disabled/full. This bookkeeping is not proof of reward;
+    // the platform completion callback remains the only reward signal.
+    return false;
   }
-  ctx.store.setItem(key, JSON.stringify({
-    id: targetSession.reviveAttemptId,
-    type: 'survival-revive',
-    status,
-    createdAt: targetSession.reviveAttemptCreatedAt,
-  }));
 }
 
 async function tryRevive() {
@@ -261,9 +269,9 @@ async function tryRevive() {
   }
 
   targetSession.reviveInFlight = false;
+  storeRewardAttempt(targetSession, 'clear');
   // 不能把已离开的旧局奖励加到另一局，也不能据迟到回调发奖。
   if (session !== targetSession) return;
-  storeRewardAttempt(targetSession, 'clear');
 
   if (result.status === 'completed' && targetSession.life <= 0 && !targetSession.revived) {
     targetSession.revived = true;
