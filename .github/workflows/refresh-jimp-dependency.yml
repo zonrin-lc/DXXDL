@@ -1,0 +1,67 @@
+name: Refresh Jimp dependency lockfile
+
+on:
+  push:
+    branches:
+      - audit/release-readiness-2026-10
+    paths:
+      - ".github/dependency-refresh-jimp.trigger"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  actions: write
+
+concurrency:
+  group: refresh-jimp-\${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: size-it-up-mobile
+    steps:
+      - name: Checkout release branch
+        uses: actions/checkout@v5
+        with:
+          ref: audit/release-readiness-2026-10
+          token: \${{ secrets.GITHUB_TOKEN }}
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: size-it-up-mobile/package-lock.json
+      - name: Regenerate lockfile with patched Jimp
+        run: npm install --save-dev jimp@1.6.1
+      - name: Require clean dependency audit
+        run: npm audit
+      - name: Check production dependency audit
+        run: npm audit --omit=dev
+      - name: Run tests, content validation, strict source gate and build
+        run: npm run verify:release
+      - name: Exercise asset processor when source images exist
+        run: |
+          if [ -d assets/raw ] && find assets/raw -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) -print -quit | grep -q .; then
+            node tools/build-assets.mjs
+          else
+            echo "SKIPPED: assets/raw has no source images; synthetic Jimp API regression test ran in verify:release."
+          fi
+      - name: Commit generated npm lockfile
+        working-directory: .
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add size-it-up-mobile/package.json size-it-up-mobile/package-lock.json
+          if git diff --cached --quiet; then
+            echo "No dependency lockfile changes to commit."
+          else
+            git commit -m "security: regenerate lockfile for patched Jimp 1.6.1"
+            git push origin HEAD:audit/release-readiness-2026-10
+          fi
+      - name: Dispatch verification for the updated branch head
+        env:
+          GH_TOKEN: \${{ secrets.GITHUB_TOKEN }}
+        run: gh workflow run .github/workflows/size-it-up-mobile-verify.yml --ref audit/release-readiness-2026-10
