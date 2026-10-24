@@ -1,6 +1,6 @@
 {
-  "version": "2.7.3",
-  "_说明": "热更新数据包 v2：v2.7.3 核对 NASA 月球质量/距离、USGS 可探测地震数量与 NOAA 大堡礁长度来源；修订月地距离区间下限。6 道来源/口径未完成核验的数量级题为 review，不纳入新的发布/兜底题池。其余 pending_source_page_review 仍需逐页核验。",
+  "version": "2.7.4",
+  "_说明": "热更新数据包 v2：v2.7.4 完成 NASA 月地距离页面复核并修正区间下限；目前 4 道题已完成来源页面核验，另有 6 道题处于 review 状态，未纳入新发布/兜底池；其余待复核项仍需逐页核验。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
@@ -3799,8 +3799,8 @@
         "name": "NASA：Daily Moon Guide",
         "year": 2024,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "已打开 NASA NSSDC Moon Fact Sheet；页面明确指出月地距离约从 357,000 km 到 407,000 km，游戏范围 356,000–407,000 km 的下限比来源近似值略低，需修订为 357,000–407,000 km。页面标注最后更新 2024-01-11。",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA NSSDC Moon Fact Sheet；页面明确指出月地距离约从 357,000 km 到 407,000 km。答案区间已修订为 357,000–407,000 km，与来源口径一致。页面标注最后更新 2024-01-11。",
         "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
         "reviewEvidence": "NASA NSSDC Moon Fact Sheet, note below orbital parameters: Moon–Earth distance roughly ranges from 357,000 km to 407,000 km; game reference interval follows that stated range."
       }
