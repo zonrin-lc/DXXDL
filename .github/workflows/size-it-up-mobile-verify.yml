@@ -36,5 +36,11 @@ jobs:
           cache-dependency-path: size-it-up-mobile/package-lock.json
       - name: Install dependencies
         run: npm ci
+      - name: Summarize dependency advisories
+        run: |
+          npm audit --json > /tmp/npm-audit.json || true
+          node -e "const r=require('/tmp/npm-audit.json'); console.log(JSON.stringify({metadata:r.metadata?.vulnerabilities, packages:Object.entries(r.vulnerabilities||{}).map(([name,v])=>({name,severity:v.severity,isDirect:v.isDirect,range:v.range,fixAvailable:v.fixAvailable}))},null,2))"
+      - name: Check production dependency advisories
+        run: npm audit --omit=dev
       - name: Run tests, content validation, and build
         run: npm run verify
