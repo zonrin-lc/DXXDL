@@ -8,7 +8,10 @@ export function createTapTapRewardedAd({
   getPlatform = () => globalThis.tap,
   loadTimeoutMs = 15_000,
   playbackTimeoutMs = 120_000,
+  firstAdDelayMs = 60_000,
+  now = () => globalThis.performance?.now?.() ?? Date.now(),
 } = {}) {
+  const createdAt = now();
   let ad = null;
   let loaded = false;
   let inFlight = false;
@@ -26,6 +29,10 @@ export function createTapTapRewardedAd({
     const platform = getPlatform();
     return Boolean(String(adUnitId || '').trim())
       && Boolean(platform && typeof platform.createRewardedVideoAd === 'function');
+  }
+
+  function isAvailable() {
+    return isConfigured() && now() - createdAt >= firstAdDelayMs;
   }
 
   function settle(outcome) {
@@ -111,6 +118,12 @@ export function createTapTapRewardedAd({
     if (!String(adUnitId || '').trim()) return { status: 'unavailable', reason: 'missing-ad-unit-id' };
     if (inFlight) return { status: 'busy' };
     if (!isConfigured()) return { status: 'unavailable', reason: 'platform-api-unavailable' };
+    // TapTap first-launch policy: do not show ads during the first 60 seconds.
+    // Use a monotonic page-session clock by default; the host must still confirm
+    // any additional level/session restrictions for the final publication channel.
+    if (now() - createdAt < firstAdDelayMs) {
+      return { status: 'unavailable', reason: 'startup-delay' };
+    }
 
     inFlight = true;
     try {
@@ -144,5 +157,5 @@ export function createTapTapRewardedAd({
     }
   }
 
-  return { isConfigured, showRewarded };
+  return { isConfigured, isAvailable, showRewarded };
 }
