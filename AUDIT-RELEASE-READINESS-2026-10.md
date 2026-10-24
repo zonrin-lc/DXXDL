@@ -42,9 +42,9 @@
 - 代码：`size-it-up-mobile/src/core/question.js` 的 `validatePack()`；数据：`size-it-up-mobile/data/pools.json`
 - 已有校验：稳定 ID、正尺寸、视觉题固定量程、比较维度、难度、部分来源字段、数量级答案类型与每日排期引用。
 - 已加强：数量级已发布题强制校验 `source.year` 和单位；版本化兜底快照强制有效的 `effectiveFrom`；新增单测覆盖。
-- 内容审计发现：当前 50 道数量级题均没有 `source.url`；其中 23 道的来源名为“内部整理”，其余多为泛化的“公开资料估算”描述。年份字段（2026）不能代替来源证据，现阶段不能把这 50 道题视为全部完成事实核验。
-- 建议：按题目补充具体来源链接、发布/访问日期、口径定义和估值范围；对于无法核验的题，先移出正式每日挑战排期并标记待审核。不要为了让校验通过而编造来源链接。
-- 验收：发布池中所有题均有可追溯来源、明确单位和定义；人工复核高争议题；校验失败时构建必须失败。
+- 内容审查阶段性结果：数据包 v2.7.1 中有 44 道题仍保留 published 状态并填入候选来源 URL；另外 6 道转为 draft（包括总词数缺少直接证据的 num-5，以及 num-18/19/20/35/39）。但 **44 道的 `source.reviewStatus` 目前均为 `pending_source_page_review`**：来源网页尚未逐页与答案做完原文/表格核对，不能称为事实审核通过。
+- 自动化现在强制校验 URL 字段、显式来源状态和未来排期是否指向非发布题；自动化通过只说明元数据格式完整，并不表示 URL 可用或源文支持答案。
+- 验收：每道题补上可支持答案的源文位置、单位、定义、换算公式和复核日期后，才可从 pending 改为 verified/derived；高争议或缺少直接来源的题保持 draft。
 
 ### P1-2 视觉估测操作精度要在窄屏上验证
 
@@ -56,7 +56,7 @@
 ### P1-3 构建与题库校验要成为合并门槛
 
 - 工程：`size-it-up-mobile/package.json` 定义 `npm run verify`，顺序为单测、题库校验、构建。
-- 本次状态：已新增 GitHub Actions 工作流 `.github/workflows/size-it-up-mobile-verify.yml`。提交 `1748d3c` 的工作流运行已完成，`npm ci`、依赖告警摘要、生产依赖安全审计和 `npm run verify` 步骤均为 success（[运行记录](https://github.com/zonrin-lc/DXXDL/actions/runs/40078468558)）。文档台账新增后触发的最新工作流仍需以 [Actions 页面](https://github.com/zonrin-lc/DXXDL/actions) 最终状态为准。生产依赖审计为 0 项，但开发工具依赖仍有 32 项告警，见 P1-5。后续每次改动仍须以最新提交对应的 CI 结果为准。
+- 本次状态：GitHub Actions 工作流已升级到 checkout/setup-node v5 与 Node 22，并增加 PR 目标为审查分支时的验证触发器。当前候选提交以 [Actions 页面](https://github.com/zonrin-lc/DXXDL/actions) 最新记录为准。最近已见的成功运行还包括旧基线 102 项测试；不要用旧运行替代本次变更后的新测试结果。生产依赖审计为 0 项，但开发工具依赖仍有 32 项告警，见 P1-5。后续每次改动仍须以最新提交对应的 CI 结果为准。
 - 建议：每次候选发布前执行 `npm ci` 与 `npm run verify`；将结果保留在 CI 或发布记录；任何一项失败即阻止发布。
 - 还需检查构建产物是否包含最新源码/题库、图片资源是否完整、无控制台错误、无意外外部运行时依赖。
 
@@ -69,7 +69,7 @@
 
 ### P1-5 开发工具依赖存在安全告警（生产依赖暂未发现漏洞）
 
-- CI 的 `npm audit` 当前报告开发依赖树 **32 项告警：1 moderate、29 high、2 critical**；直接受影响的开发工具包含 `vitest` 与 `jimp`，传递依赖包含 `tinypool`。生产依赖审计 `npm audit --omit=dev` 为 **0 vulnerabilities**。
+- 原锁文件的 `npm audit` 曾报告开发依赖树 **32 项告警：1 moderate、29 high、2 critical**；直接工具包含 `vitest` 与 `jimp`，传递依赖包含 `tinypool`。独立依赖分支已升级 Vitest 到 `4.1.12` 并由 npm 重新生成锁文件，生产依赖审计之前为 **0 vulnerabilities**。Vitest 升级分支目前在 [PR #4](https://github.com/zonrin-lc/DXXDL/pull/4) 待合入审查分支；Jimp 相关告警尚未确认安全且兼容的修复路径。
 - 影响：当前并非游戏运行时依赖漏洞，但会影响开发/CI/素材处理工具的供应链安全，不能因为是 devDependency 就忽略。
 - 处理原则：不要直接执行 `npm audit fix --force`，因为建议的 Jimp 主要版本降级可能破坏素材处理脚本。需要逐项确认修复版本、更新 lockfile，并运行素材处理、测试和构建回归。
 - CI 已加入依赖告警摘要与生产依赖审计；开发依赖告警目前只报告、不阻断。
@@ -109,3 +109,11 @@
 - [发布候选验收清单](RELEASE-CANDIDATE-CHECKLIST.md)：包含窄屏、后台计时、锁屏恢复、连胜/存档、弱网、资源失败、可访问性及广告奖励状态机的逐项验收表。
 - [数量级题库来源核验台账](NUMERIC-QUESTION-SOURCE-REVIEW.md)：逐项列出 50 道题的来源补证与口径复核状态。该文件是待办台账，不代表事实核验已完成，也不人为填入未经验证的链接。
 - 本分支的 PR 仍为 Draft，尚未合并。开发依赖安全告警、题库来源复核、真实设备测试和广告 SDK/平台确认仍是发布阻断项。
+
+
+## 当前分支状态补充（2026-10-24）
+
+- 题库：v2.7.1；44 道 published 题有候选来源链接，但所有源页直证状态均为 pending；6 道题已 draft。此状态不是正式内容验收通过。
+- TapTap 广告：增加条件式 H5 激励视频适配层与 mock SDK 测试；广告位 ID 仍为空。当前代码只能在 TapTap H5 运行时实际暴露官方 API 且广告位审核配置完成后尝试启用。Android/iOS 真机、广告填充、审核、奖励回调和退出恢复都尚未验收。
+- 依赖：Vitest 4.1.12 与重新生成的 lockfile 在 PR #4；老版本 npm audit 曾报告 32 个 dev advisories。PR #4 测试需针对当前审查分支合并结果再确认；Jimp / 其传递树仍需单独处理。
+- 发布结论：不建议发布。需要先完成 source page review、依赖安全审计、正式 TapTap H5 包型/广告位验证、Android 与 iOS 实机测试，并取得最终候选构建 CI 记录。
