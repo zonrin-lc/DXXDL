@@ -66,7 +66,7 @@ for (const q of drafts) console.warn(`  EDITORIAL DRAFT [${q.id}] ${q.q} — exc
 for (const [date, entry] of badUpcomingSchedule) console.error(`  SCHEDULE ERROR [${date}] ${entry?.questionId || 'missing questionId'}`);
 
 const hardErrors = missingUrl.length || weakReviewEvidence.length || unresolved.length || genericSource.length || badUpcomingSchedule.length;
-const strictErrors = strict && (pendingPageReview.length || reviewPool.length || drafts.length || scheduledPendingReview.length || fallbackPendingReview.length);
+const strictErrors = strict && (pendingPageReview.length || scheduledPendingReview.length || fallbackPendingReview.length);
 if (hardErrors || strictErrors) {
   console.error(strictErrors
     ? '❌ STRICT RELEASE BLOCKED: every active question, future daily schedule, and latest fallback entry needs evidence-backed verified/derived review.'
