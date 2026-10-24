@@ -13,6 +13,11 @@ export function applyDailyCompletion(state, today) {
   if (last === today) {
     return { lastCompletedDate: last, currentStreak: streak, bestStreak: Math.max(streak, state.bestStreak || 0), changed: false };
   }
+  // A device clock moved backwards must not roll back a verified completion or
+  // grant a fresh streak. Keep the verified state until calendar time catches up.
+  if (last && dayDiff(last, today) < 0) {
+    return { lastCompletedDate: last, currentStreak: streak, bestStreak: Math.max(streak, state.bestStreak || 0), changed: false };
+  }
   let next;
   if (last && dayDiff(last, today) === 1) next = streak + 1;
   else next = 1;
@@ -46,19 +51,19 @@ export function migrateStreak(stored, completedDateKeys) {
   // 已有可靠 lastCompletedDate 时以记录为准；当前连胜无法仅凭日期列表还原跨年断点，
   // 因此只有当旧值可被日期连续性佐证时才保留，否则下次完成时重建。
   const inferred = inferStreak(dates);
-  const current = oldStreak > 0 && inferred > 0 ? Math.min(oldStreak, inferred) : 0;
-  return { lastCompletedDate: last, currentStreak: current, bestStreak: Math.max(oldBest, inferred), legacyStreakDisplay: oldStreak, migrated: true };
+  const current = oldStreak > 0 && inferred.trailing > 0 ? Math.min(oldStreak, inferred.trailing) : 0;
+  return { lastCompletedDate: last, currentStreak: current, bestStreak: Math.max(oldBest, inferred.best), legacyStreakDisplay: oldStreak, migrated: true };
 }
 
 function inferStreak(dates) {
-  if (!dates.length) return 0;
+  if (!dates.length) return { best: 0, trailing: 0 };
   let best = 1, cur = 1;
   for (let i = 1; i < dates.length; i++) {
     if (dayDiff(dates[i - 1], dates[i]) === 1) cur++;
     else cur = 1;
     best = Math.max(best, cur);
   }
-  return best;
+  return { best, trailing: cur };
 }
 
 /** 供主页展示：是否今天已完成、连胜天数 */
@@ -66,7 +71,8 @@ export function streakDisplay(state, today) {
   if (!state || !state.lastCompletedDate) return { todayDone: false, display: 0 };
   const todayDone = state.lastCompletedDate === today;
   // 昨天之后没完成过 → 当前连胜按规则已失效（显示 0，但存档值保留至下次完成重建）
-  const alive = dayDiff(state.lastCompletedDate, today) <= 1;
+  const diff = dayDiff(state.lastCompletedDate, today);
+  const alive = diff >= 0 && diff <= 1;
   return { todayDone, display: alive ? state.currentStreak || 0 : 0 };
 }
 

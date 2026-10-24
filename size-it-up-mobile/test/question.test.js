@@ -10,8 +10,8 @@ function basePack() {
     pop: [],
     geo: [],
     numeric: [
-      { id: 'n_001', answerType: 'point', q: '问题', a: 100, u: '次', source: { name: 'y', year: 2025 }, status: 'published' },
-      { id: 'n_002', answerType: 'range', q: '区间题', answerRange: { min: 100, max: 200 }, u: '吨', source: { name: 'y', year: 2025 }, status: 'published' },
+      { id: 'n_001', answerType: 'point', q: '问题', a: 100, u: '次', source: { name: 'test source', year: 2025, url: 'https://example.com/source', reviewStatus: 'verified' }, status: 'published' },
+      { id: 'n_002', answerType: 'range', q: '区间题', answerRange: { min: 100, max: 200 }, u: '吨', source: { name: 'test source', year: 2025, url: 'https://example.com/source', reviewStatus: 'verified' }, status: 'published' },
     ],
     dailySchedule: { '2026-10-22': { questionId: 'n_001', revision: 1 } },
     fallbackPools: [{ version: 'fb_v1', questionIds: ['n_001', 'n_002'] }],
@@ -21,6 +21,17 @@ function basePack() {
 describe('题库静态校验（GDD 6.7）', () => {
   it('合规数据包通过', () => {
     expect(validatePack(basePack())).toEqual([]);
+  });
+  it('已发布数量级题必须有可追溯 URL 和显式来源复核状态', () => {
+    const noUrl = basePack();
+    delete noUrl.numeric[0].source.url;
+    expect(validatePack(noUrl).some((e) => e.msg.includes('source.url'))).toBe(true);
+    const unknownReviewState = basePack();
+    unknownReviewState.numeric[0].source.reviewStatus = 'mystery';
+    expect(validatePack(unknownReviewState).some((e) => e.msg.includes('reviewStatus'))).toBe(true);
+    const pendingReview = basePack();
+    pendingReview.numeric[0].source.reviewStatus = 'pending_source_page_review';
+    expect(validatePack(pendingReview).some((e) => e.msg.includes('reviewStatus'))).toBe(false);
   });
   it('缺 version 报错', () => {
     const p = basePack();
@@ -78,6 +89,11 @@ describe('题库静态校验（GDD 6.7）', () => {
     p.numeric[0].u = '苹果';
     expect(validatePack(p).some((e) => e.msg.includes('单位'))).toBe(true);
   });
+  it('步数题使用明确的「步」单位并通过单位白名单', () => {
+    const p = basePack();
+    p.numeric[0].u = '步';
+    expect(validatePack(p).some((e) => e.msg.includes('单位不在合法集合'))).toBe(false);
+  });
   it('dailySchedule：日期格式 / questionId 存在 / revision 合法', () => {
     const p = basePack();
     p.dailySchedule['2026/10/23'] = { questionId: 'n_001', revision: 1 };
@@ -87,6 +103,26 @@ describe('题库静态校验（GDD 6.7）', () => {
     expect(errs.some((e) => e.msg.includes('YYYY-MM-DD'))).toBe(true);
     expect(errs.some((e) => e.msg.includes('questionId 不存在'))).toBe(true);
     expect(errs.some((e) => e.msg.includes('正整数'))).toBe(true);
+  });
+  it('已发布数量级题必须提供年份和单位', () => {
+    const noYear = basePack();
+    delete noYear.numeric[0].source.year;
+    expect(validatePack(noYear).some((e) => e.msg.includes('source.year'))).toBe(true);
+    const noUnit = basePack();
+    delete noUnit.numeric[0].u;
+    expect(validatePack(noUnit).some((e) => e.msg.includes('明确单位'))).toBe(true);
+  });
+  it('兜底快照 effectiveFrom 必须是有效日期且版本不能重复', () => {
+    const p = basePack();
+    p.fallbackPools = [
+      { version: 'fb_v1', effectiveFrom: '2026-02-30', questionIds: ['n_001'] },
+      { version: 'fb_v1', effectiveFrom: '2026-03-01', questionIds: ['n_002'] },
+      { version: 'fb_v2', questionIds: ['n_001'] },
+    ];
+    const errs = validatePack(p);
+    expect(errs.some((e) => e.msg.includes('有效的 YYYY-MM-DD'))).toBe(true);
+    expect(errs.some((e) => e.msg.includes('version 重复'))).toBe(true);
+    expect(errs.some((e) => e.msg.includes('必须声明 effectiveFrom'))).toBe(true);
   });
   it('兜底快照 id 必须存在', () => {
     const p = basePack();

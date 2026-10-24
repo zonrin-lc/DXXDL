@@ -1,0 +1,56 @@
+name: Size It Up Mobile Verify
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "size-it-up-mobile/**"
+      - ".github/workflows/size-it-up-mobile-verify.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "size-it-up-mobile/**"
+      - ".github/workflows/size-it-up-mobile-verify.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: size-it-up-mobile
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: size-it-up-mobile/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Summarize dependency advisories
+        # 非阻断：当前 dev 依赖（vitest/jimp 传递链）存在已知 high 级公告，仅汇总不卡红灯
+        continue-on-error: true
+        run: |
+          npm audit --json > /tmp/npm-audit.json || true
+          node -e "const r=require('/tmp/npm-audit.json'); console.log(JSON.stringify({metadata:r.metadata?.vulnerabilities, packages:Object.entries(r.vulnerabilities||{}).map(([name,v])=>({name,severity:v.severity,isDirect:v.isDirect,range:v.range,fixAvailable:v.fixAvailable}))},null,2))"
+      - name: Check production dependency advisories
+        run: npm audit --omit=dev
+      - name: Run tests, content validation, and build
+        run: npm run verify
+      - name: Enforce strict release content gate
+        run: npm run audit:sources:release
+      - name: Exercise asset processor when raw images are present
+        run: |
+          if [ -d assets/raw ] && find assets/raw -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) -print -quit | grep -q .; then
+            node tools/build-assets.mjs
+          else
+            echo "SKIPPED: assets/raw has no source images; synthetic Jimp API regression remains the available coverage."
+          fi

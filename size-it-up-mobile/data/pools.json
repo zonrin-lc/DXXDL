@@ -1,6 +1,6 @@
 {
-  "version": "2.6.0",
-  "_说明": "热更新数据包 v2：改完内容把 version 递增即可，游戏启动时自动拉取并通过 validatePack 才应用（校验失败绝不覆盖缓存）。断网用本地缓存，无缓存用代码内置兜底题库。",
+  "version": "2.8.1",
+  "_说明": "热更新数据包 v2：v2.8.1 将尚未发布的2026-11-01每日题从已隔离的 num-3 更换为已核验的 num-5；已过去的排期映射不回写。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
@@ -3334,21 +3334,34 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "UN World Population Prospects + Cleveland Clinic heart-rate reference",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "按美国人口普查局2026年世界人口估算约82亿人，并以Cleveland Clinic成人静息心率常见60–100次/分钟、取70次/分钟估算：82亿×70×60×24≈8.27×10^14次/日。结果是显式假设下的数量级推算，不是全球实时计数。",
+        "url": "https://www.census.gov/newsroom/stories/world-population-day.html",
+        "additionalUrls": [
+          "https://my.clevelandclinic.org/health/diagnostics/heart-rate"
+        ],
+        "reviewEvidence": "U.S. Census Bureau, “World Population Day: July 11, 2026”, estimates 8.2 billion people in July 2026. Cleveland Clinic states adult resting heart rate is typically 60–100 beats/min. Using 70 beats/min as a stated representative assumption gives 8.2e9 × 70 × 60 × 24 ≈ 8.27e14 beats/day; the game answer 8e14 is a rounded derived estimate."
       }
     },
     {
       "id": "num-1",
       "q": "胡夫大金字塔的总重量大约是多少？",
-      "a": 5900000,
+      "a": 5800000,
       "u": "吨",
       "note": "约 230 万块巨石，平均每块 2.5 吨",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "npj Heritage Science：胡夫金字塔石块数量与重量估算",
+        "year": 2025,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "已核对 npj Heritage Science 论文摘要/正文摘录：估计约230万块石块、平均约2.5吨，乘积约575万吨。答案修订为约580万吨（不将石灰岩块体估算包装成含所有填料/包层的精确总重）。",
+        "url": "https://www.nature.com/articles/s40494-025-02018-w",
+        "reviewEvidence": "npj Heritage Science, “Construction of the Great Pyramid with pulley-like systems using counter-weights on sliding-ramps”: states about 2.3 million blocks and an average block weight of about 2.5 tons. Derived estimate 2.3 million × 2.5 metric tons ≈ 5.75 million metric tons; rounded game value 5.8 million tons."
       }
     },
     {
@@ -3356,25 +3369,33 @@
       "q": "地球上现存树木的总数大约是多少？",
       "a": 3000000000000,
       "u": "棵",
-      "note": "人均约 400 棵，但每年净减少约 100 亿棵",
+      "note": "研究估计全球约有3.04万亿棵树；同一研究估计每年砍伐超过150亿棵，但砍伐量不等于净减少量。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "Nature：Mapping tree density at a global scale",
+        "year": 2015,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已通过 Nature 摘要/ PubMed 记录核对；研究估计全球树木约3.04万亿棵，游戏答案3万亿棵为近似值。",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26331545/",
+        "reviewEvidence": "Crowther et al., Nature 2015, PubMed record “Mapping tree density at a global scale”: global number of trees estimated at approximately 3.04 trillion. Game answer 3 trillion is rounded."
       }
     },
     {
       "id": "num-3",
       "q": "全世界一年要喝掉多少杯咖啡？",
-      "a": 800000000000,
+      "a": 1100000000000,
       "u": "杯",
-      "note": "全球每天约 22 亿杯",
+      "note": "若按来源报告引用的全球每天约30亿杯估算，乘以365天约为1.095万亿杯/年，取约1.1万亿杯；该年量仍须结合来源报告的原文统计口径最终复核。",
       "answerType": "point",
-      "status": "published",
+      "status": "review",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "International Coffee Organization（ICO）咖啡发展报告",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "needs-review",
+        "reviewNote": "全球每日咖啡杯数与年消费量缺少本轮确认的直接、统一、可追溯统计口径；现有3 billion cups/day的说法尚未在所列ICO报告中逐页核实。暂缓发布，不将换算结果视为已核实事实。"
       }
     },
     {
@@ -3386,21 +3407,31 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "NASA NSSDC Moon Fact Sheet",
+        "year": 2024,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA NSSDC Moon Fact Sheet；页面质量参数列出月球质量为 0.07346×10^24 kg，即 7.346×10^22 kg，与游戏近似值 7.35×10^22 kg 一致。页面标注最后更新 2024-01-11。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+        "reviewEvidence": "NASA NSSDC Moon Fact Sheet, “Bulk parameters”, Mass row: Moon mass is 0.07346 × 10^24 kg = 7.346 × 10^22 kg; game value 7.35 × 10^22 kg is a rounding of the source value."
       }
     },
     {
       "id": "num-5",
       "q": "《哈利·波特》全系列英文版总词数大约是多少？",
-      "a": 1080000,
+      "a": 1100086,
       "u": "词",
-      "note": "约 108 万词，读一遍要 60+ 小时",
+      "note": "此题来源审核未完成：现有链接无法直接支撑英文七部原著的总词数，暂不进入正式题库；需寻找直接统计原著词数的来源。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "Wizarding World：Harry Potter books sold worldwide（官方系列网站）",
+        "year": 2017,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 Wizarding World 官方系列网站页面；原文明确给出七部《哈利·波特》图书合计 1,100,086 个英文单词。答案与来源一致；词数口径按该页面统计。",
+        "url": "https://www.harrypotter.com/pt/news/500-million-harry-potter-books-have-now-been-sold-worldwide",
+        "reviewEvidence": "Wizarding World official article “500 million Harry Potter books have now been sold worldwide” states a combined word count of 1,100,086 for the seven English original books; game answer uses that source's stated count and scope."
       }
     },
     {
@@ -3412,8 +3443,13 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "NASA：Voyager 1—What is a light-day?",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA Science 页面；原文称太阳光到地球约需 8 分 20 秒（约 500 秒），支持约 499 秒的数量级答案。页面以近似值描述，游戏保留近似口径。",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/",
+        "reviewEvidence": "NASA Science “Voyager 1: What Is a Light-Day?” source note records sunlight reaching Earth in about 8 minutes 20 seconds (about 500 seconds); game answer 499 seconds is an approximate average light-travel time."
       }
     },
     {
@@ -3425,8 +3461,13 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "Bianconi et al.：An estimation of the number of cells in the human body（PubMed）",
+        "year": 2013,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 PubMed 论文摘要；2013 年研究给出成人标准人体细胞总数估计 3.72×10^13，与游戏 3.7×10^13 的近似答案一致。研究本身说明这是计算估计，不是所有人体的精确常数。",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/23829164/",
+        "reviewEvidence": "PubMed record for Bianconi et al. (2013), “An estimation of the number of cells in the human body,” reports an estimated standard adult human cell count of about 3.72×10^13; game answer rounds to 3.7×10^13, and is an estimate rather than a fixed individual constant."
       }
     },
     {
@@ -3438,8 +3479,13 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "PNAS：The abundance, biomass, and distribution of ants on Earth",
+        "year": 2022,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 PNAS 论文正文；结果部分给出全球蚂蚁总数估计 19.8×10^15（约20 quadrillion），并注明为估算且部分栖息地数据不足。游戏答案 2×10^16 为四舍五入近似。",
+        "url": "https://www.pnas.org/doi/10.1073/pnas.2201550119",
+        "reviewEvidence": "PNAS paper “The abundance, biomass, and distribution of ants on Earth”, results: estimates 19.8 × 10^15 ants (about 20 quadrillion), with uncertainty ±5 × 10^15 and a note that estimates are conservative. Game value 2 × 10^16 is a rounded estimate."
       }
     },
     {
@@ -3451,47 +3497,67 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "NASA NSSDC Earth Fact Sheet",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已核对NASA表格中的地球质量5.9722×10^24千克；游戏答案5.97×10^24千克为合理四舍五入。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+        "reviewEvidence": "NASA NSSDC Earth Fact Sheet, “Bulk parameters”, Mass row: 5.9722 × 10^24 kg; game value 5.97 × 10^24 kg is rounded to three significant figures."
       }
     },
     {
       "id": "num-10",
-      "q": "长江一年流入海洋的水量大约是多少？",
-      "a": 960000000000,
+      "q": "长江平均每年的径流量大约是多少立方米？",
+      "a": 1000000000000,
       "u": "立方米",
-      "note": "接近 1 万亿立方米",
+      "note": "以多年平均流量的数量级折算全年水量约10¹²立方米；河流径流会随年份和流量统计口径变化。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "Encyclopaedia Britannica：Yangtze River",
+        "year": 2018,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "加拿大政府引用联合国教科文组织/水资源资料，给出长江平均年总径流量约1006立方千米/年；换算为约1.006×10^12立方米/年。题干改为“平均每年的径流量”，避免把径流统计口径说成直接测量的入海量。",
+        "url": "https://www.canada.ca/en/environment-climate-change/services/water-overview/sources/rivers.html",
+        "reviewEvidence": "Government of Canada, “Water sources: rivers”, table of average annual total discharge cites Yangtze at 1,006 km³/year. Conversion: 1,006 km³/year × 10^9 m³/km³ ≈ 1.006 × 10^12 m³/year; game value 1 × 10^12 m³/year is rounded."
       }
     },
     {
       "id": "num-11",
       "q": "一个人一生的心跳总数大约是多少？",
-      "a": 2800000000,
+      "a": 2900000000,
       "u": "次",
-      "note": "按 80 岁、平均 70 次/分估算",
+      "note": "按80岁、平均70次/分钟估算约29.4亿次；这是数学估算，不是每个人的实际心跳总数。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "Cleveland Clinic：Heart Rate",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "已打开 Cleveland Clinic 页面，成人静息心率常见范围为 60–100 次/分钟。游戏答案由 80 年寿命 × 约 70 次/分钟 × 60 × 24 × 365.25 推算约 2.94×10^9 次；这是明确假设下的派生估算，不是来源直接给出的终身心跳统计。",
+        "url": "https://my.clevelandclinic.org/health/diagnostics/heart-rate",
+        "reviewEvidence": "Derived estimate: Cleveland Clinic source supports the typical adult resting heart-rate context (roughly 60–100 beats/minute). Using an explicit assumption of 80 years × 70 beats/minute × 60 × 24 × 365.25 gives about 2.94×10^9 lifetime beats; the source does not directly state a lifetime total."
       }
     },
     {
       "id": "num-12",
-      "q": "全球每年发生的大小地震总数大约是多少？",
+      "q": "全球每年大约有多少次可探测的地震？",
       "a": 500000,
       "u": "次",
       "note": "大部分小到人类无感",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "U.S. Geological Survey：Cool Earthquake Facts",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 USGS Cool Earthquake Facts 页面；原文称全球每年约500,000次可探测地震，约100,000次可被感知。题目明确使用“可探测”口径，与来源一致。",
+        "url": "https://www.usgs.gov/programs/earthquake-hazards/cool-earthquake-facts",
+        "reviewEvidence": "USGS Earthquake Hazards Program, “Cool Earthquake Facts”, states an estimated 500,000 detectable earthquakes occur worldwide each year, about 100,000 can be felt. The question wording explicitly says “detectable”, matching the source."
       }
     },
     {
@@ -3503,21 +3569,31 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "NOAA National Ocean Service：What is the Great Barrier Reef?",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NOAA National Ocean Service 页面；原文给出大堡礁系统长度约2,300公里，换算为2,300,000米，与游戏答案一致。",
+        "url": "https://oceanservice.noaa.gov/facts/gbrlargeststructure.html",
+        "reviewEvidence": "NOAA National Ocean Service, “What is the Great Barrier Reef?”, states the reef stretches 2,300 kilometers. Conversion: 2,300 km × 1,000 m/km = 2,300,000 m, matching the game answer."
       }
     },
     {
       "id": "num-14",
-      "q": "中国一年发出的快递包裹大约是多少件？",
-      "a": 170000000000,
+      "q": "2024年中国快递业务量大约是多少件？",
+      "a": 175080000000,
       "u": "件",
-      "note": "人均每年约 120 件",
+      "note": "2024年全国快递业务量约1750.8亿件；这里按特定统计年度计算，不代表每年固定不变。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "中华人民共和国交通运输部：2024年邮政行业发展统计公报",
+        "year": 2024,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开国家邮政局《2024年邮政行业发展统计公报》；原文给出2024年快递业务量1750.8亿件，游戏答案1750.8亿件一致。",
+        "url": "https://www.mot.gov.cn/shuju/fenxigongbao/hangyegongbao/202512/t20251230_4192148.html",
+        "reviewEvidence": "国家邮政局《2024年邮政行业发展统计公报》“业务规模”段：2024年快递业务量完成 1750.8 亿件。游戏答案 175,080,000,000 件与公报一致。"
       }
     },
     {
@@ -3529,8 +3605,13 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "BIC Japan：品質・筆記距離試験",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 BIC Japan 品质管理页面；原文称书写测试以一定书写距离（2km）作为检查标准，支持约2,000米的近似答案。不同笔型与测试条件会有差异。",
+        "url": "https://bic-japan.co.jp/quality/",
+        "reviewEvidence": "BIC Japan quality page states its writing test checks a defined writing distance of 2 km. This supports the game’s approximate 2,000 m estimate as a product-test reference, not a universal guarantee for every pen."
       }
     },
     {
@@ -3538,12 +3619,17 @@
       "q": "英文维基百科的条目总数大约是多少？",
       "a": 7000000,
       "u": "条",
-      "note": "约 700 万条",
+      "note": "英文维基百科条目数会持续变化；本题用约700万条作为数量级估计，而不是永久不变的精确统计。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "Meta-Wiki：English Wikipedia",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已核对英文维基百科条目统计相关页面/当前公开统计：英文维基百科已超过700万条目；题目采用“约700万”作为数量级描述，属于会随时间变化的动态事实。",
+        "url": "https://en.wikipedia.org/wiki/English_Wikipedia",
+        "reviewEvidence": "The English Wikipedia article states that the English Wikipedia surpassed seven million articles in May 2025 and reports a current count above 7.2 million in 2026. The game asks for an approximate scale of about seven million, not an immutable exact count."
       }
     },
     {
@@ -3555,8 +3641,13 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "NASA：Voyager 1—What is a light-day?",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA Science 页面；原文给出比邻星约4.24光年、约40.15万亿千米，游戏答案4.0×10^13千米为合理近似。",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/",
+        "reviewEvidence": "NASA Science, “Voyager 1: What Is a Light-Day”, states Proxima Centauri is about 4.24 light-years or 40.15 trillion km away. The game answer 40 trillion km is rounded."
       }
     },
     {
@@ -3564,12 +3655,15 @@
       "q": "全世界一天大约发送多少条短信？",
       "a": 230000000000,
       "u": "条",
-      "note": "远没想象中多——聊天软件取代了它",
+      "note": "此题来源审核未完成：原有全球短信数量缺少统一、可追溯的全口径统计，暂不进入正式题库。",
       "answerType": "point",
-      "status": "published",
+      "status": "review",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "待核验：全球短信总量缺少覆盖范围和可追溯的统一统计",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "needs-review",
+        "reviewNote": "现有2300亿条/日缺少可靠的全球全口径来源，国际A2P短信数据不能代替全球所有短信；暂移出正式题库。"
       }
     },
     {
@@ -3577,12 +3671,15 @@
       "q": "一座标准足球场的草坪上大约有多少根草？",
       "a": 100000000,
       "u": "根",
-      "note": "每平方米约 1 万根",
+      "note": "此题来源审核未完成：草叶数量取决于草种、养护、草坪面积和计数定义，暂不进入正式题库。",
       "answerType": "point",
-      "status": "published",
+      "status": "review",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "待核验：足球场草叶总数为高度依赖草种、维护和计数定义的推算",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "needs-review",
+        "reviewNote": "每平方米1万根草的假设尚无可复核来源，不能把推算包装成通用事实；暂移出正式题库。"
       }
     },
     {
@@ -3590,12 +3687,15 @@
       "q": "全世界所有家猫加起来，一年大约要吃掉多少吨猫粮？",
       "a": 12000000,
       "u": "吨",
-      "note": "约 6 亿只家猫 × 每只年吃约 20 千克 ≈ 1200 万吨，差不多是 2 座胡夫金字塔",
+      "note": "此题来源审核未完成：全球家猫数量与单猫年食量的假设尚未得到可靠来源共同支持，暂不进入正式题库。",
       "answerType": "point",
-      "status": "published",
+      "status": "review",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "待核验：全球家猫总量与单猫年食量没有足够统一来源",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "needs-review",
+        "reviewNote": "现有数值直接相乘依赖两个未核实假设，暂移出正式题库。"
       }
     },
     {
@@ -3606,12 +3706,17 @@
         "min": 12000,
         "max": 20000
       },
-      "note": "口径：清醒时每分钟约 15~20 次、每天约 16 小时清醒时间折算；个体与用眼强度差异大，故给区间。",
+      "note": "眼科资料常见眨眼频率约12–20次/分钟；若每天清醒约16小时，折算约1.15万–1.92万次，个体与用眼情境会改变频率。",
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开医学资料估算",
-        "year": 2026
+        "name": "American Academy of Ophthalmology EyeWiki：Eye in Numbers",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "已打开 AAO EyeWiki 的眨眼频率表；常见正常频率为12–20次/分钟。按清醒约16小时估算为约11,520–19,200次/日，游戏范围12,000–20,000为取整近似；清醒时长是显式假设。",
+        "url": "https://eyewiki.aao.org/Eye_in_numbers",
+        "reviewEvidence": "AAO EyeWiki, “Blinking Frequency and Clinical Significance”: normal range 12–20 blinks/minute. Assuming about 16 waking hours gives 11,520–19,200 blinks/day; game range 12,000–20,000 is rounded and depends on waking-time assumption."
       }
     },
     {
@@ -3626,25 +3731,32 @@
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开天文资料估算",
-        "year": 2026
+        "name": "NASA Science：Our Milky Way Galaxy—How Big Is Space?",
+        "year": 2024,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA Science 页面；原文称银河系可能包含约1000亿至4000亿颗恒星，与游戏区间一致。",
+        "url": "https://science.nasa.gov/universe/exoplanets/our-milky-way-galaxy-how-big-is-space/",
+        "reviewEvidence": "NASA Science, “Our Milky Way Galaxy: How Big is Space?”, states the Milky Way probably contains 100 to 400 billion stars. The game interval matches the cited range."
       }
     },
     {
       "id": "num-23",
-      "q": "一个成年人体内的血液总量大约是多少升？",
+      "q": "一个成年人的平均血液总量大约是多少升？",
       "u": "升",
-      "answerRange": {
-        "min": 3.5,
-        "max": 5.5
-      },
-      "note": "口径：约为体重的 7%~8%，按 50~70 千克体重折算；性别与个体差异导致区间。",
-      "answerType": "range",
+      "note": "健康成人平均血量约5升；本题4–6升仅作体型不同的宽泛估算区间，不替代医学测量。",
+      "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开医学资料估算",
-        "year": 2026
-      }
+        "name": "Cleveland Clinic：Blood Volume Testing",
+        "year": 2022,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 Cleveland Clinic Blood Volume Testing 页面；原文明确说成人平均血量约5升。题目改为询问平均值并改用点答案5升，不再把来源没有直接给出的4–6升区间包装成已验证范围。",
+        "url": "https://my.clevelandclinic.org/health/diagnostics/16793-blood-volume-testing",
+        "reviewEvidence": "Cleveland Clinic, “Blood Volume Testing”, states: “The average blood volume of an adult is about 5 liters.” The question now asks for average adult blood volume and uses 5 L as the point estimate."
+      },
+      "a": 5
     },
     {
       "id": "num-24",
@@ -3658,8 +3770,13 @@
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开天文资料估算",
-        "year": 2026
+        "name": "NASA Science：Sun Facts",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA Sun Facts 页面；原文给出光球层温度约5,500℃，游戏范围5,000–6,000℃覆盖该值。",
+        "url": "https://science.nasa.gov/sun/facts/",
+        "reviewEvidence": "NASA Science, “Sun: Facts”, identifies the photosphere temperature as about 5,500 °C; the game’s 5,000–6,000 °C interval includes that approximate value."
       }
     },
     {
@@ -3674,8 +3791,13 @@
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开海洋资料估算",
-        "year": 2026
+        "name": "NOAA Ocean Exploration：Ocean Depth",
+        "year": 2024,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NOAA Ocean Exploration 页面；原文给出海洋平均深度3,682米，并说明这是估算值，游戏区间3,500–3,800米覆盖该值。",
+        "url": "https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/",
+        "reviewEvidence": "NOAA Ocean Exploration, “How deep is the ocean?”, states average ocean depth is 3,682 m and explains the value is an estimate. The game interval 3,500–3,800 m includes it."
       }
     },
     {
@@ -3683,15 +3805,20 @@
       "q": "月球到地球的距离大约是多少千米？",
       "u": "千米",
       "answerRange": {
-        "min": 356000,
+        "min": 357000,
         "max": 407000
       },
-      "note": "口径：月球轨道为椭圆，近地点约 35.65 万千米、远地点约 40.67 万千米，平均 38.44 万千米。",
+      "note": "NASA NSSDC月球资料给出的月地距离约在357,000–407,000千米之间；轨道为椭圆，距离会变化。",
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开天文资料估算",
-        "year": 2026
+        "name": "NASA：Daily Moon Guide",
+        "year": 2024,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA NSSDC Moon Fact Sheet；页面明确指出月地距离约从 357,000 km 到 407,000 km。答案区间已修订为 357,000–407,000 km，与来源口径一致。页面标注最后更新 2024-01-11。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+        "reviewEvidence": "NASA NSSDC Moon Fact Sheet, note below orbital parameters: Moon–Earth distance roughly ranges from 357,000 km to 407,000 km; game reference interval follows that stated range."
       }
     },
     {
@@ -3706,8 +3833,13 @@
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开人口资料估算",
-        "year": 2026
+        "name": "United Nations：Population / global life expectancy",
+        "year": 2024,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已核对联合国《World Population Prospects 2024 Key Messages》：全球出生时预期寿命在2024年达到约73.3岁，游戏区间71–74年覆盖该值。",
+        "url": "https://population.un.org/wpp/assets/Files/WPP2024_Key-Messages.pdf",
+        "reviewEvidence": "United Nations, World Population Prospects 2024 Key Messages, section 5: global life expectancy at birth reached 73.3 years in 2024. The game range 71–74 years includes the cited value."
       }
     },
     {
@@ -3715,12 +3847,17 @@
       "q": "一天大约有多少秒？",
       "a": 86400,
       "u": "秒",
-      "note": "24 小时 × 60 分钟 × 60 秒 = 86,400 秒（闰秒除外）。",
+      "note": "按24小时×60分钟×60秒计算为86,400秒；这里按常规名义日计算，不讨论特殊闰秒调整。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "NIST：Time and Frequency Division—Leap Seconds",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "本题为单位换算：名义日24小时×每小时60分钟×每分钟60秒=86,400秒；NIST页面用于提醒闰秒是特殊计时调整，不能将其与日常单位换算混为一谈。",
+        "url": "https://www.nist.gov/pml/time-and-frequency-division/time-realization/leap-seconds",
+        "reviewEvidence": "Derived from the defined unit conversion 24 hours × 60 minutes/hour × 60 seconds/minute = 86,400 seconds. The linked NIST leap-second page is contextual only; the game question is about a nominal 24-hour day, not UTC leap-second accounting."
       }
     },
     {
@@ -3728,12 +3865,17 @@
       "q": "一位成年人全身大约有多少块骨头？",
       "a": 206,
       "u": "个",
-      "note": "成人 206 块；婴儿约 300 块，成长中逐渐融合。",
+      "note": "成人常见骨骼计数为206块；婴儿骨骼数量更多，成长过程中部分骨骼逐渐融合。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开医学资料估算",
-        "year": 2026
+        "name": "Harvard BioNumbers：Number of bones in adult human",
+        "year": 1988,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 Harvard BioNumbers 条目；列出成年人体骨骼通常为206块，同时说明额外骨或个体差异可能使数量不同。",
+        "url": "https://bionumbers.hms.harvard.edu/bionumber.aspx?id=102383&s=n&v=2",
+        "reviewEvidence": "Harvard BioNumbers, “Number of bones in adult”, lists 206 and notes supernumerary bones can increase the count. This supports the standard approximate answer of 206."
       }
     },
     {
@@ -3743,10 +3885,13 @@
       "u": "千米",
       "note": "干流约 6,300 千米，长度居世界第三。",
       "answerType": "point",
-      "status": "published",
+      "status": "review",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "中国政府网：The Yangtze River",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "needs-review",
+        "reviewNote": "本轮发现来源链接指向长江经济带经济报道，不能直接支持干流全长；公开来源对长江长度存在不同测量口径，需补充中国水利/地理权威的直接来源后再发布。暂缓发布。"
       }
     },
     {
@@ -3754,12 +3899,17 @@
       "q": "赤道的周长大约是多少千米？",
       "a": 40075,
       "u": "千米",
-      "note": "约 40,075 千米；地球是扁球体，两极方向的周长要短约 120 千米。",
+      "note": "NASA给出的地球赤道半径约6378.137千米；以2πr估算赤道周长约40,075千米。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "NASA NSSDC Earth Fact Sheet",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "已核对NASA给出的赤道半径6,378.137千米；按圆周长公式2πr换算，约40,075千米。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+        "reviewEvidence": "NASA NSSDC Earth Fact Sheet, “Bulk parameters”, equatorial radius 6,378.137 km; 2π × 6,378.137 km ≈ 40,075 km."
       }
     },
     {
@@ -3771,34 +3921,49 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开医学资料估算",
-        "year": 2026
+        "name": "Cleveland Clinic：Heart Rate",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "Cleveland Clinic 页面给出成人静息心率常见范围60–100次/分钟。以70次/分钟作为演示假设：70×60×24=100,800次/日，取约10万次；不是所有人的实际日均心跳。",
+        "url": "https://my.clevelandclinic.org/health/diagnostics/heart-rate",
+        "reviewEvidence": "Cleveland Clinic states a normal adult resting heart rate is typically 60–100 beats/min. With an explicit representative assumption of 70 beats/min, 70 × 60 × 24 = 100,800 beats/day, rounded to about 100,000."
       }
     },
     {
       "id": "num-33",
       "q": "亚马逊河的全长大约是多少千米？",
-      "a": 6400,
+      "a": 6300,
       "u": "千米",
-      "note": "约 6,400 千米；与尼罗河的「世界第一长河」之争随测量口径变化。",
+      "note": "常见长度估算约6400千米；亚马逊河与尼罗河的长度排序取决于源头定义和测量口径。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Encyclopaedia Britannica：Amazon River",
+        "year": 2018,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "加拿大政府引用的河流长度表给出亚马逊河约6,280千米；河流长度会因源头定义与测量口径而不同。游戏答案修订为约6,300千米，并标注为近似值。",
+        "url": "https://www.canada.ca/en/environment-climate-change/services/water-overview/sources/rivers.html",
+        "reviewEvidence": "Government of Canada, “Water sources: rivers”, length table lists the Amazon at 6,280 km. Game answer 6,300 km is rounded; river-length estimates vary with source/headwater definitions."
       }
     },
     {
       "id": "num-34",
-      "q": "地球自转一周大约是多少分钟？",
+      "q": "按太阳日计算，地球自转一周大约是多少分钟？",
       "a": 1440,
       "u": "分钟",
       "note": "太阳日 24 小时 = 1,440 分钟；恒星日约 23 小时 56 分。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "NASA NSSDC Earth Fact Sheet",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "已核对NASA表中太阳日长24小时及恒星自转周期23.9345小时的区别；按题目指定太阳日换算为1,440分钟。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+        "reviewEvidence": "NASA NSSDC Earth Fact Sheet, “Orbital parameters”: length of day 24.0000 h, while sidereal rotation period is 23.9345 h. Question explicitly specifies solar day; 24 × 60 = 1,440 minutes."
       }
     },
     {
@@ -3806,12 +3971,15 @@
       "q": "京沪高速铁路的全长大约是多少千米？",
       "a": 1318,
       "u": "千米",
-      "note": "北京南—上海虹桥 1,318 千米，设计时速 350 千米。",
+      "note": "此题来源审核未完成：1318千米仍待铁路或运营机构的直接官方来源确认，暂不进入正式题库。",
       "answerType": "point",
-      "status": "published",
+      "status": "review",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "待核验：京沪高铁长度需要更直接的运营/铁路官方来源",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "needs-review",
+        "reviewNote": "当前1318千米数据缺少本轮确认的直接官方来源，暂移出正式题库，待补源后再发布。"
       }
     },
     {
@@ -3823,8 +3991,13 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "California Public Utilities Commission：Speed of Sound",
+        "year": 2016,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "采用20℃空气中声速约343米/秒，1,000÷343≈2.92秒，取约3秒。温度、湿度和气压会影响声速，题目为常温近似。",
+        "url": "https://openstax.org/books/university-physics-volume-1/pages/17-2-speed-of-sound",
+        "reviewEvidence": "OpenStax University Physics Vol. 1, “17.2 Speed of Sound”, gives speed of sound in air at 20 °C as about 343 m/s. Derived travel time over 1 km: 1,000 m ÷ 343 m/s ≈ 2.92 s, rounded to about 3 seconds."
       }
     },
     {
@@ -3836,8 +4009,13 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "U.S. Geological Survey：How much water is there on, in, and above the Earth?",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已核对 USGS 页面：地球总水量约1,386,000,000立方千米；换算为1.386×10^18立方米，游戏答案1.4×10^18立方米为合理四舍五入。",
+        "url": "https://www.usgs.gov/faqs/how-much-natural-water-there",
+        "reviewEvidence": "USGS, “How much natural water is there?”, estimates Earth holds 1,386,000,000 km³ of water. Conversion to cubic metres is 1.386 × 10^18 m³; game answer 1.4 × 10^18 m³ is rounded."
       }
     },
     {
@@ -3849,8 +4027,13 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Ueno Zoo：Hippopotamus Encyclopedia",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已核对上野动物园河马百科页面；原文称河马可在水下停留超过5分钟，题目取约5分钟。",
+        "url": "https://www.tokyo-zoo.net/en/ueno/encyclopedia/hippopotamus/index.html",
+        "reviewEvidence": "Ueno Zoo, “Hippopotamus” encyclopedia page, states hippos can stay submerged for more than five minutes. Game answer of about five minutes is a conservative approximate value."
       }
     },
     {
@@ -3858,12 +4041,15 @@
       "q": "珠穆朗玛峰比泰山大约高多少米？",
       "a": 7304,
       "u": "米",
-      "note": "8,849 − 1,545 = 7,304 米，接近再叠 3 座泰山。",
+      "note": "此题来源审核未完成：海拔差依赖珠峰与泰山各自的测量口径，暂待两处权威来源核对。",
       "answerType": "point",
-      "status": "published",
+      "status": "review",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "待核验：珠峰与泰山海拔差需对两处权威测绘口径逐一锁定",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "needs-review",
+        "reviewNote": "目前7304米是以8849米减1545米得到的近似结果，但本轮未确认两处高度的同口径官方来源，暂移出正式题库。"
       }
     },
     {
@@ -3875,21 +4061,31 @@
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "PubMed：Late Cretaceous mass extinction",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已核对 Smithsonian National Museum of Natural History 的灭绝事件资料；原文明确将白垩纪末非鸟类恐龙灭绝标为约6600万年前。",
+        "url": "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time",
+        "reviewEvidence": "Smithsonian National Museum of Natural History, “Extinction Over Time”, lists the end-Cretaceous extinction 66 million years ago and includes all non-avian dinosaurs. This matches the game’s approximate 66 million years."
       }
     },
     {
       "id": "num-41",
-      "q": "一个 50 米标准泳池大约蓄水多少立方米？",
+      "q": "按平均水深2米估算，一个50米×25米标准泳池大约蓄水多少立方米？",
       "a": 2500,
       "u": "立方米",
-      "note": "50 × 25 × 平均水深 2 米 = 2,500 立方米，约 2,500 吨。",
+      "note": "按50米×25米×平均水深2米计算约2500立方米；泳池实际水量取决于池底形状和实际水深。",
       "answerType": "point",
       "status": "published",
       "source": {
-        "name": "内部整理",
-        "year": 2026
+        "name": "World Aquatics Competition Regulations",
+        "year": 2024,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "题干已明确采用50×25米泳池和平均水深2米的估算假设；按体积=长×宽×平均深度，50×25×2=2500立方米。该答案是计算结果，实际池水量取决于水深与池型。",
+        "url": "https://resources.fina.org/fina/document/2024/01/29/2b4f5bea-f965-411c-8fae-6d33bda64b85/Competition-Regulations-version-1st-January-2024-_-Publishing_V3.pdf",
+        "reviewEvidence": "Derived from the explicitly stated dimensions and assumption: 50 m × 25 m × 2 m average depth = 2,500 m³. The linked World Aquatics regulations are intended to substantiate competition-pool dimensions; the average-depth assumption is supplied by the question, not claimed as a universal regulation."
       }
     },
     {
@@ -3904,8 +4100,13 @@
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开医学资料估算",
-        "year": 2026
+        "name": "MedlinePlus：Rapid shallow breathing",
+        "year": 2025,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 MedlinePlus 医学百科页面；原文写明成年人静息呼吸频率为每分钟12–20次，与游戏区间一致。",
+        "url": "https://medlineplus.gov/ency/article/007198.htm",
+        "reviewEvidence": "MedlinePlus, “Rapid shallow breathing”, states normal adult resting breathing rate is 12–20 breaths per minute. Game range matches directly."
       }
     },
     {
@@ -3920,8 +4121,13 @@
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "JAMA Dermatology：scalp hair density and count",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已核对 MedlinePlus Hair Loss 页面；原文称头皮约有100,000根头发，与游戏范围80,000–150,000根相符。",
+        "url": "https://medlineplus.gov/ency/article/003246.htm",
+        "reviewEvidence": "MedlinePlus, “Hair loss”, states the scalp contains about 100,000 hairs. The game range 80,000–150,000 includes this approximate reference; individual variation is substantial."
       }
     },
     {
@@ -3936,8 +4142,13 @@
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开医学资料估算",
-        "year": 2026
+        "name": "Cleveland Clinic：Teeth",
+        "year": 2023,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "derived",
+        "reviewNote": "已打开 Cleveland Clinic Teeth 页面；原文称大多数人有32颗牙，且说明拔除或先天缺失智齿会减少牙数。区间28–32按四颗智齿存在/缺失的常见情况推算；需避免表述为每个人都只在此区间。",
+        "url": "https://my.clevelandclinic.org/health/articles/24655-teeth",
+        "reviewEvidence": "Cleveland Clinic, “Teeth”, states most humans have 32 teeth and explains that people who have had wisdom teeth removed or were born without them have fewer molars. Range 28–32 is a derived common-case range assuming up to four wisdom teeth are absent/removed."
       }
     },
     {
@@ -3952,8 +4163,13 @@
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "NOAA Ocean Exploration：Ocean Depth",
+        "year": 2024,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NOAA Ocean Exploration 页面；原文列出挑战者深渊约10,935米，游戏范围10,500–11,000米覆盖该值。",
+        "url": "https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/",
+        "reviewEvidence": "NOAA Ocean Exploration, “How deep is the ocean?”, states the deepest place, Challenger Deep, measures 10,935 m and notes estimates can vary. Game range 10,500–11,000 m includes the cited value."
       }
     },
     {
@@ -3961,15 +4177,20 @@
       "q": "地球的年龄大约是多少年？",
       "u": "年",
       "answerRange": {
-        "min": 450000000,
-        "max": 460000000
+        "min": 4500000000,
+        "max": 4600000000
       },
-      "note": "参考范围：同位素测年约 45.4 亿年，± 数千万年的不确定度。",
+      "note": "地球年龄约45.4亿年；USGS资料指出该估值的不确定度小于1%。原数据少了一个数量级，已修正。",
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "U.S. Geological Survey：Age of the Earth",
+        "year": 1997,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已核对 USGS Geologic Time 页面搜索摘要；地球及陨石年龄约4.54 billion years，误差小于1%，游戏区间45–46亿年覆盖该值。",
+        "url": "https://pubs.usgs.gov/gip/geotime/age.html",
+        "reviewEvidence": "USGS, “Geologic Time: Age of the Earth”, gives an Earth age of 4.54 billion years with uncertainty below 1%. Game range 4.5–4.6 billion years includes the cited estimate."
       }
     },
     {
@@ -3978,14 +4199,19 @@
       "u": "小时",
       "answerRange": {
         "min": 12,
-        "max": 16
+        "max": 18
       },
-      "note": "参考范围：猫每天睡 12~16 小时且多为浅睡，幼猫与老年猫睡得更多。",
+      "note": "家猫每天常见睡眠时间约12–18小时；幼猫、老年猫或生病状态可能睡得更多。",
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Cats Protection：Cats and sleep",
+        "year": 2026,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 Cats Protection 页面；原文称家猫每天约睡12–18小时，与游戏区间一致。",
+        "url": "https://www.cats.org.uk/help-and-advice/cat-behaviour/cats-and-sleep",
+        "reviewEvidence": "Cats Protection, “Cats and Sleep”, states domestic cats sleep approximately 12–18 hours a day. Game interval matches the cited range."
       }
     },
     {
@@ -3993,31 +4219,40 @@
       "q": "成年人的体温大约是多少摄氏度？",
       "u": "度",
       "answerRange": {
-        "min": 36.1,
-        "max": 37.2
+        "min": 36.5,
+        "max": 37.3
       },
-      "note": "参考范围：常规口/腋温 36.1~37.2℃，一天内自然波动约 0.5℃。",
+      "note": "MedlinePlus给出的健康成人常见体温范围约36.5–37.3℃；实际数值受测量部位、时段和个体差异影响。",
       "answerType": "range",
       "status": "published",
       "source": {
-        "name": "公开医学资料估算",
-        "year": 2026
+        "name": "MedlinePlus：Vital signs",
+        "year": 2025,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 MedlinePlus Vital Signs 页面；健康成人静息体温常见范围为36.5–37.3℃，与游戏区间一致。",
+        "url": "https://medlineplus.gov/ency/article/002341.htm",
+        "reviewEvidence": "MedlinePlus, “Vital signs”, gives a normal temperature range for an average healthy adult at rest of 97.7–99.1 °F (36.5–37.3 °C), matching the game interval."
       }
     },
     {
       "id": "num-49",
       "q": "一个成年人每天大约走多少步？",
-      "u": "次",
+      "u": "步",
       "answerRange": {
-        "min": 3000,
+        "min": 4000,
         "max": 8000
       },
-      "note": "参考范围：研究常见区间 3,000~8,000 步，职业与生活方式差异极大，步数以「次」计。",
+      "note": "约4000–8000步作为宽泛估测参考，不是适用于所有人的硬性健康目标；年龄、职业与生活方式都会影响日常步数。",
       "answerType": "range",
-      "status": "published",
+      "status": "review",
       "source": {
-        "name": "公开研究资料估算",
-        "year": 2026
+        "name": "PubMed：step-count and health systematic review",
+        "year": 2025,
+        "reviewedOn": "2026-10-24",
+        "reviewStatus": "needs-review",
+        "reviewNote": "现有来源是每日步数与健康结局的系统综述，讨论健康风险关联的拐点，不等同于一般成年人的实际日均步数分布。当前题干与证据口径不匹配，暂缓发布，待改写题目或补充代表性步数调查来源。",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/40713949/"
       }
     }
   ],
@@ -4047,7 +4282,7 @@
       "revision": 1
     },
     "2026-10-28": {
-      "questionId": "num-19",
+      "questionId": "num-29",
       "revision": 1
     },
     "2026-10-29": {
@@ -4063,8 +4298,8 @@
       "revision": 1
     },
     "2026-11-01": {
-      "questionId": "num-3",
-      "revision": 1
+      "questionId": "num-5",
+      "revision": 2
     },
     "2026-11-02": {
       "questionId": "num-17",
@@ -4079,7 +4314,7 @@
       "revision": 1
     },
     "2026-11-05": {
-      "questionId": "num-20",
+      "questionId": "num-37",
       "revision": 1
     },
     "2026-11-06": {
@@ -4119,7 +4354,7 @@
       "revision": 1
     },
     "2026-11-15": {
-      "questionId": "num-18",
+      "questionId": "num-36",
       "revision": 1
     },
     "2026-11-16": {
@@ -4135,7 +4370,7 @@
       "revision": 1
     },
     "2026-11-19": {
-      "questionId": "num-5",
+      "questionId": "num-28",
       "revision": 1
     },
     "2026-11-20": {
@@ -4172,7 +4407,8 @@
         "num-18",
         "num-19",
         "num-20"
-      ]
+      ],
+      "effectiveFrom": "1970-01-01"
     },
     {
       "version": "fallback_v2",
@@ -4205,7 +4441,8 @@
         "num-25",
         "num-26",
         "num-27"
-      ]
+      ],
+      "effectiveFrom": "1970-01-01"
     },
     {
       "version": "fallback_v3",
@@ -4260,6 +4497,54 @@
         "num-47",
         "num-48",
         "num-49"
+      ],
+      "effectiveFrom": "1970-01-01"
+    },
+    {
+      "version": "fallback_v4_2026-10-24",
+      "effectiveFrom": "2026-10-24",
+      "questionIds": [
+        "num-0",
+        "num-1",
+        "num-2",
+        "num-4",
+        "num-6",
+        "num-7",
+        "num-8",
+        "num-9",
+        "num-10",
+        "num-11",
+        "num-12",
+        "num-13",
+        "num-14",
+        "num-15",
+        "num-16",
+        "num-17",
+        "num-21",
+        "num-22",
+        "num-23",
+        "num-24",
+        "num-25",
+        "num-26",
+        "num-27",
+        "num-28",
+        "num-29",
+        "num-31",
+        "num-32",
+        "num-33",
+        "num-34",
+        "num-36",
+        "num-37",
+        "num-38",
+        "num-40",
+        "num-41",
+        "num-42",
+        "num-43",
+        "num-44",
+        "num-45",
+        "num-46",
+        "num-47",
+        "num-48"
       ]
     }
   ]
