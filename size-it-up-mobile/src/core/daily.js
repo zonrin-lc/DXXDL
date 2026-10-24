@@ -35,7 +35,7 @@ export function resolveDailyQuestionId(key, pack, opts = {}) {
     const entry = schedule[key];
     if (entry && entry.questionId) return { questionId: entry.questionId, source: 'schedule', revision: entry.revision || 1, scheduleVersion: pack.scheduleVersion || null };
   }
-  const fb = pickFallback(pack, opts.fallbackVersion);
+  const fb = pickFallback(pack, opts.fallbackVersion, key);
   if (fb && Array.isArray(fb.questionIds) && fb.questionIds.length) {
     const dayNum = Number(key.replace(/-/g, ''));
     const idx = dayNum % fb.questionIds.length;
@@ -44,12 +44,21 @@ export function resolveDailyQuestionId(key, pack, opts = {}) {
   return null;
 }
 
-function pickFallback(pack, forced) {
+function pickFallback(pack, forced, key) {
   if (!pack) return null;
   if (Array.isArray(pack.fallbackPools)) {
     if (forced) return pack.fallbackPools.find((p) => p.version === forced) || null;
-    // 默认取最新版本（版本化：新版本只影响尚未发布日期——由排期表保证已发布日期优先）
-    return pack.fallbackPools[pack.fallbackPools.length - 1];
+    const pools = pack.fallbackPools;
+    // Legacy packs retain their previous behavior. Once effectiveFrom is supplied,
+    // select the newest snapshot effective on this date, not the newest snapshot today.
+    if (pools.some((p) => p && p.effectiveFrom)) {
+      const eligible = pools
+        .map((p, index) => ({ p, index, effectiveFrom: p?.effectiveFrom || '0001-01-01' }))
+        .filter((x) => x.p && x.effectiveFrom <= key)
+        .sort((a, b) => a.effectiveFrom.localeCompare(b.effectiveFrom) || a.index - b.index);
+      return eligible.length ? eligible[eligible.length - 1].p : null;
+    }
+    return pools[pools.length - 1];
   }
   return pack.fallbackPool || null;
 }
