@@ -8,7 +8,8 @@
     "build": "node build.mjs",
     "test": "vitest run",
     "check": "node tools/validate-pools.mjs",
-    "verify": "npm run test && npm run check && npm run build"
+    "verify": "npm run test && npm run check && npm run audit:sources && npm run build",
+    "audit:sources": "node tools/audit-sources.mjs"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",
