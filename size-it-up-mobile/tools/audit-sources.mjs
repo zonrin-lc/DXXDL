@@ -12,7 +12,7 @@ const file = path.join(root, 'data', 'pools.json');
 const pack = JSON.parse(readFileSync(file, 'utf8'));
 const numeric = Array.isArray(pack.numeric) ? pack.numeric : [];
 const published = numeric.filter((q) => q.status === 'published' || q.status === undefined);
-const reviewPool = numeric.filter((q) => q.status === 'review');
+const reviewPool = numeric.filter((q) => ['review', 'needs-review'].includes(q.status));
 const drafts = numeric.filter((q) => q.status === 'draft');
 const missingUrl = published.filter((q) => !/^https?:\/\//i.test(q.source?.url || ''));
 const pendingPageReview = published.filter((q) => q.source?.reviewStatus === 'pending_source_page_review');
@@ -45,7 +45,7 @@ const fallbackPendingReview = (latestFallback?.questionIds || []).filter((id) =>
 
 console.log(`Source provenance audit | pack v${pack.version} | mode=${strict ? 'STRICT RELEASE' : 'development'}`);
 console.log(`Published numeric questions: ${published.length}`);
-console.log(`Editorial review pool excluded from new runs: ${reviewPool.length}`);
+console.log(`Editorial review/needs-review pool excluded from new runs: ${reviewPool.length}`);
 console.log(`Draft numeric questions excluded from release: ${drafts.length}`);
 console.log(`Published missing source.url: ${missingUrl.length}`);
 console.log(`Published with source-page review pending: ${pendingPageReview.length}`);
@@ -61,7 +61,7 @@ for (const q of [...missingUrl, ...weakReviewEvidence, ...unresolved, ...generic
   console.error(`  [${q.id}] ${q.q} — source: ${q.source?.name || 'missing'} / status: ${q.source?.reviewStatus || 'missing'}`);
 }
 for (const q of pendingPageReview) console.warn(`  SOURCE PAGE REVIEW PENDING [${q.id}] ${q.q} — candidate URL is not a fact-check pass`);
-for (const q of reviewPool) console.warn(`  EDITORIAL REVIEW [${q.id}] ${q.q} — excluded from new release pools`);
+for (const q of reviewPool) console.warn(`  EDITORIAL REVIEW [${q.id}] ${q.q} — status=${q.status}; excluded from new release pools`);
 for (const q of drafts) console.warn(`  EDITORIAL DRAFT [${q.id}] ${q.q} — excluded from new release pools`);
 for (const [date, entry] of badUpcomingSchedule) console.error(`  SCHEDULE ERROR [${date}] ${entry?.questionId || 'missing questionId'}`);
 
