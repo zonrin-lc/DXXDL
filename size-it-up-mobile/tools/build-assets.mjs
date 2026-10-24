@@ -12,7 +12,7 @@
  *     统一 CANVAS×CANVAS 透明画布（GDD 6.6 第 4 条：统一规范化画布）
  *  5. 登记 assetId / 许可 / 画布尺寸 / bounds / 提示词 → manifest.json
  */
-import { Jimp, JimpMime } from 'jimp';
+import Jimp from 'jimp';
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
 import { basename, join, extname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -175,22 +175,22 @@ async function processOne(file) {
   // 按有效边界裁剪
   const bw = bbox.maxX - bbox.minX + 1;
   const bh = bbox.maxY - bbox.minY + 1;
-  const cropped = img.clone().crop({ x: bbox.minX, y: bbox.minY, w: bw, h: bh });
+  const cropped = img.clone().crop(bbox.minX, bbox.minY, bw, bh);
 
   // 缩放：内容最长边 = CANVAS*FILL
   const scale = (CANVAS * FILL) / Math.max(bw, bh);
   const tw = Math.max(1, Math.round(bw * scale));
   const th = Math.max(1, Math.round(bh * scale));
-  cropped.resize({ w: tw, h: th });
+  cropped.resize(tw, th);
 
   // 居中贴到统一透明画布
-  const canvas = new Jimp({ width: CANVAS, height: CANVAS, color: 0x00000000 });
+  const canvas = new Jimp(CANVAS, CANVAS, 0x00000000);
   canvas.composite(cropped, Math.round((CANVAS - tw) / 2), Math.round((CANVAS - th) / 2));
 
   // 在最终画布上重新计算可见 bounds（排除透明留白）
   const cb = visibleBounds(canvas.bitmap.data, CANVAS, CANVAS);
   const outPath = join(OUT_DIR, `${id}.png`);
-  await canvas.write(outPath);
+  await canvas.writeAsync(outPath);
 
   const manifestPath = join(OUT_DIR, 'manifest.json');
   let manifest = {};
