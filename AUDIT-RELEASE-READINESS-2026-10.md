@@ -56,7 +56,7 @@
 ### P1-3 构建与题库校验要成为合并门槛
 
 - 工程：`size-it-up-mobile/package.json` 定义 `npm run verify`，顺序为单测、题库校验、构建。
-- 本次状态：GitHub Actions 工作流已升级到 checkout/setup-node v5 与 Node 22，并增加 PR 目标为审查分支时的验证触发器。当前候选提交以 [Actions 页面](https://github.com/zonrin-lc/DXXDL/actions) 最新记录为准。最近已见的成功运行还包括旧基线 102 项测试；不要用旧运行替代本次变更后的新测试结果。生产依赖审计为 0 项，但开发工具依赖仍有 32 项告警，见 P1-5。后续每次改动仍须以最新提交对应的 CI 结果为准。
+- 本次状态：GitHub Actions 工作流已升级到 checkout/setup-node v5 与 Node 22，并增加 PR 目标为审查分支时的验证触发器。提交 `8713984` 对应的审查分支 PR 合并验证运行 [#40102208399](https://github.com/zonrin-lc/DXXDL/actions/runs/40102208399) 已成功：108 项单测、题库结构校验、来源元数据审计和 H5 构建通过。日志同时明确：44 道题仍处于 `pending_source_page_review`，这不是内容事实核验通过。生产依赖审计为 0 项，但开发工具依赖仍有 32 项告警，见 P1-5。后续每次改动仍须以最新提交对应的 CI 结果为准。
 - 建议：每次候选发布前执行 `npm ci` 与 `npm run verify`；将结果保留在 CI 或发布记录；任何一项失败即阻止发布。
 - 还需检查构建产物是否包含最新源码/题库、图片资源是否完整、无控制台错误、无意外外部运行时依赖。
 
@@ -69,7 +69,7 @@
 
 ### P1-5 开发工具依赖存在安全告警（生产依赖暂未发现漏洞）
 
-- 原锁文件的 `npm audit` 曾报告开发依赖树 **32 项告警：1 moderate、29 high、2 critical**；直接工具包含 `vitest` 与 `jimp`，传递依赖包含 `tinypool`。独立依赖分支已升级 Vitest 到 `4.1.12` 并由 npm 重新生成锁文件，生产依赖审计之前为 **0 vulnerabilities**。Vitest 升级分支目前在 [PR #4](https://github.com/zonrin-lc/DXXDL/pull/4) 待合入审查分支；Jimp 相关告警尚未确认安全且兼容的修复路径。
+- 原锁文件的 `npm audit` 曾报告开发依赖树 **32 项告警：1 moderate、29 high、2 critical**。已将 Vitest 升级至 `4.1.12`，并在 [PR #4](https://github.com/zonrin-lc/DXXDL/pull/4) 合并进审查分支；合并结果上的 CI 显示开发依赖告警降至 **29 项 high、0 critical、0 moderate**，生产依赖 `npm audit --omit=dev` 为 **0 vulnerabilities**。剩余告警主要位于 Jimp 1.6.1 的 `@jimp/*` 插件/核心依赖与关联传递树。尝试非强制 `npm audit fix --package-lock-only` 未产生经验证的 lockfile 改动；没有强制降级 Jimp，以免破坏 `tools/build-assets.mjs`。这仍是未关闭的发布安全门槛。
 - 影响：当前并非游戏运行时依赖漏洞，但会影响开发/CI/素材处理工具的供应链安全，不能因为是 devDependency 就忽略。
 - 处理原则：不要直接执行 `npm audit fix --force`，因为建议的 Jimp 主要版本降级可能破坏素材处理脚本。需要逐项确认修复版本、更新 lockfile，并运行素材处理、测试和构建回归。
 - CI 已加入依赖告警摘要与生产依赖审计；开发依赖告警目前只报告、不阻断。
@@ -117,3 +117,16 @@
 - TapTap 广告：增加条件式 H5 激励视频适配层与 mock SDK 测试；广告位 ID 仍为空。当前代码只能在 TapTap H5 运行时实际暴露官方 API 且广告位审核配置完成后尝试启用。Android/iOS 真机、广告填充、审核、奖励回调和退出恢复都尚未验收。
 - 依赖：Vitest 4.1.12 与重新生成的 lockfile 在 PR #4；老版本 npm audit 曾报告 32 个 dev advisories。PR #4 测试需针对当前审查分支合并结果再确认；Jimp / 其传递树仍需单独处理。
 - 发布结论：不建议发布。需要先完成 source page review、依赖安全审计、正式 TapTap H5 包型/广告位验证、Android 与 iOS 实机测试，并取得最终候选构建 CI 记录。
+
+
+## 发布状态面板（2026-10-24 更新）
+
+| 项目 | 当前可核实状态 | 尚未完成 |
+|---|---|---|
+| 自动化测试 | CI run [40102208399](https://github.com/zonrin-lc/DXXDL/actions/runs/40102208399) 成功；108 tests passed；题库校验与 H5 build 通过 | 该运行在删除临时依赖排查 workflow 前后源码相同；后续源文件改变仍需重新运行 |
+| 数量级题库 | 数据包 v2.7.1；44 道 published 有候选 URL；6 道 draft；未来排期未指向 draft | 44 道候选来源的网页原文尚未逐题核对，全部标记 pending；不能视为内容批准 |
+| 安全依赖 | Vitest 4.1.12 已合入审查分支；当前审计记录 29 high、0 critical、0 moderate；生产依赖 0 vulnerabilities | Jimp 相关开发工具漏洞仍未关闭；非强制 audit fix 未产生新的 lockfile；禁止未经测试的强制降级 |
+| TapTap 广告 | 条件式 H5 激励视频适配器、空广告位配置和 mock SDK 测试已提交；完播逻辑只接受 `isEnded === true` | 真实广告位 ID 未配置；正式包型/运行环境兼容性、广告审核、填充率、Android/iOS 真机流程未验收 |
+| Android/iOS | 测试矩阵文档已建立 | 本轮未访问真实设备/平台后台，因此所有真机项仍为待测 |
+
+**最终发布决策：Not Ready / 不可宣称已达到正式发布标准。** PR #1 继续保持 Draft，直到源文核验、剩余开发依赖安全问题、正式广告位和双端真机验收均有证据。
