@@ -47,7 +47,7 @@ jobs:
         run: npm run verify
       - name: Exercise asset processor when raw images are present
         run: |
-          if [ -d assets/raw ] && find assets/raw -type f \\( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \\) -print -quit | grep -q .; then
+          if [ -d assets/raw ] && find assets/raw -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) -print -quit | grep -q .; then
             node tools/build-assets.mjs
           else
             echo "SKIPPED: assets/raw has no source images; synthetic Jimp API regression remains the available coverage."
