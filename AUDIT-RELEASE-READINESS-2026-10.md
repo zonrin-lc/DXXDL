@@ -56,7 +56,7 @@
 ### P1-3 构建与题库校验要成为合并门槛
 
 - 工程：`size-it-up-mobile/package.json` 定义 `npm run verify`，顺序为单测、题库校验、构建。
-- 本次状态：已新增 GitHub Actions 工作流 `.github/workflows/size-it-up-mobile-verify.yml`。截至提交 `cc9a9aa`，CI 已完成 `npm ci` 和 `npm run verify`，测试、题库校验与构建步骤均为 success。后续每次改动仍须以最新提交对应的 CI 结果为准。
+- 本次状态：已新增 GitHub Actions 工作流 `.github/workflows/size-it-up-mobile-verify.yml`。截至提交 `6de1634`，CI 已完成 `npm ci` 和 `npm run verify`，测试、题库校验与构建步骤均为 success（[运行记录](https://github.com/zonrin-lc/DXXDL/actions/runs/40078188964)）。后续每次改动仍须以最新提交对应的 CI 结果为准。
 - 建议：每次候选发布前执行 `npm ci` 与 `npm run verify`；将结果保留在 CI 或发布记录；任何一项失败即阻止发布。
 - 还需检查构建产物是否包含最新源码/题库、图片资源是否完整、无控制台错误、无意外外部运行时依赖。
 
