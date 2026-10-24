@@ -1,6 +1,6 @@
 {
-  "version": "2.7.7",
-  "_说明": "热更新数据包 v2：v2.7.7 新增多项 NASA、PNAS、NOAA、MedlinePlus、Cleveland Clinic、Harvard BioNumbers、BIC Japan 等来源的逐页核验记录；剩余 pending 项仍需复核。",
+  "version": "2.7.8",
+  "_说明": "热更新数据包 v2：v2.7.8 补充/修订多项数量级来源，修正金字塔质量、长江径流口径、亚马逊河长度、平均血量题及全球水量换算；num-3、num-30、num-49 转为 review 状态，不纳入新发布/兜底题池。历史排期不回写。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
@@ -3337,18 +3337,19 @@
         "name": "UN World Population Prospects + Cleveland Clinic heart-rate reference",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "以约80亿人口×每人每天约10万次心跳估算数量级；人口与个人心率均为近似值。",
-        "url": "https://population.un.org/wpp/",
+        "reviewStatus": "derived",
+        "reviewNote": "按美国人口普查局2026年世界人口估算约82亿人，并以Cleveland Clinic成人静息心率常见60–100次/分钟、取70次/分钟估算：82亿×70×60×24≈8.27×10^14次/日。结果是显式假设下的数量级推算，不是全球实时计数。",
+        "url": "https://www.census.gov/newsroom/stories/world-population-day.html",
         "additionalUrls": [
           "https://my.clevelandclinic.org/health/diagnostics/heart-rate"
-        ]
+        ],
+        "reviewEvidence": "U.S. Census Bureau, “World Population Day: July 11, 2026”, estimates 8.2 billion people in July 2026. Cleveland Clinic states adult resting heart rate is typically 60–100 beats/min. Using 70 beats/min as a stated representative assumption gives 8.2e9 × 70 × 60 × 24 ≈ 8.27e14 beats/day; the game answer 8e14 is a rounded derived estimate."
       }
     },
     {
       "id": "num-1",
       "q": "胡夫大金字塔的总重量大约是多少？",
-      "a": 5900000,
+      "a": 5800000,
       "u": "吨",
       "note": "约 230 万块巨石，平均每块 2.5 吨",
       "answerType": "point",
@@ -3357,9 +3358,10 @@
         "name": "npj Heritage Science：胡夫金字塔石块数量与重量估算",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "约230万块石块、平均约2.5吨，乘积约575万吨；题目结果为近似估计。",
-        "url": "https://www.nature.com/articles/s40494-025-02018-w"
+        "reviewStatus": "derived",
+        "reviewNote": "已核对 npj Heritage Science 论文摘要/正文摘录：估计约230万块石块、平均约2.5吨，乘积约575万吨。答案修订为约580万吨（不将石灰岩块体估算包装成含所有填料/包层的精确总重）。",
+        "url": "https://www.nature.com/articles/s40494-025-02018-w",
+        "reviewEvidence": "npj Heritage Science, “Construction of the Great Pyramid with pulley-like systems using counter-weights on sliding-ramps”: states about 2.3 million blocks and an average block weight of about 2.5 tons. Derived estimate 2.3 million × 2.5 metric tons ≈ 5.75 million metric tons; rounded game value 5.8 million tons."
       }
     },
     {
@@ -3372,11 +3374,12 @@
       "status": "published",
       "source": {
         "name": "Nature：Mapping tree density at a global scale",
-        "year": 2026,
+        "year": 2015,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "研究估计全球树木约3.04万亿棵；研究估计每年砍伐超过150亿棵，非等同于净减少量。",
-        "url": "https://www.nature.com/articles/nature14967"
+        "reviewStatus": "verified",
+        "reviewNote": "已通过 Nature 摘要/ PubMed 记录核对；研究估计全球树木约3.04万亿棵，游戏答案3万亿棵为近似值。",
+        "url": "https://pubmed.ncbi.nlm.nih.gov/26331545/",
+        "reviewEvidence": "Crowther et al., Nature 2015, PubMed record “Mapping tree density at a global scale”: global number of trees estimated at approximately 3.04 trillion. Game answer 3 trillion is rounded."
       }
     },
     {
@@ -3386,14 +3389,13 @@
       "u": "杯",
       "note": "若按来源报告引用的全球每天约30亿杯估算，乘以365天约为1.095万亿杯/年，取约1.1万亿杯；该年量仍须结合来源报告的原文统计口径最终复核。",
       "answerType": "point",
-      "status": "published",
+      "status": "review",
       "source": {
         "name": "International Coffee Organization（ICO）咖啡发展报告",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "报告引用全球每日约30亿杯咖啡；按365天换算约1.095万亿杯，游戏答案修订为约1.1万亿杯。仍需直接核对报告页面中的原始口径后才能将来源状态改为 verified。",
-        "url": "https://icocoffee.org/documents/cy2024-25/coffee-development-report-2022-23.pdf"
+        "reviewStatus": "needs-review",
+        "reviewNote": "全球每日咖啡杯数与年消费量缺少本轮确认的直接、统一、可追溯统计口径；现有3 billion cups/day的说法尚未在所列ICO报告中逐页核实。暂缓发布，不将换算结果视为已核实事实。"
       }
     },
     {
@@ -3506,7 +3508,7 @@
     },
     {
       "id": "num-10",
-      "q": "长江一年流入海洋的水量大约是多少？",
+      "q": "长江平均每年的径流量大约是多少立方米？",
       "a": 1000000000000,
       "u": "立方米",
       "note": "以多年平均流量的数量级折算全年水量约10¹²立方米；河流径流会随年份和流量统计口径变化。",
@@ -3514,11 +3516,12 @@
       "status": "published",
       "source": {
         "name": "Encyclopaedia Britannica：Yangtze River",
-        "year": 2026,
+        "year": 2018,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "以文献给出的多年平均流量量级折算全年水量；径流量受年份和测量口径影响，答案为粗估值。",
-        "url": "https://www.britannica.com/place/Yangtze-River"
+        "reviewStatus": "derived",
+        "reviewNote": "加拿大政府引用联合国教科文组织/水资源资料，给出长江平均年总径流量约1006立方千米/年；换算为约1.006×10^12立方米/年。题干改为“平均每年的径流量”，避免把径流统计口径说成直接测量的入海量。",
+        "url": "https://www.canada.ca/en/environment-climate-change/services/water-overview/sources/rivers.html",
+        "reviewEvidence": "Government of Canada, “Water sources: rivers”, table of average annual total discharge cites Yangtze at 1,006 km³/year. Conversion: 1,006 km³/year × 10^9 m³/km³ ≈ 1.006 × 10^12 m³/year; game value 1 × 10^12 m³/year is rounded."
       }
     },
     {
@@ -3621,9 +3624,10 @@
         "name": "Meta-Wiki：English Wikipedia",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "条目数是动态数字，题目用约700万条的数量级，不应当作永久不变的精确总数。",
-        "url": "https://meta.wikimedia.org/wiki/English_Wikipedia/en"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对英文维基百科条目统计相关页面/当前公开统计：英文维基百科已超过700万条目；题目采用“约700万”作为数量级描述，属于会随时间变化的动态事实。",
+        "url": "https://en.wikipedia.org/wiki/English_Wikipedia",
+        "reviewEvidence": "The English Wikipedia article states that the English Wikipedia surpassed seven million articles in May 2025 and reports a current count above 7.2 million in 2026. The game asks for an approximate scale of about seven million, not an immutable exact count."
       }
     },
     {
@@ -3735,23 +3739,21 @@
     },
     {
       "id": "num-23",
-      "q": "一个成年人体内的血液总量大约是多少升？",
+      "q": "一个成年人的平均血液总量大约是多少升？",
       "u": "升",
-      "answerRange": {
-        "min": 4,
-        "max": 6
-      },
       "note": "健康成人平均血量约5升；本题4–6升仅作体型不同的宽泛估算区间，不替代医学测量。",
-      "answerType": "range",
+      "answerType": "point",
       "status": "published",
       "source": {
         "name": "Cleveland Clinic：Blood Volume Testing",
-        "year": 2026,
+        "year": 2022,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "资料称成人平均血量约5升；3.5–5.5升为不同体型成人的宽泛估算区间，不是医学诊断范围。",
-        "url": "https://my.clevelandclinic.org/health/diagnostics/16793-blood-volume-testing"
-      }
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 Cleveland Clinic Blood Volume Testing 页面；原文明确说成人平均血量约5升。题目改为询问平均值并改用点答案5升，不再把来源没有直接给出的4–6升区间包装成已验证范围。",
+        "url": "https://my.clevelandclinic.org/health/diagnostics/16793-blood-volume-testing",
+        "reviewEvidence": "Cleveland Clinic, “Blood Volume Testing”, states: “The average blood volume of an adult is about 5 liters.” The question now asks for average adult blood volume and uses 5 L as the point estimate."
+      },
+      "a": 5
     },
     {
       "id": "num-24",
@@ -3829,11 +3831,12 @@
       "status": "published",
       "source": {
         "name": "United Nations：Population / global life expectancy",
-        "year": 2026,
+        "year": 2024,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "联合国资料给出2024年全球预期寿命约73.3岁；范围按约数呈现。",
-        "url": "https://www.un.org/en/global-issues/population"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对联合国《World Population Prospects 2024 Key Messages》：全球出生时预期寿命在2024年达到约73.3岁，游戏区间71–74年覆盖该值。",
+        "url": "https://population.un.org/wpp/assets/Files/WPP2024_Key-Messages.pdf",
+        "reviewEvidence": "United Nations, World Population Prospects 2024 Key Messages, section 5: global life expectancy at birth reached 73.3 years in 2024. The game range 71–74 years includes the cited value."
       }
     },
     {
@@ -3879,14 +3882,13 @@
       "u": "千米",
       "note": "干流约 6,300 千米，长度居世界第三。",
       "answerType": "point",
-      "status": "published",
+      "status": "review",
       "source": {
         "name": "中国政府网：The Yangtze River",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "中国政府网介绍长江干流全长约6300千米。",
-        "url": "https://english.www.gov.cn/news/202601/05/content_WS695b59a8c6d00ca5f9a0869a.html"
+        "reviewStatus": "needs-review",
+        "reviewNote": "本轮发现来源链接指向长江经济带经济报道，不能直接支持干流全长；公开来源对长江长度存在不同测量口径，需补充中国水利/地理权威的直接来源后再发布。暂缓发布。"
       }
     },
     {
@@ -3919,26 +3921,28 @@
         "name": "Cleveland Clinic：Heart Rate",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "按平均约70次/分钟×1440分钟/天≈100,800次；这是方便估测的数量级，不是人人相同的实测均值。",
-        "url": "https://my.clevelandclinic.org/health/diagnostics/heart-rate"
+        "reviewStatus": "derived",
+        "reviewNote": "Cleveland Clinic 页面给出成人静息心率常见范围60–100次/分钟。以70次/分钟作为演示假设：70×60×24=100,800次/日，取约10万次；不是所有人的实际日均心跳。",
+        "url": "https://my.clevelandclinic.org/health/diagnostics/heart-rate",
+        "reviewEvidence": "Cleveland Clinic states a normal adult resting heart rate is typically 60–100 beats/min. With an explicit representative assumption of 70 beats/min, 70 × 60 × 24 = 100,800 beats/day, rounded to about 100,000."
       }
     },
     {
       "id": "num-33",
       "q": "亚马逊河的全长大约是多少千米？",
-      "a": 6400,
+      "a": 6300,
       "u": "千米",
       "note": "常见长度估算约6400千米；亚马逊河与尼罗河的长度排序取决于源头定义和测量口径。",
       "answerType": "point",
       "status": "published",
       "source": {
         "name": "Encyclopaedia Britannica：Amazon River",
-        "year": 2026,
+        "year": 2018,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "常见长度估算约6400千米；亚马逊河与尼罗河长度排序会受源头和测量口径影响，已在说明中提示争议。",
-        "url": "https://www.britannica.com/place/Amazon-River"
+        "reviewStatus": "derived",
+        "reviewNote": "加拿大政府引用的河流长度表给出亚马逊河约6,280千米；河流长度会因源头定义与测量口径而不同。游戏答案修订为约6,300千米，并标注为近似值。",
+        "url": "https://www.canada.ca/en/environment-climate-change/services/water-overview/sources/rivers.html",
+        "reviewEvidence": "Government of Canada, “Water sources: rivers”, length table lists the Amazon at 6,280 km. Game answer 6,300 km is rounded; river-length estimates vary with source/headwater definitions."
       }
     },
     {
@@ -4004,9 +4008,10 @@
         "name": "U.S. Geological Survey：How much water is there on, in, and above the Earth?",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "USGS给出的地球总水量约13.86亿立方千米，换算约1.386×10¹⁸立方米。",
-        "url": "https://www.usgs.gov/faqs/how-much-natural-water-there"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对 USGS 页面：地球总水量约1,386,000,000立方千米；换算为1.386×10^18立方米，游戏答案1.4×10^18立方米为合理四舍五入。",
+        "url": "https://www.usgs.gov/faqs/how-much-natural-water-there",
+        "reviewEvidence": "USGS, “How much natural water is there?”, estimates Earth holds 1,386,000,000 km³ of water. Conversion to cubic metres is 1.386 × 10^18 m³; game answer 1.4 × 10^18 m³ is rounded."
       }
     },
     {
@@ -4021,9 +4026,10 @@
         "name": "Ueno Zoo：Hippopotamus Encyclopedia",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "动物园资料介绍河马可以在水下停留超过5分钟；题目取约5分钟。",
-        "url": "https://www.tokyo-zoo.net/en/ueno/encyclopedia/hippopotamus/index.html"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对上野动物园河马百科页面；原文称河马可在水下停留超过5分钟，题目取约5分钟。",
+        "url": "https://www.tokyo-zoo.net/en/ueno/encyclopedia/hippopotamus/index.html",
+        "reviewEvidence": "Ueno Zoo, “Hippopotamus” encyclopedia page, states hippos can stay submerged for more than five minutes. Game answer of about five minutes is a conservative approximate value."
       }
     },
     {
@@ -4069,11 +4075,12 @@
       "status": "published",
       "source": {
         "name": "World Aquatics Competition Regulations",
-        "year": 2026,
+        "year": 2024,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "50×25米泳池尺寸可由赛事规则核对；答案2500立方米还依赖“平均水深2米”的显式假设。",
-        "url": "https://resources.fina.org/fina/document/2024/01/29/2b4f5bea-f965-411c-8fae-6d33bda64b85/Competition-Regulations-version-1st-January-2024-_-Publishing_V3.pdf"
+        "reviewStatus": "derived",
+        "reviewNote": "题干已明确采用50×25米泳池和平均水深2米的估算假设；按体积=长×宽×平均深度，50×25×2=2500立方米。该答案是计算结果，实际池水量取决于水深与池型。",
+        "url": "https://resources.fina.org/fina/document/2024/01/29/2b4f5bea-f965-411c-8fae-6d33bda64b85/Competition-Regulations-version-1st-January-2024-_-Publishing_V3.pdf",
+        "reviewEvidence": "Derived from the explicitly stated dimensions and assumption: 50 m × 25 m × 2 m average depth = 2,500 m³. The linked World Aquatics regulations are intended to substantiate competition-pool dimensions; the average-depth assumption is supplied by the question, not claimed as a universal regulation."
       }
     },
     {
@@ -4172,11 +4179,12 @@
       "status": "published",
       "source": {
         "name": "U.S. Geological Survey：Age of the Earth",
-        "year": 2026,
+        "year": 1997,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "USGS给出地球年龄约45.4亿年，误差小于1%；原题区间少了一个数量级，本轮已修正。",
-        "url": "https://pubs.usgs.gov/gip/geotime/age.html"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对 USGS Geologic Time 页面搜索摘要；地球及陨石年龄约4.54 billion years，误差小于1%，游戏区间45–46亿年覆盖该值。",
+        "url": "https://pubs.usgs.gov/gip/geotime/age.html",
+        "reviewEvidence": "USGS, “Geologic Time: Age of the Earth”, gives an Earth age of 4.54 billion years with uncertainty below 1%. Game range 4.5–4.6 billion years includes the cited estimate."
       }
     },
     {
@@ -4231,13 +4239,13 @@
       },
       "note": "约4000–8000步作为宽泛估测参考，不是适用于所有人的硬性健康目标；年龄、职业与生活方式都会影响日常步数。",
       "answerType": "range",
-      "status": "published",
+      "status": "review",
       "source": {
         "name": "PubMed：step-count and health systematic review",
-        "year": 2026,
+        "year": 2025,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "采用约4000–8000步的宽泛参考范围；这不是适用于所有人的硬性健康目标，受年龄和生活方式影响。",
+        "reviewStatus": "needs-review",
+        "reviewNote": "现有来源是每日步数与健康结局的系统综述，讨论健康风险关联的拐点，不等同于一般成年人的实际日均步数分布。当前题干与证据口径不匹配，暂缓发布，待改写题目或补充代表性步数调查来源。",
         "url": "https://pubmed.ncbi.nlm.nih.gov/40713949/"
       }
     }
