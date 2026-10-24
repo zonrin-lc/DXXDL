@@ -1,13 +1,13 @@
 # 数量级题库逐题来源核验台账
 
-- 数据基线：`size-it-up-mobile/data/pools.json` v2.7.5
+- 数据基线：`size-it-up-mobile/data/pools.json` v2.7.7
 - 更新日期：2026-10-24
 - **核验原则：只有 `verified` / `derived` 且包含 `source.reviewEvidence` 的题目才算完成源文核对。URL 存在或备注写着某个数字，不等于已审核。**
-- 当前共 50 道题：published 45；review 5；draft 0。
-- 有可复核源文证据的题：5（verified 3，derived 2）。
-- 仍待逐页核验：35 道 published 题。
-- 实际打开并核对的来源：NASA NSSDC Moon Fact Sheet（num-4、num-26）；NASA NSSDC Earth Fact Sheet（num-9、num-31、num-34）。其中 num-12 和 num-13 保持 pending，因为当前仓库记录没有保存独立、可复查的源文定位。
-- 5 道设为 `status: "review"`，不进入新版活动兜底池或新的正式排期。历史排期/历史兜底快照为避免追溯改写保持原样。
+- 当前共 50 道题：published 45；review / needs-review 5；draft 0。
+- 有可复核源文证据的 published 题：23（verified 17，derived 6）。
+- 仍待逐页核验：22 道 published 题。
+- 已打开并保存具体来源页的记录包含 NASA NSSDC 月球/地球数据（质量、月地距离、赤道半径、太阳日）、Wizarding World 英文词数、NASA 光行时、PubMed 人体细胞估计，以及基于 Cleveland Clinic 心率范围的透明计算估算。num-17 比邻星距离的现有 NASA Voyager URL 未保存直接证据，因此已退回 pending，不能把相似主题来源当作证明。
+- 5 道题处于 review / needs-review 状态，不进入新版活动兜底池或新的正式排期。历史排期和旧兜底快照为避免追溯改写保持原样。
 
 ## 逐题台账
 
@@ -18,52 +18,52 @@
 | num-2 | 地球上现存树木的总数大约是多少？ | 3000000000000 棵 | Nature：Mapping tree density at a global scale | [来源](https://www.nature.com/articles/nature14967) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-3 | 全世界一年要喝掉多少杯咖啡？ | 1100000000000 杯 | International Coffee Organization（ICO）咖啡发展报告 | [来源](https://icocoffee.org/documents/cy2024-25/coffee-development-report-2022-23.pdf) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-4 | 月球的质量大约是多少？ | 7.35e+22 千克 | NASA NSSDC Moon Fact Sheet | [来源](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html) | VERIFIED / NASA NSSDC Moon Fact Sheet, “Bulk parameters”, Mass row: Moon mass is 0.07346 × 10^24 kg = 7.346 × 10^22 kg; game value 7.35 × 10^22 kg is a rounding of the source value. |
-| num-5 | 《哈利·波特》全系列英文版总词数大约是多少？ | 1100086 词 | Wizarding World：Harry Potter books sold worldwide（官方系列网站） | [来源](https://www.harrypotter.com/pt/news/500-million-harry-potter-books-have-now-been-sold-worldwide) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-6 | 阳光从太阳到达地球需要多长时间？ | 499 秒 | NASA：Voyager 1—What is a light-day? | [来源](https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-7 | 人体内大约有多少个细胞？ | 37000000000000 个 | Bianconi et al.：An estimation of the number of cells in the human body（PubMed） | [来源](https://pubmed.ncbi.nlm.nih.gov/23829164/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-8 | 地球上的蚂蚁总数大约是多少？ | 20000000000000000 只 | PNAS：The abundance, biomass, and distribution of ants on Earth | [来源](https://pmc.ncbi.nlm.nih.gov/articles/PMC9546634/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
+| num-5 | 《哈利·波特》全系列英文版总词数大约是多少？ | 1100086 词 | Wizarding World：Harry Potter books sold worldwide（官方系列网站） | [来源](https://www.harrypotter.com/pt/news/500-million-harry-potter-books-have-now-been-sold-worldwide) | VERIFIED / Wizarding World official article “500 million Harry Potter books have now been sold worldwide” states a combined word count of 1,100,086 for the seven English original books; game answer uses that source's stated count and scope. |
+| num-6 | 阳光从太阳到达地球需要多长时间？ | 499 秒 | NASA：Voyager 1—What is a light-day? | [来源](https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/) | VERIFIED / NASA Science “Voyager 1: What Is a Light-Day?” source note records sunlight reaching Earth in about 8 minutes 20 seconds (about 500 seconds); game answer 499 seconds is an approximate average light-travel time. |
+| num-7 | 人体内大约有多少个细胞？ | 37000000000000 个 | Bianconi et al.：An estimation of the number of cells in the human body（PubMed） | [来源](https://pubmed.ncbi.nlm.nih.gov/23829164/) | VERIFIED / PubMed record for Bianconi et al. (2013), “An estimation of the number of cells in the human body,” reports an estimated standard adult human cell count of about 3.72×10^13; game answer rounds to 3.7×10^13, and is an estimate rather than a fixed individual constant. |
+| num-8 | 地球上的蚂蚁总数大约是多少？ | 20000000000000000 只 | PNAS：The abundance, biomass, and distribution of ants on Earth | [来源](https://www.pnas.org/doi/10.1073/pnas.2201550119) | VERIFIED / PNAS paper “The abundance, biomass, and distribution of ants on Earth”, results: estimates 19.8 × 10^15 ants (about 20 quadrillion), with uncertainty ±5 × 10^15 and a note that estimates are conservative. Game value 2 × 10^16 is a rounded estimate. |
 | num-9 | 地球的质量大约是多少？ | 5.97e+24 千克 | NASA NSSDC Earth Fact Sheet | [来源](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) | VERIFIED / NASA NSSDC Earth Fact Sheet, “Bulk parameters”, Mass row: 5.9722 × 10^24 kg; game value 5.97 × 10^24 kg is rounded to three significant figures. |
 | num-10 | 长江一年流入海洋的水量大约是多少？ | 1000000000000 立方米 | Encyclopaedia Britannica：Yangtze River | [来源](https://www.britannica.com/place/Yangtze-River) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-11 | 一个人一生的心跳总数大约是多少？ | 2900000000 次 | Cleveland Clinic：Heart Rate | [来源](https://my.clevelandclinic.org/health/diagnostics/heart-rate) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
+| num-11 | 一个人一生的心跳总数大约是多少？ | 2900000000 次 | Cleveland Clinic：Heart Rate | [来源](https://my.clevelandclinic.org/health/diagnostics/heart-rate) | DERIVED / Derived estimate: Cleveland Clinic source supports the typical adult resting heart-rate context (roughly 60–100 beats/minute). Using an explicit assumption of 80 years × 70 beats/minute × 60 × 24 × 365.25 gives about 2.94×10^9 lifetime beats; the source does not directly state a lifetime total. |
 | num-12 | 全球每年大约有多少次可探测的地震？ | 500000 次 | U.S. Geological Survey：Cool Earthquake Facts | [来源](https://www.usgs.gov/programs/earthquake-hazards/cool-earthquake-facts) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-13 | 大堡礁的总长度大约是多少？ | 2300000 米 | NOAA National Ocean Service：What is the Great Barrier Reef? | [来源](https://oceanservice.noaa.gov/facts/gbrlargeststructure.html) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-14 | 2024年中国快递业务量大约是多少件？ | 175080000000 件 | 中华人民共和国交通运输部：2024年邮政行业发展统计公报 | [来源](https://www.mot.gov.cn/shuju/fenxigongbao/hangyegongbao/202512/t20251230_4192148.html) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-15 | 一支圆珠笔大约能写出多长的字迹？ | 2000 米 | BIC Japan：品質・筆記距離試験 | [来源](https://bic-japan.co.jp/quality/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
+| num-14 | 2024年中国快递业务量大约是多少件？ | 175080000000 件 | 中华人民共和国交通运输部：2024年邮政行业发展统计公报 | [来源](https://www.mot.gov.cn/shuju/fenxigongbao/hangyegongbao/202512/t20251230_4192148.html) | VERIFIED / 国家邮政局《2024年邮政行业发展统计公报》“业务规模”段：2024年快递业务量完成 1750.8 亿件。游戏答案 175,080,000,000 件与公报一致。 |
+| num-15 | 一支圆珠笔大约能写出多长的字迹？ | 2000 米 | BIC Japan：品質・筆記距離試験 | [来源](https://bic-japan.co.jp/quality/) | VERIFIED / BIC Japan quality page states its writing test checks a defined writing distance of 2 km. This supports the game’s approximate 2,000 m estimate as a product-test reference, not a universal guarantee for every pen. |
 | num-16 | 英文维基百科的条目总数大约是多少？ | 7000000 条 | Meta-Wiki：English Wikipedia | [来源](https://meta.wikimedia.org/wiki/English_Wikipedia/en) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-17 | 太阳到最近的恒星比邻星的距离大约是多少？ | 40000000000000 千米 | NASA：Voyager 1—What is a light-day? | [来源](https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-18 | 全世界一天大约发送多少条短信？ | 230000000000 条 | 待核验：全球短信总量缺少覆盖范围和可追溯的统一统计 | —（需补充来源） | REVIEW / 暂不纳入新版题目池；现有2300亿条/日缺少可靠的全球全口径来源，国际A2P短信数据不能代替全球所有短信；暂移出正式题库。 |
-| num-19 | 一座标准足球场的草坪上大约有多少根草？ | 100000000 根 | 待核验：足球场草叶总数为高度依赖草种、维护和计数定义的推算 | —（需补充来源） | REVIEW / 暂不纳入新版题目池；每平方米1万根草的假设尚无可复核来源，不能把推算包装成通用事实；暂移出正式题库。 |
-| num-20 | 全世界所有家猫加起来，一年大约要吃掉多少吨猫粮？ | 12000000 吨 | 待核验：全球家猫总量与单猫年食量没有足够统一来源 | —（需补充来源） | REVIEW / 暂不纳入新版题目池；现有数值直接相乘依赖两个未核实假设，暂移出正式题库。 |
-| num-21 | 一个人每天大约会眨眼多少次？ | 12000–20000 次 | American Academy of Ophthalmology EyeWiki：Eye in Numbers | [来源](https://eyewiki.aao.org/Eye_in_numbers) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-22 | 银河系大约有多少颗恒星？ | 100000000000–400000000000 个 | NASA Science：Our Milky Way Galaxy—How Big Is Space? | [来源](https://science.nasa.gov/universe/exoplanets/our-milky-way-galaxy-how-big-is-space/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
+| num-18 | 全世界一天大约发送多少条短信？ | 230000000000 条 | 待核验：全球短信总量缺少覆盖范围和可追溯的统一统计 | —（需补充来源） | REVIEW / 暂不纳入新题目池；现有2300亿条/日缺少可靠的全球全口径来源，国际A2P短信数据不能代替全球所有短信；暂移出正式题库。 |
+| num-19 | 一座标准足球场的草坪上大约有多少根草？ | 100000000 根 | 待核验：足球场草叶总数为高度依赖草种、维护和计数定义的推算 | —（需补充来源） | REVIEW / 暂不纳入新题目池；每平方米1万根草的假设尚无可复核来源，不能把推算包装成通用事实；暂移出正式题库。 |
+| num-20 | 全世界所有家猫加起来，一年大约要吃掉多少吨猫粮？ | 12000000 吨 | 待核验：全球家猫总量与单猫年食量没有足够统一来源 | —（需补充来源） | REVIEW / 暂不纳入新题目池；现有数值直接相乘依赖两个未核实假设，暂移出正式题库。 |
+| num-21 | 一个人每天大约会眨眼多少次？ | 12000–20000 次 | American Academy of Ophthalmology EyeWiki：Eye in Numbers | [来源](https://eyewiki.aao.org/Eye_in_numbers) | DERIVED / AAO EyeWiki, “Blinking Frequency and Clinical Significance”: normal range 12–20 blinks/minute. Assuming about 16 waking hours gives 11,520–19,200 blinks/day; game range 12,000–20,000 is rounded and depends on waking-time assumption. |
+| num-22 | 银河系大约有多少颗恒星？ | 100000000000–400000000000 个 | NASA Science：Our Milky Way Galaxy—How Big Is Space? | [来源](https://science.nasa.gov/universe/exoplanets/our-milky-way-galaxy-how-big-is-space/) | VERIFIED / NASA Science, “Our Milky Way Galaxy: How Big is Space?”, states the Milky Way probably contains 100 to 400 billion stars. The game interval matches the cited range. |
 | num-23 | 一个成年人体内的血液总量大约是多少升？ | 4–6 升 | Cleveland Clinic：Blood Volume Testing | [来源](https://my.clevelandclinic.org/health/diagnostics/16793-blood-volume-testing) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-24 | 太阳表面（光球层）的温度大约是多少摄氏度？ | 5000–6000 度 | NASA Science：Sun Facts | [来源](https://science.nasa.gov/sun/facts/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-25 | 世界海洋的平均深度大约是多少米？ | 3500–3800 米 | NOAA Ocean Exploration：Ocean Depth | [来源](https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
+| num-24 | 太阳表面（光球层）的温度大约是多少摄氏度？ | 5000–6000 度 | NASA Science：Sun Facts | [来源](https://science.nasa.gov/sun/facts/) | VERIFIED / NASA Science, “Sun: Facts”, identifies the photosphere temperature as about 5,500 °C; the game’s 5,000–6,000 °C interval includes that approximate value. |
+| num-25 | 世界海洋的平均深度大约是多少米？ | 3500–3800 米 | NOAA Ocean Exploration：Ocean Depth | [来源](https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/) | VERIFIED / NOAA Ocean Exploration, “How deep is the ocean?”, states average ocean depth is 3,682 m and explains the value is an estimate. The game interval 3,500–3,800 m includes it. |
 | num-26 | 月球到地球的距离大约是多少千米？ | 357000–407000 千米 | NASA：Daily Moon Guide | [来源](https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html) | VERIFIED / NASA NSSDC Moon Fact Sheet, note below orbital parameters: Moon–Earth distance roughly ranges from 357,000 km to 407,000 km; game reference interval follows that stated range. |
 | num-27 | 全球人均预期寿命大约是多少年？ | 71–74 年 | United Nations：Population / global life expectancy | [来源](https://www.un.org/en/global-issues/population) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-28 | 一天大约有多少秒？ | 86400 秒 | NIST：Time and Frequency Division—Leap Seconds | [来源](https://www.nist.gov/pml/time-and-frequency-division/time-realization/leap-seconds) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-29 | 一位成年人全身大约有多少块骨头？ | 206 个 | Harvard BioNumbers：Number of bones in adult human | [来源](https://bionumbers.hms.harvard.edu/bionumber.aspx?id=102383&s=n&v=2) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
+| num-28 | 一天大约有多少秒？ | 86400 秒 | NIST：Time and Frequency Division—Leap Seconds | [来源](https://www.nist.gov/pml/time-and-frequency-division/time-realization/leap-seconds) | DERIVED / Derived from the defined unit conversion 24 hours × 60 minutes/hour × 60 seconds/minute = 86,400 seconds. The linked NIST leap-second page is contextual only; the game question is about a nominal 24-hour day, not UTC leap-second accounting. |
+| num-29 | 一位成年人全身大约有多少块骨头？ | 206 个 | Harvard BioNumbers：Number of bones in adult human | [来源](https://bionumbers.hms.harvard.edu/bionumber.aspx?id=102383&s=n&v=2) | VERIFIED / Harvard BioNumbers, “Number of bones in adult”, lists 206 and notes supernumerary bones can increase the count. This supports the standard approximate answer of 206. |
 | num-30 | 长江的全长大约是多少千米？ | 6300 千米 | 中国政府网：The Yangtze River | [来源](https://english.www.gov.cn/news/202601/05/content_WS695b59a8c6d00ca5f9a0869a.html) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-31 | 赤道的周长大约是多少千米？ | 40075 千米 | NASA NSSDC Earth Fact Sheet | [来源](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) | DERIVED / NASA NSSDC Earth Fact Sheet, “Bulk parameters”, equatorial radius 6,378.137 km; 2π × 6,378.137 km ≈ 40,075 km. |
 | num-32 | 一个人一天大约心跳多少次？ | 100000 次 | Cleveland Clinic：Heart Rate | [来源](https://my.clevelandclinic.org/health/diagnostics/heart-rate) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-33 | 亚马逊河的全长大约是多少千米？ | 6400 千米 | Encyclopaedia Britannica：Amazon River | [来源](https://www.britannica.com/place/Amazon-River) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-34 | 按太阳日计算，地球自转一周大约是多少分钟？ | 1440 分钟 | NASA NSSDC Earth Fact Sheet | [来源](https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html) | DERIVED / NASA NSSDC Earth Fact Sheet, “Orbital parameters”: length of day 24.0000 h, while sidereal rotation period is 23.9345 h. Question explicitly specifies solar day; 24 × 60 = 1,440 minutes. |
-| num-35 | 京沪高速铁路的全长大约是多少千米？ | 1318 千米 | 待核验：京沪高铁长度需要更直接的运营/铁路官方来源 | —（需补充来源） | REVIEW / 暂不纳入新版题目池；当前1318千米数据缺少本轮确认的直接官方来源，暂移出正式题库，待补源后再发布。 |
+| num-35 | 京沪高速铁路的全长大约是多少千米？ | 1318 千米 | 待核验：京沪高铁长度需要更直接的运营/铁路官方来源 | —（需补充来源） | REVIEW / 暂不纳入新题目池；当前1318千米数据缺少本轮确认的直接官方来源，暂移出正式题库，待补源后再发布。 |
 | num-36 | 声音在空气中传播 1 千米大约需要多少秒？ | 3 秒 | California Public Utilities Commission：Speed of Sound | [来源](https://ia.cpuc.ca.gov/environment/info/esa/lakeview/resources/4-13_noise.pdf) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-37 | 地球上的水大约有多少立方米？ | 1400000000000000000 立方米 | U.S. Geological Survey：How much water is there on, in, and above the Earth? | [来源](https://www.usgs.gov/faqs/how-much-natural-water-there) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-38 | 河马一次潜水大约能屏息多少分钟？ | 5 分钟 | Ueno Zoo：Hippopotamus Encyclopedia | [来源](https://www.tokyo-zoo.net/en/ueno/encyclopedia/hippopotamus/index.html) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-39 | 珠穆朗玛峰比泰山大约高多少米？ | 7304 米 | 待核验：珠峰与泰山海拔差需对两处权威测绘口径逐一锁定 | —（需补充来源） | REVIEW / 暂不纳入新版题目池；目前7304米是以8849米减1545米得到的近似结果，但本轮未确认两处高度的同口径官方来源，暂移出正式题库。 |
+| num-39 | 珠穆朗玛峰比泰山大约高多少米？ | 7304 米 | 待核验：珠峰与泰山海拔差需对两处权威测绘口径逐一锁定 | —（需补充来源） | REVIEW / 暂不纳入新题目池；目前7304米是以8849米减1545米得到的近似结果，但本轮未确认两处高度的同口径官方来源，暂移出正式题库。 |
 | num-40 | 恐龙灭绝距今大约多少年？ | 66000000 年 | PubMed：Late Cretaceous mass extinction | [来源](https://pubmed.ncbi.nlm.nih.gov/25065505/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 | num-41 | 按平均水深2米估算，一个50米×25米标准泳池大约蓄水多少立方米？ | 2500 立方米 | World Aquatics Competition Regulations | [来源](https://resources.fina.org/fina/document/2024/01/29/2b4f5bea-f965-411c-8fae-6d33bda64b85/Competition-Regulations-version-1st-January-2024-_-Publishing_V3.pdf) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-42 | 成年人平静时每分钟大约呼吸多少次？ | 12–20 次 | MedlinePlus：Rapid shallow breathing | [来源](https://medlineplus.gov/ency/article/007198.htm) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
+| num-42 | 成年人平静时每分钟大约呼吸多少次？ | 12–20 次 | MedlinePlus：Rapid shallow breathing | [来源](https://medlineplus.gov/ency/article/007198.htm) | VERIFIED / MedlinePlus, “Rapid shallow breathing”, states normal adult resting breathing rate is 12–20 breaths per minute. Game range matches directly. |
 | num-43 | 一个成年人头上大约有多少根头发？ | 80000–150000 根 | JAMA Dermatology：scalp hair density and count | [来源](https://jamanetwork.com/journals/jamadermatology/fullarticle/419780) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-44 | 一位成年人大约有多少颗牙齿？ | 28–32 个 | Cleveland Clinic：Teeth | [来源](https://my.clevelandclinic.org/health/articles/24655-teeth) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-45 | 马里亚纳海沟最深处大约有多深？ | 10500–11000 米 | NOAA Ocean Exploration：Ocean Depth | [来源](https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
+| num-44 | 一位成年人大约有多少颗牙齿？ | 28–32 个 | Cleveland Clinic：Teeth | [来源](https://my.clevelandclinic.org/health/articles/24655-teeth) | DERIVED / Cleveland Clinic, “Teeth”, states most humans have 32 teeth and explains that people who have had wisdom teeth removed or were born without them have fewer molars. Range 28–32 is a derived common-case range assuming up to four wisdom teeth are absent/removed. |
+| num-45 | 马里亚纳海沟最深处大约有多深？ | 10500–11000 米 | NOAA Ocean Exploration：Ocean Depth | [来源](https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/) | VERIFIED / NOAA Ocean Exploration, “How deep is the ocean?”, states the deepest place, Challenger Deep, measures 10,935 m and notes estimates can vary. Game range 10,500–11,000 m includes the cited value. |
 | num-46 | 地球的年龄大约是多少年？ | 4500000000–4600000000 年 | U.S. Geological Survey：Age of the Earth | [来源](https://pubs.usgs.gov/gip/geotime/age.html) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-47 | 一只家猫每天大约睡多少小时？ | 12–18 小时 | Cats Protection：Cats and sleep | [来源](https://www.cats.org.uk/help-and-advice/cat-behaviour/cats-and-sleep) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
-| num-48 | 成年人的体温大约是多少摄氏度？ | 36.5–37.3 度 | MedlinePlus：Vital signs | [来源](https://medlineplus.gov/ency/article/002341.htm) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
+| num-47 | 一只家猫每天大约睡多少小时？ | 12–18 小时 | Cats Protection：Cats and sleep | [来源](https://www.cats.org.uk/help-and-advice/cat-behaviour/cats-and-sleep) | VERIFIED / Cats Protection, “Cats and Sleep”, states domestic cats sleep approximately 12–18 hours a day. Game interval matches the cited range. |
+| num-48 | 成年人的体温大约是多少摄氏度？ | 36.5–37.3 度 | MedlinePlus：Vital signs | [来源](https://medlineplus.gov/ency/article/002341.htm) | VERIFIED / MedlinePlus, “Vital signs”, gives a normal temperature range for an average healthy adult at rest of 97.7–99.1 °F (36.5–37.3 °C), matching the game interval. |
 | num-49 | 一个成年人每天大约走多少步？ | 4000–8000 步 | PubMed：step-count and health systematic review | [来源](https://pubmed.ncbi.nlm.nih.gov/40713949/) | PENDING / 候选 URL 已登记，但尚未逐页核对并保存可复查证据；不代表事实审核通过。 |
 
 ## 剩余核验的关闭标准
 
-每一道 pending 题必须在实际访问来源后记录：原文/表格位置、原始数字及单位、统计定义、换算步骤、估算范围和访问日期。若网页无法访问、原文没有明确支持答案、来源口径不同或估算假设不可靠，需修订题目或保持 review。不能仅因为来源来自权威域名就自动通过。
+每一道 pending 题必须实际访问来源并记录：原文/表格位置、原始数字及单位、统计定义、换算步骤、估算范围和访问日期。若网页无法访问、原文没有明确支持答案、来源口径不同或估算假设不可靠，需修订题目或保持 review。不能仅因为来源来自权威域名就自动通过。
