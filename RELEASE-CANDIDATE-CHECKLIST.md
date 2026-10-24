@@ -67,3 +67,10 @@
 - [ ] 在对应开发者后台创建并审核正式激励视频广告位，把真实 `adUnitId` 写入 `src/platform/taptap-config.js`。当前 ID 为空，生产环境不会播放广告，也不会发放复活奖励。
 - [ ] 在 TapTap 测试环境验证无广告库存、加载失败、未完播、重复/延迟回调、前后台恢复、重复点击、复活仅一次、首次启动保护期等情况。
 - [ ] 核对最终平台广告政策、隐私同意和审核要求；本地单元测试不能替代平台沙箱或真实广告回调测试。
+
+
+## Development dependency risk decision
+
+- [x] CI blocks high/critical npm advisories; current `npm audit --audit-level=high` passed on the last verified Jimp 0.22.12 code run.
+- [x] Asset pipeline rejects inputs whose magic bytes are not PNG/JPEG before calling Jimp, mitigating the known malformed-ASF parser advisory for this local-only tool.
+- [ ] Full `npm audit` still reports 4 moderate `file-type` advisories through Jimp 0.22.12. A Jimp 1.6.1 trial introduced 29 high `zod` advisories and was reverted. Do not mark dependency tree fully clean; replace Jimp in a separately tested future change if policy requires zero advisories.
