@@ -51,6 +51,18 @@ describe('每日不可变排期（GDD 4.1 本版确定）', () => {
     expect(r1.source).toBe('fallback');
     expect(r1.fallbackVersion).toBe('fallback_v2'); // 默认取最新版本化快照
   });
+  it('兜底版本按 effectiveFrom 生效，未来新增版本不改写之前日期', () => {
+    const versioned = {
+      ...pack,
+      fallbackPools: [
+        { version: 'fallback_v1', effectiveFrom: '0001-01-01', questionIds: ['numeric_001', 'numeric_002', 'numeric_003'] },
+        { version: 'fallback_v2', effectiveFrom: '2026-11-01', questionIds: ['numeric_004'] },
+      ],
+    };
+    expect(resolveDailyQuestionId('2026-10-31', versioned).fallbackVersion).toBe('fallback_v1');
+    expect(resolveDailyQuestionId('2026-11-05', versioned).fallbackVersion).toBe('fallback_v2');
+    expect(resolveDailyQuestionId('2026-10-31', versioned).questionId).toBe('numeric_001');
+  });
   it('更新兜底池（新版本）不影响已发布日期', () => {
     const r = resolveDailyQuestionId('2026-10-22', pack);
     expect(r.source).toBe('schedule');
