@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it } from 'vitest';
-import Jimp from 'jimp';
+import { Jimp } from 'jimp';
 import { mkdtemp, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
@@ -13,26 +13,21 @@ afterEach(async () => {
   }
 });
 
-// The calls below deliberately match Jimp 0.22.12's legacy crop(x,y,w,h), resize(w,h), and writeAsync APIs used by build-assets.mjs.
-describe('Jimp 0.22 asset pipeline compatibility', () => {
+// Keep this smoke test aligned with Jimp 1.x APIs used by build-assets.mjs.
+describe('Jimp 1.x asset pipeline compatibility', () => {
   it('can read, crop, resize, composite to a transparent canvas and write PNG', async () => {
     tempDir = await mkdtemp(join(tmpdir(), 'bsz-jimp-smoke-'));
     const inputPath = join(tempDir, 'input.png');
     const outputPath = join(tempDir, 'output.png');
 
-    const source = await new Promise((resolve, reject) => {
-      new Jimp(4, 3, 0xff00ffff, (error, image) => {
-        if (error) reject(error);
-        else resolve(image);
-      });
-    });
-    await source.writeAsync(inputPath);
+    const source = new Jimp({ width: 4, height: 3, color: 0xff00ffff });
+    await source.write(inputPath);
 
     const read = await Jimp.read(inputPath);
-    const cropped = read.clone().crop(1, 0, 2, 3).resize(4, 6);
-    const canvas = new Jimp(8, 8, 0x00000000);
+    const cropped = read.clone().crop({ x: 1, y: 0, w: 2, h: 3 }).resize({ w: 4, h: 6 });
+    const canvas = new Jimp({ width: 8, height: 8, color: 0x00000000 });
     canvas.composite(cropped, 2, 1);
-    await canvas.writeAsync(outputPath);
+    await canvas.write(outputPath);
 
     const result = await Jimp.read(outputPath);
     expect(result.bitmap.width).toBe(8);
