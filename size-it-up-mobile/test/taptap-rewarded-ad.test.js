@@ -34,7 +34,7 @@ describe('TapTap rewarded-video adapter', () => {
 
   it('grants completion only when SDK close callback reports isEnded=true', async () => {
     const f = fakePlatform({ onShow: (h) => queueMicrotask(() => h.close?.({ isEnded: true })) });
-    const manager = createTapTapRewardedAd({ adUnitId: 'test-ad-unit', getPlatform: () => f.sdk });
+    const manager = createTapTapRewardedAd({ adUnitId: 'test-ad-unit', getPlatform: () => f.sdk, now: () => 61_000 });
     expect(await manager.showRewarded()).toEqual({ status: 'completed' });
     expect(f.sdk.createRewardedVideoAd).toHaveBeenCalledWith({ adUnitId: 'test-ad-unit' });
   });
@@ -51,14 +51,14 @@ describe('TapTap rewarded-video adapter', () => {
       f.handlers.error?.(new Error('no inventory'));
       return Promise.reject(new Error('no inventory'));
     });
-    const manager = createTapTapRewardedAd({ adUnitId: 'test-ad-unit', getPlatform: () => f.sdk, loadTimeoutMs: 20 });
+    const manager = createTapTapRewardedAd({ adUnitId: 'test-ad-unit', getPlatform: () => f.sdk, loadTimeoutMs: 20, now: () => 61_000 });
     expect(await manager.showRewarded()).toMatchObject({ status: 'error', reason: 'load-failed' });
   });
 
   it('prevents concurrent reward attempts', async () => {
     let close;
     const f = fakePlatform({ onShow: (h) => { close = h.close; } });
-    const manager = createTapTapRewardedAd({ adUnitId: 'test-ad-unit', getPlatform: () => f.sdk, playbackTimeoutMs: 100 });
+    const manager = createTapTapRewardedAd({ adUnitId: 'test-ad-unit', getPlatform: () => f.sdk, playbackTimeoutMs: 100, now: () => 61_000 });
     const first = manager.showRewarded();
     await Promise.resolve();
     await Promise.resolve();
