@@ -15,6 +15,7 @@
 import Jimp from 'jimp';
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
 import { basename, join, extname } from 'node:path';
+import { hasSupportedRasterSignature } from './image-signature.mjs';
 import { fileURLToPath } from 'node:url';
 
 const ROOT = fileURLToPath(new URL('..', import.meta.url));
@@ -151,6 +152,12 @@ function largestForeground(bg, w, h) {
 async function processOne(file) {
   const id = basename(file, extname(file));
   const rawPath = join(RAW_DIR, file);
+  // Jimp 0.22's file-type dependency has a moderate ASF parser advisory.
+  // This tool only accepts PNG/JPEG; validate magic bytes before format sniffing.
+  const rawBytes = await readFile(rawPath);
+  if (!hasSupportedRasterSignature(rawBytes)) {
+    throw new Error(`${id}: only PNG/JPEG image signatures are accepted`);
+  }
   const img = await Jimp.read(rawPath);
   const w = img.bitmap.width;
   const h = img.bitmap.height;
