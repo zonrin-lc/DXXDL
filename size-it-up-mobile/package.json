@@ -9,7 +9,9 @@
     "test": "vitest run",
     "check": "node tools/validate-pools.mjs",
     "verify": "npm run test && npm run check && npm run audit:sources && npm run build",
-    "audit:sources": "node tools/audit-sources.mjs"
+    "audit:sources": "node tools/audit-sources.mjs",
+    "audit:sources:release": "node tools/audit-sources.mjs --strict",
+    "verify:release": "npm run verify && npm run audit:sources:release"
   },
   "devDependencies": {
     "esbuild": "^0.25.0",
