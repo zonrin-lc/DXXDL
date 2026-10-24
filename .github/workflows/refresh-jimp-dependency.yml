@@ -13,7 +13,7 @@ permissions:
   actions: write
 
 concurrency:
-  group: refresh-jimp-\${{ github.ref }}
+  group: refresh-jimp-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -27,7 +27,7 @@ jobs:
         uses: actions/checkout@v5
         with:
           ref: audit/release-readiness-2026-10
-          token: \${{ github.token }}
+          token: ${{ github.token }}
       - name: Set up Node.js
         uses: actions/setup-node@v5
         with:
@@ -63,5 +63,5 @@ jobs:
           fi
       - name: Dispatch verification for the updated branch head
         env:
-          GH_TOKEN: \${{ github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: gh workflow run .github/workflows/size-it-up-mobile-verify.yml --ref audit/release-readiness-2026-10
