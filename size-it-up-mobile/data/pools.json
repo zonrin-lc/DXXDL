@@ -3429,7 +3429,7 @@
         "reviewStatus": "verified",
         "reviewNote": "已打开 Wizarding World 官方系列网站页面；原文明确给出七部《哈利·波特》图书合计 1,100,086 个英文单词。答案与来源一致；词数口径按该页面统计。",
         "url": "https://www.harrypotter.com/pt/news/500-million-harry-potter-books-have-now-been-sold-worldwide",
-        "reviewEvidence": "Wizarding World official article, paragraph beginning “The seven Harry Potter books”: states total 1,100,086 words across the seven books. Game answer matches this page's stated count."
+        "reviewEvidence": "Wizarding World official article “500 million Harry Potter books have now been sold worldwide” states a combined word count of 1,100,086 for the seven English original books; game answer uses that source's stated count and scope."
       }
     },
     {
@@ -3447,7 +3447,7 @@
         "reviewStatus": "verified",
         "reviewNote": "已打开 NASA Science 页面；原文称太阳光到地球约需 8 分 20 秒（约 500 秒），支持约 499 秒的数量级答案。页面以近似值描述，游戏保留近似口径。",
         "url": "https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/",
-        "reviewEvidence": "NASA Science, “Why measure with light?”, sunlight bullet: says sunlight takes about eight minutes and 20 seconds to reach Earth (~500 seconds); 499 seconds is treated as an approximate value."
+        "reviewEvidence": "NASA Science “Voyager 1: What Is a Light-Day?” source note records sunlight reaching Earth in about 8 minutes 20 seconds (about 500 seconds); game answer 499 seconds is an approximate average light-travel time."
       }
     },
     {
@@ -3465,7 +3465,7 @@
         "reviewStatus": "verified",
         "reviewNote": "已打开 PubMed 论文摘要；2013 年研究给出成人标准人体细胞总数估计 3.72×10^13，与游戏 3.7×10^13 的近似答案一致。研究本身说明这是计算估计，不是所有人体的精确常数。",
         "url": "https://pubmed.ncbi.nlm.nih.gov/23829164/",
-        "reviewEvidence": "PubMed abstract, Results: reports total human-body cell count estimate 3.72 × 10^13. Game value 3.7 × 10^13 is rounded and the question explicitly says “about”."
+        "reviewEvidence": "PubMed record for Bianconi et al. (2013), “An estimation of the number of cells in the human body,” reports an estimated standard adult human cell count of about 3.72×10^13; game answer rounds to 3.7×10^13, and is an estimate rather than a fixed individual constant."
       }
     },
     {
@@ -3535,7 +3535,7 @@
         "reviewStatus": "derived",
         "reviewNote": "已打开 Cleveland Clinic 页面，成人静息心率常见范围为 60–100 次/分钟。游戏答案由 80 年寿命 × 约 70 次/分钟 × 60 × 24 × 365.25 推算约 2.94×10^9 次；这是明确假设下的派生估算，不是来源直接给出的终身心跳统计。",
         "url": "https://my.clevelandclinic.org/health/diagnostics/heart-rate",
-        "reviewEvidence": "Cleveland Clinic page says adult resting heart rate is typically 60–100 beats/min. Derivation recorded in reviewNote uses 70 beats/min × 60 × 24 × 365.25 × 80 years ≈ 2.94 billion beats; this is a derived estimate, not a directly published lifetime count."
+        "reviewEvidence": "Derived estimate: Cleveland Clinic source supports the typical adult resting heart-rate context (roughly 60–100 beats/minute). Using an explicit assumption of 80 years × 70 beats/minute × 60 × 24 × 365.25 gives about 2.94×10^9 lifetime beats; the source does not directly state a lifetime total."
       }
     },
     {
@@ -3635,10 +3635,9 @@
         "name": "NASA：Voyager 1—What is a light-day?",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "verified",
-        "reviewNote": "已打开 NASA Science 页面；原文给出比邻星约 4.24 光年、约 40.15 万亿千米，与游戏 4.0×10^13 千米的近似答案一致。",
-        "url": "https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/",
-        "reviewEvidence": "NASA Science, “Why measure with light?”, closest neighboring solar system bullet: Proxima Centauri is about 4.24 light-years or 40.15 trillion km; game answer 40 trillion km is a rounded approximation."
+        "reviewStatus": "pending_source_page_review",
+        "reviewNote": "当前登记的 NASA Voyager light-day 页面未保存可复查的 Proxima Centauri 距离原文定位；此 URL 不能仅凭主题相近作为该距离的直接证据，需补充直接来源后再复核。",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/"
       }
     },
     {
