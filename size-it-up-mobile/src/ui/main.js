@@ -242,7 +242,7 @@ function startMode(id) {
   }
 
   if (id === 'survival') {
-    const numericPool = (pack.numeric || []).filter((q) => q.status !== 'retired' && q.status !== 'draft');
+    const numericPool = (pack.numeric || []).filter((q) => q.status === 'published' || q.status === undefined);
     if (!numericPool.length) {
       toast('题库还没有可用的数量级题');
       return;
@@ -362,10 +362,12 @@ function onNumericEnd(payload) {
     setJSON(store, 'bsz_ach', ach);
     showEnd({
       big: `${payload.answered}<small> 题</small>`,
-      comment: payload.answered >= 30 ? '生存大师！' : '生命耗尽——下次先估数量级再下手',
+      comment: payload.revived
+        ? `本局使用过一次广告复活 · ${payload.answered >= 30 ? '生存大师！' : '生命耗尽'}`
+        : payload.answered >= 30 ? '生存大师！' : '生命耗尽——下次先估数量级再下手',
       squares: payload.scores.slice(-10).map(squareFor).join(''),
-      list: `<li>本局答题 <b>${payload.answered}</b> 题 · 最佳 <b>${Math.max(best, payload.answered)}</b> 题</li>`,
-      shareText: `【比大小 · 生存模式】答对 ${payload.answered} 题，你能撑几题？`,
+      list: `<li>本局答题 <b>${payload.answered}</b> 题 · 最佳 <b>${Math.max(best, payload.answered)}</b> 题</li>` + (payload.revived ? '<li>复活状态：<b>使用过一次激励广告复活</b></li>' : ''),
+      shareText: `【比大小 · 生存模式${payload.revived ? ' · 复活局' : ''}】答题 ${payload.answered} 题，你能撑几题？`,
       replay: () => startMode('survival'),
     });
     return;

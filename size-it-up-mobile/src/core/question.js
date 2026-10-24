@@ -2,7 +2,7 @@
 import { SCALE_MIN, SCALE_MAX } from './constants.js';
 
 const STATUSES = ['draft', 'review', 'approved', 'published', 'retired'];
-const UNITS = ['次', '吨', '棵', '杯', '千克', '词', '秒', '个', '只', '立方米', '件', '米', '条', '根', '千米', '小时', '分钟', '年', '度', '升'];
+const UNITS = ['次', '步', '吨', '棵', '杯', '千克', '词', '秒', '个', '只', '立方米', '件', '米', '条', '根', '千米', '小时', '分钟', '年', '度', '升'];
 
 /** 静态校验：返回错误列表；空数组代表通过（校验不通过禁止发布，GDD 6.7） */
 export function validatePack(pack) {
@@ -67,6 +67,10 @@ export function validatePack(pack) {
       if (q.status && !STATUSES.includes(q.status)) errors.push({ path: p, msg: `非法 status: ${q.status}` });
       if (q.status === 'published' || q.status === undefined) {
         if (!q.source || !q.source.name) errors.push({ path: p, msg: '已发布题必须有 source.name' });
+        if (!q.source || !Number.isInteger(q.source.year) || q.source.year < 1) errors.push({ path: p, msg: '已发布数量级题必须有有效 source.year' });
+        if (!q.u) errors.push({ path: p, msg: '已发布数量级题必须有明确单位 u' });
+        if (!/^https?:\/\//i.test(q.source?.url || '')) errors.push({ path: p, msg: '已发布数量级题必须有可追溯 source.url' });
+        if (!['verified', 'derived', 'pending_source_page_review'].includes(q.source?.reviewStatus)) errors.push({ path: p, msg: '已发布数量级题必须显式记录 source.reviewStatus' });
       }
     });
   }
@@ -85,9 +89,19 @@ export function validatePack(pack) {
     }
   }
   if (Array.isArray(pack.fallbackPools)) {
+    const fallbackVersions = new Set();
+    const datedFallbacks = pack.fallbackPools.some((fb) => fb && fb.effectiveFrom !== undefined);
     pack.fallbackPools.forEach((fb, i) => {
       const p = `fallbackPools[${i}]`;
       if (!fb.version) errors.push({ path: p, msg: '兜底快照缺少 version' });
+      else if (fallbackVersions.has(fb.version)) errors.push({ path: p, msg: `兜底快照 version 重复: ${fb.version}` });
+      else fallbackVersions.add(fb.version);
+      if (datedFallbacks && fb.effectiveFrom === undefined) {
+        errors.push({ path: `${p}.effectiveFrom`, msg: '版本化兜底快照必须声明 effectiveFrom，避免新增版本改写历史日期' });
+      }
+      if (fb.effectiveFrom !== undefined && !isValidDateKey(fb.effectiveFrom)) {
+        errors.push({ path: `${p}.effectiveFrom`, msg: 'effectiveFrom 必须是有效的 YYYY-MM-DD 日期' });
+      }
       if (!Array.isArray(fb.questionIds) || !fb.questionIds.length) errors.push({ path: p, msg: '兜底快照缺少 questionIds' });
       else fb.questionIds.forEach((id, j) => {
         if (!ids.has(id)) errors.push({ path: `${p}.questionIds[${j}]`, msg: `id 不存在: ${id}` });
@@ -179,4 +193,12 @@ export function shuffle(arr, rng = Math.random) {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+
+function isValidDateKey(value) {
+  if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
 }
