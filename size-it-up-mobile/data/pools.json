@@ -1,6 +1,6 @@
 {
-  "version": "2.8.0",
-  "_说明": "热更新数据包 v2：v2.8.0 在尚未发布的 2026-10-24 候选兜底快照中移除了已转入 review 的题目；历史快照与已发布日期映射保持不变。正式发布题池目前仅包含已记录证据的 verified/derived 题目。",
+  "version": "2.8.1",
+  "_说明": "热更新数据包 v2：v2.8.1 将尚未发布的2026-11-01每日题从已隔离的 num-3 更换为已核验的 num-5；已过去的排期映射不回写。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
@@ -4298,8 +4298,8 @@
       "revision": 1
     },
     "2026-11-01": {
-      "questionId": "num-3",
-      "revision": 1
+      "questionId": "num-5",
+      "revision": 2
     },
     "2026-11-02": {
       "questionId": "num-17",
