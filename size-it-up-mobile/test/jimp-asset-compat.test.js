@@ -13,7 +13,8 @@ afterEach(async () => {
   }
 });
 
-describe('Jimp asset pipeline compatibility', () => {
+// The calls below deliberately match Jimp 0.22.12's legacy crop(x,y,w,h), resize(w,h), and writeAsync APIs used by build-assets.mjs.
+describe('Jimp 0.22 asset pipeline compatibility', () => {
   it('can read, crop, resize, composite to a transparent canvas and write PNG', async () => {
     tempDir = await mkdtemp(join(tmpdir(), 'bsz-jimp-smoke-'));
     const inputPath = join(tempDir, 'input.png');
