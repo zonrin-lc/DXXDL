@@ -101,10 +101,12 @@ describe('题库静态校验（GDD 6.7）', () => {
     p.fallbackPools = [
       { version: 'fb_v1', effectiveFrom: '2026-02-30', questionIds: ['n_001'] },
       { version: 'fb_v1', effectiveFrom: '2026-03-01', questionIds: ['n_002'] },
+      { version: 'fb_v2', questionIds: ['n_001'] },
     ];
     const errs = validatePack(p);
     expect(errs.some((e) => e.msg.includes('有效的 YYYY-MM-DD'))).toBe(true);
     expect(errs.some((e) => e.msg.includes('version 重复'))).toBe(true);
+    expect(errs.some((e) => e.msg.includes('必须声明 effectiveFrom'))).toBe(true);
   });
   it('兜底快照 id 必须存在', () => {
     const p = basePack();
