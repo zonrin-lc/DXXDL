@@ -70,7 +70,7 @@ export function validatePack(pack) {
         if (!q.source || !Number.isInteger(q.source.year) || q.source.year < 1) errors.push({ path: p, msg: '已发布数量级题必须有有效 source.year' });
         if (!q.u) errors.push({ path: p, msg: '已发布数量级题必须有明确单位 u' });
         if (!/^https?:\/\//i.test(q.source?.url || '')) errors.push({ path: p, msg: '已发布数量级题必须有可追溯 source.url' });
-        if (!['verified', 'derived'].includes(q.source?.reviewStatus)) errors.push({ path: p, msg: '已发布数量级题必须有 verified/derived source.reviewStatus' });
+        if (!['verified', 'derived', 'pending_source_page_review'].includes(q.source?.reviewStatus)) errors.push({ path: p, msg: '已发布数量级题必须显式记录 source.reviewStatus' });
       }
     });
   }
