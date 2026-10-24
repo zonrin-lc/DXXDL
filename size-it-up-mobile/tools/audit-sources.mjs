@@ -13,6 +13,7 @@ const published = numeric.filter((q) => q.status === 'published' || q.status ===
 const drafts = numeric.filter((q) => q.status === 'draft');
 const missingUrl = published.filter((q) => !/^https?:\/\//i.test(q.source?.url || ''));
 const pendingPageReview = published.filter((q) => q.source?.reviewStatus === 'pending_source_page_review');
+const directlyReviewed = published.filter((q) => ['verified', 'derived'].includes(q.source?.reviewStatus));
 const unresolved = published.filter((q) => !['verified', 'derived', 'pending_source_page_review'].includes(q.source?.reviewStatus));
 const genericSource = published.filter((q) => /内部整理|公开资料估算|待核验|来源待补/i.test(q.source?.name || ''));
 const badUpcomingSchedule = Object.entries(pack.dailySchedule || {}).filter(([date, value]) => {
@@ -26,6 +27,7 @@ console.log(`Published numeric questions: ${published.length}`);
 console.log(`Draft numeric questions excluded from release: ${drafts.length}`);
 console.log(`Published missing source.url: ${missingUrl.length}`);
 console.log(`Published with source-page review pending: ${pendingPageReview.length}`);
+console.log(`Published with direct source/derivation evidence recorded: ${directlyReviewed.length}`);
 console.log(`Published with missing/invalid reviewStatus: ${unresolved.length}`);
 console.log(`Published generic source labels: ${genericSource.length}`);
 console.log(`Future daily schedules pointing to non-published questions: ${badUpcomingSchedule.length}`);
