@@ -5,38 +5,119 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>题库审核 · data/pools.json</title>
 <style>
-  :root { --fg:#1f2430; --sub:#6b7280; --line:#e5e7eb; --ok:#16a34a; --bad:#dc2626; --bg:#f7f8fa; }
+  /* 与主站 base.css 同名同值的暖色 token（两处视觉一致）+ 审核页功能色 */
+  :root {
+    --paper: #fdf8ec;      /* 纸面卡片 */
+    --paper-deep: #f6ecd4; /* 页面底 */
+    --paper-flat: #f1ece0; /* 中性浅底（code/加载态） */
+    --ink: #4a3728;        /* 主文字 */
+    --sub: #7a6647;        /* 次级文字（对纸底/页面底均 ≥4.5:1） */
+    --line: #ecdfc4;       /* 分隔线 */
+    --focus: #1d6fa5;      /* 链接/焦点色（对纸底 5.1:1） */
+    --ok: #166534;         /* 校验通过绿：对浅绿底 5.4:1、纸底 6.9:1（AA 小字） */
+    --bad: #b91c1c;        /* 校验失败红：对浅红底 5.6:1、纸底 6.4:1（AA 小字） */
+    --tag: #4338ca;        /* 标签靛蓝：对浅靛底 7.07:1 */
+    --tag-bg: #eef2ff;
+    --hover: #f7efdb;      /* 行悬停暖底 */
+  }
   * { box-sizing: border-box; }
-  body { margin:0; padding:24px; font:14px/1.6 system-ui,-apple-system,"Segoe UI","Microsoft YaHei",sans-serif; color:var(--fg); background:var(--bg); }
-  h1 { font-size:20px; margin:0 0 4px; }
-  h2 { font-size:16px; margin:28px 0 8px; }
-  .muted { color:var(--sub); }
-  .banner { padding:10px 14px; border-radius:8px; margin:14px 0; font-weight:600; }
-  .banner.ok { background:#e7f7ec; color:var(--ok); border:1px solid #b7e4c7; }
-  .banner.bad { background:#fdecec; color:var(--bad); border:1px solid #f5c2c2; white-space:pre-wrap; font-family:ui-monospace,Menlo,Consolas,monospace; font-weight:400; font-size:13px; }
-  .stats { display:flex; flex-wrap:wrap; gap:10px; }
-  .stat { background:#fff; border:1px solid var(--line); border-radius:8px; padding:10px 16px; min-width:110px; }
-  .stat b { display:block; font-size:20px; }
-  table { border-collapse:collapse; width:100%; background:#fff; border:1px solid var(--line); border-radius:8px; overflow:hidden; }
-  th, td { border-bottom:1px solid var(--line); padding:6px 10px; text-align:left; font-size:13px; vertical-align:top; }
-  th { background:#f1f3f6; font-weight:600; white-space:nowrap; }
-  tr:last-child td { border-bottom:none; }
-  td.num { font-family:ui-monospace,Menlo,Consolas,monospace; white-space:nowrap; }
-  .tag { display:inline-block; padding:0 6px; border-radius:4px; background:#eef2ff; color:#4338ca; font-size:12px; }
-  .ratio-ok { color:var(--ok); }
-  .ratio-bad { color:var(--bad); font-weight:600; }
-  code { background:#eef0f3; padding:1px 5px; border-radius:4px; font-size:12px; }
-  .err { color:var(--bad); }
-  footer { margin-top:30px; font-size:12px; color:var(--sub); }
+  body {
+    margin: 0; padding: 24px;
+    font: 14px/1.6 "PingFang SC", "Microsoft YaHei", "Hiragino Sans GB", system-ui, sans-serif;
+    color: var(--ink); background: var(--paper-deep);
+  }
+  h1 { font-size: 20px; margin: 0 0 4px; }
+  h2 { font-size: 16px; margin: 28px 0 8px; scroll-margin-top: 12px; }
+  .muted { color: var(--sub); }
+  /* 仅供读屏的文字（caption 等） */
+  .sr-only {
+    position: absolute; width: 1px; height: 1px;
+    margin: -1px; padding: 0; border: 0;
+    clip: rect(0 0 0 0); clip-path: inset(50%); overflow: hidden; white-space: nowrap;
+  }
+  /* 四池锚点导航：长页快速跳转 */
+  .pool-nav {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
+    margin: 14px 0; padding: 10px 14px;
+    background: var(--paper); border: 1px solid var(--line); border-radius: 8px; font-size: 13px;
+  }
+  .pool-nav a {
+    color: var(--focus); font-weight: 600; text-decoration: none;
+    padding: 4px 8px; border-radius: 6px;
+  }
+  .pool-nav a:hover { text-decoration: underline; }
+  .banner { padding: 10px 14px; border-radius: 8px; margin: 14px 0; font-weight: 600; }
+  /* 初始中性态：结果写回时替换（#validation 带 role=status aria-live=polite） */
+  .banner.loading { background: var(--paper-flat); color: var(--ink); border: 1px solid var(--line); }
+  .banner.ok { background: #e7f7ec; color: var(--ok); border: 1px solid #b7e4c7; }
+  .banner.bad {
+    background: #fdecec; color: var(--bad); border: 1px solid #f5c2c2;
+    white-space: pre-wrap; overflow-wrap: anywhere;
+    font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 400; font-size: 13px;
+  }
+  .stats { display: flex; flex-wrap: wrap; gap: 10px; }
+  .stat { background: var(--paper); border: 1px solid var(--line); border-radius: 8px; padding: 10px 16px; min-width: 110px; }
+  .stat b { display: block; font-size: 20px; }
+  /* 表格：横滚容器 + 内部纵向滚动，配合 sticky 表头；圆角由容器裁切 */
+  .table-wrap {
+    overflow: auto; max-height: 76vh;
+    background: var(--paper); border: 1px solid var(--line);
+    border-radius: 8px; margin-bottom: 6px;
+  }
+  table { border-collapse: separate; border-spacing: 0; width: 100%; }
+  table.wide { min-width: 860px; } /* 8 列表在窄屏保底，容器出横向滚动 */
+  thead th { position: sticky; top: 0; z-index: 1; }
+  thead th:first-child { border-top-left-radius: 8px; }
+  thead th:last-child { border-top-right-radius: 8px; }
+  th, td { border-bottom: 1px solid var(--line); padding: 6px 10px; text-align: left; font-size: 13px; vertical-align: top; }
+  th { background: var(--paper-deep); font-weight: 600; white-space: nowrap; }
+  tr:last-child td { border-bottom: none; }
+  /* 长表行悬停定位 + 离屏行延迟渲染（contain-intrinsic-size 估行高） */
+  tbody tr:hover { background: var(--hover); }
+  tbody tr { content-visibility: auto; contain-intrinsic-size: auto 56px; }
+  td.num { font-family: ui-monospace, Menlo, Consolas, monospace; white-space: nowrap; }
+  /* 插画缩略图：40×40 contain 懒加载，加载失败时以 alt 文本占位 */
+  .thumbs { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 4px; }
+  .thumb {
+    width: 40px; height: 40px; object-fit: contain; display: block;
+    background: #fff; border: 1px solid var(--line); border-radius: 6px;
+    font-size: 9px; color: var(--sub); overflow: hidden;
+  }
+  .asset-ids { display: block; }
+  .r-tag { display: inline-block; padding: 0 6px; border-radius: 4px; background: var(--tag-bg); color: var(--tag); font-size: 12px; }
+  .ratio-ok { color: var(--ok); }
+  .ratio-bad { color: var(--bad); font-weight: 600; }
+  code { background: var(--paper-flat); padding: 1px 5px; border-radius: 4px; font-size: 12px; }
+  .err { color: var(--bad); }
+  footer { margin-top: 30px; font-size: 12px; color: var(--sub); }
+  /* 窄屏：缩边距字号，表格走横向滚动 */
+  @media (max-width: 700px) {
+    body { padding: 12px; font-size: 13px; }
+    h1 { font-size: 18px; }
+    h2 { font-size: 15px; margin-top: 20px; }
+    .banner { padding: 8px 10px; }
+    .stat { padding: 8px 12px; min-width: 96px; }
+    th, td { padding: 5px 8px; font-size: 12px; }
+    .table-wrap { max-height: 70vh; }
+  }
 </style>
 </head>
 <body>
+<main>
 <h1>题库审核 · <code>data/pools.json</code></h1>
 <div class="muted" id="meta">加载中…</div>
-<div id="validation" class="banner">正在运行 validatePack…</div>
+<div id="validation" class="banner loading" role="status" aria-live="polite">正在运行 validatePack…</div>
+<nav class="pool-nav" aria-label="题库分组跳转">
+  <span class="muted">跳转：</span>
+  <a href="#everyday">everyday</a>
+  <a href="#pop">pop</a>
+  <a href="#geo">geo</a>
+  <a href="#numeric">numeric</a>
+</nav>
 <div class="stats" id="stats"></div>
 
 <div id="content"></div>
+</main>
 
 <footer>
   校验逻辑为 <code>src/core/question.js → validatePack</code> 的内联副本，与线上一致；命令行等价校验：<code>npm run check</code>。<br>
@@ -144,6 +225,10 @@ function validatePack(pack) {
 const esc = (s) => String(s ?? '').replace(/[&<>"]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
 const fmt = (n) => (typeof n === 'number' ? n.toLocaleString('zh-CN', { maximumFractionDigits: 6 }) : esc(n));
 const src = (q) => (q.source ? `${esc(q.source.name)} / ${esc(q.source.year)}` : '—');
+// 插画缩略图：tools/ → assets/img 相对路径；加载失败由浏览器回落到 alt 占位
+const thumb = (id) => (id
+  ? `<img class="thumb" src="../assets/img/${esc(id)}.png" alt="${esc(id)}" width="40" height="40" loading="lazy">`
+  : '');
 
 async function load() {
   let pack = null, usedPath = '';
@@ -164,6 +249,7 @@ async function load() {
   document.getElementById('meta').textContent =
     `来源 ${usedPath} · version ${pack.version} · 生成于 ${new Date().toLocaleString('zh-CN')}`;
 
+  // 结果写入 role=status + aria-live=polite（已挂于元素），读屏可播报
   const vEl = document.getElementById('validation');
   if (errs.length === 0) {
     vEl.className = 'banner ok';
@@ -191,31 +277,33 @@ async function load() {
   // 视觉题三个分组
   for (const key of ['everyday', 'pop', 'geo']) {
     const arr = pack[key] || [];
-    html += `<h2>${key}（${arr.length}）</h2><table><tr>
-      <th>id</th><th>参考物 reference</th><th>目标物 target</th><th>真实比例</th>
-      <th>dimension</th><th>status</th><th>source</th><th>assetId</th></tr>`;
+    html += `<h2 id="${key}">${key}（${arr.length}）</h2><div class="table-wrap"><table class="wide"><caption class="sr-only">${key} 视觉题列表</caption><thead><tr>
+      <th scope="col">id</th><th scope="col">参考物 reference</th><th scope="col">目标物 target</th><th scope="col">真实比例</th>
+      <th scope="col">dimension</th><th scope="col">status</th><th scope="col">source</th><th scope="col">assetId</th></tr></thead><tbody>`;
     arr.forEach((q) => {
       const r = q.reference || {}, t = q.target || {};
       const ratio = r.size > 0 && t.size > 0 ? t.size / r.size : NaN;
       const ok = ratio >= SCALE_MIN && ratio <= SCALE_MAX;
+      const idsText = `${esc(r.assetId || '')}${r.assetId && t.assetId ? ' + ' : ''}${esc(t.assetId || '') || '—'}`;
       html += `<tr>
         <td class="num">${esc(q.id)}</td>
         <td>${esc(r.emoji || '')} ${esc(r.name)} <span class="muted">(${fmt(r.size)} m)</span></td>
         <td>${esc(t.emoji || '')} ${esc(t.name)} <span class="muted">(${fmt(t.size)} m)</span></td>
         <td class="num ${ok ? 'ratio-ok' : 'ratio-bad'}">${isFinite(ratio) ? ratio.toPrecision(4) : '—'}</td>
-        <td><span class="tag">${esc(q.dimension)}</span></td>
+        <td><span class="r-tag">${esc(q.dimension)}</span></td>
         <td>${esc(q.status ?? '（缺省=published）')}</td>
         <td>${src(q)}</td>
-        <td class="num muted">${esc(r.assetId || '')}${r.assetId && t.assetId ? ' + ' : ''}${esc(t.assetId || '') || '—'}</td>
+        <td class="num muted">${(r.assetId || t.assetId) ? `<span class="thumbs">${thumb(r.assetId)}${thumb(t.assetId)}</span>` : ''}<span class="asset-ids">${idsText}</span></td>
       </tr>`;
     });
-    html += '</table>';
+    html += '</tbody></table></div>';
   }
 
   // 数量级题
   const nums = pack.numeric || [];
-  html += `<h2>numeric（${nums.length}）</h2><table><tr>
-    <th>id</th><th>问题 q</th><th>答案</th><th>u</th><th>answerType</th><th>status</th><th>source</th><th>note</th></tr>`;
+  html += `<h2 id="numeric">numeric（${nums.length}）</h2><div class="table-wrap"><table class="wide"><caption class="sr-only">numeric 数量级题列表</caption><thead><tr>
+    <th scope="col">id</th><th scope="col">问题 q</th><th scope="col">答案</th><th scope="col">u</th>
+    <th scope="col">answerType</th><th scope="col">status</th><th scope="col">source</th><th scope="col">note</th></tr></thead><tbody>`;
   nums.forEach((q) => {
     const ans = q.answerType === 'range' && q.answerRange ? `${fmt(q.answerRange.min)} ~ ${fmt(q.answerRange.max)}` : fmt(q.a);
     html += `<tr>
@@ -223,41 +311,41 @@ async function load() {
       <td>${esc(q.q)}</td>
       <td class="num">${ans}</td>
       <td>${esc(q.u || '—')}</td>
-      <td><span class="tag">${esc(q.answerType ?? '（缺省）')}</span></td>
+      <td><span class="r-tag">${esc(q.answerType ?? '（缺省）')}</span></td>
       <td>${esc(q.status ?? '（缺省=published）')}</td>
       <td>${src(q)}</td>
       <td class="muted">${esc(q.note || '')}</td>
     </tr>`;
   });
-  html += '</table>';
+  html += '</tbody></table></div>';
 
   // 排期与兜底
   const sched = pack.dailySchedule || {};
   const schedKeys = Object.keys(sched);
-  html += `<h2>dailySchedule（${schedKeys.length}）</h2>`;
+  html += `<h2 id="dailySchedule">dailySchedule（${schedKeys.length}）</h2>`;
   if (!schedKeys.length) html += '<p class="muted">未配置</p>';
   else {
-    html += '<table><tr><th>日期</th><th>questionId</th><th>题目</th><th>revision</th></tr>';
+    html += '<div class="table-wrap"><table><caption class="sr-only">dailySchedule 每日排期</caption><thead><tr><th scope="col">日期</th><th scope="col">questionId</th><th scope="col">题目</th><th scope="col">revision</th></tr></thead><tbody>';
     schedKeys.forEach((d) => {
       const e = sched[d] || {};
       const q = nums.find((x) => x.id === e.questionId);
       html += `<tr><td class="num">${esc(d)}</td><td class="num">${esc(e.questionId)}</td>
         <td>${q ? esc(q.q) : '<span class="err">题不存在</span>'}</td><td>${esc(e.revision ?? '—')}</td></tr>`;
     });
-    html += '</table>';
+    html += '</tbody></table></div>';
   }
 
   const fbs = pack.fallbackPools || [];
-  html += `<h2>fallbackPools（${fbs.length}）</h2>`;
+  html += `<h2 id="fallbackPools">fallbackPools（${fbs.length}）</h2>`;
   if (!fbs.length) html += '<p class="muted">未配置</p>';
   else {
-    html += '<table><tr><th>version</th><th>题数</th><th>questionIds</th></tr>';
+    html += '<div class="table-wrap"><table><caption class="sr-only">fallbackPools 兜底快照</caption><thead><tr><th scope="col">version</th><th scope="col">题数</th><th scope="col">questionIds</th></tr></thead><tbody>';
     fbs.forEach((fb) => {
       const missing = (fb.questionIds || []).filter((id) => !nums.some((x) => x.id === id));
       html += `<tr><td class="num">${esc(fb.version)}</td><td>${(fb.questionIds || []).length}</td>
         <td class="num muted">${esc((fb.questionIds || []).join(', '))}${missing.length ? ` <span class="err">（缺失: ${esc(missing.join(','))}）</span>` : ''}</td></tr>`;
     });
-    html += '</table>';
+    html += '</tbody></table></div>';
   }
 
   content.innerHTML = html;

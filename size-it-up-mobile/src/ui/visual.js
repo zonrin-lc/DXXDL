@@ -19,7 +19,7 @@ const BASE_REF_PX = 120;
 const ARENA_PX = 250;   // 舞台最大可用高度/盒边
 const MIN_PX = 6;       // 物体最小可辨高度
 const DRAG_PX_PER_DOUBLE = 120; // 拖拽灵敏度：每 120px 使比例翻倍
-const ARENA_GAP = 34;   // 两物间距（与 CSS .arena gap 一致）
+const ARENA_GAP = 32;   // 两物间距（与 CSS .arena gap 的 --sp-8 一致）
 const ARENA_PAD = 16;   // 舞台两侧安全边距
 
 let ctx = null;

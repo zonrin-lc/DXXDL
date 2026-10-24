@@ -195,11 +195,14 @@ function renderHome() {
     card.addEventListener('click', () => startMode(m.id));
     list.appendChild(card);
   });
+  list.setAttribute('aria-busy', 'false'); // 骨架已被真实卡片替换，退出载入态
 
   const packInfo = $('pack-info');
   const errs = validatePack(pack);
-  packInfo.textContent = `内容包 v${(pack && pack.version) || '?'} · ${packSource}` + (errs.length ? ` · ⚠️ ${errs.length} 处校验问题` : '');
-  if (!store.persistent) packInfo.textContent += ' · ⚠️ 本次记录不会持久保存';
+  // 告警与常规信息分层：<b class="warn"> 走醒目色（≥4.5:1）
+  packInfo.innerHTML = `内容包 v${(pack && pack.version) || '?'} · ${packSource}` +
+    (errs.length ? ` · <b class="warn">⚠️ ${errs.length} 处校验问题</b>` : '');
+  if (!store.persistent) packInfo.innerHTML += ' · <b class="warn">⚠️ 本次记录不会持久保存</b>';
 
   const row = $('home-streak');
   if (sd.display > 0 || sd.todayDone) {
@@ -438,9 +441,9 @@ function applySettings() {
   $('set-motion').setAttribute('aria-checked', String(motion == null ? sysReduce : motion));
   $('set-motion-label').textContent =
     '🎬 减少动态效果 · ' + (motion == null ? '跟随系统' : motion ? '已减少' : '已开启动效');
-  $('set-storage').textContent = store.persistent
+  $('set-storage').innerHTML = store.persistent
     ? '设置与成绩保存在本机浏览器中。'
-    : '⚠️ 浏览器禁用了本地存储：本次记录不会持久保存。';
+    : '<b class="warn">⚠️ 浏览器禁用了本地存储：本次记录不会持久保存。</b>';
 }
 
 function bindSettings() {
@@ -480,7 +483,7 @@ function bindSettings() {
 function openInfo(title, html, btnText, onOk) {
   $('info-card').innerHTML =
     `<h2 class="modal-title" id="info-title">${title}</h2>${html}` +
-    `<button class="btn" id="info-ok" style="margin-top:14px">${btnText || '知道了'}</button>`;
+    `<button class="btn gap-top" id="info-ok">${btnText || '知道了'}</button>`;
   const returnFocus = document.activeElement;
   $('info-modal').classList.remove('hidden');
   $('info-ok').focus();
@@ -506,7 +509,7 @@ function bindHomeActions() {
   $('home-achievements').addEventListener('click', () => {
     const rows = ACHIEVEMENTS.map((a) => {
       const got = ach.unlocked[a.id];
-      return `<li class="setting-row"><span>${got ? a.icon : '🔒'} ${a.name}${got ? '' : ' <small style="color:var(--sub)">（未解锁）</small>'}</span><span style="font-size:11px;color:var(--sub)">${a.desc}</span></li>`;
+      return `<li class="setting-row"><span>${got ? a.icon : '🔒'} ${a.name}${got ? '' : ' <small style="color:var(--sub)">（未解锁）</small>'}</span><span style="font-size:var(--fs-11);color:var(--sub)">${a.desc}</span></li>`;
     }).join('');
     openInfo('🏆 成就', `<ul class="ach-list">${rows}</ul>`);
   });

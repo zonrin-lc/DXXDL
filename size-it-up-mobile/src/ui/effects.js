@@ -47,7 +47,10 @@ export function confetti() {
     cv.height = window.innerHeight;
     document.body.appendChild(cv);
     const ctx = cv.getContext('2d');
-    const colors = ['#2f6bff', '#e5484d', '#2f9e63', '#f0a02f', '#7048e8'];
+    // 深橙与站点 token 同值；读不到（极端环境）时回退字面量
+    const orangeDeep =
+      (getComputedStyle(document.documentElement).getPropertyValue('--orange-deep') || '').trim() || '#f0a02f';
+    const colors = ['#2f6bff', '#e5484d', '#2f9e63', orangeDeep, '#7048e8'];
     const ps = Array.from({ length: 90 }, () => ({
       x: Math.random() * cv.width,
       y: -20 - Math.random() * cv.height * 0.3,

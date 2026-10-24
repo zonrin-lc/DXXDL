@@ -149,7 +149,7 @@ function tickTimer() {
     timerColor(remain, session.totalMs) === 'green'
       ? 'var(--green)'
       : timerColor(remain, session.totalMs) === 'orange'
-        ? '#f0a02f'
+        ? 'var(--orange-deep)'
         : 'var(--red)';
   if (remain <= 0) checkTimeout();
 }

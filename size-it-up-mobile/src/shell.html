@@ -23,7 +23,13 @@
   <div id="screen-home">
     <h2 class="sr-only" tabindex="-1">选择玩法</h2>
     <div class="streak-row hidden" id="home-streak"></div>
-    <div class="modes" id="mode-list"></div>
+    <div class="modes" id="mode-list" aria-busy="true">
+      <!-- 首屏静态骨架：题库渲染完成后由 renderHome 整体替换 -->
+      <div class="mode-card skel" aria-hidden="true"><span class="skel-ic"></span><span class="skel-tx"><i></i><i></i></span></div>
+      <div class="mode-card skel" aria-hidden="true"><span class="skel-ic"></span><span class="skel-tx"><i></i><i></i></span></div>
+      <div class="mode-card skel" aria-hidden="true"><span class="skel-ic"></span><span class="skel-tx"><i></i><i></i></span></div>
+      <div class="skel-note" role="status">载入题库…</div>
+    </div>
     <div id="pack-info" class="pack-info">内容包 · 内置</div>
     <div class="home-actions">
       <button class="link-btn" id="home-achievements"><span aria-hidden="true">🏆</span> 成就</button>
@@ -112,9 +118,9 @@
       <button class="chip" data-m="10000">×1万</button>
       <button class="chip" data-m="100000000">×1亿</button>
       <button class="chip" data-m="1000000000000">×1万亿</button>
-      <button class="chip" data-m="clear" style="background:#f1ece0;color:var(--sub)">清零</button>
+      <button class="chip" data-m="clear" style="background:var(--paper-flat);color:var(--sub)">清零</button>
     </div>
-    <button class="btn lock" id="n-lock" style="margin-top:14px"><span aria-hidden="true">🔒</span> 锁定答案</button>
+    <button class="btn lock gap-top" id="n-lock"><span aria-hidden="true">🔒</span> 锁定答案</button>
     <div class="reveal hidden" id="n-reveal">
       <div class="verdict" id="n-verdict" role="status" aria-live="polite"></div>
       <div class="detail" id="n-detail"></div>
@@ -147,7 +153,7 @@
     <div class="setting-row"><label id="set-vibrate-label" for="set-vibrate"><span aria-hidden="true">📳</span> 震动</label><button class="toggle" id="set-vibrate" role="switch" aria-labelledby="set-vibrate-label"></button></div>
     <div class="setting-row"><label id="set-motion-label" for="set-motion">🎬 减少动态效果</label><button class="toggle" id="set-motion" role="switch" aria-labelledby="set-motion-label"></button></div>
     <div class="modal-note" id="set-storage"></div>
-    <button class="btn" id="set-close" style="margin-top:14px">完成</button>
+    <button class="btn gap-top" id="set-close">完成</button>
   </div>
 </div>
 
