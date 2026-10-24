@@ -67,6 +67,8 @@ export function validatePack(pack) {
       if (q.status && !STATUSES.includes(q.status)) errors.push({ path: p, msg: `非法 status: ${q.status}` });
       if (q.status === 'published' || q.status === undefined) {
         if (!q.source || !q.source.name) errors.push({ path: p, msg: '已发布题必须有 source.name' });
+        if (!q.source || !Number.isInteger(q.source.year) || q.source.year < 1) errors.push({ path: p, msg: '已发布数量级题必须有有效 source.year' });
+        if (!q.u) errors.push({ path: p, msg: '已发布数量级题必须有明确单位 u' });
       }
     });
   }
@@ -85,9 +87,15 @@ export function validatePack(pack) {
     }
   }
   if (Array.isArray(pack.fallbackPools)) {
+    const fallbackVersions = new Set();
     pack.fallbackPools.forEach((fb, i) => {
       const p = `fallbackPools[${i}]`;
       if (!fb.version) errors.push({ path: p, msg: '兜底快照缺少 version' });
+      else if (fallbackVersions.has(fb.version)) errors.push({ path: p, msg: `兜底快照 version 重复: ${fb.version}` });
+      else fallbackVersions.add(fb.version);
+      if (fb.effectiveFrom !== undefined && !isValidDateKey(fb.effectiveFrom)) {
+        errors.push({ path: `${p}.effectiveFrom`, msg: 'effectiveFrom 必须是有效的 YYYY-MM-DD 日期' });
+      }
       if (!Array.isArray(fb.questionIds) || !fb.questionIds.length) errors.push({ path: p, msg: '兜底快照缺少 questionIds' });
       else fb.questionIds.forEach((id, j) => {
         if (!ids.has(id)) errors.push({ path: `${p}.questionIds[${j}]`, msg: `id 不存在: ${id}` });
@@ -179,4 +187,12 @@ export function shuffle(arr, rng = Math.random) {
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
+}
+
+
+function isValidDateKey(value) {
+  if (typeof value !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(value)) return false;
+  const [year, month, day] = value.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  return date.getUTCFullYear() === year && date.getUTCMonth() === month - 1 && date.getUTCDate() === day;
 }
