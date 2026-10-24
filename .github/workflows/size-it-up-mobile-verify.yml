@@ -37,6 +37,8 @@ jobs:
           cache-dependency-path: size-it-up-mobile/package-lock.json
       - name: Install dependencies
         run: npm ci
+      - name: Block high and critical dependency advisories
+        run: npm audit --audit-level=high
       - name: Summarize dependency advisories
         run: |
           npm audit --json > /tmp/npm-audit.json || true
@@ -45,6 +47,8 @@ jobs:
         run: npm audit --omit=dev
       - name: Run tests, content validation, and build
         run: npm run verify
+      - name: Enforce strict release content gate
+        run: npm run audit:sources:release
       - name: Exercise asset processor when raw images are present
         run: |
           if [ -d assets/raw ] && find assets/raw -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) -print -quit | grep -q .; then
