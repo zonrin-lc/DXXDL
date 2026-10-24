@@ -1,6 +1,6 @@
 {
-  "version": "2.7.8",
-  "_说明": "热更新数据包 v2：v2.7.8 补充/修订多项数量级来源，修正金字塔质量、长江径流口径、亚马逊河长度、平均血量题及全球水量换算；num-3、num-30、num-49 转为 review 状态，不纳入新发布/兜底题池。历史排期不回写。",
+  "version": "2.7.9",
+  "_说明": "热更新数据包 v2：v2.7.9 完成 USGS、NOAA、NASA、OpenStax、Smithsonian 与 MedlinePlus 的页面核验记录；当前仍有少量题目待复核或已暂缓发布。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
@@ -3356,7 +3356,7 @@
       "status": "published",
       "source": {
         "name": "npj Heritage Science：胡夫金字塔石块数量与重量估算",
-        "year": 2026,
+        "year": 2025,
         "reviewedOn": "2026-10-24",
         "reviewStatus": "derived",
         "reviewNote": "已核对 npj Heritage Science 论文摘要/正文摘录：估计约230万块石块、平均约2.5吨，乘积约575万吨。答案修订为约580万吨（不将石灰岩块体估算包装成含所有填料/包层的精确总重）。",
@@ -3554,9 +3554,10 @@
         "name": "U.S. Geological Survey：Cool Earthquake Facts",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "候选来源注释虽描述了相符数值，但当前记录尚无独立的 source.reviewEvidence 段落定位；在补足可复查的原文位置前保持待逐页核验。",
-        "url": "https://www.usgs.gov/programs/earthquake-hazards/cool-earthquake-facts"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 USGS Cool Earthquake Facts 页面；原文称全球每年约500,000次可探测地震，约100,000次可被感知。题目明确使用“可探测”口径，与来源一致。",
+        "url": "https://www.usgs.gov/programs/earthquake-hazards/cool-earthquake-facts",
+        "reviewEvidence": "USGS Earthquake Hazards Program, “Cool Earthquake Facts”, states an estimated 500,000 detectable earthquakes occur worldwide each year, about 100,000 can be felt. The question wording explicitly says “detectable”, matching the source."
       }
     },
     {
@@ -3571,9 +3572,10 @@
         "name": "NOAA National Ocean Service：What is the Great Barrier Reef?",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "候选来源注释虽描述了相符数值，但当前记录尚无独立的 source.reviewEvidence 段落定位；在补足可复查的原文位置前保持待逐页核验。",
-        "url": "https://oceanservice.noaa.gov/facts/gbrlargeststructure.html"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NOAA National Ocean Service 页面；原文给出大堡礁系统长度约2,300公里，换算为2,300,000米，与游戏答案一致。",
+        "url": "https://oceanservice.noaa.gov/facts/gbrlargeststructure.html",
+        "reviewEvidence": "NOAA National Ocean Service, “What is the Great Barrier Reef?”, states the reef stretches 2,300 kilometers. Conversion: 2,300 km × 1,000 m/km = 2,300,000 m, matching the game answer."
       }
     },
     {
@@ -3642,9 +3644,10 @@
         "name": "NASA：Voyager 1—What is a light-day?",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "当前登记的 NASA Voyager light-day 页面未保存可复查的 Proxima Centauri 距离原文定位；此 URL 不能仅凭主题相近作为该距离的直接证据，需补充直接来源后再复核。",
-        "url": "https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA Science 页面；原文给出比邻星约4.24光年、约40.15万亿千米，游戏答案4.0×10^13千米为合理近似。",
+        "url": "https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/",
+        "reviewEvidence": "NASA Science, “Voyager 1: What Is a Light-Day”, states Proxima Centauri is about 4.24 light-years or 40.15 trillion km away. The game answer 40 trillion km is rounded."
       }
     },
     {
@@ -3989,11 +3992,12 @@
       "status": "published",
       "source": {
         "name": "California Public Utilities Commission：Speed of Sound",
-        "year": 2026,
+        "year": 2016,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "资料给出20℃空气中声速约343米/秒；1000÷343≈2.9秒，取约3秒。",
-        "url": "https://ia.cpuc.ca.gov/environment/info/esa/lakeview/resources/4-13_noise.pdf"
+        "reviewStatus": "derived",
+        "reviewNote": "采用20℃空气中声速约343米/秒，1,000÷343≈2.92秒，取约3秒。温度、湿度和气压会影响声速，题目为常温近似。",
+        "url": "https://openstax.org/books/university-physics-volume-1/pages/17-2-speed-of-sound",
+        "reviewEvidence": "OpenStax University Physics Vol. 1, “17.2 Speed of Sound”, gives speed of sound in air at 20 °C as about 343 m/s. Derived travel time over 1 km: 1,000 m ÷ 343 m/s ≈ 2.92 s, rounded to about 3 seconds."
       }
     },
     {
@@ -4060,9 +4064,10 @@
         "name": "PubMed：Late Cretaceous mass extinction",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "非鸟类恐龙的大灭绝发生于约6600万年前。",
-        "url": "https://pubmed.ncbi.nlm.nih.gov/25065505/"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对 Smithsonian National Museum of Natural History 的灭绝事件资料；原文明确将白垩纪末非鸟类恐龙灭绝标为约6600万年前。",
+        "url": "https://naturalhistory.si.edu/education/teaching-resources/paleontology/extinction-over-time",
+        "reviewEvidence": "Smithsonian National Museum of Natural History, “Extinction Over Time”, lists the end-Cretaceous extinction 66 million years ago and includes all non-avian dinosaurs. This matches the game’s approximate 66 million years."
       }
     },
     {
@@ -4119,9 +4124,10 @@
         "name": "JAMA Dermatology：scalp hair density and count",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "常见成人头发量估计约10万根；不同人群、发色、年龄和个体差异明显。",
-        "url": "https://jamanetwork.com/journals/jamadermatology/fullarticle/419780"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对 MedlinePlus Hair Loss 页面；原文称头皮约有100,000根头发，与游戏范围80,000–150,000根相符。",
+        "url": "https://medlineplus.gov/ency/article/003246.htm",
+        "reviewEvidence": "MedlinePlus, “Hair loss”, states the scalp contains about 100,000 hairs. The game range 80,000–150,000 includes this approximate reference; individual variation is substantial."
       }
     },
     {
