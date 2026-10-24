@@ -249,8 +249,10 @@ function storeRewardAttempt(targetSession, status) {
 
 async function tryRevive() {
   if (!session || session.mode !== 'survival' || session.life > 0 || session.revived || session.reviveInFlight) return;
-  if (!rewardedVideoAd.isConfigured()) {
-    ctx.toast('当前平台广告能力或广告位尚未配置，不能发放复活奖励。');
+  if (!rewardedVideoAd.isAvailable()) {
+    ctx.toast(rewardedVideoAd.isConfigured()
+      ? '首次启动保护期内暂不展示广告，未发放复活奖励。'
+      : '当前平台广告能力或广告位尚未配置，不能发放复活奖励。');
     return;
   }
 
