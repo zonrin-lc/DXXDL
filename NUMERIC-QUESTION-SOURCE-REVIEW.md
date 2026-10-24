@@ -1,9 +1,9 @@
 # 数量级题库来源核验台账
 
-- 数据基线：`size-it-up-mobile/data/pools.json` v2.7.2
+- 数据基线：`size-it-up-mobile/data/pools.json` v2.7.4
 - 更新日期：2026-10-24
 - 重要：URL 存在不等于来源已核验；`pending_source_page_review` 不代表事实审核通过。
-- 当前 50 道题中，44 道仍处于发布池但来源页面复核未完成；6 道已改为 `status: "review"`，不纳入新的发布/兜底题池。
+- 当前共有 50 道题：44 道仍在发布池，其中 7 道已有逐页核验记录，37 道仍待页面复核；6 道已改为 `status: "review"`，不纳入新的发布/兜底题池。
 - 旧的 `dailySchedule` 历史映射未重写；`num-20` 曾被安排到 2026-10-20，属于历史内容记录。不要为修复当前发布池而静默改写已发布日期。
 
 ## 逐题台账
@@ -14,16 +14,16 @@
 | num-1 | 胡夫大金字塔的总重量大约是多少？ | https://www.nature.com/articles/s40494-025-02018-w | pending_source_page_review | 待逐页核验 | 约230万块石块、平均约2.5吨，乘积约575万吨；题目结果为近似估计。 |
 | num-2 | 地球上现存树木的总数大约是多少？ | https://www.nature.com/articles/nature14967 | pending_source_page_review | 待逐页核验 | 研究估计全球树木约3.04万亿棵；研究估计每年砍伐超过150亿棵，非等同于净减少量。 |
 | num-3 | 全世界一年要喝掉多少杯咖啡？ | https://icocoffee.org/documents/cy2024-25/coffee-development-report-2022-23.pdf | pending_source_page_review | 待逐页核验 | 报告引用全球每日约30亿杯咖啡；按365天换算约1.095万亿杯，游戏答案修订为约1.1万亿杯。仍需直接核对报告页面中的原始口径后才能将来源状态改为 verified。 |
-| num-4 | 月球的质量大约是多少？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html | verified | 已标记复核（仍需审查证据） | 已核对NASA表格中的月球质量0.07346×10^24千克；游戏答案7.35×10^22千克为合理四舍五入。 |
+| num-4 | 月球的质量大约是多少？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html | verified | 已逐页核验（见复核备注） | 已打开 NASA NSSDC Moon Fact Sheet；页面质量参数列出月球质量为 0.07346×10^24 kg，即 7.346×10^22 kg，与游戏近似值 7.35×10^22 kg 一致。页面标注最后更新 2024-01-11。 |
 | num-5 | 《哈利·波特》全系列英文版总词数大约是多少？ | https://www.harrypotter.com/pt/news/500-million-harry-potter-books-have-now-been-sold-worldwide | needs-review | 暂缓发布 / review | 官方文章给出七部英文原著总词数约1,100,086；词数会因版本及计数方式略有差异。 |
 | num-6 | 阳光从太阳到达地球需要多长时间？ | https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/ | pending_source_page_review | 待逐页核验 | 太阳光到地球约8分20秒；499秒是近似平均光行时，按约数使用。 |
 | num-7 | 人体内大约有多少个细胞？ | https://pubmed.ncbi.nlm.nih.gov/23829164/ | pending_source_page_review | 待逐页核验 | 2013年研究估算参考值约3.72×10¹³个细胞；不同人体大小和统计方法会改变估值。 |
 | num-8 | 地球上的蚂蚁总数大约是多少？ | https://pmc.ncbi.nlm.nih.gov/articles/PMC9546634/ | pending_source_page_review | 待逐页核验 | 研究估算全球蚂蚁约19.8×10¹⁵只，取数量级近似为2×10¹⁶只。 |
-| num-9 | 地球的质量大约是多少？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html | verified | 已标记复核（仍需审查证据） | 已核对NASA表格中的地球质量5.9722×10^24千克；游戏答案5.97×10^24千克为合理四舍五入。 |
+| num-9 | 地球的质量大约是多少？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html | verified | 已逐页核验（见复核备注） | 已核对NASA表格中的地球质量5.9722×10^24千克；游戏答案5.97×10^24千克为合理四舍五入。 |
 | num-10 | 长江一年流入海洋的水量大约是多少？ | https://www.britannica.com/place/Yangtze-River | pending_source_page_review | 待逐页核验 | 以文献给出的多年平均流量量级折算全年水量；径流量受年份和测量口径影响，答案为粗估值。 |
 | num-11 | 一个人一生的心跳总数大约是多少？ | https://my.clevelandclinic.org/health/diagnostics/heart-rate | pending_source_page_review | 待逐页核验 | 按80年、平均约70次/分钟计算约29.4亿次；寿命和心率的个体差异很大。 |
-| num-12 | 全球每年大约有多少次可探测的地震？ | https://www.usgs.gov/programs/earthquake-hazards/cool-earthquake-facts | pending_source_page_review | 待逐页核验 | USGS称全球每年约50万次可探测地震；约10万次可被人感知，约100次造成损害，题干需明确“可探测”。 |
-| num-13 | 大堡礁的总长度大约是多少？ | https://oceanservice.noaa.gov/facts/gbrlargeststructure.html | pending_source_page_review | 待逐页核验 | NOAA给出大堡礁系统长度约2300千米。 |
+| num-12 | 全球每年大约有多少次可探测的地震？ | https://www.usgs.gov/programs/earthquake-hazards/cool-earthquake-facts | verified | 已逐页核验（见复核备注） | 已打开 USGS Cool Earthquake Facts；页面明确写明全球每年约 500,000 次可探测地震，其中约 100,000 次可被感知。题干使用“可探测”限定，口径一致。 |
+| num-13 | 大堡礁的总长度大约是多少？ | https://oceanservice.noaa.gov/facts/gbrlargeststructure.html | verified | 已逐页核验（见复核备注） | 已打开 NOAA National Ocean Service 页面；原文给出大堡礁系统长度 2,300 公里，换算为 2,300,000 米，与答案一致。页面最近更新日期显示 2026-09-23。 |
 | num-14 | 2024年中国快递业务量大约是多少件？ | https://www.mot.gov.cn/shuju/fenxigongbao/hangyegongbao/202512/t20251230_4192148.html | pending_source_page_review | 待逐页核验 | 改为2024年度口径；全国快递业务量约1750.8亿件，不再使用无年份的1700亿估值。 |
 | num-15 | 一支圆珠笔大约能写出多长的字迹？ | https://bic-japan.co.jp/quality/ | pending_source_page_review | 待逐页核验 | BIC日本页面介绍笔芯书写距离测试标准，约2千米作为示例近似值；不同型号有差异。 |
 | num-16 | 英文维基百科的条目总数大约是多少？ | https://meta.wikimedia.org/wiki/English_Wikipedia/en | pending_source_page_review | 待逐页核验 | 条目数是动态数字，题目用约700万条的数量级，不应当作永久不变的精确总数。 |
@@ -36,15 +36,15 @@
 | num-23 | 一个成年人体内的血液总量大约是多少升？ | https://my.clevelandclinic.org/health/diagnostics/16793-blood-volume-testing | pending_source_page_review | 待逐页核验 | 资料称成人平均血量约5升；3.5–5.5升为不同体型成人的宽泛估算区间，不是医学诊断范围。 |
 | num-24 | 太阳表面（光球层）的温度大约是多少摄氏度？ | https://science.nasa.gov/sun/facts/ | pending_source_page_review | 待逐页核验 | NASA称太阳光球层温度约5500摄氏度；题目采用5000–6000度宽区间。 |
 | num-25 | 世界海洋的平均深度大约是多少米？ | https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/ | pending_source_page_review | 待逐页核验 | NOAA资料给出的海洋平均深度约3682米。 |
-| num-26 | 月球到地球的距离大约是多少千米？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html | verified | 已标记复核（仍需审查证据） | 已核对NASA资料明确写出月地距离约357,000–407,000千米；题库区间按其范围修正。 |
+| num-26 | 月球到地球的距离大约是多少千米？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html | verified | 已逐页核验（见复核备注） | 已打开 NASA NSSDC Moon Fact Sheet；页面明确指出月地距离约从 357,000 km 到 407,000 km。答案区间已修订为 357,000–407,000 km，与来源口径一致。页面标注最后更新 2024-01-11。 |
 | num-27 | 全球人均预期寿命大约是多少年？ | https://www.un.org/en/global-issues/population | pending_source_page_review | 待逐页核验 | 联合国资料给出2024年全球预期寿命约73.3岁；范围按约数呈现。 |
 | num-28 | 一天大约有多少秒？ | https://www.nist.gov/pml/time-and-frequency-division/time-realization/leap-seconds | pending_source_page_review | 待逐页核验 | 按名义日24小时×60分钟×60秒=86,400秒计算；此处是日常单位换算，不讨论闰秒的特殊计时规则。 |
 | num-29 | 一位成年人全身大约有多少块骨头？ | https://bionumbers.hms.harvard.edu/bionumber.aspx?id=102383&s=n&v=2 | pending_source_page_review | 待逐页核验 | 成年人体骨骼常见计数为206块；个体差异和骨骼融合会造成少量差异。 |
 | num-30 | 长江的全长大约是多少千米？ | https://english.www.gov.cn/news/202601/05/content_WS695b59a8c6d00ca5f9a0869a.html | pending_source_page_review | 待逐页核验 | 中国政府网介绍长江干流全长约6300千米。 |
-| num-31 | 赤道的周长大约是多少千米？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html | derived | 已标记复核（仍需审查证据） | 已核对NASA给出的赤道半径6,378.137千米；按圆周长公式2πr换算，约40,075千米。 |
+| num-31 | 赤道的周长大约是多少千米？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html | derived | 已逐页核验（见复核备注） | 已核对NASA给出的赤道半径6,378.137千米；按圆周长公式2πr换算，约40,075千米。 |
 | num-32 | 一个人一天大约心跳多少次？ | https://my.clevelandclinic.org/health/diagnostics/heart-rate | pending_source_page_review | 待逐页核验 | 按平均约70次/分钟×1440分钟/天≈100,800次；这是方便估测的数量级，不是人人相同的实测均值。 |
 | num-33 | 亚马逊河的全长大约是多少千米？ | https://www.britannica.com/place/Amazon-River | pending_source_page_review | 待逐页核验 | 常见长度估算约6400千米；亚马逊河与尼罗河长度排序会受源头和测量口径影响，已在说明中提示争议。 |
-| num-34 | 按太阳日计算，地球自转一周大约是多少分钟？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html | derived | 已标记复核（仍需审查证据） | 已核对NASA表中太阳日长24小时及恒星自转周期23.9345小时的区别；按题目指定太阳日换算为1,440分钟。 |
+| num-34 | 按太阳日计算，地球自转一周大约是多少分钟？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html | derived | 已逐页核验（见复核备注） | 已核对NASA表中太阳日长24小时及恒星自转周期23.9345小时的区别；按题目指定太阳日换算为1,440分钟。 |
 | num-35 | 京沪高速铁路的全长大约是多少千米？ | — | needs-review | 暂缓发布 / review | 当前1318千米数据缺少本轮确认的直接官方来源，暂移出正式题库，待补源后再发布。 |
 | num-36 | 声音在空气中传播 1 千米大约需要多少秒？ | https://ia.cpuc.ca.gov/environment/info/esa/lakeview/resources/4-13_noise.pdf | pending_source_page_review | 待逐页核验 | 资料给出20℃空气中声速约343米/秒；1000÷343≈2.9秒，取约3秒。 |
 | num-37 | 地球上的水大约有多少立方米？ | https://www.usgs.gov/faqs/how-much-natural-water-there | pending_source_page_review | 待逐页核验 | USGS给出的地球总水量约13.86亿立方千米，换算约1.386×10¹⁸立方米。 |
@@ -64,8 +64,9 @@
 ## 已执行的内容修订
 
 1. `num-3` 全球咖啡年消费：答案由 8000 亿杯改为约 1.1 万亿杯，与现有备注中的“每日约 30 亿杯 × 365 天 ≈ 1.095 万亿杯”保持一致。该来源仍需核对原报告具体页面/口径。
-2. `num-5`、`num-18`、`num-19`、`num-20`、`num-35`、`num-39` 转为 `status: "review"`。其中 `num-18`、`num-19`、`num-20`、`num-35`、`num-39` 缺少本轮确认的充分来源或口径；`num-5` 的来源页面也尚未完成确认。
-3. 当前兜底快照 v4 不含以上待审题；历史快照保留原状以避免静默改写旧日期。
+2. `num-4` 月球质量、`num-12` 全球可探测地震数、`num-13` 大堡礁长度、`num-26` 月地距离区间：已打开对应 NASA / USGS / NOAA 页面并核对数字与口径；`num-26` 下限从 356,000 修订为 357,000 千米。
+3. `num-5`、`num-18`、`num-19`、`num-20`、`num-35`、`num-39` 转为 `status: "review"`。其中 `num-18`、`num-19`、`num-20`、`num-35`、`num-39` 缺少本轮确认的充分来源或口径；`num-5` 的来源页面也尚未完成确认。
+4. 当前兜底快照 v4 不含以上待审题；历史快照保留原状以避免静默改写旧日期。
 
 ## 复核完成标准
 
