@@ -1,6 +1,6 @@
-// Informational source-provenance audit for published numeric questions.
-// This command deliberately does not fail the build yet: existing content has legacy
-// entries without URLs. It reports the debt transparently rather than inventing sources.
+// Source-provenance gate for released numeric questions.
+// Draft entries may remain in the editorial pool, but must not be assigned to new
+// daily schedules or included in the active fallback snapshot.
 import { readFileSync } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -8,21 +8,35 @@ import { fileURLToPath } from 'node:url';
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const file = path.join(root, 'data', 'pools.json');
 const pack = JSON.parse(readFileSync(file, 'utf8'));
-const published = (pack.numeric || []).filter((q) => q.status === 'published' || q.status === undefined);
+const numeric = Array.isArray(pack.numeric) ? pack.numeric : [];
+const published = numeric.filter((q) => q.status === 'published' || q.status === undefined);
+const drafts = numeric.filter((q) => q.status === 'draft');
 const missingUrl = published.filter((q) => !/^https?:\/\//i.test(q.source?.url || ''));
-const genericSource = published.filter((q) => /内部整理|公开资料估算|公开.*资料.*估算/i.test(q.source?.name || ''));
+const unresolved = published.filter((q) => !['verified', 'derived'].includes(q.source?.reviewStatus));
+const genericSource = published.filter((q) => /内部整理|公开资料估算|待核验|来源待补/i.test(q.source?.name || ''));
+const badUpcomingSchedule = Object.entries(pack.dailySchedule || {}).filter(([date, value]) => {
+  if (date < new Date().toISOString().slice(0, 10)) return false;
+  const q = numeric.find((entry) => entry.id === value?.questionId);
+  return !q || (q.status !== 'published' && q.status !== undefined);
+});
 
-console.log(`Source provenance audit | pack v${pack.version}`);
+console.log(`Source provenance gate | pack v${pack.version}`);
 console.log(`Published numeric questions: ${published.length}`);
-console.log(`Missing source.url: ${missingUrl.length}`);
-console.log(`Generic/insufficiently specific source labels: ${genericSource.length}`);
+console.log(`Draft numeric questions excluded from release: ${drafts.length}`);
+console.log(`Published missing source.url: ${missingUrl.length}`);
+console.log(`Published missing verified/derived reviewStatus: ${unresolved.length}`);
+console.log(`Published generic source labels: ${genericSource.length}`);
+console.log(`Future daily schedules pointing to non-published questions: ${badUpcomingSchedule.length}`);
 
-if (missingUrl.length || genericSource.length) {
-  console.warn('⚠️ 内容来源仍需人工补证；此报告不表示题目已事实核验，也暂不阻断构建。');
-  for (const q of missingUrl) {
-    const label = q.source?.name || 'no source label';
-    console.warn(`  [${q.id}] ${q.q} — source: ${label}`);
-  }
+for (const q of [...missingUrl, ...unresolved, ...genericSource]) {
+  console.error(`  [${q.id}] ${q.q} — source: ${q.source?.name || 'missing'} / status: ${q.source?.reviewStatus || 'missing'}`);
+}
+for (const q of drafts) console.warn(`  EDITORIAL DRAFT [${q.id}] ${q.q} — excluded from new release pools`);
+for (const [date, entry] of badUpcomingSchedule) console.error(`  SCHEDULE ERROR [${date}] ${entry?.questionId || 'missing questionId'}`);
+
+if (missingUrl.length || unresolved.length || genericSource.length || badUpcomingSchedule.length) {
+  console.error('❌ Published content is not source-complete; release gate failed.');
+  process.exitCode = 1;
 } else {
-  console.log('✅ All published numeric questions have URL-based source metadata.');
+  console.log('✅ All published numeric questions have traceable URLs and explicit review status.');
 }
