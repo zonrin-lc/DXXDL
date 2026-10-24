@@ -4173,7 +4173,7 @@
         "num-19",
         "num-20"
       ],
-      "effectiveFrom": "0001-01-01"
+      "effectiveFrom": "1970-01-01"
     },
     {
       "version": "fallback_v2",
@@ -4207,7 +4207,7 @@
         "num-26",
         "num-27"
       ],
-      "effectiveFrom": "0001-01-01"
+      "effectiveFrom": "1970-01-01"
     },
     {
       "version": "fallback_v3",
@@ -4263,7 +4263,7 @@
         "num-48",
         "num-49"
       ],
-      "effectiveFrom": "0001-01-01"
+      "effectiveFrom": "1970-01-01"
     }
   ]
 }
