@@ -13,6 +13,11 @@ export function applyDailyCompletion(state, today) {
   if (last === today) {
     return { lastCompletedDate: last, currentStreak: streak, bestStreak: Math.max(streak, state.bestStreak || 0), changed: false };
   }
+  // A device clock moved backwards must not roll back a verified completion or
+  // grant a fresh streak. Keep the verified state until calendar time catches up.
+  if (last && dayDiff(last, today) < 0) {
+    return { lastCompletedDate: last, currentStreak: streak, bestStreak: Math.max(streak, state.bestStreak || 0), changed: false };
+  }
   let next;
   if (last && dayDiff(last, today) === 1) next = streak + 1;
   else next = 1;
@@ -66,7 +71,8 @@ export function streakDisplay(state, today) {
   if (!state || !state.lastCompletedDate) return { todayDone: false, display: 0 };
   const todayDone = state.lastCompletedDate === today;
   // 昨天之后没完成过 → 当前连胜按规则已失效（显示 0，但存档值保留至下次完成重建）
-  const alive = dayDiff(state.lastCompletedDate, today) <= 1;
+  const diff = dayDiff(state.lastCompletedDate, today);
+  const alive = diff >= 0 && diff <= 1;
   return { todayDone, display: alive ? state.currentStreak || 0 : 0 };
 }
 
