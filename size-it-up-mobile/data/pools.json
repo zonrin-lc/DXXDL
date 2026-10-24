@@ -1,5 +1,5 @@
 {
-  "version": "2.7.1",
+  "version": "2.7.2",
   "_说明": "热更新数据包 v2：改完内容把 version 递增即可，游戏启动时自动拉取并通过 validatePack 才应用（校验失败绝不覆盖缓存）。断网用本地缓存，无缓存用代码内置兜底题库。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
@@ -3382,9 +3382,9 @@
     {
       "id": "num-3",
       "q": "全世界一年要喝掉多少杯咖啡？",
-      "a": 800000000000,
+      "a": 1100000000000,
       "u": "杯",
-      "note": "按全球每天约22亿杯的常见估算乘以365天，约8030亿杯/年，取约8000亿杯。消费量数据依统计口径和年份变化。",
+      "note": "若按来源报告引用的全球每天约30亿杯估算，乘以365天约为1.095万亿杯/年，取约1.1万亿杯；该年量仍须结合来源报告的原文统计口径最终复核。",
       "answerType": "point",
       "status": "published",
       "source": {
@@ -3408,9 +3408,10 @@
         "name": "NASA NSSDC Moon Fact Sheet",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "采用NASA月球质量约7.35×10²²千克的近似值。",
-        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对NASA表格中的月球质量0.07346×10^24千克；游戏答案7.35×10^22千克为合理四舍五入。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+        "reviewEvidence": "NASA NSSDC Moon Fact Sheet, “Bulk parameters”, Mass row: Moon mass is 0.07346 × 10^24 kg = 7.346 × 10^22 kg; game value 7.35 × 10^22 kg is a rounding of the source value."
       }
     },
     {
@@ -3493,9 +3494,10 @@
         "name": "NASA NSSDC Earth Fact Sheet",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "NASA给出的地球质量约5.9722×10²⁴千克。",
-        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对NASA表格中的地球质量5.9722×10^24千克；游戏答案5.97×10^24千克为合理四舍五入。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+        "reviewEvidence": "NASA NSSDC Earth Fact Sheet, “Bulk parameters”, Mass row: 5.9722 × 10^24 kg; game value 5.97 × 10^24 kg is rounded to three significant figures."
       }
     },
     {
@@ -3787,19 +3789,20 @@
       "q": "月球到地球的距离大约是多少千米？",
       "u": "千米",
       "answerRange": {
-        "min": 356000,
+        "min": 357000,
         "max": 407000
       },
-      "note": "口径：月球轨道为椭圆，近地点约 35.65 万千米、远地点约 40.67 万千米，平均 38.44 万千米。",
+      "note": "NASA NSSDC月球资料给出的月地距离约在357,000–407,000千米之间；轨道为椭圆，距离会变化。",
       "answerType": "range",
       "status": "published",
       "source": {
         "name": "NASA：Daily Moon Guide",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "NASA给出的月地距离随轨道变化约356,400–406,700千米。",
-        "url": "https://science.nasa.gov/moon/daily-moon-guide/"
+        "reviewStatus": "verified",
+        "reviewNote": "已核对NASA资料明确写出月地距离约357,000–407,000千米；题库区间按其范围修正。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html",
+        "reviewEvidence": "NASA NSSDC Moon Fact Sheet, note below orbital parameters: Moon–Earth distance roughly ranges from 357,000 km to 407,000 km; game reference interval follows that stated range."
       }
     },
     {
@@ -3885,9 +3888,10 @@
         "name": "NASA NSSDC Earth Fact Sheet",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "采用NASA给出的地球赤道半径6378.137千米，按2πr折算约40,075千米。",
-        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html"
+        "reviewStatus": "derived",
+        "reviewNote": "已核对NASA给出的赤道半径6,378.137千米；按圆周长公式2πr换算，约40,075千米。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+        "reviewEvidence": "NASA NSSDC Earth Fact Sheet, “Bulk parameters”, equatorial radius 6,378.137 km; 2π × 6,378.137 km ≈ 40,075 km."
       }
     },
     {
@@ -3936,9 +3940,10 @@
         "name": "NASA NSSDC Earth Fact Sheet",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "题目明确按太阳日计算：24小时=1440分钟；恒星日约23小时56分，二者不能混用。",
-        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html"
+        "reviewStatus": "derived",
+        "reviewNote": "已核对NASA表中太阳日长24小时及恒星自转周期23.9345小时的区别；按题目指定太阳日换算为1,440分钟。",
+        "url": "https://nssdc.gsfc.nasa.gov/planetary/factsheet/earthfact.html",
+        "reviewEvidence": "NASA NSSDC Earth Fact Sheet, “Orbital parameters”: length of day 24.0000 h, while sidereal rotation period is 23.9345 h. Question explicitly specifies solar day; 24 × 60 = 1,440 minutes."
       }
     },
     {
