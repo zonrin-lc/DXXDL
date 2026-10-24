@@ -6,6 +6,8 @@ import { SURVIVAL } from '../core/constants.js';
 import { makeTimer, timerColor, applyAnswer, applyTimeout, pickSurvivalQuestion } from '../core/survival.js';
 import { SFX, feedbackForScore } from './audio.js';
 import { rollCount, confetti, showHint } from './effects.js';
+import { createTapTapRewardedAd } from '../platform/taptap-rewarded-ad.js';
+import { TAPTAP_REWARDED_VIDEO_AD_UNIT_ID } from '../platform/taptap-config.js';
 
 const $ = (id) => document.getElementById(id);
 
@@ -14,6 +16,7 @@ let session = null;
 let tickHandle = null;
 
 const GENERIC_TIP = '把问题拆成「人数 × 人均 × 频率」这类小块，分别估出数量级再相乘；10 的幂比精确数字重要。';
+const rewardedVideoAd = createTapTapRewardedAd({ adUnitId: TAPTAP_REWARDED_VIDEO_AD_UNIT_ID });
 
 /** dateKey（YYYY-MM-DD，存储键保持不变）→ 中文日期展示（仅展示层本地化） */
 export function fmtDateCN(dateKey, withYear = false) {
@@ -30,6 +33,7 @@ export function initNumeric(context) {
   $('n-lock').addEventListener('click', lockAnswer);
   $('n-next').addEventListener('click', nextStep);
   $('n-report').addEventListener('click', copyReport);
+  $('n-revive-ad').addEventListener('click', tryRevive);
   $('n-input').addEventListener('input', onInput);
   $('n-tip-btn').addEventListener('click', () => {
     const tip = $('n-tip');
@@ -69,6 +73,9 @@ export function startNumeric(mode, opts = {}) {
     locked: false,
     dateKey: opts.dateKey || null,
     timedOut: false,
+    revived: false,
+    reviveInFlight: false,
+    reviveAttemptId: null,
   };
 
   $('n-survival-head').classList.toggle('hidden', mode !== 'survival');
@@ -88,6 +95,8 @@ export function startNumeric(mode, opts = {}) {
     $('n-tag').textContent = '💀 生存模式 · 15 秒一题';
     showHint('n-hintbar', '答错扣血、答对不加血、极准回血 +1；超时扣 3。', 'survival_tip_v1', ctx.store);
   }
+  $('n-revive-ad').classList.add('hidden');
+  $('n-next').disabled = false;
   loadRound();
 }
 
@@ -114,6 +123,7 @@ function loadRound() {
   session.locked = false;
   session.timedOut = false;
 
+  syncReviveButton();
   if (session.mode === 'survival') {
     $('n-life').textContent = String(session.life);
     $('n-hearts').textContent = '❤️'.repeat(session.life) + '🖤'.repeat(SURVIVAL.maxLife - session.life);
@@ -183,6 +193,8 @@ function checkTimeout() {
   feedbackForScore(0);
   updateLifeUI();
   // 超时揭晓同样把焦点交给继续按钮
+  syncReviveButton();
+  $('n-next').disabled = Boolean(session.reviveInFlight);
   $('n-next').focus();
   ctx.emit('numeric_answered', { mode: 'survival', score: 0, timeout: true });
 }
@@ -191,6 +203,90 @@ function updateLifeUI() {
   $('n-life').textContent = String(session.life);
   $('n-hearts').textContent = '❤️'.repeat(session.life) + '🖤'.repeat(SURVIVAL.maxLife - session.life);
   $('n-count').textContent = `已答 ${session.answered} 题`;
+  syncReviveButton();
+}
+
+// ---------- TapTap 激励视频复活 ----------
+
+function syncReviveButton() {
+  const button = $('n-revive-ad');
+  if (!button) return;
+  const canOffer = !!session
+    && session.mode === 'survival'
+    && session.life <= 0
+    && !session.revived
+    && rewardedVideoAd.isConfigured();
+  button.classList.toggle('hidden', !canOffer);
+  button.disabled = !canOffer || Boolean(session && session.reviveInFlight);
+  $('n-next').disabled = Boolean(session && session.reviveInFlight);
+  button.textContent = session && session.reviveInFlight
+    ? '广告处理中…'
+    : '观看广告 · 复活一次（恢复3点生命）';
+}
+
+function storeRewardAttempt(targetSession, status) {
+  if (!ctx?.store) return;
+  const key = 'bsz_reward_attempt_pending';
+  if (status === 'clear') {
+    ctx.store.removeItem(key);
+    return;
+  }
+  ctx.store.setItem(key, JSON.stringify({
+    id: targetSession.reviveAttemptId,
+    type: 'survival-revive',
+    status,
+    createdAt: targetSession.reviveAttemptCreatedAt,
+  }));
+}
+
+async function tryRevive() {
+  if (!session || session.mode !== 'survival' || session.life > 0 || session.revived || session.reviveInFlight) return;
+  if (!rewardedVideoAd.isConfigured()) {
+    ctx.toast('当前平台广告能力或广告位尚未配置，不能发放复活奖励。');
+    return;
+  }
+
+  const targetSession = session;
+  targetSession.reviveInFlight = true;
+  targetSession.reviveAttemptId = `revive-${Date.now()}-${Math.random().toString(36).slice(2, 10)}`;
+  targetSession.reviveAttemptCreatedAt = Date.now();
+  storeRewardAttempt(targetSession, 'playing');
+  syncReviveButton();
+
+  let result;
+  try {
+    result = await rewardedVideoAd.showRewarded();
+  } catch {
+    result = { status: 'error' };
+  }
+
+  targetSession.reviveInFlight = false;
+  // 不能把已离开的旧局奖励加到另一局，也不能据迟到回调发奖。
+  if (session !== targetSession) return;
+  storeRewardAttempt(targetSession, 'clear');
+
+  if (result.status === 'completed' && targetSession.life <= 0 && !targetSession.revived) {
+    targetSession.revived = true;
+    targetSession.life = Math.min(3, SURVIVAL.maxLife);
+    targetSession.locked = true;
+    updateLifeUI();
+    $('n-reveal').classList.remove('hidden');
+    $('n-next').textContent = '继续 →';
+    $('n-next').disabled = false;
+    $('n-verdict').textContent = '💚 复活成功';
+    ctx.toast('广告观看完成，已恢复3点生命。本局已标记为复活局。');
+    syncReviveButton();
+    $('n-next').focus();
+    return;
+  }
+
+  const message = result.status === 'cancelled'
+    ? '你提前关闭了广告，本次没有获得复活。'
+    : result.status === 'unavailable'
+      ? '当前环境未提供可用广告，未发放复活。'
+      : '广告未能完成或奖励未确认，本次未复活；本局成绩已保留。';
+  ctx.toast(message);
+  syncReviveButton();
 }
 
 // ---------- 输入 ----------
@@ -325,6 +421,7 @@ function lockAnswer() {
 }
 
 function nextStep() {
+  if (!session || session.reviveInFlight) return;
   SFX.lock();
   if (session.mode === 'daily') {
     const s = finishPayload();
@@ -366,12 +463,15 @@ function finishPayload() {
     guess: session.lastGuess,
     d: session.lastD,
     packVersion: (ctx.getPack() && ctx.getPack().version) || null,
+    revived: Boolean(session.revived),
   };
 }
 
 function reset() {
   stopTimer();
   session = null;
+  $('n-revive-ad').classList.add('hidden');
+  $('n-next').disabled = false;
 }
 
 // ---------- 纠错复制报告 ----------
