@@ -26,9 +26,12 @@ describe('题库静态校验（GDD 6.7）', () => {
     const noUrl = basePack();
     delete noUrl.numeric[0].source.url;
     expect(validatePack(noUrl).some((e) => e.msg.includes('source.url'))).toBe(true);
-    const noReview = basePack();
-    noReview.numeric[0].source.reviewStatus = 'needs-review';
-    expect(validatePack(noReview).some((e) => e.msg.includes('reviewStatus'))).toBe(true);
+    const unknownReviewState = basePack();
+    unknownReviewState.numeric[0].source.reviewStatus = 'mystery';
+    expect(validatePack(unknownReviewState).some((e) => e.msg.includes('reviewStatus'))).toBe(true);
+    const pendingReview = basePack();
+    pendingReview.numeric[0].source.reviewStatus = 'pending_source_page_review';
+    expect(validatePack(pendingReview).some((e) => e.msg.includes('reviewStatus'))).toBe(false);
   });
   it('缺 version 报错', () => {
     const p = basePack();
