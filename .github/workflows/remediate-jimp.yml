@@ -1,0 +1,66 @@
+name: Dependency Remediation (Jimp Advisory Triage)
+
+on:
+  push:
+    branches:
+      - audit/release-readiness-2026-10
+    paths:
+      - "size-it-up-mobile/package.json"
+      - "size-it-up-mobile/package-lock.json"
+      - ".github/workflows/remediate-jimp.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  audit-fix-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout release-readiness branch
+        uses: actions/checkout@v5
+        with:
+          ref: audit/release-readiness-2026-10
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: size-it-up-mobile/package-lock.json
+      - name: Apply non-breaking audit fixes to lockfile
+        working-directory: size-it-up-mobile
+        run: |
+          npm audit fix --package-lock-only --ignore-scripts || true
+      - name: Clean install
+        working-directory: size-it-up-mobile
+        run: npm ci
+      - name: Run test, source metadata gate, and production build
+        working-directory: size-it-up-mobile
+        run: npm run verify
+      - name: Exercise asset processor if source images are present
+        working-directory: size-it-up-mobile
+        run: |
+          if [ -d assets/raw ] && find assets/raw -type f \( -iname '*.png' -o -iname '*.jpg' -o -iname '*.jpeg' \) -print -quit | grep -q .; then
+            node tools/build-assets.mjs
+          else
+            echo "No source images present; asset processor not exercised in this run."
+          fi
+      - name: Check production dependency advisories
+        working-directory: size-it-up-mobile
+        run: npm audit --omit=dev
+      - name: Summarize remaining development advisories
+        working-directory: size-it-up-mobile
+        run: |
+          npm audit --json > /tmp/npm-audit.json || true
+          node -e "const r=require('/tmp/npm-audit.json'); console.log('Remaining advisories:',JSON.stringify(r.metadata?.vulnerabilities||{})); for(const [n,x] of Object.entries(r.vulnerabilities||{})) console.log([n,x.severity,x.isDirect?'direct':'transitive',JSON.stringify(x.fixAvailable)].join(' | '));"
+      - name: Commit lockfile changes if all verification passed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add size-it-up-mobile/package-lock.json
+          if git diff --cached --quiet; then
+            echo "No lockfile changes to commit."
+          else
+            git commit -m "security: apply compatible dependency audit fixes"
+            git push origin HEAD:audit/release-readiness-2026-10
+          fi
