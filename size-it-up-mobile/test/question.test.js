@@ -10,8 +10,8 @@ function basePack() {
     pop: [],
     geo: [],
     numeric: [
-      { id: 'n_001', answerType: 'point', q: '问题', a: 100, u: '次', source: { name: 'y', year: 2025 }, status: 'published' },
-      { id: 'n_002', answerType: 'range', q: '区间题', answerRange: { min: 100, max: 200 }, u: '吨', source: { name: 'y', year: 2025 }, status: 'published' },
+      { id: 'n_001', answerType: 'point', q: '问题', a: 100, u: '次', source: { name: 'test source', year: 2025, url: 'https://example.com/source', reviewStatus: 'verified' }, status: 'published' },
+      { id: 'n_002', answerType: 'range', q: '区间题', answerRange: { min: 100, max: 200 }, u: '吨', source: { name: 'test source', year: 2025, url: 'https://example.com/source', reviewStatus: 'verified' }, status: 'published' },
     ],
     dailySchedule: { '2026-10-22': { questionId: 'n_001', revision: 1 } },
     fallbackPools: [{ version: 'fb_v1', questionIds: ['n_001', 'n_002'] }],
@@ -21,6 +21,14 @@ function basePack() {
 describe('题库静态校验（GDD 6.7）', () => {
   it('合规数据包通过', () => {
     expect(validatePack(basePack())).toEqual([]);
+  });
+  it('已发布数量级题必须有可追溯 URL 和显式来源复核状态', () => {
+    const noUrl = basePack();
+    delete noUrl.numeric[0].source.url;
+    expect(validatePack(noUrl).some((e) => e.msg.includes('source.url'))).toBe(true);
+    const noReview = basePack();
+    noReview.numeric[0].source.reviewStatus = 'needs-review';
+    expect(validatePack(noReview).some((e) => e.msg.includes('reviewStatus'))).toBe(true);
   });
   it('缺 version 报错', () => {
     const p = basePack();
