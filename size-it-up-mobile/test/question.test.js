@@ -88,6 +88,24 @@ describe('题库静态校验（GDD 6.7）', () => {
     expect(errs.some((e) => e.msg.includes('questionId 不存在'))).toBe(true);
     expect(errs.some((e) => e.msg.includes('正整数'))).toBe(true);
   });
+  it('已发布数量级题必须提供年份和单位', () => {
+    const noYear = basePack();
+    delete noYear.numeric[0].source.year;
+    expect(validatePack(noYear).some((e) => e.msg.includes('source.year'))).toBe(true);
+    const noUnit = basePack();
+    delete noUnit.numeric[0].u;
+    expect(validatePack(noUnit).some((e) => e.msg.includes('明确单位'))).toBe(true);
+  });
+  it('兜底快照 effectiveFrom 必须是有效日期且版本不能重复', () => {
+    const p = basePack();
+    p.fallbackPools = [
+      { version: 'fb_v1', effectiveFrom: '2026-02-30', questionIds: ['n_001'] },
+      { version: 'fb_v1', effectiveFrom: '2026-03-01', questionIds: ['n_002'] },
+    ];
+    const errs = validatePack(p);
+    expect(errs.some((e) => e.msg.includes('有效的 YYYY-MM-DD'))).toBe(true);
+    expect(errs.some((e) => e.msg.includes('version 重复'))).toBe(true);
+  });
   it('兜底快照 id 必须存在', () => {
     const p = basePack();
     p.fallbackPools[0].questionIds = ['n_001', 'ghost'];
