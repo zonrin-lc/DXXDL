@@ -134,7 +134,7 @@
 
 ## 2026-10-24 后续推进记录
 
-- 数量级题库：通过 NASA、USGS、NOAA、PNAS/Nature、PubMed、MedlinePlus、Cleveland Clinic、Harvard BioNumbers、OpenStax、Smithsonian、国家邮政局/加拿大政府等可追溯页面，已为当前 42 道发布池题补齐 `source.reviewEvidence`；8 道不确定题转入 review，不进入新的兜底题池。详见 [逐题台账](NUMERIC-QUESTION-SOURCE-REVIEW.md)。
+- 数量级题库：通过 NASA、USGS、NOAA、PNAS/Nature、PubMed、MedlinePlus、Cleveland Clinic、Harvard BioNumbers、OpenStax、Smithsonian、PBS NOVA、国家邮政局/加拿大政府等可追溯页面，已为当前 41 道发布池题补齐 `source.reviewEvidence`；9 道不确定题转入 review，不进入新的兜底题池。详见 [逐题台账](NUMERIC-QUESTION-SOURCE-REVIEW.md)。
 - 题目修订：金字塔质量按约230万块×2.5吨修订为约580万吨；长江水量题改为年径流量口径；成人平均血量改为5升点答案；亚马逊河长度修订为约6300千米；月地距离下限修订为357,000千米。
 - CI：新增 `npm audit --audit-level=high` 作为高危/严重开发依赖阻断门槛；新增 `npm run audit:sources:release`，要求所有发布池题、未来排期和最新兜底题都有证据支持。需以最新 Actions 结果确认这些门槛在当前提交上实际通过。
 - 广告：奖励只接受 `onClose({ isEnded: true })`；增加首次页面启动60秒内不展示广告的保护及对应单元测试。真实广告位 ID 仍为空；实际宿主类型尚待确认，因此不能宣称平台广告已上线。
@@ -147,3 +147,10 @@
 - Current accepted residual: full `npm audit` reports 4 moderate advisories for `file-type` through `@jimp/core`/Jimp 0.22.12, concerning an ASF parser infinite loop on malformed input. The release gate blocks high/critical advisories, and production dependency audit is separate. This residual is limited to the local development asset processor, not the shipped runtime.
 - Mitigation added: `tools/build-assets.mjs` validates PNG/JPEG magic bytes before passing files to Jimp; tests reject ASF and arbitrary file signatures. This narrows the vulnerable parser exposure, but does not remove the advisory from the dependency tree.
 - Release decision: do not force-upgrade Jimp to 1.6.1 while it introduces high advisories. Keep the moderate residual documented; if the project later accepts untrusted asset uploads or additional formats, replace the processor with a separately audited library and re-run the asset pipeline regression suite.
+
+
+## Jimp 依赖处理结论（最新）
+
+- 当前锁文件保留 Jimp 0.22.12；`npm audit --audit-level=high` 与生产依赖审计通过。
+- 全量 `npm audit` 仍报告 4 项 moderate（`file-type` 的 ASF 解析器异常循环，位于本地开发素材工具依赖树）。尝试升级到 Jimp 1.6.1 后，CI 发现其传递 `zod` 依赖引入 29 项 high，因此已撤销该升级，未把更差的依赖树带入候选版本。
+- 已在素材流水线中增加 PNG/JPEG 魔数白名单检查，并增加测试拒绝 ASF/任意字节输入；最新完整代码验证 [40103993656](https://github.com/zonrin-lc/DXXDL/actions/runs/40103993656) 的测试、严格来源门槛、构建和素材处理步骤均为 success。后续文档提交的 CI 仍在跑，需以最新 Actions 结果为准。
