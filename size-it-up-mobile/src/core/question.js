@@ -88,11 +88,15 @@ export function validatePack(pack) {
   }
   if (Array.isArray(pack.fallbackPools)) {
     const fallbackVersions = new Set();
+    const datedFallbacks = pack.fallbackPools.some((fb) => fb && fb.effectiveFrom !== undefined);
     pack.fallbackPools.forEach((fb, i) => {
       const p = `fallbackPools[${i}]`;
       if (!fb.version) errors.push({ path: p, msg: '兜底快照缺少 version' });
       else if (fallbackVersions.has(fb.version)) errors.push({ path: p, msg: `兜底快照 version 重复: ${fb.version}` });
       else fallbackVersions.add(fb.version);
+      if (datedFallbacks && fb.effectiveFrom === undefined) {
+        errors.push({ path: `${p}.effectiveFrom`, msg: '版本化兜底快照必须声明 effectiveFrom，避免新增版本改写历史日期' });
+      }
       if (fb.effectiveFrom !== undefined && !isValidDateKey(fb.effectiveFrom)) {
         errors.push({ path: `${p}.effectiveFrom`, msg: 'effectiveFrom 必须是有效的 YYYY-MM-DD 日期' });
       }
