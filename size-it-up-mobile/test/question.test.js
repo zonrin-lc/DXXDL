@@ -78,6 +78,11 @@ describe('题库静态校验（GDD 6.7）', () => {
     p.numeric[0].u = '苹果';
     expect(validatePack(p).some((e) => e.msg.includes('单位'))).toBe(true);
   });
+  it('步数题使用明确的「步」单位并通过单位白名单', () => {
+    const p = basePack();
+    p.numeric[0].u = '步';
+    expect(validatePack(p).some((e) => e.msg.includes('单位不在合法集合'))).toBe(false);
+  });
   it('dailySchedule：日期格式 / questionId 存在 / revision 合法', () => {
     const p = basePack();
     p.dailySchedule['2026/10/23'] = { questionId: 'n_001', revision: 1 };
