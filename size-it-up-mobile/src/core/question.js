@@ -2,7 +2,7 @@
 import { SCALE_MIN, SCALE_MAX } from './constants.js';
 
 const STATUSES = ['draft', 'review', 'approved', 'published', 'retired'];
-const UNITS = ['次', '吨', '棵', '杯', '千克', '词', '秒', '个', '只', '立方米', '件', '米', '条', '根', '千米', '小时', '分钟', '年', '度', '升'];
+const UNITS = ['次', '步', '吨', '棵', '杯', '千克', '词', '秒', '个', '只', '立方米', '件', '米', '条', '根', '千米', '小时', '分钟', '年', '度', '升'];
 
 /** 静态校验：返回错误列表；空数组代表通过（校验不通过禁止发布，GDD 6.7） */
 export function validatePack(pack) {
