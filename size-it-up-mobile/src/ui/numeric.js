@@ -215,7 +215,7 @@ function syncReviveButton() {
     && session.mode === 'survival'
     && session.life <= 0
     && !session.revived
-    && rewardedVideoAd.isConfigured();
+    && rewardedVideoAd.isAvailable();
   button.classList.toggle('hidden', !canOffer);
   button.disabled = !canOffer || Boolean(session && session.reviveInFlight);
   $('n-next').disabled = Boolean(session && session.reviveInFlight);
