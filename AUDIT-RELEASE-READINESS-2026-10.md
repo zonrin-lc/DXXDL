@@ -130,3 +130,12 @@
 | Android/iOS | 测试矩阵文档已建立 | 本轮未访问真实设备/平台后台，因此所有真机项仍为待测 |
 
 **最终发布决策：Not Ready / 不可宣称已达到正式发布标准。** PR #1 继续保持 Draft，直到源文核验、剩余开发依赖安全问题、正式广告位和双端真机验收均有证据。
+
+
+## 2026-10-24 后续推进记录
+
+- 数量级题库：通过 NASA、USGS、NOAA、PNAS/Nature、PubMed、MedlinePlus、Cleveland Clinic、Harvard BioNumbers、OpenStax、Smithsonian、国家邮政局/加拿大政府等可追溯页面，已为当前 42 道发布池题补齐 `source.reviewEvidence`；8 道不确定题转入 review，不进入新的兜底题池。详见 [逐题台账](NUMERIC-QUESTION-SOURCE-REVIEW.md)。
+- 题目修订：金字塔质量按约230万块×2.5吨修订为约580万吨；长江水量题改为年径流量口径；成人平均血量改为5升点答案；亚马逊河长度修订为约6300千米；月地距离下限修订为357,000千米。
+- CI：新增 `npm audit --audit-level=high` 作为高危/严重开发依赖阻断门槛；新增 `npm run audit:sources:release`，要求所有发布池题、未来排期和最新兜底题都有证据支持。需以最新 Actions 结果确认这些门槛在当前提交上实际通过。
+- 广告：奖励只接受 `onClose({ isEnded: true })`；增加首次页面启动60秒内不展示广告的保护及对应单元测试。真实广告位 ID 仍为空；实际宿主类型尚待确认，因此不能宣称平台广告已上线。
+- Android/iOS：本轮没有真实设备或 TapTap 平台沙箱可用，所有设备/平台验收仍标记待执行。
