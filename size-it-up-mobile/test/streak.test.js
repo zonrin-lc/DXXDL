@@ -63,6 +63,13 @@ describe('旧存档迁移（GDD 4.1 / 9.3）', () => {
     expect(m.migrated).toBe(true);
     expect(m.currentStreak).toBeLessThanOrEqual(3);
   });
+  it('存档迁移使用最近连续段恢复当前连胜，不把历史最佳误当当前连胜', () => {
+    const dates = ['2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04', '2026-10-05', '2026-10-10'];
+    const m = migrateStreak({ currentStreak: 5, bestStreak: 5 }, dates);
+    expect(m.lastCompletedDate).toBe('2026-10-10');
+    expect(m.currentStreak).toBe(1);
+    expect(m.bestStreak).toBe(5);
+  });
   it('无法还原日期时：旧连胜仅作历史展示，不参与累加', () => {
     const m = migrateStreak({ currentStreak: 12, bestStreak: 12 }, []);
     expect(m.lastCompletedDate).toBeNull();
