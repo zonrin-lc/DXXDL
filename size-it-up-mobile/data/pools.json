@@ -1,6 +1,6 @@
 {
   "version": "2.7.2",
-  "_说明": "热更新数据包 v2：改完内容把 version 递增即可，游戏启动时自动拉取并通过 validatePack 才应用（校验失败绝不覆盖缓存）。断网用本地缓存，无缓存用代码内置兜底题库。",
+  "_说明": "热更新数据包 v2：版本 2.7.2 将 6 道来源/口径未完成核验的数量级题转为 review 状态，不纳入新发布题池；历史 dailySchedule 保持不变。正式发布前仍须完成 source.reviewStatus 为 pending_source_page_review 的页面逐条复核。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
@@ -3392,7 +3392,7 @@
         "year": 2026,
         "reviewedOn": "2026-10-24",
         "reviewStatus": "pending_source_page_review",
-        "reviewNote": "报告引用全球每日约30亿杯咖啡；换算成年约1.095万亿杯，取约1.1万亿杯。",
+        "reviewNote": "报告引用全球每日约30亿杯咖啡；按365天换算约1.095万亿杯，游戏答案修订为约1.1万亿杯。仍需直接核对报告页面中的原始口径后才能将来源状态改为 verified。",
         "url": "https://icocoffee.org/documents/cy2024-25/coffee-development-report-2022-23.pdf"
       }
     },
@@ -3421,7 +3421,7 @@
       "u": "词",
       "note": "此题来源审核未完成：现有链接无法直接支撑英文七部原著的总词数，暂不进入正式题库；需寻找直接统计原著词数的来源。",
       "answerType": "point",
-      "status": "draft",
+      "status": "review",
       "source": {
         "name": "Wizarding World：Harry Potter books sold worldwide（官方系列网站）",
         "year": 2026,
@@ -3643,7 +3643,7 @@
       "u": "条",
       "note": "此题来源审核未完成：原有全球短信数量缺少统一、可追溯的全口径统计，暂不进入正式题库。",
       "answerType": "point",
-      "status": "draft",
+      "status": "review",
       "source": {
         "name": "待核验：全球短信总量缺少覆盖范围和可追溯的统一统计",
         "year": 2026,
@@ -3659,7 +3659,7 @@
       "u": "根",
       "note": "此题来源审核未完成：草叶数量取决于草种、养护、草坪面积和计数定义，暂不进入正式题库。",
       "answerType": "point",
-      "status": "draft",
+      "status": "review",
       "source": {
         "name": "待核验：足球场草叶总数为高度依赖草种、维护和计数定义的推算",
         "year": 2026,
@@ -3675,7 +3675,7 @@
       "u": "吨",
       "note": "此题来源审核未完成：全球家猫数量与单猫年食量的假设尚未得到可靠来源共同支持，暂不进入正式题库。",
       "answerType": "point",
-      "status": "draft",
+      "status": "review",
       "source": {
         "name": "待核验：全球家猫总量与单猫年食量没有足够统一来源",
         "year": 2026,
@@ -3953,7 +3953,7 @@
       "u": "千米",
       "note": "此题来源审核未完成：1318千米仍待铁路或运营机构的直接官方来源确认，暂不进入正式题库。",
       "answerType": "point",
-      "status": "draft",
+      "status": "review",
       "source": {
         "name": "待核验：京沪高铁长度需要更直接的运营/铁路官方来源",
         "year": 2026,
@@ -4020,7 +4020,7 @@
       "u": "米",
       "note": "此题来源审核未完成：海拔差依赖珠峰与泰山各自的测量口径，暂待两处权威来源核对。",
       "answerType": "point",
-      "status": "draft",
+      "status": "review",
       "source": {
         "name": "待核验：珠峰与泰山海拔差需对两处权威测绘口径逐一锁定",
         "year": 2026,
