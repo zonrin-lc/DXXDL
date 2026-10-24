@@ -41,7 +41,7 @@ describe('TapTap rewarded-video adapter', () => {
 
   it('does not grant reward when player closes early', async () => {
     const f = fakePlatform({ onShow: (h) => queueMicrotask(() => h.close?.({ isEnded: false })) });
-    const manager = createTapTapRewardedAd({ adUnitId: 'test-ad-unit', getPlatform: () => f.sdk });
+    const manager = createTapTapRewardedAd({ adUnitId: 'test-ad-unit', getPlatform: () => f.sdk, now: () => 61_000 });
     expect(await manager.showRewarded()).toEqual({ status: 'cancelled' });
   });
 
@@ -67,4 +67,24 @@ describe('TapTap rewarded-video adapter', () => {
     close?.({ isEnded: false });
     expect((await first).status).toBe('cancelled');
   });
+  it('blocks rewarded ads during the first 60 seconds after page startup', async () => {
+    let currentTime = 0;
+    const f = fakePlatform({ onShow: (h) => queueMicrotask(() => h.close?.({ isEnded: true })) });
+    const manager = createTapTapRewardedAd({
+      adUnitId: 'test-ad-unit',
+      getPlatform: () => f.sdk,
+      firstAdDelayMs: 60_000,
+      now: () => currentTime,
+    });
+
+    expect(manager.isConfigured()).toBe(true);
+    expect(manager.isAvailable()).toBe(false);
+    expect(await manager.showRewarded()).toEqual({ status: 'unavailable', reason: 'startup-delay' });
+    expect(f.sdk.createRewardedVideoAd).not.toHaveBeenCalled();
+
+    currentTime = 60_000;
+    expect(manager.isAvailable()).toBe(true);
+    expect(await manager.showRewarded()).toEqual({ status: 'completed' });
+  });
+
 });
