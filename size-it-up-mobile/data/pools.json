@@ -4172,7 +4172,8 @@
         "num-18",
         "num-19",
         "num-20"
-      ]
+      ],
+      "effectiveFrom": "0001-01-01"
     },
     {
       "version": "fallback_v2",
@@ -4205,7 +4206,8 @@
         "num-25",
         "num-26",
         "num-27"
-      ]
+      ],
+      "effectiveFrom": "0001-01-01"
     },
     {
       "version": "fallback_v3",
@@ -4260,7 +4262,8 @@
         "num-47",
         "num-48",
         "num-49"
-      ]
+      ],
+      "effectiveFrom": "0001-01-01"
     }
   ]
 }
