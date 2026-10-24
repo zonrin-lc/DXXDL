@@ -14,7 +14,7 @@
     "verify:release": "npm run verify && npm run audit:sources:release"
   },
   "devDependencies": {
-    "esbuild": "^0.25.0",
+    "esbuild": "^0.28.2",
     "jimp": "^1.6.1",
     "vitest": "^4.1.12"
   }
