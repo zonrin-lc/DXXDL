@@ -153,4 +153,4 @@
 
 - 当前锁文件保留 Jimp 0.22.12；`npm audit --audit-level=high` 与生产依赖审计通过。
 - 全量 `npm audit` 仍报告 4 项 moderate（`file-type` 的 ASF 解析器异常循环，位于本地开发素材工具依赖树）。尝试升级到 Jimp 1.6.1 后，CI 发现其传递 `zod` 依赖引入 29 项 high，因此已撤销该升级，未把更差的依赖树带入候选版本。
-- 已在素材流水线中增加 PNG/JPEG 魔数白名单检查，并增加测试拒绝 ASF/任意字节输入；最新完整代码验证 [40103993656](https://github.com/zonrin-lc/DXXDL/actions/runs/40103993656) 的测试、严格来源门槛、构建和素材处理步骤均为 success。后续文档提交的 CI 仍在跑，需以最新 Actions 结果为准。
+- 已在素材流水线中增加 PNG/JPEG 魔数白名单检查，并增加测试拒绝 ASF/任意字节输入；最新完整验证 [40104070784](https://github.com/zonrin-lc/DXXDL/actions/runs/40104070784) 已成功：112 项测试、题库校验、严格来源门槛、构建与素材处理步骤均为 success。随后仅修改 CI 并发配置的提交仍有一轮验证在执行；该提交不改动运行时代码或题库。
