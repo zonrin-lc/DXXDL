@@ -1,21 +1,21 @@
 # 数量级题库来源核验台账
 
-- 数据基线：`size-it-up-mobile/data/pools.json` v2.8.1
+- 数据基线：`size-it-up-mobile/data/pools.json` v2.8.2
 - 更新日期：2026-10-24
 - 重要：URL 存在不等于来源已核验；只有带有逐页核验说明和 `source.reviewEvidence` 的 `verified/derived` 才算完成。
-- 当前共有 50 道题：42 道保留在发布池，42 道已记录逐页证据，0 道待核验；8 道转为 `status: "review"`，不纳入新的发布/兜底题池。
-- 历史 `dailySchedule` 映射未重写。尚未发布的 2026-11-01 题目已从 `num-3` 更换为已核验的 `num-5`（revision 2）。当前候选兜底快照不含 review 题。
+- 当前共有 50 道题：41 道保留在发布池，41 道已记录逐页证据，0 道待核验；9 道转为 `status: "review"`，不纳入新的发布/兜底题池。
+- 历史 `dailySchedule` 映射未重写。尚未发布的 2026-11-01 题目已改为已核验的 `num-38`（revision 3）。当前候选兜底快照不含 review 题。
 
 ## 逐题台账
 
 | ID | 题目 | 来源 URL | source.reviewStatus | 发布/核验状态 | 当前来源备注 |
 |---|---|---|---|---|---|
 | num-0 | 全世界人类一天的心跳总数大约是多少？ | https://www.census.gov/newsroom/stories/world-population-day.html | derived | 已核验 / 有证据 | 按美国人口普查局2026年世界人口估算约82亿人，并以Cleveland Clinic成人静息心率常见60–100次/分钟、取70次/分钟估算：82亿×70×60×24≈8.27×10^14次/日。结果是显式假设下的数量级推算，不是全球实时计数。 |
-| num-1 | 胡夫大金字塔的总重量大约是多少？ | https://www.nature.com/articles/s40494-025-02018-w | derived | 已核验 / 有证据 | 已核对 npj Heritage Science 论文摘要/正文摘录：估计约230万块石块、平均约2.5吨，乘积约575万吨。答案修订为约580万吨（不将石灰岩块体估算包装成含所有填料/包层的精确总重）。 |
+| num-1 | 胡夫大金字塔的总重量大约是多少？ | https://www.pbs.org/wgbh/nova/pyramid/explore/khufustory.html | verified | 已核验 / 有证据 | 已核对 PBS NOVA 的 Khufu's Inside Story 页面；页面直接列出胡夫金字塔总重量约650万吨。此处使用该页面的综合估值，不再从块数×平均块重推导另一个可能不一致的数字。 |
 | num-2 | 地球上现存树木的总数大约是多少？ | https://pubmed.ncbi.nlm.nih.gov/26331545/ | verified | 已核验 / 有证据 | 已通过 Nature 摘要/ PubMed 记录核对；研究估计全球树木约3.04万亿棵，游戏答案3万亿棵为近似值。 |
 | num-3 | 全世界一年要喝掉多少杯咖啡？ | — | needs-review | 暂缓发布 / review | 全球每日咖啡杯数与年消费量缺少本轮确认的直接、统一、可追溯统计口径；现有3 billion cups/day的说法尚未在所列ICO报告中逐页核实。暂缓发布，不将换算结果视为已核实事实。 |
 | num-4 | 月球的质量大约是多少？ | https://nssdc.gsfc.nasa.gov/planetary/factsheet/moonfact.html | verified | 已核验 / 有证据 | 已打开 NASA NSSDC Moon Fact Sheet；页面质量参数列出月球质量为 0.07346×10^24 kg，即 7.346×10^22 kg，与游戏近似值 7.35×10^22 kg 一致。页面标注最后更新 2024-01-11。 |
-| num-5 | 《哈利·波特》全系列英文版总词数大约是多少？ | https://www.harrypotter.com/pt/news/500-million-harry-potter-books-have-now-been-sold-worldwide | verified | 已核验 / 有证据 | 已打开 Wizarding World 官方系列网站页面；原文明确给出七部《哈利·波特》图书合计 1,100,086 个英文单词。答案与来源一致；词数口径按该页面统计。 |
+| num-5 | 《哈利·波特》全系列英文版总词数大约是多少？ | — | needs-review | 暂缓发布 / review | 此前链接仅能支持《哈利·波特》系列图书销量，不直接支持英文版总词数1,100,086。未找到本轮确认的可靠、直接词数来源，暂缓发布。 |
 | num-6 | 阳光从太阳到达地球需要多长时间？ | https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/ | verified | 已核验 / 有证据 | 已打开 NASA Science 页面；原文称太阳光到地球约需 8 分 20 秒（约 500 秒），支持约 499 秒的数量级答案。页面以近似值描述，游戏保留近似口径。 |
 | num-7 | 人体内大约有多少个细胞？ | https://pubmed.ncbi.nlm.nih.gov/23829164/ | verified | 已核验 / 有证据 | 已打开 PubMed 论文摘要；2013 年研究给出成人标准人体细胞总数估计 3.72×10^13，与游戏 3.7×10^13 的近似答案一致。研究本身说明这是计算估计，不是所有人体的精确常数。 |
 | num-8 | 地球上的蚂蚁总数大约是多少？ | https://www.pnas.org/doi/10.1073/pnas.2201550119 | verified | 已核验 / 有证据 | 已打开 PNAS 论文正文；结果部分给出全球蚂蚁总数估计 19.8×10^15（约20 quadrillion），并注明为估算且部分栖息地数据不足。游戏答案 2×10^16 为四舍五入近似。 |
@@ -64,13 +64,13 @@
 ## 重要修订记录
 
 1. 全球每日心跳按约82亿人口与代表性70次/分钟显式推算；不冒充实时统计。
-2. 胡夫金字塔重量按约230万块 × 平均约2.5吨修订为约580万吨。
+2. 胡夫金字塔重量改用 PBS NOVA 页面直接列出的约650万吨，不再用块数乘平均块重推算另一个不一致结果。
 3. 全球年咖啡杯数缺少本轮确认的统一直接来源，转入 review。
 4. 长江年径流量改用约1006立方千米/年的来源口径；亚马逊河长度按来源约6280千米修订为约6300千米。
 5. 成人平均血量改为点答案5升；成人每日步数因来源不支持原题干而转入 review。
 6. 长江长度因当前来源不能直接支持、测量口径有差异而转入 review。
 7. 月地距离区间修订为357,000–407,000千米。
-8. 2026-11-01 尚未发布的每日题已从证据不足的 num-3 改为已核验的 num-5，历史日期未回写。
+8. 《哈利·波特》英文版总词数题因现有链接不支持该主张，转入 review；未发布的 2026-11-01 每日题已改为 num-38。
 
 ## 复核完成标准
 
