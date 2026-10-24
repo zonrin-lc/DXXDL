@@ -1,6 +1,6 @@
 {
-  "version": "2.7.6",
-  "_说明": "热更新数据包 v2：v2.7.6 为已逐页核验的数量级题补齐可审计的 reviewEvidence。来源状态仍为 pending 的题不得视为事实核验通过。",
+  "version": "2.7.7",
+  "_说明": "热更新数据包 v2：v2.7.7 新增多项 NASA、PNAS、NOAA、MedlinePlus、Cleveland Clinic、Harvard BioNumbers、BIC Japan 等来源的逐页核验记录；剩余 pending 项仍需复核。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
@@ -3478,11 +3478,12 @@
       "status": "published",
       "source": {
         "name": "PNAS：The abundance, biomass, and distribution of ants on Earth",
-        "year": 2026,
+        "year": 2022,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "研究估算全球蚂蚁约19.8×10¹⁵只，取数量级近似为2×10¹⁶只。",
-        "url": "https://pmc.ncbi.nlm.nih.gov/articles/PMC9546634/"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 PNAS 论文正文；结果部分给出全球蚂蚁总数估计 19.8×10^15（约20 quadrillion），并注明为估算且部分栖息地数据不足。游戏答案 2×10^16 为四舍五入近似。",
+        "url": "https://www.pnas.org/doi/10.1073/pnas.2201550119",
+        "reviewEvidence": "PNAS paper “The abundance, biomass, and distribution of ants on Earth”, results: estimates 19.8 × 10^15 ants (about 20 quadrillion), with uncertainty ±5 × 10^15 and a note that estimates are conservative. Game value 2 × 10^16 is a rounded estimate."
       }
     },
     {
@@ -3582,11 +3583,12 @@
       "status": "published",
       "source": {
         "name": "中华人民共和国交通运输部：2024年邮政行业发展统计公报",
-        "year": 2026,
+        "year": 2024,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "改为2024年度口径；全国快递业务量约1750.8亿件，不再使用无年份的1700亿估值。",
-        "url": "https://www.mot.gov.cn/shuju/fenxigongbao/hangyegongbao/202512/t20251230_4192148.html"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开国家邮政局《2024年邮政行业发展统计公报》；原文给出2024年快递业务量1750.8亿件，游戏答案1750.8亿件一致。",
+        "url": "https://www.mot.gov.cn/shuju/fenxigongbao/hangyegongbao/202512/t20251230_4192148.html",
+        "reviewEvidence": "国家邮政局《2024年邮政行业发展统计公报》“业务规模”段：2024年快递业务量完成 1750.8 亿件。游戏答案 175,080,000,000 件与公报一致。"
       }
     },
     {
@@ -3601,9 +3603,10 @@
         "name": "BIC Japan：品質・筆記距離試験",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "BIC日本页面介绍笔芯书写距离测试标准，约2千米作为示例近似值；不同型号有差异。",
-        "url": "https://bic-japan.co.jp/quality/"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 BIC Japan 品质管理页面；原文称书写测试以一定书写距离（2km）作为检查标准，支持约2,000米的近似答案。不同笔型与测试条件会有差异。",
+        "url": "https://bic-japan.co.jp/quality/",
+        "reviewEvidence": "BIC Japan quality page states its writing test checks a defined writing distance of 2 km. This supports the game’s approximate 2,000 m estimate as a product-test reference, not a universal guarantee for every pen."
       }
     },
     {
@@ -3703,9 +3706,10 @@
         "name": "American Academy of Ophthalmology EyeWiki：Eye in Numbers",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "正常眨眼频率资料常见约12–20次/分钟；按清醒约16小时折算得到约1.15万–1.92万次。",
-        "url": "https://eyewiki.aao.org/Eye_in_numbers"
+        "reviewStatus": "derived",
+        "reviewNote": "已打开 AAO EyeWiki 的眨眼频率表；常见正常频率为12–20次/分钟。按清醒约16小时估算为约11,520–19,200次/日，游戏范围12,000–20,000为取整近似；清醒时长是显式假设。",
+        "url": "https://eyewiki.aao.org/Eye_in_numbers",
+        "reviewEvidence": "AAO EyeWiki, “Blinking Frequency and Clinical Significance”: normal range 12–20 blinks/minute. Assuming about 16 waking hours gives 11,520–19,200 blinks/day; game range 12,000–20,000 is rounded and depends on waking-time assumption."
       }
     },
     {
@@ -3721,11 +3725,12 @@
       "status": "published",
       "source": {
         "name": "NASA Science：Our Milky Way Galaxy—How Big Is Space?",
-        "year": 2026,
+        "year": 2024,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "NASA给出的银河系恒星数估计约1000亿至4000亿颗。",
-        "url": "https://science.nasa.gov/universe/exoplanets/our-milky-way-galaxy-how-big-is-space/"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA Science 页面；原文称银河系可能包含约1000亿至4000亿颗恒星，与游戏区间一致。",
+        "url": "https://science.nasa.gov/universe/exoplanets/our-milky-way-galaxy-how-big-is-space/",
+        "reviewEvidence": "NASA Science, “Our Milky Way Galaxy: How Big is Space?”, states the Milky Way probably contains 100 to 400 billion stars. The game interval matches the cited range."
       }
     },
     {
@@ -3763,9 +3768,10 @@
         "name": "NASA Science：Sun Facts",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "NASA称太阳光球层温度约5500摄氏度；题目采用5000–6000度宽区间。",
-        "url": "https://science.nasa.gov/sun/facts/"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NASA Sun Facts 页面；原文给出光球层温度约5,500℃，游戏范围5,000–6,000℃覆盖该值。",
+        "url": "https://science.nasa.gov/sun/facts/",
+        "reviewEvidence": "NASA Science, “Sun: Facts”, identifies the photosphere temperature as about 5,500 °C; the game’s 5,000–6,000 °C interval includes that approximate value."
       }
     },
     {
@@ -3781,11 +3787,12 @@
       "status": "published",
       "source": {
         "name": "NOAA Ocean Exploration：Ocean Depth",
-        "year": 2026,
+        "year": 2024,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "NOAA资料给出的海洋平均深度约3682米。",
-        "url": "https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NOAA Ocean Exploration 页面；原文给出海洋平均深度3,682米，并说明这是估算值，游戏区间3,500–3,800米覆盖该值。",
+        "url": "https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/",
+        "reviewEvidence": "NOAA Ocean Exploration, “How deep is the ocean?”, states average ocean depth is 3,682 m and explains the value is an estimate. The game interval 3,500–3,800 m includes it."
       }
     },
     {
@@ -3841,9 +3848,10 @@
         "name": "NIST：Time and Frequency Division—Leap Seconds",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "按名义日24小时×60分钟×60秒=86,400秒计算；此处是日常单位换算，不讨论闰秒的特殊计时规则。",
-        "url": "https://www.nist.gov/pml/time-and-frequency-division/time-realization/leap-seconds"
+        "reviewStatus": "derived",
+        "reviewNote": "本题为单位换算：名义日24小时×每小时60分钟×每分钟60秒=86,400秒；NIST页面用于提醒闰秒是特殊计时调整，不能将其与日常单位换算混为一谈。",
+        "url": "https://www.nist.gov/pml/time-and-frequency-division/time-realization/leap-seconds",
+        "reviewEvidence": "Derived from the defined unit conversion 24 hours × 60 minutes/hour × 60 seconds/minute = 86,400 seconds. The linked NIST leap-second page is contextual only; the game question is about a nominal 24-hour day, not UTC leap-second accounting."
       }
     },
     {
@@ -3856,11 +3864,12 @@
       "status": "published",
       "source": {
         "name": "Harvard BioNumbers：Number of bones in adult human",
-        "year": 2026,
+        "year": 1988,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "成年人体骨骼常见计数为206块；个体差异和骨骼融合会造成少量差异。",
-        "url": "https://bionumbers.hms.harvard.edu/bionumber.aspx?id=102383&s=n&v=2"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 Harvard BioNumbers 条目；列出成年人体骨骼通常为206块，同时说明额外骨或个体差异可能使数量不同。",
+        "url": "https://bionumbers.hms.harvard.edu/bionumber.aspx?id=102383&s=n&v=2",
+        "reviewEvidence": "Harvard BioNumbers, “Number of bones in adult”, lists 206 and notes supernumerary bones can increase the count. This supports the standard approximate answer of 206."
       }
     },
     {
@@ -4080,11 +4089,12 @@
       "status": "published",
       "source": {
         "name": "MedlinePlus：Rapid shallow breathing",
-        "year": 2026,
+        "year": 2025,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "MedlinePlus给出的成年人静息呼吸频率常见范围为12–20次/分钟。",
-        "url": "https://medlineplus.gov/ency/article/007198.htm"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 MedlinePlus 医学百科页面；原文写明成年人静息呼吸频率为每分钟12–20次，与游戏区间一致。",
+        "url": "https://medlineplus.gov/ency/article/007198.htm",
+        "reviewEvidence": "MedlinePlus, “Rapid shallow breathing”, states normal adult resting breathing rate is 12–20 breaths per minute. Game range matches directly."
       }
     },
     {
@@ -4120,11 +4130,12 @@
       "status": "published",
       "source": {
         "name": "Cleveland Clinic：Teeth",
-        "year": 2026,
+        "year": 2023,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "大多数成年人有32颗恒牙；部分人因智齿未萌出或拔除而约28颗。",
-        "url": "https://my.clevelandclinic.org/health/articles/24655-teeth"
+        "reviewStatus": "derived",
+        "reviewNote": "已打开 Cleveland Clinic Teeth 页面；原文称大多数人有32颗牙，且说明拔除或先天缺失智齿会减少牙数。区间28–32按四颗智齿存在/缺失的常见情况推算；需避免表述为每个人都只在此区间。",
+        "url": "https://my.clevelandclinic.org/health/articles/24655-teeth",
+        "reviewEvidence": "Cleveland Clinic, “Teeth”, states most humans have 32 teeth and explains that people who have had wisdom teeth removed or were born without them have fewer molars. Range 28–32 is a derived common-case range assuming up to four wisdom teeth are absent/removed."
       }
     },
     {
@@ -4140,11 +4151,12 @@
       "status": "published",
       "source": {
         "name": "NOAA Ocean Exploration：Ocean Depth",
-        "year": 2026,
+        "year": 2024,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "NOAA资料列挑战者深渊深度约10,935米；不同测次和基准会有差异。",
-        "url": "https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 NOAA Ocean Exploration 页面；原文列出挑战者深渊约10,935米，游戏范围10,500–11,000米覆盖该值。",
+        "url": "https://oceanexplorer.noaa.gov/ocean-fact/ocean-depth/",
+        "reviewEvidence": "NOAA Ocean Exploration, “How deep is the ocean?”, states the deepest place, Challenger Deep, measures 10,935 m and notes estimates can vary. Game range 10,500–11,000 m includes the cited value."
       }
     },
     {
@@ -4182,9 +4194,10 @@
         "name": "Cats Protection：Cats and sleep",
         "year": 2026,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "猫每天常见睡眠时间约12–18小时；年龄和个体差异会改变睡眠时间。",
-        "url": "https://www.cats.org.uk/help-and-advice/cat-behaviour/cats-and-sleep"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 Cats Protection 页面；原文称家猫每天约睡12–18小时，与游戏区间一致。",
+        "url": "https://www.cats.org.uk/help-and-advice/cat-behaviour/cats-and-sleep",
+        "reviewEvidence": "Cats Protection, “Cats and Sleep”, states domestic cats sleep approximately 12–18 hours a day. Game interval matches the cited range."
       }
     },
     {
@@ -4200,11 +4213,12 @@
       "status": "published",
       "source": {
         "name": "MedlinePlus：Vital signs",
-        "year": 2026,
+        "year": 2025,
         "reviewedOn": "2026-10-24",
-        "reviewStatus": "pending_source_page_review",
-        "reviewNote": "MedlinePlus给出的健康成年人常见体温约36.5–37.3℃；测量位置与时间会有差异。",
-        "url": "https://medlineplus.gov/ency/article/002341.htm"
+        "reviewStatus": "verified",
+        "reviewNote": "已打开 MedlinePlus Vital Signs 页面；健康成人静息体温常见范围为36.5–37.3℃，与游戏区间一致。",
+        "url": "https://medlineplus.gov/ency/article/002341.htm",
+        "reviewEvidence": "MedlinePlus, “Vital signs”, gives a normal temperature range for an average healthy adult at rest of 97.7–99.1 °F (36.5–37.3 °C), matching the game interval."
       }
     },
     {
