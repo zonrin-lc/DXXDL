@@ -22,6 +22,16 @@ describe('连胜规则（GDD 4.1）', () => {
     expect(applyDailyCompletion({ currentStreak: 0 }, '2026-10-22').currentStreak).toBe(1);
     expect(applyDailyCompletion({ lastCompletedDate: null, currentStreak: 5 }, '2026-10-22').currentStreak).toBe(1);
   });
+  it('系统日期回拨时不回滚已验证的完成记录，也不重新发放连胜', () => {
+    const state = { lastCompletedDate: '2026-10-22', currentStreak: 5, bestStreak: 8 };
+    expect(applyDailyCompletion(state, '2026-10-20')).toEqual({
+      lastCompletedDate: '2026-10-22',
+      currentStreak: 5,
+      bestStreak: 8,
+      changed: false,
+    });
+    expect(streakDisplay(state, '2026-10-20').display).toBe(0);
+  });
   it('断签（上次早于昨天）：重置为 1', () => {
     const s = applyDailyCompletion({ lastCompletedDate: '2026-10-15', currentStreak: 20, bestStreak: 20 }, '2026-10-22');
     expect(s.currentStreak).toBe(1);
