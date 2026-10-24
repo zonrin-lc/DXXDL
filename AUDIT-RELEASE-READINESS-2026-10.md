@@ -139,3 +139,11 @@
 - CI：新增 `npm audit --audit-level=high` 作为高危/严重开发依赖阻断门槛；新增 `npm run audit:sources:release`，要求所有发布池题、未来排期和最新兜底题都有证据支持。需以最新 Actions 结果确认这些门槛在当前提交上实际通过。
 - 广告：奖励只接受 `onClose({ isEnded: true })`；增加首次页面启动60秒内不展示广告的保护及对应单元测试。真实广告位 ID 仍为空；实际宿主类型尚待确认，因此不能宣称平台广告已上线。
 - Android/iOS：本轮没有真实设备或 TapTap 平台沙箱可用，所有设备/平台验收仍标记待执行。
+
+
+## Dependency security decision (2026-10-24)
+
+- A controlled Jimp 1.6.1 migration was trialed in CI, but `npm audit` found 29 high-severity advisories through Jimp's transitive `zod` dependency (the available forced fix would downgrade Jimp back to 0.22.12). The migration was therefore reverted; package-lock remains on Jimp 0.22.12 and the compatible legacy asset API.
+- Current accepted residual: full `npm audit` reports 4 moderate advisories for `file-type` through `@jimp/core`/Jimp 0.22.12, concerning an ASF parser infinite loop on malformed input. The release gate blocks high/critical advisories, and production dependency audit is separate. This residual is limited to the local development asset processor, not the shipped runtime.
+- Mitigation added: `tools/build-assets.mjs` validates PNG/JPEG magic bytes before passing files to Jimp; tests reject ASF and arbitrary file signatures. This narrows the vulnerable parser exposure, but does not remove the advisory from the dependency tree.
+- Release decision: do not force-upgrade Jimp to 1.6.1 while it introduces high advisories. Keep the moderate residual documented; if the project later accepts untrusted asset uploads or additional formats, replace the processor with a separately audited library and re-run the asset pipeline regression suite.
