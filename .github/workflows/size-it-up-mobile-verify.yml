@@ -1,0 +1,40 @@
+name: Size It Up Mobile Verify
+
+on:
+  push:
+    branches:
+      - main
+      - audit/release-readiness-2026-10
+    paths:
+      - "size-it-up-mobile/**"
+      - ".github/workflows/size-it-up-mobile-verify.yml"
+  pull_request:
+    branches:
+      - main
+    paths:
+      - "size-it-up-mobile/**"
+      - ".github/workflows/size-it-up-mobile-verify.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: size-it-up-mobile
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: size-it-up-mobile/package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Run tests, content validation, and build
+        run: npm run verify
