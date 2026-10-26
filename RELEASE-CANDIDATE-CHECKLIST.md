@@ -8,7 +8,9 @@
 - [x] GitHub Actions 执行 `npm ci`
 - [x] `npm audit --omit=dev`：生产依赖 0 vulnerabilities（以本次工作流结果为准）
 - [x] `npm run verify`：单测、题库校验、来源审计、构建均通过
-- [ ] 处理开发依赖树的 32 项安全告警（1 moderate / 29 high / 2 critical）；升级后重新生成 lockfile 并完成全量回归
+- [x] 候选分支 CI 的 `npm audit --audit-level=high` 通过（0 high / 0 critical），`npm audit --omit=dev` 为 0 生产漏洞
+- [ ] 处理或书面接受候选分支全量 `npm audit` 的 4 项 moderate（Jimp 0.22.12 → `file-type` ASF parser）；不把该残余描述为 0 漏洞
+- [ ] 修复默认 `main` 的依赖安全门槛：当前 Jimp 1.6.1 且 workflow 的审计摘要 `continue-on-error: true`，需评估 lockfile 并阻断 high/critical 风险
 - [ ] 记录发布候选构建产物的 SHA-256、版本号和对应 commit
 
 ## B. 手机/浏览器实测（每项记录设备、系统、浏览器、结果、录屏/截图）
@@ -42,15 +44,17 @@
 
 ## D. 内容审核
 
-- [ ] 50 道数量级题逐题补齐可访问的原始来源 URL
-- [ ] 每题核对数字、单位、定义、年份、估算范围与来源口径
-- [ ] 争议大或无法可靠核验的题移出正式发布池/每日排期
-- [ ] 视觉估测题逐题核对参照物、目标物、维度、尺寸范围与来源
+- [x] 候选分支数量级题库 v2.8.2：50 道中 41 道发布且有 `verified/derived` 证据，9 道转入 `review` 并排除于当前兜底池
+- [x] 争议数值题已隔离；候选分支将未发布的 2026-11-01 从 `num-5` 改为 `num-38`（revision 3），历史已发布排期不回写
+- [ ] **视觉题源核验阻断项：150 道 `everyday/pop/geo` 项目全部缺少 `source.url` 和 `source.reviewEvidence`，当前严格来源脚本没有覆盖这些数组；须逐条补证或隔离并扩展 gate（见 [Issue #4](https://github.com/zonrin-lc/DXXDL/issues/4)）
+- [ ] 对每道视觉题核对参照物、目标物、维度、尺寸范围、资产 ID 与来源口径
+- [ ] 再审查默认 `main`：当前 v2.8.1 仍将来源不足的 `num-5` 标为 verified 并排期在 2026-11-01；需先合入候选修复并验证主分支
 - [ ] 题库变更后检查已发布每日题映射，不改写已发布日期
 
 ## E. 发布决策
 
-- [ ] 自动化 CI 在最终候选 commit 上通过
+- [x] 候选分支最新 run [40104311255](https://github.com/zonrin-lc/DXXDL/actions/runs/40104311255) 所有步骤成功；
+- [ ] 自动化 CI 在最终发布候选 commit（含最终的内容审核修复、依赖决策与平台配置）上再次通过
 - [ ] 内容审核负责人确认题库来源
 - [ ] 目标设备验收记录完整
 - [ ] 若接广告，SDK/平台测试通过
@@ -71,6 +75,7 @@
 
 ## Development dependency risk decision
 
-- [x] CI blocks high/critical npm advisories; current `npm audit --audit-level=high` passed on the last verified Jimp 0.22.12 code run.
+- [x] 候选分支 CI blocks high/critical npm advisories; latest run `40104311255` succeeded with Jimp 0.22.12.
+- [ ] 默认 `main` 仍未同步该阻断策略；其 workflow 当前只汇总依赖警告且 `continue-on-error: true`。
 - [x] Asset pipeline rejects inputs whose magic bytes are not PNG/JPEG before calling Jimp, mitigating the known malformed-ASF parser advisory for this local-only tool.
 - [ ] Full `npm audit` still reports 4 moderate `file-type` advisories through Jimp 0.22.12. A Jimp 1.6.1 trial introduced 29 high `zod` advisories and was reverted. Do not mark dependency tree fully clean; replace Jimp in a separately tested future change if policy requires zero advisories.
