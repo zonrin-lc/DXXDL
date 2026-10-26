@@ -46,7 +46,7 @@
 
 - [x] 候选分支数量级题库 v2.8.2：50 道中 41 道发布且有 `verified/derived` 证据，9 道转入 `review` 并排除于当前兜底池
 - [x] 争议数值题已隔离；候选分支将未发布的 2026-11-01 从 `num-5` 改为 `num-38`（revision 3），历史已发布排期不回写
-- [ ] **视觉题源核验阻断项：150 道 `everyday/pop/geo` 项目全部缺少 `source.url` 和 `source.reviewEvidence`，当前严格来源脚本没有覆盖这些数组；须逐条补证或隔离并扩展 gate（见 [Issue #4](https://github.com/zonrin-lc/DXXDL/issues/4)）
+- [ ] **视觉题源核验阻断项：150 道 `everyday/pop/geo` 项目全部缺少 `source.url` 和 `source.reviewEvidence`，当前严格来源脚本没有覆盖这些数组；须逐条补证或隔离并扩展 gate（见 [Issue #4](https://github.com/zonrin-lc/DXXDL/issues/10)）
 - [ ] 对每道视觉题核对参照物、目标物、维度、尺寸范围、资产 ID 与来源口径
 - [ ] 再审查默认 `main`：当前 v2.8.1 仍将来源不足的 `num-5` 标为 verified 并排期在 2026-11-01；需先合入候选修复并验证主分支
 - [ ] 题库变更后检查已发布每日题映射，不改写已发布日期
