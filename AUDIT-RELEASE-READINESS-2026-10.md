@@ -161,7 +161,7 @@
 ## 2026-10-26 再审查：默认分支与候选分支必须区分
 
 - 默认 `main` 的数据包仍为 v2.8.1：42 道数量级题为 published、8 道为 review；`2026-11-01` 排期仍使用 `num-5`。这道题的 `reviewNote` 已说明现有链接无法支撑其英文总词数，但 `reviewStatus` 仍标成 `verified`。候选分支 v2.8.2 已纠正为 review，并将尚未发布的 2026-11-01 改为 `num-38`（revision 3）；这项修复目前**未合入 main**。
-- 视觉估测池共有 150 条已发布记录（`everyday` / `pop` / `geo`）。当前复审发现 150/150 均没有 `source.url` 或 `source.reviewEvidence`，来源名均为泛化的“公开资料估算”。`tools/audit-sources.mjs` 只检查 `numeric`，所以现有严格来源门槛不覆盖这 150 条视觉题。已建立 [Issue #4](https://github.com/zonrin-lc/DXXDL/issues/4)；完成逐条依据与审核器扩展前，不得宣称全题库事实审核通过。
+- 视觉估测池共有 150 条已发布记录（`everyday` / `pop` / `geo`）。当前复审发现 150/150 均没有 `source.url` 或 `source.reviewEvidence`，来源名均为泛化的“公开资料估算”。`tools/audit-sources.mjs` 只检查 `numeric`，所以现有严格来源门槛不覆盖这 150 条视觉题。已建立 [Issue #10](https://github.com/zonrin-lc/DXXDL/issues/10)；完成逐条依据与审核器扩展前，不得宣称全题库事实审核通过。
 - 默认 `main` 依旧使用 Jimp 1.6.1，依赖告警步骤设置了 `continue-on-error: true`，并不阻断 high/critical advisories。候选分支使用 Jimp 0.22.12，并通过 high/critical gate；仍须单独处理或明确接受 4 项 moderate dev-only advisory。
 - PR #1 仍为 Draft、尚未合并。GitHub compare 当前报告候选分支相对 `main` 为 diverged（121 commits ahead、1 behind）；合并前应核对最终 PR diff 和历史，优先考虑清晰的 squash/rebase 策略。
 - 广告配置仍无真实 `adUnitId`；TapTap H5 与 TapTap 制造/游戏工坊运行时尚未确认。Android/iOS 真机、平台沙箱、广告库存/回调/审核流程仍全部待验收。
