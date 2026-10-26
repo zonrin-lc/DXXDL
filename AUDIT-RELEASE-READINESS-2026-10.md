@@ -1,13 +1,13 @@
 # 《比大小》成熟小游戏发布审查记录
 
-- 审查日期：2026-10-24
+- 审查日期：2026-10-26
 - 审查基线：`main` 当前公开版本；设计基线 `GDD-v1.5.md`
 - 审查类型：静态代码与设计一致性审查
 - 重要限制：本次通过仓库文件进行静态审查；自动化验证由 GitHub Actions 执行，但未在真实设备运行游戏，也未验证具体广告 SDK。本文不把未完成的设备/广告验收标记为通过。
 
 ## 结论
 
-项目已有模块化核心逻辑、7 组单元测试、题库校验脚本和构建流程，具备继续工程化的基础。但 GDD v1.5 已明确列出多项“需改代码与回归测试”的发布门槛，不能因为规范已写入 GDD 就认定功能已验收。
+项目已有模块化核心逻辑、单元测试、题库校验和构建流程；发布候选分支已加入每日题、连胜、来源元数据与广告适配测试。但必须区分默认分支状态、候选分支 CI 和真实平台验收；自动化成功不代表题库内容、广告或设备已经通过。
 
 当前建议状态：**不建议直接作为成熟正式版发布；适合进入有明确验收门槛的发布候选阶段。**
 
@@ -42,7 +42,7 @@
 - 代码：`size-it-up-mobile/src/core/question.js` 的 `validatePack()`；数据：`size-it-up-mobile/data/pools.json`
 - 已有校验：稳定 ID、正尺寸、视觉题固定量程、比较维度、难度、部分来源字段、数量级答案类型与每日排期引用。
 - 已加强：数量级已发布题强制校验 `source.year` 和单位；版本化兜底快照强制有效的 `effectiveFrom`；新增单测覆盖。
-- 内容审查阶段性结果：数据包 v2.7.1 中有 44 道题仍保留 published 状态并填入候选来源 URL；另外 6 道转为 draft（包括总词数缺少直接证据的 num-5，以及 num-18/19/20/35/39）。但 **44 道的 `source.reviewStatus` 目前均为 `pending_source_page_review`**：来源网页尚未逐页与答案做完原文/表格核对，不能称为事实审核通过。
+- 最新候选分支数据包 v2.8.2 共 50 道数量级题：**41 道在发布池，均有 `verified/derived` 状态与 `source.reviewEvidence`；9 道转为 `review` 并从当前候选兜底快照排除**。默认 `main` 仍为 v2.8.1，42 道处于 published，8 道处于 review；其中 `num-5` 的 `reviewNote` 已承认现有来源无法支持词数，但 `reviewStatus` 仍为 `verified`，且 `2026-11-01` 排期仍指向 `num-5`。候选分支已纠正此矛盾，改为将 `num-5` 隔离并把未发布日期改为 `num-38`。
 - 自动化现在强制校验 URL 字段、显式来源状态和未来排期是否指向非发布题；自动化通过只说明元数据格式完整，并不表示 URL 可用或源文支持答案。
 - 验收：每道题补上可支持答案的源文位置、单位、定义、换算公式和复核日期后，才可从 pending 改为 verified/derived；高争议或缺少直接来源的题保持 draft。
 
@@ -56,7 +56,7 @@
 ### P1-3 构建与题库校验要成为合并门槛
 
 - 工程：`size-it-up-mobile/package.json` 定义 `npm run verify`，顺序为单测、题库校验、构建。
-- 本次状态：GitHub Actions 工作流已升级到 checkout/setup-node v5 与 Node 22，并增加 PR 目标为审查分支时的验证触发器。提交 `8713984` 对应的审查分支 PR 合并验证运行 [#40102208399](https://github.com/zonrin-lc/DXXDL/actions/runs/40102208399) 已成功：108 项单测、题库结构校验、来源元数据审计和 H5 构建通过。日志同时明确：44 道题仍处于 `pending_source_page_review`，这不是内容事实核验通过。生产依赖审计为 0 项，但开发工具依赖仍有 32 项告警，见 P1-5。后续每次改动仍须以最新提交对应的 CI 结果为准。
+- 最新候选分支验证：GitHub Actions run [#40104311255](https://github.com/zonrin-lc/DXXDL/actions/runs/40104311255) 的全部步骤成功（依赖高危/严重门槛、生产依赖审计、测试/内容校验/构建、严格数量级题源门槛及素材处理）。最近一次包含运行时代码与题库变更的完整验证 [#40104201897](https://github.com/zonrin-lc/DXXDL/actions/runs/40104201897) 报告 112 项测试通过，并处理 57 个原始图片资源。严格题源门槛只覆盖 `numeric`，不覆盖 150 道视觉估测题，不能据此宣称全游戏内容已审完。默认 `main` 的工作流仍仅汇总全量开发依赖告警（`continue-on-error: true`），并未把 high/critical 依赖告警作为阻断门槛。
 - 建议：每次候选发布前执行 `npm ci` 与 `npm run verify`；将结果保留在 CI 或发布记录；任何一项失败即阻止发布。
 - 还需检查构建产物是否包含最新源码/题库、图片资源是否完整、无控制台错误、无意外外部运行时依赖。
 
@@ -69,10 +69,12 @@
 
 ### P1-5 开发工具依赖存在安全告警（生产依赖暂未发现漏洞）
 
-- 原锁文件的 `npm audit` 曾报告开发依赖树 **32 项告警：1 moderate、29 high、2 critical**。已将 Vitest 升级至 `4.1.12`，并在 [PR #4](https://github.com/zonrin-lc/DXXDL/pull/4) 合并进审查分支；合并结果上的 CI 显示开发依赖告警降至 **29 项 high、0 critical、0 moderate**，生产依赖 `npm audit --omit=dev` 为 **0 vulnerabilities**。剩余告警主要位于 Jimp 1.6.1 的 `@jimp/*` 插件/核心依赖与关联传递树。尝试非强制 `npm audit fix --package-lock-only` 未产生经验证的 lockfile 改动；没有强制降级 Jimp，以免破坏 `tools/build-assets.mjs`。这仍是未关闭的发布安全门槛。
+- 当前候选分支将 Jimp 固定回兼容的 `0.22.12`，`npm audit --audit-level=high` 通过（0 high / 0 critical），`npm audit --omit=dev` 通过（0 生产依赖漏洞）；但全量 `npm audit` 仍有 **4 项 moderate**，位于 `file-type` / Jimp 本地素材处理工具依赖树，涉及畸形 ASF 输入解析器异常循环。PNG/JPEG 魔数校验缩小了素材工具输入面，但并未消除 advisory。
+- 默认 `main` 目前仍使用 Jimp `1.6.1`，且其 workflow 只运行可继续失败的告警摘要而非阻断式 high/critical gate。之前同版本迁移试验报告过 29 项 high，因此必须对 `main` 的精确锁文件重新审计；不能把候选分支的依赖结论套用到 `main`。
+- 影响与原则：开发工具告警不是已知的生产运行时漏洞，但素材处理/CI 供应链仍有风险。不得使用未经素材流水线回归验证的强制升级或降级。
 - 影响：当前并非游戏运行时依赖漏洞，但会影响开发/CI/素材处理工具的供应链安全，不能因为是 devDependency 就忽略。
 - 处理原则：不要直接执行 `npm audit fix --force`，因为建议的 Jimp 主要版本降级可能破坏素材处理脚本。需要逐项确认修复版本、更新 lockfile，并运行素材处理、测试和构建回归。
-- CI 已加入依赖告警摘要与生产依赖审计；开发依赖告警目前只报告、不阻断。
+- 候选分支 CI 对 high/critical 开发依赖告警实施阻断，并单独检查生产依赖；默认 `main` 目前尚未同步该阻断策略。
 
 ## P2：体验与运营优化
 
@@ -123,9 +125,9 @@
 
 | 项目 | 当前可核实状态 | 尚未完成 |
 |---|---|---|
-| 自动化测试 | CI run [40102208399](https://github.com/zonrin-lc/DXXDL/actions/runs/40102208399) 成功；108 tests passed；题库校验与 H5 build 通过 | 该运行在删除临时依赖排查 workflow 前后源码相同；后续源文件改变仍需重新运行 |
-| 数量级题库 | 数据包 v2.7.1；44 道 published 有候选 URL；6 道 draft；未来排期未指向 draft | 44 道候选来源的网页原文尚未逐题核对，全部标记 pending；不能视为内容批准 |
-| 安全依赖 | Vitest 4.1.12 已合入审查分支；当前审计记录 29 high、0 critical、0 moderate；生产依赖 0 vulnerabilities | Jimp 相关开发工具漏洞仍未关闭；非强制 audit fix 未产生新的 lockfile；禁止未经测试的强制降级 |
+| 自动化测试 | 候选分支 run [40104311255](https://github.com/zonrin-lc/DXXDL/actions/runs/40104311255) 所有步骤成功；此前完整代码/数据验证 run [40104201897](https://github.com/zonrin-lc/DXXDL/actions/runs/40104201897) 报告 112 tests passed，素材处理成功 | 仅证明候选分支自动化通过；不是 main、广告 SDK 或真机验收 |
+| 数量级题库 | 候选分支 v2.8.2：41 道发布、证据状态为 verified/derived；9 道 review 已排除于当前兜底池。main 仍为 v2.8.1，11-01 排期仍指 num-5 | 当前数值题候选池有证据；main 排期需合入修复；历史日期不自动重写 |
+| 安全依赖 | 候选分支：0 high/critical，4 moderate dev-only，生产依赖审计为 0；main 仍使用 Jimp 1.6.1，且依赖告警未设阻断 | 对 main 单独执行当前锁文件审计；保留候选分支 4 项 moderate 风险或单独替换素材库 |
 | TapTap 广告 | 条件式 H5 激励视频适配器、空广告位配置和 mock SDK 测试已提交；完播逻辑只接受 `isEnded === true` | 真实广告位 ID 未配置；正式包型/运行环境兼容性、广告审核、填充率、Android/iOS 真机流程未验收 |
 | Android/iOS | 测试矩阵文档已建立 | 本轮未访问真实设备/平台后台，因此所有真机项仍为待测 |
 
@@ -135,8 +137,8 @@
 ## 2026-10-24 后续推进记录
 
 - 数量级题库：通过 NASA、USGS、NOAA、PNAS/Nature、PubMed、MedlinePlus、Cleveland Clinic、Harvard BioNumbers、OpenStax、Smithsonian、PBS NOVA、国家邮政局/加拿大政府等可追溯页面，已为当前 41 道发布池题补齐 `source.reviewEvidence`；9 道不确定题转入 review，不进入新的兜底题池。详见 [逐题台账](NUMERIC-QUESTION-SOURCE-REVIEW.md)。
-- 题目修订：金字塔质量按约230万块×2.5吨修订为约580万吨；长江水量题改为年径流量口径；成人平均血量改为5升点答案；亚马逊河长度修订为约6300千米；月地距离下限修订为357,000千米。
-- CI：新增 `npm audit --audit-level=high` 作为高危/严重开发依赖阻断门槛；新增 `npm run audit:sources:release`，要求所有发布池题、未来排期和最新兜底题都有证据支持。需以最新 Actions 结果确认这些门槛在当前提交上实际通过。
+- 题目修订：候选分支金字塔重量按 PBS NOVA 页面直接列出的约650万吨；长江题改为平均年径流量口径；成人血量改为约5升点答案；亚马逊河长度约6300千米；月地距离区间下限为357,000千米。
+- CI：候选分支已设置 `npm audit --audit-level=high` 阻断门槛及 `npm run audit:sources:release`；最新 run [40104311255](https://github.com/zonrin-lc/DXXDL/actions/runs/40104311255) 全部步骤成功。该来源脚本仅校验数量级题，视觉池核验仍缺失。
 - 广告：奖励只接受 `onClose({ isEnded: true })`；增加首次页面启动60秒内不展示广告的保护及对应单元测试。真实广告位 ID 仍为空；实际宿主类型尚待确认，因此不能宣称平台广告已上线。
 - Android/iOS：本轮没有真实设备或 TapTap 平台沙箱可用，所有设备/平台验收仍标记待执行。
 
@@ -152,5 +154,16 @@
 ## Jimp 依赖处理结论（最新）
 
 - 当前锁文件保留 Jimp 0.22.12；`npm audit --audit-level=high` 与生产依赖审计通过。
-- 全量 `npm audit` 仍报告 4 项 moderate（`file-type` 的 ASF 解析器异常循环，位于本地开发素材工具依赖树）。尝试升级到 Jimp 1.6.1 后，CI 发现其传递 `zod` 依赖引入 29 项 high，因此已撤销该升级，未把更差的依赖树带入候选版本。
-- 已在素材流水线中增加 PNG/JPEG 魔数白名单检查，并增加测试拒绝 ASF/任意字节输入；最新完整验证 [40104201897](https://github.com/zonrin-lc/DXXDL/actions/runs/40104201897) 已成功：112 项测试、题库校验、严格来源门槛、构建与素材处理步骤均为 success。该运行对应审查报告更新前的候选提交；随后仅修改审查报告文字，不改动运行时代码或题库。
+- 全量 `npm audit` 在候选分支仍报告 4 项 moderate（`file-type` ASF 解析器异常循环，位于本地素材处理依赖树）；Jimp 1.6.1 曾在迁移试验中引入 29 项 high，因此候选分支已回退到 0.22.12。
+- 最新候选分支 run [40104311255](https://github.com/zonrin-lc/DXXDL/actions/runs/40104311255) 完成且所有步骤成功。最近一次代码/题库变更验证 run [40104201897](https://github.com/zonrin-lc/DXXDL/actions/runs/40104201897) 报告 112 项测试通过和 57 个原始图片处理成功；其后仅有审查文档改动。
+
+
+## 2026-10-26 再审查：默认分支与候选分支必须区分
+
+- 默认 `main` 的数据包仍为 v2.8.1：42 道数量级题为 published、8 道为 review；`2026-11-01` 排期仍使用 `num-5`。这道题的 `reviewNote` 已说明现有链接无法支撑其英文总词数，但 `reviewStatus` 仍标成 `verified`。候选分支 v2.8.2 已纠正为 review，并将尚未发布的 2026-11-01 改为 `num-38`（revision 3）；这项修复目前**未合入 main**。
+- 视觉估测池共有 150 条已发布记录（`everyday` / `pop` / `geo`）。当前复审发现 150/150 均没有 `source.url` 或 `source.reviewEvidence`，来源名均为泛化的“公开资料估算”。`tools/audit-sources.mjs` 只检查 `numeric`，所以现有严格来源门槛不覆盖这 150 条视觉题。已建立 [Issue #4](https://github.com/zonrin-lc/DXXDL/issues/4)；完成逐条依据与审核器扩展前，不得宣称全题库事实审核通过。
+- 默认 `main` 依旧使用 Jimp 1.6.1，依赖告警步骤设置了 `continue-on-error: true`，并不阻断 high/critical advisories。候选分支使用 Jimp 0.22.12，并通过 high/critical gate；仍须单独处理或明确接受 4 项 moderate dev-only advisory。
+- PR #1 仍为 Draft、尚未合并。GitHub compare 当前报告候选分支相对 `main` 为 diverged（121 commits ahead、1 behind）；合并前应核对最终 PR diff 和历史，优先考虑清晰的 squash/rebase 策略。
+- 广告配置仍无真实 `adUnitId`；TapTap H5 与 TapTap 制造/游戏工坊运行时尚未确认。Android/iOS 真机、平台沙箱、广告库存/回调/审核流程仍全部待验收。
+
+**本轮结论：候选分支自动化 CI 通过，但默认分支仍存在题源与依赖门槛未修复；150 条视觉题尚未逐项来源复核；广告和双端设备验收未完成。不能合入正式发布或标记为 Ready for Release。**
