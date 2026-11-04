@@ -3,6 +3,9 @@
   "version": "1.2.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22"
+  },
   "description": "比大小 Scale Sense —— 单 HTML 零依赖 H5 估测游戏（源码拆分 + 打包发布）",
   "scripts": {
     "build": "node build.mjs",
