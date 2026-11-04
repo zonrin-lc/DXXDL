@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { fmtCN, fmtSize, fmtRatio, fmtInput, parseNumericInput, normalizeForDisplay } from '../src/core/format.js';
+import { fmtCN, fmtSize, fmtRatio, fmtInput, parseNumericInput, normalizeForDisplay, fmtMeasure } from '../src/core/format.js';
 
 describe('中文大数格式化（GDD 9.6 / 12.2）', () => {
   it('万/亿/万亿/亿亿 单位换算含义一致', () => {
@@ -70,5 +70,13 @@ describe('尺寸与比例展示', () => {
   });
   it('fmtInput 千分位', () => {
     expect(fmtInput(1234567.891234)).toBe('1,234,567.8912');
+  });
+  it('fmtMeasure 按度量衡分类走单位（GDD 6.5）', () => {
+    expect(fmtMeasure(1.7, 'length')).toBe('1.7 米');
+    expect(fmtMeasure(70, 'weight')).toBe('70 千克');
+    expect(fmtMeasure(150000, 'weight')).toBe('150 吨');
+    expect(fmtMeasure(0.058, 'weight')).toBe('58 克');
+    expect(fmtMeasure(0.2, 'weight')).toBe('200 克');
+    expect(fmtMeasure(1.7, undefined)).toBe('1.7 米'); // 未标注分类回退长度
   });
 });

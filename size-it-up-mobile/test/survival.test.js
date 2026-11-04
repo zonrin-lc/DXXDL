@@ -3,8 +3,9 @@ import { damageFor, applyAnswer, applyTimeout, makeTimer, timerColor, pickSurviv
 import { SURVIVAL } from '../src/core/constants.js';
 
 describe('生存扣血与回血（GDD 5.2）', () => {
-  it('答错扣 max(1, round(d))', () => {
-    expect(damageFor(0.06)).toBe(1);
+  it('答错扣 max(1, round(d))，回血区内不扣血', () => {
+    expect(damageFor(0.09)).toBe(0); // 回血区 d < 0.10
+    expect(damageFor(0.1)).toBe(1);  // 阈值边界：恰为 0.10 不回血、扣 1
     expect(damageFor(0.5)).toBe(1);
     expect(damageFor(1.4)).toBe(1);
     expect(damageFor(1.5)).toBe(2);
@@ -12,9 +13,11 @@ describe('生存扣血与回血（GDD 5.2）', () => {
     expect(damageFor(3.2)).toBe(3);
     expect(damageFor(4.6)).toBe(5);
   });
-  it('极准回血 +1（d < 0.06），上限 10', () => {
+  it('极准回血 +1（d < 0.10），上限 10', () => {
     expect(applyAnswer(5, 0.01)).toEqual({ life: 6, delta: 1, type: 'heal' });
+    expect(applyAnswer(5, 0.09)).toEqual({ life: 6, delta: 1, type: 'heal' });
     expect(applyAnswer(10, 0.01)).toEqual({ life: 10, delta: 0, type: 'heal' });
+    expect(applyAnswer(7, 0.1).type).toBe('damage'); // 恰为阈值不回血
   });
   it('扣血与回血互斥，单题只发生其一', () => {
     const heal = applyAnswer(7, 0.03);

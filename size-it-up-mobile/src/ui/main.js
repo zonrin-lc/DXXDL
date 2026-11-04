@@ -1,6 +1,7 @@
 // 应用主装配：题库三级加载、屏幕切换、模式编排、连胜/成就/设置、首局引导、结算与分享。
 import { getJSON, setJSON, createStorage, migrateSave, dailyRecordKey } from '../core/storage.js';
 import { validatePack, isPackApplicable, arrangeRound } from '../core/question.js';
+import { mulberry32, samplePairs, buildRandomQuestion } from '../core/pairing.js';
 import { dateKey, resolveDailyQuestion } from '../core/daily.js';
 import { applyDailyCompletion, streakDisplay } from '../core/streak.js';
 import { ACHIEVEMENTS, ACH_MAP, evaluateAchievements, reduceStats } from '../core/achievements.js';
@@ -13,6 +14,8 @@ import { initNumeric, startNumeric, fmtDateCN } from './numeric.js';
 const $ = (id) => document.getElementById(id);
 // 内置兜底题库：构建时由 build.mjs 以 window.__BSZ_BASE_PACK__ 注入
 const BASE_PACK = (typeof window !== 'undefined' && window.__BSZ_BASE_PACK__) || null;
+// 随机遭遇层对象表（GDD 6.10）：构建时以 window.__BSZ_OBJECTS__ 注入；缺失时从题库推导
+const OBJECTS_TABLE = (typeof window !== 'undefined' && window.__BSZ_OBJECTS__) || null;
 const FETCH_TIMEOUT_MS = 2500;
 
 // ---------- 全局上下文 ----------
@@ -63,7 +66,34 @@ function toVisual(item) {
     tgt: { e: t.emoji || t.e || '❓', n: t.name || t.n || '', s: t.size || t.s || 1, assetId: t.assetId || null },
     note: item.note,
     dimension: item.dimension,
+    measure: item.measure || 'length',
   };
+}
+
+// 比较维度 → 方向组（与 tools/extract-objects.mjs 同口径）：竖向与横向互不随机配对
+const DIM_GROUP = { 高度: 'v', 身高: 'v', 长度: 'h', 宽度: 'h', 直径: 'h' };
+
+/** 随机遭遇层的对象表：优先用构建注入的 objects.json（含对象级来源），缺失时从当前题库推导 */
+function objectPool() {
+  if (OBJECTS_TABLE && OBJECTS_TABLE.objects) {
+    return Object.entries(OBJECTS_TABLE.objects).map(([assetId, o]) => ({ assetId, ...o }));
+  }
+  const byId = new Map();
+  for (const key of ['everyday', 'pop', 'geo']) {
+    for (const q of (pack && pack[key]) || []) {
+      if (!(q.status === 'published' || q.status === undefined)) continue;
+      for (const side of ['reference', 'target']) {
+        const o = q[side];
+        if (o?.assetId && !byId.has(o.assetId)) {
+          byId.set(o.assetId, {
+            assetId: o.assetId, name: o.name, size: o.size, emoji: o.emoji,
+            measure: q.measure || 'length', dim: q.dimension, dimGroup: DIM_GROUP[q.dimension],
+          });
+        }
+      }
+    }
+  }
+  return [...byId.values()];
 }
 
 async function fetchWithTimeout(url, ms) {
@@ -163,6 +193,8 @@ const MODES = [
   { id: 'everyday', icon: '🏙️', title: '日常挑战', desc: '身边事物的真实比例 · 5 题一局', type: 'visual', pool: 'everyday' },
   { id: 'pop', icon: '🎬', title: '脑洞影视', desc: '芽芽豆、银岩机甲到底有多大？', type: 'visual', pool: 'pop' },
   { id: 'geo', icon: '🌍', title: '地理地标', desc: '从楼房到珠峰的尺度感', type: 'visual', pool: 'geo' },
+  { id: 'weight', icon: '⚖️', title: '重量挑战', desc: '按质量的立方根显示 · 5 题一局', type: 'visual', pool: 'weight' },
+  { id: 'random', icon: '🎲', title: '随机遭遇', desc: '万物随机配对 · 每局全新组合', type: 'visual-random' },
   { id: 'daily', icon: '📅', title: '每日一题', desc: '每天一道数量级 · 靠累积', type: 'numeric', tag: 'daily' },
   { id: 'survival', icon: '💀', title: '生存模式', desc: '15 秒一题 · 答错扣血', type: 'numeric' },
   { id: 'practice', icon: '🎯', title: '练习模式', desc: '不计时不限次 · 随便试', type: 'numeric', tag: 'practice' },
@@ -198,10 +230,10 @@ function renderHome() {
   list.setAttribute('aria-busy', 'false'); // 骨架已被真实卡片替换，退出载入态
 
   const packInfo = $('pack-info');
+  packInfo.innerHTML = `内容包 v${(pack && pack.version) || '?'} · ${packSource}`;
+  // 校验明细是开发/审核信号（门禁见 tools/validate-pools.mjs 与 CI），不进玩家界面
   const errs = validatePack(pack);
-  // 告警与常规信息分层：<b class="warn"> 走醒目色（≥4.5:1）
-  packInfo.innerHTML = `内容包 v${(pack && pack.version) || '?'} · ${packSource}` +
-    (errs.length ? ` · <b class="warn">⚠️ ${errs.length} 处校验问题</b>` : '');
+  if (errs.length) console.warn(`[题库校验] ${errs.length} 处问题`, errs);
   if (!store.persistent) packInfo.innerHTML += ' · <b class="warn">⚠️ 本次记录不会持久保存</b>';
 
   const row = $('home-streak');
@@ -220,7 +252,31 @@ function startMode(id) {
   modeSeen(id);
 
   if (meta.type === 'visual') {
-    const questions = arrangeRound(pack[meta.pool] || [], 5).map(toVisual);
+    // 与数量级题同口径：仅 published 进入可玩池，review/draft 隔离不出局
+    const visualPool = (pack[meta.pool] || []).filter((q) => q.status === 'published' || q.status === undefined);
+    if (!visualPool.length) {
+      toast('题库还没有可用的视觉题');
+      return;
+    }
+    const questions = arrangeRound(visualPool, 5).map(toVisual);
+    lastRun = { id, questions };
+    startVisual(id, questions);
+    showScreen('visual');
+    if (!store.getItem('bsz_guide_done')) startGuide();
+    return;
+  }
+
+  if (meta.type === 'visual-random') {
+    // 随机遭遇（GDD 6.10）：对象库内种子化抽对——同度量、同方向组、带宽内，
+    // 一局 5 题；种子含在局内状态里，便于复盘定位（分享/反馈报告可附 id 前缀 rv:）
+    const objects = objectPool();
+    const seed = (Date.now() ^ Math.floor(Math.random() * 0xffffffff)) >>> 0;
+    const pairs = samplePairs(objects, 5, mulberry32(seed));
+    if (pairs.length < 5) {
+      toast('对象库可用配对不足，稍后再试');
+      return;
+    }
+    const questions = pairs.map(([ref, tgt]) => toVisual(buildRandomQuestion(ref, tgt)));
     lastRun = { id, questions };
     startVisual(id, questions);
     showScreen('visual');
@@ -258,7 +314,7 @@ function startMode(id) {
         `<div class="modal-note">❤️ 初始 10 点生命，上限 10。<br>
          ⏰ 每题 15 秒，超时 <b>-3</b>。<br>
          💔 答错按数量级差扣血：每差 1 个零扣 1（四舍五入）。<br>
-         💚 偏差小于满分区（约 6%）触发<b>极准回血 +1</b>。<br>
+         💚 估测与答案相差约 26% 以内触发<b>极准回血 +1</b>。<br>
          揭晓后需手动点「继续」，后台切走时计时按真实时间继续走。</div>`,
         '开始挑战',
         () => {
@@ -502,7 +558,7 @@ function bindHomeActions() {
       '📖 玩法说明',
       `<div class="modal-note">
        <b>视觉比例</b>：滑块 / 拖拽 / ±1% 微调 / 方向键（Shift=10%）都能改估测，量程固定 10⁻⁶~10⁶，刻度不会泄题。<br>
-       <b>计分</b>：看对数误差——比例差 6% 以内满分，差约 5 倍归零；揭晓按「倍数关系」表达。<br>
+       <b>计分</b>：看对数误差——视觉题比例差 6% 以内满分，差约 5 倍归零；数量题估到答案 ±26% 以内满分，差 5 个数量级归零。<br>
        <b>每日一题</b>：按固定排期出题，同天重复打卡不重复计数，断签从 1 重来。<br>
        <b>生存</b>：15 秒/题，超时 -3，答错每差 1 个零扣 1 血，极准回血 +1。<br>
        <b>数量级</b>：支持 12亿、1.2e9、1,200,000,000 三种写法。</div>`

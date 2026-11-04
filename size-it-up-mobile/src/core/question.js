@@ -1,7 +1,30 @@
 // QuestionRepository 的纯逻辑部分：题库结构校验与每局编排（GDD 6.3 / 6.4 / 6.7）
-import { SCALE_MIN, SCALE_MAX } from './constants.js';
+import { SCALE_MIN, SCALE_MAX, VISUAL_MAX_RATIO } from './constants.js';
 
 const STATUSES = ['draft', 'review', 'approved', 'published', 'retired'];
+const REVIEW_STATUSES = ['verified', 'derived', 'pending_source_page_review', 'original_design'];
+
+/** 已发布题的来源校验：真实对象需可追溯 URL；原创角色走 type='original' + 项目内设定文档 */
+function checkSource(errors, p, q, { numeric }) {
+  const src = q.source;
+  if (!src || !src.name) errors.push({ path: p, msg: '已发布题必须有 source.name' });
+  if (numeric ? !(src && Number.isInteger(src.year) && src.year >= 1) : !src?.year) {
+    errors.push({ path: p, msg: `已发布${numeric ? '数量级' : ''}题必须有有效 source.year` });
+  }
+  if (src?.type === 'original') {
+    if (typeof src.doc !== 'string' || !src.doc.includes('.md')) {
+      errors.push({ path: p, msg: "original 来源必须有指向项目内设定文档的 source.doc（如 data/original-characters.md#xxx）" });
+    }
+    if (src.reviewStatus !== 'original_design') {
+      errors.push({ path: p, msg: "original 来源的 reviewStatus 必须是 'original_design'" });
+    }
+  } else {
+    if (!/^https?:\/\//i.test(src?.url || '')) errors.push({ path: p, msg: `已发布${numeric ? '数量级' : '视觉'}题必须有可追溯 source.url` });
+    if (!['verified', 'derived', 'pending_source_page_review'].includes(src?.reviewStatus)) {
+      errors.push({ path: p, msg: `已发布${numeric ? '数量级' : '视觉'}题必须显式记录 source.reviewStatus（${REVIEW_STATUSES.join('/')}）` });
+    }
+  }
+}
 const UNITS = ['次', '步', '吨', '棵', '杯', '千克', '词', '秒', '个', '只', '立方米', '件', '米', '条', '根', '千米', '小时', '分钟', '年', '度', '升'];
 
 /** 静态校验：返回错误列表；空数组代表通过（校验不通过禁止发布，GDD 6.7） */
@@ -13,12 +36,16 @@ export function validatePack(pack) {
   const ids = new Set();
   const dup = new Set();
 
-  for (const key of ['everyday', 'pop', 'geo']) {
+  // everyday/pop/geo 为必需视觉池；weight 及后续度量衡分类为可选池（存在才校验，
+  // 保证老版本缓存包仍能通过校验——热更新三级加载的向后兼容）
+  const VISUAL_REQUIRED = ['everyday', 'pop', 'geo'];
+  const VISUAL_OPTIONAL = ['weight'];
+  for (const key of VISUAL_REQUIRED) {
+    if (!Array.isArray(pack[key])) errors.push({ path: key, msg: '视觉题库必须是数组' });
+  }
+  for (const key of [...VISUAL_REQUIRED, ...VISUAL_OPTIONAL]) {
     const arr = pack[key];
-    if (!Array.isArray(arr)) {
-      errors.push({ path: key, msg: '视觉题库必须是数组' });
-      continue;
-    }
+    if (!Array.isArray(arr)) continue;
     arr.forEach((q, i) => {
       const p = `${key}[${i}]`;
       if (!q.id) errors.push({ path: p, msg: '缺少稳定 id' });
@@ -29,14 +56,25 @@ export function validatePack(pack) {
       else {
         const r = q.target.size / q.reference.size;
         if (r < SCALE_MIN || r > SCALE_MAX) errors.push({ path: p, msg: `真实比例 ${r} 超出固定量程 [1e-6,1e6]，不得发布（GDD 3.3）` });
+        // 发布带宽（GDD 6.5）：保证缩放过程中双方大小差异肉眼可辨；
+        // 超出带宽的对象应重新配对或转为数量级题，草稿/隔离题不受限
+        if (q.status === 'published' || q.status === undefined) {
+          const span = Math.max(q.reference.size, q.target.size) / Math.min(q.reference.size, q.target.size);
+          if (span > VISUAL_MAX_RATIO) {
+            errors.push({ path: p, msg: `真实比例跨度 ${span.toFixed(1)} 超出发布带宽 1:${VISUAL_MAX_RATIO}，须重新配对或转数量级题（GDD 6.5）` });
+          }
+        }
       }
       if (!q.dimension) errors.push({ path: p, msg: '缺少 dimension（比较维度）' });
+      // 度量衡分类地基（P1 前瞻，GDD 6.5）：当前全部为 length；weight/area/volume/speed 渲染器落地前仅做枚举校验
+      if (q.measure !== undefined && !['length', 'weight', 'area', 'volume', 'speed'].includes(q.measure)) {
+        errors.push({ path: p, msg: `measure 必须是 length/weight/area/volume/speed: ${q.measure}` });
+      }
       if (q.difficulty !== undefined && ![1, 2, 3].includes(q.difficulty)) errors.push({ path: p, msg: `difficulty 必须是 1/2/3: ${q.difficulty}` });
       if (q.memorable !== undefined && typeof q.memorable !== 'boolean') errors.push({ path: p, msg: 'memorable 必须是布尔值' });
       if (q.status && !STATUSES.includes(q.status)) errors.push({ path: p, msg: `非法 status: ${q.status}` });
       if (q.status === 'published' || q.status === undefined) {
-        if (!q.source || !q.source.name) errors.push({ path: p, msg: '已发布题必须有 source.name' });
-        if (q.source && !q.source.year) errors.push({ path: p, msg: '已发布题必须有 source.year' });
+        checkSource(errors, p, q, { numeric: false });
       }
       if (q.reference?.size && q.target?.size && !q.dimension) errors.push({ path: p, msg: '缺少 dimension' });
     });
@@ -66,11 +104,8 @@ export function validatePack(pack) {
       }
       if (q.status && !STATUSES.includes(q.status)) errors.push({ path: p, msg: `非法 status: ${q.status}` });
       if (q.status === 'published' || q.status === undefined) {
-        if (!q.source || !q.source.name) errors.push({ path: p, msg: '已发布题必须有 source.name' });
-        if (!q.source || !Number.isInteger(q.source.year) || q.source.year < 1) errors.push({ path: p, msg: '已发布数量级题必须有有效 source.year' });
+        checkSource(errors, p, q, { numeric: true });
         if (!q.u) errors.push({ path: p, msg: '已发布数量级题必须有明确单位 u' });
-        if (!/^https?:\/\//i.test(q.source?.url || '')) errors.push({ path: p, msg: '已发布数量级题必须有可追溯 source.url' });
-        if (!['verified', 'derived', 'pending_source_page_review'].includes(q.source?.reviewStatus)) errors.push({ path: p, msg: '已发布数量级题必须显式记录 source.reviewStatus' });
       }
     });
   }

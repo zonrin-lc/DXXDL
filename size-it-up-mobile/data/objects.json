@@ -1,0 +1,807 @@
+{
+  "version": "1.0.0",
+  "generatedFrom": "pools.json v2.9.0",
+  "objects": {
+    "abyss-lizard": {
+      "name": "深渊巨蜥",
+      "size": 100,
+      "emoji": "🦎",
+      "measure": "length",
+      "dim": "长度",
+      "dimGroup": "h",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#abyss-lizard"
+      }
+    },
+    "adult-human": {
+      "name": "成年人",
+      "size": 1.7,
+      "emoji": "🧍",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Human height",
+        "url": "https://en.wikipedia.org/wiki/Human_height",
+        "reviewStatus": "derived",
+        "note": "取全球成年人平均身高的常规近似 1.7m"
+      }
+    },
+    "african-elephant": {
+      "name": "非洲象",
+      "size": 3.3,
+      "emoji": "🐘",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: African bush elephant",
+        "url": "https://en.wikipedia.org/wiki/African_bush_elephant",
+        "reviewStatus": "verified",
+        "note": "成年公象肩高 3.04–3.36m，取 3.3m"
+      }
+    },
+    "apple": {
+      "name": "苹果",
+      "size": 0.08,
+      "emoji": "🍎",
+      "measure": "length",
+      "dim": "直径",
+      "dimGroup": "h",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Apple",
+        "url": "https://en.wikipedia.org/wiki/Apple",
+        "reviewStatus": "derived",
+        "note": "食用苹果直径常见 7–9cm，取 8cm"
+      }
+    },
+    "basketball": {
+      "name": "篮球",
+      "size": 0.24,
+      "emoji": "🏀",
+      "measure": "length",
+      "dim": "直径",
+      "dimGroup": "h",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Basketball (ball)",
+        "url": "https://en.wikipedia.org/wiki/Basketball_(ball)",
+        "reviewStatus": "verified",
+        "note": "7 号球周长 75cm，折直径约 23.9cm，取 24cm"
+      }
+    },
+    "bicycle": {
+      "name": "自行车（车把高）",
+      "size": 1,
+      "emoji": "🚲",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Bicycle",
+        "url": "https://en.wikipedia.org/wiki/Bicycle",
+        "reviewStatus": "derived",
+        "note": "成人自行车车把离地约 1m（惯例估算）"
+      }
+    },
+    "big-ben": {
+      "name": "大本钟",
+      "size": 96,
+      "emoji": "🕰️",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia / UK Parliament",
+        "url": "https://en.wikipedia.org/wiki/Big_Ben",
+        "reviewStatus": "verified",
+        "note": "伊丽莎白塔高 96m"
+      }
+    },
+    "blue-whale": {
+      "name": "蓝鲸（体长）",
+      "size": 26,
+      "emoji": "🐋",
+      "measure": "length",
+      "dim": "长度",
+      "dimGroup": "h",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Blue whale",
+        "url": "https://en.wikipedia.org/wiki/Blue_whale",
+        "reviewStatus": "derived",
+        "note": "南半球雌性生理成熟约 26–27m，最大确认记录 29.9m，取 26m 为代表体长"
+      }
+    },
+    "brass-bot": {
+      "name": "齿轮小铜",
+      "size": 1.29,
+      "emoji": "🤖",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#brass-bot"
+      }
+    },
+    "burj-khalifa": {
+      "name": "哈利法塔",
+      "size": 828,
+      "emoji": "🏢",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Burj Khalifa",
+        "url": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+        "reviewStatus": "verified",
+        "note": "哈利法塔建筑高度 828m"
+      }
+    },
+    "bus-stop-sign": {
+      "name": "公交站牌",
+      "size": 2.5,
+      "emoji": "🚏",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Bus stop",
+        "url": "https://en.wikipedia.org/wiki/Bus_stop",
+        "reviewStatus": "derived",
+        "note": "公交站牌立杆常见约 2.5m（惯例估算）"
+      }
+    },
+    "canton-tower": {
+      "name": "广州塔",
+      "size": 604,
+      "emoji": "🗼",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia / CTBUH",
+        "url": "https://en.wikipedia.org/wiki/Canton_Tower",
+        "reviewStatus": "verified",
+        "note": "广州塔总高 604m（含天线桅杆）"
+      }
+    },
+    "cloud-giant": {
+      "name": "云绒团子",
+      "size": 2.2,
+      "emoji": "☁️",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#cloud-giant"
+      }
+    },
+    "colosseum": {
+      "name": "罗马斗兽场",
+      "size": 48,
+      "emoji": "🏟️",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Colosseum",
+        "url": "https://en.wikipedia.org/wiki/Colosseum",
+        "reviewStatus": "verified",
+        "note": "外立面高 48m"
+      }
+    },
+    "crystal-titan": {
+      "name": "晶石巨人",
+      "size": 40,
+      "emoji": "💎",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#crystal-titan"
+      }
+    },
+    "cube-sprite": {
+      "name": "方糖仔",
+      "size": 0.1,
+      "emoji": "🟨",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#cube-sprite"
+      }
+    },
+    "double-decker-bus": {
+      "name": "双层巴士",
+      "size": 4.4,
+      "emoji": "🚌",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Double-decker bus",
+        "url": "https://en.wikipedia.org/wiki/Double-decker_bus",
+        "reviewStatus": "verified",
+        "note": "典型双层巴士高 4.0–4.4m，取 4.4m"
+      }
+    },
+    "easter-island-statue": {
+      "name": "复活节岛石像",
+      "size": 4,
+      "emoji": "🗿",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Moai",
+        "url": "https://en.wikipedia.org/wiki/Moai",
+        "reviewStatus": "verified",
+        "note": "摩艾石像平均高约 4m"
+      }
+    },
+    "egg": {
+      "name": "鸡蛋",
+      "size": 0.055,
+      "emoji": "🥚",
+      "measure": "length",
+      "dim": "直径",
+      "dimGroup": "h",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Chicken egg",
+        "url": "https://en.wikipedia.org/wiki/Chicken_egg",
+        "reviewStatus": "derived",
+        "note": "大号鸡蛋长约 5.5cm"
+      }
+    },
+    "eiffel-tower": {
+      "name": "埃菲尔铁塔",
+      "size": 330,
+      "emoji": "🗼",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia / toureiffel.paris",
+        "url": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+        "reviewStatus": "verified",
+        "note": "2022 年加装天线后总高 330m"
+      }
+    },
+    "emperor-penguin": {
+      "name": "帝企鹅",
+      "size": 1.2,
+      "emoji": "🐧",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Emperor penguin",
+        "url": "https://en.wikipedia.org/wiki/Emperor_penguin",
+        "reviewStatus": "verified",
+        "note": "成年帝企鹅 110–130cm，取 1.2m"
+      }
+    },
+    "empire-state-building": {
+      "name": "帝国大厦（含天线）",
+      "size": 443,
+      "emoji": "🏙️",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Empire State Building",
+        "url": "https://en.wikipedia.org/wiki/Empire_State_Building",
+        "reviewStatus": "verified",
+        "note": "含天线 443.2m（屋顶 381m），取 443m"
+      }
+    },
+    "frost-wyrm": {
+      "name": "冰霜幼龙（体长）",
+      "size": 9,
+      "emoji": "🐲",
+      "measure": "length",
+      "dim": "长度",
+      "dimGroup": "h",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#frost-wyrm"
+      }
+    },
+    "giraffe": {
+      "name": "长颈鹿",
+      "size": 5.5,
+      "emoji": "🦒",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Giraffe",
+        "url": "https://en.wikipedia.org/wiki/Giraffe",
+        "reviewStatus": "verified",
+        "note": "成年雄性可达约 5.5m（全体 4.3–5.7m）"
+      }
+    },
+    "gloom-stalker": {
+      "name": "暗影豹（肩高）",
+      "size": 1.1,
+      "emoji": "🐾",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#gloom-stalker"
+      }
+    },
+    "golden-gate-tower": {
+      "name": "金门大桥桥塔",
+      "size": 227,
+      "emoji": "🌉",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Golden Gate Bridge",
+        "url": "https://en.wikipedia.org/wiki/Golden_Gate_Bridge",
+        "reviewStatus": "verified",
+        "note": "桥塔高出水面 227m（746 英尺）"
+      }
+    },
+    "house-cat": {
+      "name": "家猫（肩高）",
+      "size": 0.25,
+      "emoji": "🐱",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Cat",
+        "url": "https://en.wikipedia.org/wiki/Cat",
+        "reviewStatus": "verified",
+        "note": "家猫肩高常见 20–25cm，取 25cm"
+      }
+    },
+    "leaning-tower-of-pisa": {
+      "name": "比萨斜塔",
+      "size": 56,
+      "emoji": "📐",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Leaning Tower of Pisa",
+        "url": "https://en.wikipedia.org/wiki/Leaning_Tower_of_Pisa",
+        "reviewStatus": "verified",
+        "note": "低侧 55.86m、高侧 56.67m，取 56m"
+      }
+    },
+    "london-eye": {
+      "name": "伦敦眼",
+      "size": 135,
+      "emoji": "🎡",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia / londoneye.com",
+        "url": "https://en.wikipedia.org/wiki/London_Eye",
+        "reviewStatus": "verified",
+        "note": "伦敦眼总高 135m"
+      }
+    },
+    "mature-oak-tree": {
+      "name": "成年橡树",
+      "size": 20,
+      "emoji": "🌳",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Oak",
+        "url": "https://en.wikipedia.org/wiki/Oak",
+        "reviewStatus": "derived",
+        "note": "成年橡树常见 20–30m，取 20m 为保守代表值"
+      }
+    },
+    "mecha-colossus": {
+      "name": "银岩机甲",
+      "size": 10.6,
+      "emoji": "🦾",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#mecha-colossus"
+      }
+    },
+    "molten-golem": {
+      "name": "熔岩魔像",
+      "size": 6.5,
+      "emoji": "🔥",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#molten-golem"
+      }
+    },
+    "moss-beast": {
+      "name": "苔毛兽",
+      "size": 2,
+      "emoji": "🌿",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#moss-beast"
+      }
+    },
+    "mount-everest": {
+      "name": "珠穆朗玛峰",
+      "size": 8849,
+      "emoji": "🏔️",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Mount Everest",
+        "url": "https://en.wikipedia.org/wiki/Mount_Everest",
+        "reviewStatus": "verified",
+        "note": "2020 年中尼联合公布雪面高程 8848.86m，取整 8849m"
+      }
+    },
+    "mount-tai": {
+      "name": "泰山",
+      "size": 1545,
+      "emoji": "⛰️",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Mount Tai",
+        "url": "https://en.wikipedia.org/wiki/Mount_Tai",
+        "reviewStatus": "derived",
+        "note": "玉皇顶常见引用 1545m；2007 国家测绘公布 1532.7m。沿用广为人知的 1545m"
+      }
+    },
+    "oriental-pear-tower": {
+      "name": "东方明珠",
+      "size": 468,
+      "emoji": "📡",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Oriental Pearl Tower",
+        "url": "https://en.wikipedia.org/wiki/Oriental_Pearl_Tower",
+        "reviewStatus": "verified",
+        "note": "东方明珠广播电视塔高 467.9m，取 468m"
+      }
+    },
+    "pyramid-giza": {
+      "name": "胡夫金字塔（原高）",
+      "size": 146.6,
+      "emoji": "🏛️",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Great Pyramid of Giza",
+        "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+        "reviewStatus": "verified",
+        "note": "原高 146.6m（现存 138.8m）"
+      }
+    },
+    "red-kangaroo": {
+      "name": "红袋鼠",
+      "size": 2,
+      "emoji": "🦘",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Red kangaroo",
+        "url": "https://en.wikipedia.org/wiki/Red_kangaroo",
+        "reviewStatus": "verified",
+        "note": "雄性站立可达约 2m"
+      }
+    },
+    "sedan-car": {
+      "name": "小轿车",
+      "size": 1.5,
+      "emoji": "🚗",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Sedan (automobile)",
+        "url": "https://en.wikipedia.org/wiki/Sedan_(automobile)",
+        "reviewStatus": "derived",
+        "note": "三厢轿车车高常见 1.4–1.5m，取 1.5m"
+      }
+    },
+    "shanghai-tower": {
+      "name": "上海中心大厦",
+      "size": 632,
+      "emoji": "🏙️",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia / CTBUH Skyscraper Center",
+        "url": "https://en.wikipedia.org/wiki/Shanghai_Tower",
+        "reviewStatus": "verified",
+        "note": "上海中心大厦高 632m"
+      }
+    },
+    "single-storey-house": {
+      "name": "一层楼房",
+      "size": 3,
+      "emoji": "🏠",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Storey",
+        "url": "https://en.wikipedia.org/wiki/Storey",
+        "reviewStatus": "derived",
+        "note": "住宅层高约 3m，作为“一层楼房”高度"
+      }
+    },
+    "smartphone": {
+      "name": "手机",
+      "size": 0.15,
+      "emoji": "📱",
+      "measure": "length",
+      "dim": "长度",
+      "dimGroup": "h",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Smartphone",
+        "url": "https://en.wikipedia.org/wiki/Smartphone",
+        "reviewStatus": "derived",
+        "note": "主流智能手机机身长约 15cm"
+      }
+    },
+    "soccer-ball": {
+      "name": "足球",
+      "size": 0.22,
+      "emoji": "⚽",
+      "measure": "length",
+      "dim": "直径",
+      "dimGroup": "h",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Football (ball) / IFAB Law 2",
+        "url": "https://en.wikipedia.org/wiki/Football_(ball)",
+        "reviewStatus": "verified",
+        "note": "5 号球周长 68–70cm，折直径 21.6–22.3cm，取 22cm"
+      }
+    },
+    "soda-can": {
+      "name": "易拉罐",
+      "size": 0.12,
+      "emoji": "🥤",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Beverage can",
+        "url": "https://en.wikipedia.org/wiki/Beverage_can",
+        "reviewStatus": "verified",
+        "note": "标准 355ml 易拉罐高 122mm，取 12cm"
+      }
+    },
+    "sproutling": {
+      "name": "芽芽豆",
+      "size": 0.4,
+      "emoji": "🌱",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#sproutling"
+      }
+    },
+    "standard-door": {
+      "name": "标准房门",
+      "size": 2,
+      "emoji": "🚪",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Door",
+        "url": "https://en.wikipedia.org/wiki/Door",
+        "reviewStatus": "verified",
+        "note": "标准室内门高约 2040mm（80 英寸），取 2m"
+      }
+    },
+    "starvine-hunter": {
+      "name": "星藤猎人",
+      "size": 3,
+      "emoji": "👽",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#starvine-hunter"
+      }
+    },
+    "statue-of-liberty": {
+      "name": "自由女神像（含基座）",
+      "size": 93,
+      "emoji": "🗽",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia / U.S. National Park Service",
+        "url": "https://en.wikipedia.org/wiki/Statue_of_Liberty",
+        "reviewStatus": "verified",
+        "note": "地面到火炬尖 93m（含基座）"
+      }
+    },
+    "sydney-opera-house": {
+      "name": "悉尼歌剧院",
+      "size": 65,
+      "emoji": "🎭",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Sydney Opera House",
+        "url": "https://en.wikipedia.org/wiki/Sydney_Opera_House",
+        "reviewStatus": "verified",
+        "note": "最高点约 65m"
+      }
+    },
+    "t-rex": {
+      "name": "霸王龙（科学复原）",
+      "size": 4,
+      "emoji": "🦖",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Tyrannosaurus",
+        "url": "https://en.wikipedia.org/wiki/Tyrannosaurus",
+        "reviewStatus": "verified",
+        "note": "成年霸王龙臀高约 3.7–4m，取 4m"
+      }
+    },
+    "taipei-101": {
+      "name": "台北101",
+      "size": 508,
+      "emoji": "🏢",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia / CTBUH",
+        "url": "https://en.wikipedia.org/wiki/Taipei_101",
+        "reviewStatus": "verified",
+        "note": "台北101 高 508m"
+      }
+    },
+    "taj-mahal": {
+      "name": "泰姬陵（主体高）",
+      "size": 73,
+      "emoji": "🕌",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Taj Mahal",
+        "url": "https://en.wikipedia.org/wiki/Taj_Mahal",
+        "reviewStatus": "verified",
+        "note": "主体高约 73m（240 英尺，含尖饰）"
+      }
+    },
+    "tempest-griffin": {
+      "name": "风暴狮鹫",
+      "size": 3.2,
+      "emoji": "🦅",
+      "measure": "length",
+      "dim": "身高",
+      "dimGroup": "v",
+      "source": {
+        "type": "original",
+        "doc": "data/original-characters.md#tempest-griffin"
+      }
+    },
+    "tennis-ball": {
+      "name": "网球",
+      "size": 0.067,
+      "emoji": "🎾",
+      "measure": "length",
+      "dim": "直径",
+      "dimGroup": "h",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Tennis ball / ITF Rules",
+        "url": "https://en.wikipedia.org/wiki/Tennis_ball",
+        "reviewStatus": "verified",
+        "note": "ITF 规定直径 6.54–6.86cm，取 6.7cm"
+      }
+    },
+    "tokyo-tower": {
+      "name": "东京铁塔",
+      "size": 333,
+      "emoji": "🗼",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia / tokyotower.co.jp",
+        "url": "https://en.wikipedia.org/wiki/Tokyo_Tower",
+        "reviewStatus": "verified",
+        "note": "东京铁塔高 332.9m，取 333m"
+      }
+    },
+    "traffic-light": {
+      "name": "红绿灯",
+      "size": 4.5,
+      "emoji": "🚦",
+      "measure": "length",
+      "dim": "高度",
+      "dimGroup": "v",
+      "source": {
+        "type": "reference",
+        "name": "Wikipedia: Traffic light",
+        "url": "https://en.wikipedia.org/wiki/Traffic_light",
+        "reviewStatus": "derived",
+        "note": "按城市道路立柱式信号灯杆常见安装高度取约 4.5m（惯例估算，无单一权威数值）"
+      }
+    }
+  }
+}

@@ -38,10 +38,21 @@ try {
   manifestText = '{}';
 }
 
+// 随机遭遇层对象表（GDD 6.10）：缺失时运行时从题库推导（main.js objectPool 兜底）
+let objectsText = 'null';
+try {
+  objectsText = readFileSync(path.join(root, 'data', 'objects.json'), 'utf8').trim();
+  JSON.parse(objectsText);
+} catch (e) {
+  console.warn('⚠️ 对象表 data/objects.json 缺失或非法，随机遭遇将从题库推导对象：' + e.message);
+  objectsText = 'null';
+}
+
 // 内置兜底题库以全局变量注入，避免在打包产物里做字符串替换
 const bundledJs =
   'window.__BSZ_BASE_PACK__ = ' + packText.trim() + ';\n' +
-  'window.__BSZ_ASSET_MANIFEST__ = ' + manifestText + ';\n' + js;
+  'window.__BSZ_ASSET_MANIFEST__ = ' + manifestText + ';\n' +
+  'window.__BSZ_OBJECTS__ = ' + objectsText + ';\n' + js;
 
 const html = shell.split('/*__CSS__*/').join(css).split('/*__JS__*/').join(bundledJs);
 

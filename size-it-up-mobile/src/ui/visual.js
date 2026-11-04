@@ -4,7 +4,7 @@ import {
   vToRatio, ratioToV, clampQ, fineAdjust, randomStartV, tickMarks,
 } from '../core/scale.js';
 import { visualError, visualScore, ratioSentence, linearDeviationPct } from '../core/scoring.js';
-import { fmtSize, fmtRatio } from '../core/format.js';
+import { fmtMeasure, fmtRatio } from '../core/format.js';
 import { dotClassFor } from '../core/constants.js';
 import { SFX, feedbackForScore } from './audio.js';
 import { rollCount, confetti, showHint } from './effects.js';
@@ -32,6 +32,20 @@ let artRef = null;    // 参考物/目标物的插画条目（用于落地对齐
 let artTgt = null;
 let kRef = 1;         // 画布边长 / 内容度量轴长（含透明留白的换算系数）
 let kTgt = 1;
+let measure = 'length'; // 本题度量衡分类（GDD 6.5）：length/weight/area/volume/speed
+let dispExp = 1;      // 显示取幂：weight/volume=1/3（立方根），area=1/2（平方根），length=1
+
+// 非线性度量的常驻提示（每题都显示：玩家必须知道图上大小不是线性比例）
+const MEASURE_HINT = {
+  weight: '⚖️ 图上大小按实际重量的立方根显示',
+  volume: '📦 图上边长按实际体积的立方根显示',
+  area: '📐 图上边长按实际面积的平方根显示',
+};
+
+/** 本题尺寸的格式化（按度量衡分类走对应单位） */
+function fmtS(s) {
+  return fmtMeasure(s, measure);
+}
 
 /** 查插画条目；题目两物都有 assetId 且素材存在才启用（GDD 6.6） */
 function artFor(side) {
@@ -76,9 +90,11 @@ export function startVisual(mode, questions) {
 function loadRound() {
   const item = session.questions[session.idx];
   truth = { ref: item.ref, tgt: item.tgt, qStar: item.tgt.s / item.ref.s };
+  measure = item.measure || 'length';
+  dispExp = measure === 'weight' || measure === 'volume' ? 1 / 3 : measure === 'area' ? 1 / 2 : 1;
 
   $('v-ref-label').textContent = item.ref.n;
-  $('v-ref-size').textContent = fmtSize(item.ref.s);
+  $('v-ref-size').textContent = fmtS(item.ref.s);
   $('v-tgt-label').textContent = item.tgt.n;
   const refArt = artFor(item.ref);
   const tgtArt = artFor(item.tgt);
@@ -96,7 +112,12 @@ function loadRound() {
     $('v-ref-emoji').textContent = item.ref.e || '🧍';
     $('v-tgt-emoji').textContent = item.tgt.e || '❓';
   }
-  $('v-note').textContent = item.note ? '💡 ' + item.note : '';
+  // 非线性度量提示必须答题时可见：放顶部常驻 hint-bar；v-note 在揭晓面板内，只带题目备注
+  const measureHint = MEASURE_HINT[measure] || '';
+  const hintBar = $('v-measure-hint');
+  hintBar.textContent = measureHint;
+  hintBar.classList.toggle('hidden', !measureHint);
+  $('v-note').textContent = item.note ? `💡 ${item.note}` : '';
 
   $('v-round').textContent = `第 ${session.idx + 1} / ${session.questions.length} 题`;
   $('v-total').textContent = `总分 ${session.scores.reduce((a, b) => a + b, 0)}`;
@@ -138,14 +159,17 @@ function renderDots() {
   );
 }
 
-/** 布局：内容轴按 (refPx, tgtPx) 渲染进舞台；插画画布盒（含透明留白）按 k 换算，横竖都收进舞台 */
+/** 布局：内容轴按 (refPx, tgtPx) 渲染进舞台；插画画布盒（含透明留白）按 k 换算，横竖都收进舞台。
+ *  ratio 为真实量纲空间的比例（滑块/计分所在空间）；图上显示按 dispExp 取幂
+ *  （重量/体积立方根、面积平方根），只影响视觉呈现，不影响计分（GDD 6.5）。 */
 function layout(ratio) {
-  const small = Math.min(1, ratio);
+  const disp = Math.pow(ratio, dispExp);
+  const small = Math.min(1, disp);
   // 插画模式下盒子边 = 内容轴 × k，竖向和横向都要装得下
-  let z = Math.min(1, ARENA_PX / (BASE_REF_PX * Math.max(kRef, ratio * kTgt)));
+  let z = Math.min(1, ARENA_PX / (BASE_REF_PX * Math.max(kRef, disp * kTgt)));
   const arena = $('v-arena');
   const arenaW = (arena && arena.clientWidth) || 340;
-  const zW = (arenaW - ARENA_PAD * 2 - ARENA_GAP) / (BASE_REF_PX * (kRef + ratio * kTgt));
+  const zW = (arenaW - ARENA_PAD * 2 - ARENA_GAP) / (BASE_REF_PX * (kRef + disp * kTgt));
   if (zW > 0 && zW < z) z = zW;
   const zNeed = MIN_PX / (BASE_REF_PX * small);              // 小物体不低于最小高度
   let clamped = false;
@@ -154,7 +178,7 @@ function layout(ratio) {
     clamped = true; // 极端比例：无法同时满足，进入钳制态
   }
   let refPx = BASE_REF_PX * z;
-  let tgtPx = BASE_REF_PX * ratio * z;
+  let tgtPx = BASE_REF_PX * disp * z;
   const boxRef = refPx * kRef;
   const boxTgt = tgtPx * kTgt;
   if (boxRef > ARENA_PX || boxTgt > ARENA_PX || (clamped && (refPx < MIN_PX || tgtPx < MIN_PX))) {
@@ -164,7 +188,7 @@ function layout(ratio) {
     tgtPx = cTgt / kTgt;
     clamped = true;
   }
-  const faithful = !clamped && Math.abs(Math.log(tgtPx / refPx / ratio)) < 0.05;
+  const faithful = !clamped && Math.abs(Math.log(tgtPx / refPx / disp)) < 0.05;
   return {
     refPx, tgtPx,
     boxRef: refPx * kRef, boxTgt: tgtPx * kTgt,
@@ -197,13 +221,23 @@ function render() {
   paint($('v-ref-emoji'), L.refPx, L.boxRef, artRef);
   paint($('v-tgt-emoji'), L.tgtPx, L.boxTgt, artTgt);
   $('v-stagescale').classList.toggle('hidden', !L.scaled);
-  // 目标物标签实时显示当前估测尺寸（= 估测比例 × 参考物尺寸，随拖动刷新；不涉及真实答案）
-  if (truth && session && !session.locked) $('v-tgt-size').textContent = '≈ ' + fmtSize(q * truth.ref.s);
+  // GDD 3.3：锁定前不显示当前精确估测——倍数与由比例换算的估算尺寸都不显示，
+  // 估测只能凭舞台视觉判断；真实尺寸在锁定后由 lockAnswer 写入
+  if (truth && session && !session.locked) $('v-tgt-size').textContent = '';
   const slider = $('v-slider');
   const v = ratioToV(q);
   if (Math.abs(Number(slider.value) - v) > 0.5) slider.value = String(v);
-  // 滑块读屏值用自然语言描述估测（揭晓前只含估测值，不泄漏真实答案）
-  if (truth) slider.setAttribute('aria-valuetext', '估测 ≈ ' + fmtSize(q * truth.ref.s));
+  // 读屏同样只给粗略量级带，避免辅助技术绕过「不显示精确估测」的规则
+  if (truth) slider.setAttribute('aria-valuetext', '估测比例：' + coarseRatioText(q));
+}
+
+/** 锁定前读屏用的粗略量级带（GDD 3.3：任何通道都不暴露精确估测值） */
+function coarseRatioText(ratio) {
+  if (ratio < 0.1) return '远小于参考物';
+  if (ratio < 0.5) return '小于参考物';
+  if (ratio < 2) return '接近参考物';
+  if (ratio < 10) return '大于参考物';
+  return '远大于参考物';
 }
 
 /** 揭晓后按真实比例渲染舞台 */
@@ -344,7 +378,7 @@ function lockAnswer() {
   $('v-total').textContent = `总分 ${session.scores.reduce((a, b) => a + b, 0)}`;
   renderTruth();
   // 揭晓后把估测尺寸切换为真实尺寸
-  $('v-tgt-size').textContent = fmtSize(truth.tgt.s);
+  $('v-tgt-size').textContent = fmtS(truth.tgt.s);
 
   // 揭晓口径统一：主显示倍数关系，次要显示线性偏差（GDD P0-5）
   const pct = linearDeviationPct(q, qStar);
@@ -353,11 +387,17 @@ function lockAnswer() {
   // 先显示容器再写入播报文本（同帧完成，视觉无差异），保证 status 区首次可朗读
   $('v-reveal').classList.remove('hidden');
   $('v-verdict').textContent = verdict;
-  $('v-detail').innerHTML =
-    `你估测的「${truth.tgt.n}」是「${truth.ref.n}」的 <b>${fmtRatio(q)}</b>，` +
-    `相当于真实值的 <b>${ratioSentence(q, qStar)}</b>，与真实值相差 <b>${pct}%</b>。<br>` +
-    `真实比例 <b>${fmtRatio(qStar)}</b>（${fmtSize(truth.tgt.s)} ÷ ${fmtSize(truth.ref.s)}），` +
-    `误差指数 e = ${e.toFixed(2)}`;
+  // 真实比例接近 1 时，「估测倍数」与「相当于真实值的倍数」数值相同，
+  // 两个分句互相重复，改用「差不多一样大」的表述（GDD 3.4 口径的自然语言化）
+  const nearUnit = qStar >= 0.95 && qStar <= 1.05;
+  $('v-detail').innerHTML = nearUnit
+    ? `你估测的「${truth.tgt.n}」是「${truth.ref.n}」的 <b>${fmtRatio(q)}</b>——` +
+      `其实它们差不多一样大（${fmtS(truth.tgt.s)} ÷ ${fmtS(truth.ref.s)}），` +
+      `与真实值相差 <b>${pct}%</b>。<br>误差指数 e = ${e.toFixed(2)}`
+    : `你估测的「${truth.tgt.n}」是「${truth.ref.n}」的 <b>${fmtRatio(q)}</b>，` +
+      `真实比例是 <b>${fmtRatio(qStar)}</b>（${fmtS(truth.tgt.s)} ÷ ${fmtS(truth.ref.s)}）——` +
+      `你估到了真实值的 <b>${ratioSentence(q, qStar)}</b>，与真实值相差 <b>${pct}%</b>。<br>` +
+      `误差指数 e = ${e.toFixed(2)}`;
   const note = $('v-note');
   if (!note.textContent) note.classList.add('hidden');
   else note.classList.remove('hidden');
@@ -405,7 +445,7 @@ function copyReport() {
   const lines = [
     '【比大小 · 反馈报告】',
     `模式：${session.mode}　第 ${session.idx + 1}/${session.questions.length} 题　本题得分：${score}`,
-    `参考：${truth.ref.n}（${fmtSize(truth.ref.s)}）　目标：${truth.tgt.n}（${fmtSize(truth.tgt.s)}）`,
+    `参考：${truth.ref.n}（${fmtS(truth.ref.s)}）　目标：${truth.tgt.n}（${fmtS(truth.tgt.s)}）`,
     `估测比例 q = ${q.toPrecision(4)}　真实比例 q* = ${qStar.toPrecision(4)}`,
     `对数误差 e = ${visualError(q, qStar).toFixed(3)}`,
     `题库版本：${(ctx.getPack() && ctx.getPack().version) || '?'}　页面：index.html v1.2.0`,

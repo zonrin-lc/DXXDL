@@ -6,6 +6,19 @@ export function fmtSize(m) {
     : Math.round(m * 100) + ' 厘米';
 }
 
+/** 重量格式化：输入千克 */
+export function fmtWeight(kg) {
+  if (kg >= 1000) return trimNum(kg / 1000) + ' 吨';
+  if (kg >= 1) return trimNum(kg) + ' 千克';
+  return trimNum(kg * 1000) + ' 克';
+}
+
+/** 按度量衡分类格式化（GDD 6.5）：length 走米/厘米，weight 走千克/吨/克，其余分类渲染器落地前回退长度 */
+export function fmtMeasure(size, measure) {
+  if (measure === 'weight') return fmtWeight(size);
+  return fmtSize(size);
+}
+
 function trimNum(n) {
   return Number.isInteger(n) ? String(n) : String(Math.round(n * 100) / 100);
 }

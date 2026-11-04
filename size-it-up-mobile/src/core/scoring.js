@@ -43,7 +43,11 @@ export function numericScore(x, question) {
   return scoreFromError(numericError(x, question), NUMERIC_FULL, NUMERIC_SPAN);
 }
 
-/** 数量级差（展示用）：满分区记 0，否则至少 1，四舍五入 */
+/**
+ * 数量级差（仅揭晓页展示用，非计分口径）：满分区内记 0（“不差数量级”），
+ * 区外四舍五入且至少 1。计分与排序永远看未舍入的 d 本身，不得把这个展示值
+ * 回传给计分、扣血或排名逻辑。
+ */
 export function ordersAway(d) {
   if (!isFinite(d)) return '∞';
   if (d < NUMERIC_FULL) return 0;
@@ -52,15 +56,13 @@ export function ordersAway(d) {
 
 /** 揭晓主表达：自然语言倍数关系（GDD 3.4 本版确定，唯一口径） */
 export function ratioSentence(guess, actual) {
-  const r = guess / actual;
-  if (r >= 1) return `约 ${fmtMult(r)} 倍`;
-  return `约 ${fmtMult(r)} 倍`;
+  return `约 ${fmtMult(guess / actual)} 倍`;
 }
 function fmtMult(r) {
   if (r >= 100) return Math.round(r).toLocaleString('zh-CN');
-  if (r >= 10) return r.toFixed(1);
-  if (r >= 1) return r.toFixed(2);
-  if (r >= 0.01) return r.toFixed(2);
+  if (r >= 10) return String(Number(r.toFixed(1)));
+  if (r >= 1) return String(Number(r.toFixed(2)));   // 去尾零：6.70 → 6.7
+  if (r >= 0.01) return String(Number(r.toFixed(2))); // 去尾零：0.40 → 0.4（GDD 3.4 示例口径）
   if (r >= 0.0001) return String(Number(r.toFixed(4))); // 自然语言倍数，避免揭晓页出现 1.2e-3
   return r.toExponential(1);
 }

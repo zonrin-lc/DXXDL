@@ -1,11 +1,12 @@
 {
-  "version": "2.8.2",
-  "_说明": "热更新数据包 v2：v2.8.2 修正胡夫金字塔重量为PBS NOVA直接列出的约650万吨；将未能由当前来源支持的哈利波特英文总词数题转入review，并把未发布的2026-11-01每日题改为已核验的河马潜水题。",
+  "version": "3.0.0",
+  "_说明": "热更新数据包 v3.0.0（P1 重量分类 + 随机遭遇层地基）：新增 weight 池 22 题（单位 kg，渲染按立方根缩放，素材复用现有插画）；视觉题全部满足 1/32≤q*≤32 带宽并带对象级来源；数量级题含 num-50~52 超带宽换算题。随机遭遇模式由构建注入的 data/objects.json 驱动，不占本题库。",
   "_字段": {
-    "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态（published 需带 source.name 与 source.year）",
+    "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态。published 题：q* 须在 [1/32,32] 带宽内；source 需 name/year/url/reviewStatus/reviewEvidence（真实对象），或 type=original + doc + reviewStatus=original_design（原创角色）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
     "dailySchedule": "每日排期：YYYY-MM-DD → {questionId(必须存在于题库), revision(正整数)}，已发布日期不可变",
-    "fallbackPools": "版本化兜底快照：排期未覆盖的日期按『日期数字 % questionIds 长度』轮换"
+    "fallbackPools": "版本化兜底快照：排期未覆盖的日期按『日期数字 % questionIds 长度』轮换",
+    "weight": "重量模式题库：结构同 everyday/pop/geo，size 单位为千克（kg），measure=weight，dimension=重量；渲染时图上大小按重量的立方根显示（仅影响呈现，不影响计分）"
   },
   "everyday": [
     {
@@ -25,8 +26,15 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: African bush elephant",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/African_bush_elephant",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；非洲象=3.3m：成年公象肩高 3.04–3.36m，取 3.3m。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 非洲象: Wikipedia: fully grown bulls reach an average shoulder height of 3.04–3.36 m; game value 3.3 m sits inside that range."
       },
       "difficulty": 1
     },
@@ -47,8 +55,15 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Giraffe",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Giraffe",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；长颈鹿=5.5m：成年雄性可达约 5.5m（全体 4.3–5.7m）。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 长颈鹿: Wikipedia/Britannica: fully grown giraffes stand 4.3–5.7 m, males exceeding 5.5 m; game value 5.5 m is the cited male maximum."
       },
       "difficulty": 1
     },
@@ -69,8 +84,15 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Cat",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cat",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；家猫（肩高）=0.25m：家猫肩高常见 20–25cm，取 25cm。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 家猫（肩高）: Felidae Conservation Fund and breed references give domestic cat shoulder height 20–25 cm; game uses 0.25 m."
       },
       "difficulty": 2
     },
@@ -91,8 +113,15 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Emperor penguin",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Emperor_penguin",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；帝企鹅=1.2m：成年帝企鹅 110–130cm，取 1.2m。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 帝企鹅: WWF/Wikipedia: adult emperor penguins stand about 110–130 cm; game value 1.2 m is the midpoint."
       },
       "difficulty": 2
     },
@@ -113,8 +142,15 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Red kangaroo",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_kangaroo",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；红袋鼠=2m：雄性站立可达约 2m。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 红袋鼠: City of Newcastle (AU) animal fact sheet: male red kangaroo can reach up to 2 m in height; Denver Zoo cites ~1.8 m."
       },
       "difficulty": 2
     },
@@ -135,8 +171,15 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Traffic light",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Traffic_light",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；红绿灯=4.5m：按城市道路立柱式信号灯杆常见安装高度取约 4.5m（惯例估算，无单一权威数值）。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 红绿灯: No single canonical figure exists; 4.5 m is a conventional estimate for pole-mounted road traffic signals."
       },
       "difficulty": 1
     },
@@ -157,8 +200,15 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Door",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Door",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；标准房门=2m：标准室内门高约 2040mm（80 英寸），取 2m。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 标准房门: Wikipedia: standard interior door leaf height is commonly 2040 mm (80 in); game value rounds to 2 m."
       },
       "difficulty": 1
     },
@@ -179,8 +229,15 @@
       "dimension": "长度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Blue whale",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Blue_whale",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；蓝鲸（体长）=26m：南半球雌性生理成熟约 26–27m，最大确认记录 29.9m，取 26m 为代表体长。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 蓝鲸（体长）: Yochem & Leatherwood via DBCA recovery plan: females reach physical maturity at 26–27 m; Wikipedia lists max confirmed 29.9 m. Game uses 26 m as representative adult length."
       },
       "difficulty": 3,
       "memorable": true
@@ -202,8 +259,15 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Sedan (automobile) / Wikipedia: Double-decker bus",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Double-decker_bus",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sedan_(automobile)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "小轿车=1.5m：三厢轿车车高常见 1.4–1.5m，取 1.5m；双层巴士=4.4m：典型双层巴士高 4.0–4.4m，取 4.4m。",
+        "reviewEvidence": "小轿车: Typical mid-size sedans are 1.4–1.5 m tall; 1.5 m is a conventional representative value. | 双层巴士: Wrightbus and UK operator references: typical double-decker height 4.0–4.4 m; game uses 4.4 m."
       },
       "difficulty": 2
     },
@@ -224,8 +288,15 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Sedan (automobile) / Wikipedia: Bicycle",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bicycle",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sedan_(automobile)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "小轿车=1.5m：三厢轿车车高常见 1.4–1.5m，取 1.5m；自行车（车把高）=1m：成人自行车车把离地约 1m（惯例估算）。",
+        "reviewEvidence": "小轿车: Typical mid-size sedans are 1.4–1.5 m tall; 1.5 m is a conventional representative value. | 自行车（车把高）: Adult bicycle handlebar height is about 1 m; conventional estimate."
       },
       "difficulty": 2
     },
@@ -246,8 +317,15 @@
       "dimension": "直径",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Apple / Wikipedia: Tennis ball / ITF Rules",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tennis_ball",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Apple"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "苹果=0.08m：食用苹果直径常见 7–9cm，取 8cm；网球=0.067m：ITF 规定直径 6.54–6.86cm，取 6.7cm。",
+        "reviewEvidence": "苹果: Table apples commonly measure 7–9 cm in diameter; 8 cm is a representative midpoint. | 网球: ITF Rules of Tennis, Appendix I: diameter 6.54–6.86 cm; game value 0.067 m sits inside the regulation range."
       },
       "difficulty": 2
     },
@@ -268,8 +346,15 @@
       "dimension": "直径",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Apple / Wikipedia: Chicken egg",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Chicken_egg",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Apple"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "苹果=0.08m：食用苹果直径常见 7–9cm，取 8cm；鸡蛋=0.055m：大号鸡蛋长约 5.5cm。",
+        "reviewEvidence": "苹果: Table apples commonly measure 7–9 cm in diameter; 8 cm is a representative midpoint. | 鸡蛋: A large chicken egg is about 5.5 cm long; conventional representative value."
       },
       "difficulty": 2
     },
@@ -290,8 +375,15 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Storey / Wikipedia: Oak",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Oak",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度；成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值。",
+        "reviewEvidence": "一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m. | 成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height."
       },
       "difficulty": 3
     },
@@ -312,8 +404,15 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Storey / Wikipedia: Bus stop",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bus_stop",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度；公交站牌=2.5m：公交站牌立杆常见约 2.5m（惯例估算）。",
+        "reviewEvidence": "一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m. | 公交站牌: Bus stop sign poles are typically about 2.5 m tall; conventional estimate, no single canonical figure."
       },
       "difficulty": 2
     },
@@ -334,8 +433,15 @@
       "dimension": "长度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Smartphone / Wikipedia: Beverage can",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Beverage_can",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Smartphone"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "手机=0.15m：主流智能手机机身长约 15cm；易拉罐=0.12m：标准 355ml 易拉罐高 122mm，取 12cm。",
+        "reviewEvidence": "手机: Mainstream smartphones are about 15 cm long; conventional representative value. | 易拉罐: Industry dimension charts: standard 12 oz / 355 ml can height 122 mm; game value 0.12 m matches."
       },
       "difficulty": 1
     },
@@ -356,8 +462,15 @@
       "dimension": "直径",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Basketball (ball) / Wikipedia: Football (ball) / IFAB Law 2",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Basketball_(ball)"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "篮球=0.24m：7 号球周长 75cm，折直径约 23.9cm，取 24cm；足球=0.22m：5 号球周长 68–70cm，折直径 21.6–22.3cm，取 22cm。",
+        "reviewEvidence": "篮球: NBA/size-7 standard: 75 cm circumference → 23.9 cm diameter; game value 0.24 m matches. | 足球: IFAB Law 2: size-5 ball circumference 68–70 cm → diameter 21.6–22.3 cm; game value 0.22 m matches."
       },
       "difficulty": 3,
       "memorable": true
@@ -380,8 +493,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Apple / Wikipedia: Basketball (ball)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Basketball_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Apple"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "苹果=0.08m：食用苹果直径常见 7–9cm，取 8cm；篮球=0.24m：7 号球周长 75cm，折直径约 23.9cm，取 24cm。",
+        "reviewEvidence": "苹果: Table apples commonly measure 7–9 cm in diameter; 8 cm is a representative midpoint. | 篮球: NBA/size-7 standard: 75 cm circumference → 23.9 cm diameter; game value 0.24 m matches."
       }
     },
     {
@@ -402,8 +522,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Apple / Wikipedia: Smartphone",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Smartphone",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Apple"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "苹果=0.08m：食用苹果直径常见 7–9cm，取 8cm；手机=0.15m：主流智能手机机身长约 15cm。",
+        "reviewEvidence": "苹果: Table apples commonly measure 7–9 cm in diameter; 8 cm is a representative midpoint. | 手机: Mainstream smartphones are about 15 cm long; conventional representative value."
       }
     },
     {
@@ -424,8 +551,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Tennis ball / ITF Rules / Wikipedia: Chicken egg",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Chicken_egg",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tennis_ball"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "网球=0.067m：ITF 规定直径 6.54–6.86cm，取 6.7cm；鸡蛋=0.055m：大号鸡蛋长约 5.5cm。",
+        "reviewEvidence": "网球: ITF Rules of Tennis, Appendix I: diameter 6.54–6.86 cm; game value 0.067 m sits inside the regulation range. | 鸡蛋: A large chicken egg is about 5.5 cm long; conventional representative value."
       }
     },
     {
@@ -446,8 +580,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Football (ball) / IFAB Law 2 / Wikipedia: Tennis ball / ITF Rules",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tennis_ball",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Football_(ball)"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "足球=0.22m：5 号球周长 68–70cm，折直径 21.6–22.3cm，取 22cm；网球=0.067m：ITF 规定直径 6.54–6.86cm，取 6.7cm。",
+        "reviewEvidence": "足球: IFAB Law 2: size-5 ball circumference 68–70 cm → diameter 21.6–22.3 cm; game value 0.22 m matches. | 网球: ITF Rules of Tennis, Appendix I: diameter 6.54–6.86 cm; game value 0.067 m sits inside the regulation range."
       }
     },
     {
@@ -468,8 +609,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Storey",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Storey",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m."
       }
     },
     {
@@ -481,17 +629,24 @@
         "assetId": "standard-door"
       },
       "target": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
+        "name": "长颈鹿",
+        "size": 5.5,
+        "emoji": "🦒",
+        "assetId": "giraffe"
       },
       "dimension": "高度",
-      "difficulty": 1,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Door / Wikipedia: Giraffe",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Giraffe",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Door"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "标准房门=2m：标准室内门高约 2040mm（80 英寸），取 2m；长颈鹿=5.5m：成年雄性可达约 5.5m（全体 4.3–5.7m）。",
+        "reviewEvidence": "标准房门: Wikipedia: standard interior door leaf height is commonly 2040 mm (80 in); game value rounds to 2 m. | 长颈鹿: Wikipedia/Britannica: fully grown giraffes stand 4.3–5.7 m, males exceeding 5.5 m; game value 5.5 m is the cited male maximum."
       }
     },
     {
@@ -512,8 +667,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: African bush elephant / Wikipedia: Giraffe",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Giraffe",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/African_bush_elephant"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "非洲象=3.3m：成年公象肩高 3.04–3.36m，取 3.3m；长颈鹿=5.5m：成年雄性可达约 5.5m（全体 4.3–5.7m）。",
+        "reviewEvidence": "非洲象: Wikipedia: fully grown bulls reach an average shoulder height of 3.04–3.36 m; game value 3.3 m sits inside that range. | 长颈鹿: Wikipedia/Britannica: fully grown giraffes stand 4.3–5.7 m, males exceeding 5.5 m; game value 5.5 m is the cited male maximum."
       }
     },
     {
@@ -534,8 +696,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Traffic light / Wikipedia: Door",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Door",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Traffic_light"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "红绿灯=4.5m：按城市道路立柱式信号灯杆常见安装高度取约 4.5m（惯例估算，无单一权威数值）；标准房门=2m：标准室内门高约 2040mm（80 英寸），取 2m。",
+        "reviewEvidence": "红绿灯: No single canonical figure exists; 4.5 m is a conventional estimate for pole-mounted road traffic signals. | 标准房门: Wikipedia: standard interior door leaf height is commonly 2040 mm (80 in); game value rounds to 2 m."
       }
     },
     {
@@ -556,8 +725,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Bus stop / Wikipedia: Door",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Door",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Bus_stop"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "公交站牌=2.5m：公交站牌立杆常见约 2.5m（惯例估算）；标准房门=2m：标准室内门高约 2040mm（80 英寸），取 2m。",
+        "reviewEvidence": "公交站牌: Bus stop sign poles are typically about 2.5 m tall; conventional estimate, no single canonical figure. | 标准房门: Wikipedia: standard interior door leaf height is commonly 2040 mm (80 in); game value rounds to 2 m."
       }
     },
     {
@@ -578,8 +754,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Bicycle / Wikipedia: Human height",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Human_height",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Bicycle"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "自行车（车把高）=1m：成人自行车车把离地约 1m（惯例估算）；成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "自行车（车把高）: Adult bicycle handlebar height is about 1 m; conventional estimate. | 成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average."
       }
     },
     {
@@ -600,8 +783,15 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Blue whale / Wikipedia: Double-decker bus",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Double-decker_bus",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Blue_whale"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "蓝鲸（体长）=26m：南半球雌性生理成熟约 26–27m，最大确认记录 29.9m，取 26m 为代表体长；双层巴士=4.4m：典型双层巴士高 4.0–4.4m，取 4.4m。",
+        "reviewEvidence": "蓝鲸（体长）: Yochem & Leatherwood via DBCA recovery plan: females reach physical maturity at 26–27 m; Wikipedia lists max confirmed 29.9 m. Game uses 26 m as representative adult length. | 双层巴士: Wrightbus and UK operator references: typical double-decker height 4.0–4.4 m; game uses 4.4 m."
       }
     },
     {
@@ -622,8 +812,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Emperor penguin / Wikipedia: Cat",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cat",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Emperor_penguin"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "帝企鹅=1.2m：成年帝企鹅 110–130cm，取 1.2m；家猫（肩高）=0.25m：家猫肩高常见 20–25cm，取 25cm。",
+        "reviewEvidence": "帝企鹅: WWF/Wikipedia: adult emperor penguins stand about 110–130 cm; game value 1.2 m is the midpoint. | 家猫（肩高）: Felidae Conservation Fund and breed references give domestic cat shoulder height 20–25 cm; game uses 0.25 m."
       }
     },
     {
@@ -644,8 +841,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Giraffe / Wikipedia: Traffic light",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Traffic_light",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Giraffe"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "长颈鹿=5.5m：成年雄性可达约 5.5m（全体 4.3–5.7m）；红绿灯=4.5m：按城市道路立柱式信号灯杆常见安装高度取约 4.5m（惯例估算，无单一权威数值）。",
+        "reviewEvidence": "长颈鹿: Wikipedia/Britannica: fully grown giraffes stand 4.3–5.7 m, males exceeding 5.5 m; game value 5.5 m is the cited male maximum. | 红绿灯: No single canonical figure exists; 4.5 m is a conventional estimate for pole-mounted road traffic signals."
       }
     },
     {
@@ -666,8 +870,15 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Basketball (ball) / Wikipedia: Chicken egg",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Chicken_egg",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Basketball_(ball)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "篮球=0.24m：7 号球周长 75cm，折直径约 23.9cm，取 24cm；鸡蛋=0.055m：大号鸡蛋长约 5.5cm。",
+        "reviewEvidence": "篮球: NBA/size-7 standard: 75 cm circumference → 23.9 cm diameter; game value 0.24 m matches. | 鸡蛋: A large chicken egg is about 5.5 cm long; conventional representative value."
       }
     },
     {
@@ -688,8 +899,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Giraffe / Wikipedia: Double-decker bus",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Double-decker_bus",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Giraffe"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "长颈鹿=5.5m：成年雄性可达约 5.5m（全体 4.3–5.7m）；双层巴士=4.4m：典型双层巴士高 4.0–4.4m，取 4.4m。",
+        "reviewEvidence": "长颈鹿: Wikipedia/Britannica: fully grown giraffes stand 4.3–5.7 m, males exceeding 5.5 m; game value 5.5 m is the cited male maximum. | 双层巴士: Wrightbus and UK operator references: typical double-decker height 4.0–4.4 m; game uses 4.4 m."
       }
     },
     {
@@ -710,8 +928,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: African bush elephant / Wikipedia: Oak",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Oak",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/African_bush_elephant"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "非洲象=3.3m：成年公象肩高 3.04–3.36m，取 3.3m；成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值。",
+        "reviewEvidence": "非洲象: Wikipedia: fully grown bulls reach an average shoulder height of 3.04–3.36 m; game value 3.3 m sits inside that range. | 成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height."
       }
     },
     {
@@ -732,8 +957,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Red kangaroo / Wikipedia: Door",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Door",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Red_kangaroo"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "红袋鼠=2m：雄性站立可达约 2m；标准房门=2m：标准室内门高约 2040mm（80 英寸），取 2m。",
+        "reviewEvidence": "红袋鼠: City of Newcastle (AU) animal fact sheet: male red kangaroo can reach up to 2 m in height; Denver Zoo cites ~1.8 m. | 标准房门: Wikipedia: standard interior door leaf height is commonly 2040 mm (80 in); game value rounds to 2 m."
       }
     },
     {
@@ -754,8 +986,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Emperor penguin / Wikipedia: Beverage can",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Beverage_can",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Emperor_penguin"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "帝企鹅=1.2m：成年帝企鹅 110–130cm，取 1.2m；易拉罐=0.12m：标准 355ml 易拉罐高 122mm，取 12cm。",
+        "reviewEvidence": "帝企鹅: WWF/Wikipedia: adult emperor penguins stand about 110–130 cm; game value 1.2 m is the midpoint. | 易拉罐: Industry dimension charts: standard 12 oz / 355 ml can height 122 mm; game value 0.12 m matches."
       }
     },
     {
@@ -776,8 +1015,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Football (ball) / IFAB Law 2 / Wikipedia: Apple",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Apple",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Football_(ball)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "足球=0.22m：5 号球周长 68–70cm，折直径 21.6–22.3cm，取 22cm；苹果=0.08m：食用苹果直径常见 7–9cm，取 8cm。",
+        "reviewEvidence": "足球: IFAB Law 2: size-5 ball circumference 68–70 cm → diameter 21.6–22.3 cm; game value 0.22 m matches. | 苹果: Table apples commonly measure 7–9 cm in diameter; 8 cm is a representative midpoint."
       }
     },
     {
@@ -798,8 +1044,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Tennis ball / ITF Rules / Wikipedia: Basketball (ball)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Basketball_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tennis_ball"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "网球=0.067m：ITF 规定直径 6.54–6.86cm，取 6.7cm；篮球=0.24m：7 号球周长 75cm，折直径约 23.9cm，取 24cm。",
+        "reviewEvidence": "网球: ITF Rules of Tennis, Appendix I: diameter 6.54–6.86 cm; game value 0.067 m sits inside the regulation range. | 篮球: NBA/size-7 standard: 75 cm circumference → 23.9 cm diameter; game value 0.24 m matches."
       }
     },
     {
@@ -820,8 +1073,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Bus stop / Wikipedia: Human height",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Human_height",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Bus_stop"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "公交站牌=2.5m：公交站牌立杆常见约 2.5m（惯例估算）；成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "公交站牌: Bus stop sign poles are typically about 2.5 m tall; conventional estimate, no single canonical figure. | 成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average."
       }
     },
     {
@@ -842,8 +1102,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Double-decker bus / Wikipedia: Traffic light",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Traffic_light",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Double-decker_bus"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "双层巴士=4.4m：典型双层巴士高 4.0–4.4m，取 4.4m；红绿灯=4.5m：按城市道路立柱式信号灯杆常见安装高度取约 4.5m（惯例估算，无单一权威数值）。",
+        "reviewEvidence": "双层巴士: Wrightbus and UK operator references: typical double-decker height 4.0–4.4 m; game uses 4.4 m. | 红绿灯: No single canonical figure exists; 4.5 m is a conventional estimate for pole-mounted road traffic signals."
       }
     },
     {
@@ -864,8 +1131,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Sedan (automobile) / Wikipedia: Door",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Door",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sedan_(automobile)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "小轿车=1.5m：三厢轿车车高常见 1.4–1.5m，取 1.5m；标准房门=2m：标准室内门高约 2040mm（80 英寸），取 2m。",
+        "reviewEvidence": "小轿车: Typical mid-size sedans are 1.4–1.5 m tall; 1.5 m is a conventional representative value. | 标准房门: Wikipedia: standard interior door leaf height is commonly 2040 mm (80 in); game value rounds to 2 m."
       }
     },
     {
@@ -886,8 +1160,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia: Giraffe",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Giraffe",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；长颈鹿=5.5m：成年雄性可达约 5.5m（全体 4.3–5.7m）。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 长颈鹿: Wikipedia/Britannica: fully grown giraffes stand 4.3–5.7 m, males exceeding 5.5 m; game value 5.5 m is the cited male maximum."
       }
     },
     {
@@ -908,8 +1189,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Emperor penguin / Wikipedia: Bicycle",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bicycle",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Emperor_penguin"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "帝企鹅=1.2m：成年帝企鹅 110–130cm，取 1.2m；自行车（车把高）=1m：成人自行车车把离地约 1m（惯例估算）。",
+        "reviewEvidence": "帝企鹅: WWF/Wikipedia: adult emperor penguins stand about 110–130 cm; game value 1.2 m is the midpoint. | 自行车（车把高）: Adult bicycle handlebar height is about 1 m; conventional estimate."
       }
     },
     {
@@ -930,8 +1218,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Red kangaroo / Wikipedia: Double-decker bus",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Double-decker_bus",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Red_kangaroo"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "红袋鼠=2m：雄性站立可达约 2m；双层巴士=4.4m：典型双层巴士高 4.0–4.4m，取 4.4m。",
+        "reviewEvidence": "红袋鼠: City of Newcastle (AU) animal fact sheet: male red kangaroo can reach up to 2 m in height; Denver Zoo cites ~1.8 m. | 双层巴士: Wrightbus and UK operator references: typical double-decker height 4.0–4.4 m; game uses 4.4 m."
       }
     },
     {
@@ -952,17 +1247,24 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Smartphone / Wikipedia: Tennis ball / ITF Rules",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tennis_ball",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Smartphone"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "手机=0.15m：主流智能手机机身长约 15cm；网球=0.067m：ITF 规定直径 6.54–6.86cm，取 6.7cm。",
+        "reviewEvidence": "手机: Mainstream smartphones are about 15 cm long; conventional representative value. | 网球: ITF Rules of Tennis, Appendix I: diameter 6.54–6.86 cm; game value 0.067 m sits inside the regulation range."
       }
     },
     {
       "id": "ev-43",
       "reference": {
-        "name": "双层巴士",
-        "size": 4.4,
-        "emoji": "🚌",
-        "assetId": "double-decker-bus"
+        "name": "小轿车",
+        "size": 1.5,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
       },
       "target": {
         "name": "易拉罐",
@@ -971,11 +1273,18 @@
         "assetId": "soda-can"
       },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Sedan (automobile) / Wikipedia: Beverage can",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Beverage_can",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sedan_(automobile)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "小轿车=1.5m：三厢轿车车高常见 1.4–1.5m，取 1.5m；易拉罐=0.12m：标准 355ml 易拉罐高 122mm，取 12cm。",
+        "reviewEvidence": "小轿车: Typical mid-size sedans are 1.4–1.5 m tall; 1.5 m is a conventional representative value. | 易拉罐: Industry dimension charts: standard 12 oz / 355 ml can height 122 mm; game value 0.12 m matches."
       }
     },
     {
@@ -996,30 +1305,44 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Giraffe / Wikipedia: Storey",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Storey",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Giraffe"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "长颈鹿=5.5m：成年雄性可达约 5.5m（全体 4.3–5.7m）；一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度。",
+        "reviewEvidence": "长颈鹿: Wikipedia/Britannica: fully grown giraffes stand 4.3–5.7 m, males exceeding 5.5 m; game value 5.5 m is the cited male maximum. | 一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m."
       }
     },
     {
       "id": "ev-45",
       "reference": {
+        "name": "手机",
+        "size": 0.15,
+        "emoji": "📱",
+        "assetId": "smartphone"
+      },
+      "target": {
         "name": "篮球",
         "size": 0.24,
         "emoji": "🏀",
         "assetId": "basketball"
       },
-      "target": {
-        "name": "苹果",
-        "size": 0.08,
-        "emoji": "🍎",
-        "assetId": "apple"
-      },
-      "dimension": "直径",
+      "dimension": "长度",
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Smartphone / Wikipedia: Basketball (ball)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Basketball_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Smartphone"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "手机=0.15m：主流智能手机机身长约 15cm；篮球=0.24m：7 号球周长 75cm，折直径约 23.9cm，取 24cm。",
+        "reviewEvidence": "手机: Mainstream smartphones are about 15 cm long; conventional representative value. | 篮球: NBA/size-7 standard: 75 cm circumference → 23.9 cm diameter; game value 0.24 m matches."
       }
     },
     {
@@ -1040,8 +1363,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Chicken egg / Wikipedia: Football (ball) / IFAB Law 2",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Chicken_egg"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "鸡蛋=0.055m：大号鸡蛋长约 5.5cm；足球=0.22m：5 号球周长 68–70cm，折直径 21.6–22.3cm，取 22cm。",
+        "reviewEvidence": "鸡蛋: A large chicken egg is about 5.5 cm long; conventional representative value. | 足球: IFAB Law 2: size-5 ball circumference 68–70 cm → diameter 21.6–22.3 cm; game value 0.22 m matches."
       }
     },
     {
@@ -1062,8 +1392,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Sedan (automobile)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Sedan_(automobile)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；小轿车=1.5m：三厢轿车车高常见 1.4–1.5m，取 1.5m。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 小轿车: Typical mid-size sedans are 1.4–1.5 m tall; 1.5 m is a conventional representative value."
       }
     },
     {
@@ -1084,31 +1421,45 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Bicycle / Wikipedia: Bus stop",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bus_stop",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Bicycle"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "自行车（车把高）=1m：成人自行车车把离地约 1m（惯例估算）；公交站牌=2.5m：公交站牌立杆常见约 2.5m（惯例估算）。",
+        "reviewEvidence": "自行车（车把高）: Adult bicycle handlebar height is about 1 m; conventional estimate. | 公交站牌: Bus stop sign poles are typically about 2.5 m tall; conventional estimate, no single canonical figure."
       }
     },
     {
       "id": "ev-49",
       "reference": {
+        "name": "一层楼房",
+        "size": 3,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
         "name": "蓝鲸（体长）",
         "size": 26,
         "emoji": "🐋",
         "assetId": "blue-whale"
-      },
-      "target": {
-        "name": "家猫（肩高）",
-        "size": 0.25,
-        "emoji": "🐱",
-        "assetId": "house-cat"
       },
       "dimension": "长度",
       "memorable": true,
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Storey / Wikipedia: Blue whale",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Blue_whale",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度；蓝鲸（体长）=26m：南半球雌性生理成熟约 26–27m，最大确认记录 29.9m，取 26m 为代表体长。",
+        "reviewEvidence": "一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m. | 蓝鲸（体长）: Yochem & Leatherwood via DBCA recovery plan: females reach physical maturity at 26–27 m; Wikipedia lists max confirmed 29.9 m. Game uses 26 m as representative adult length."
       }
     }
   ],
@@ -1130,8 +1481,16 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "原创设定",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#sproutling",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 芽芽豆=0.4m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#sproutling; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       },
       "difficulty": 1
     },
@@ -1152,8 +1511,16 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "原创设定",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#brass-bot",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 齿轮小铜=1.29m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#brass-bot; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       },
       "difficulty": 2
     },
@@ -1174,8 +1541,16 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "原创设定",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#cloud-giant",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 云绒团子=2.2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#cloud-giant; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       },
       "difficulty": 2
     },
@@ -1196,8 +1571,16 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "原创设定",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#moss-beast",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 苔毛兽=2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#moss-beast; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       },
       "difficulty": 2
     },
@@ -1218,8 +1601,16 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "原创设定",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#cube-sprite",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 方糖仔=0.1m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#cube-sprite; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       },
       "difficulty": 2
     },
@@ -1240,8 +1631,16 @@
       "dimension": "身高",
       "status": "published",
       "source": {
-        "name": "原创设定",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#starvine-hunter",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 星藤猎人=3m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#starvine-hunter; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       },
       "difficulty": 2
     },
@@ -1262,8 +1661,16 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "原创设定",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#mecha-colossus",
+        "reviewStatus": "original_design",
+        "reviewNote": "一层楼房=3m 与 银岩机甲=10.6m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#mecha-colossus; the value is a game design choice, not an external measurement. Other side (一层楼房): Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ]
       },
       "difficulty": 1
     },
@@ -1284,8 +1691,15 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Storey / Wikipedia: Tyrannosaurus",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tyrannosaurus",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度；霸王龙（科学复原）=4m：成年霸王龙臀高约 3.7–4m，取 4m。",
+        "reviewEvidence": "一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m. | 霸王龙（科学复原）: Palaeontology references: adult T. rex hip height ~3.7–4 m; game value 4 m is the upper bound."
       },
       "difficulty": 2
     },
@@ -1306,18 +1720,26 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "原创设定",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#crystal-titan",
+        "reviewStatus": "original_design",
+        "reviewNote": "一层楼房=3m 与 晶石巨人=40m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#crystal-titan; the value is a game design choice, not an external measurement. Other side (一层楼房): Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ]
       },
       "difficulty": 3
     },
     {
       "id": "pop-9",
       "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
+        "name": "晶石巨人",
+        "size": 40,
+        "emoji": "💎",
+        "assetId": "crystal-titan"
       },
       "target": {
         "name": "深渊巨蜥",
@@ -1328,10 +1750,15 @@
       "dimension": "长度",
       "status": "published",
       "source": {
-        "name": "原创设定",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#crystal-titan",
+        "reviewStatus": "original_design",
+        "reviewNote": "晶石巨人=40m 与 深渊巨蜥=100m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#crystal-titan; the value is a game design choice, not an external measurement."
       },
-      "difficulty": 3,
+      "difficulty": 2,
       "memorable": true
     },
     {
@@ -1352,8 +1779,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#sproutling",
+        "reviewStatus": "original_design",
+        "reviewNote": "芽芽豆=0.4m 与 方糖仔=0.1m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#sproutling; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1374,8 +1806,13 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#cloud-giant",
+        "reviewStatus": "original_design",
+        "reviewNote": "云绒团子=2.2m 与 苔毛兽=2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#cloud-giant; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1396,8 +1833,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#starvine-hunter",
+        "reviewStatus": "original_design",
+        "reviewNote": "星藤猎人=3m 与 齿轮小铜=1.29m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#starvine-hunter; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1418,8 +1860,16 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#mecha-colossus",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 银岩机甲=10.6m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#mecha-colossus; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       }
     },
     {
@@ -1440,8 +1890,16 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#mecha-colossus",
+        "reviewStatus": "original_design",
+        "reviewNote": "霸王龙（科学复原）=4m 与 银岩机甲=10.6m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 霸王龙（科学复原）=4m：成年霸王龙臀高约 3.7–4m，取 4m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#mecha-colossus; the value is a game design choice, not an external measurement. Other side (霸王龙（科学复原）): Palaeontology references: adult T. rex hip height ~3.7–4 m; game value 4 m is the upper bound.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tyrannosaurus"
+        ]
       }
     },
     {
@@ -1462,8 +1920,16 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#moss-beast",
+        "reviewStatus": "original_design",
+        "reviewNote": "一层楼房=3m 与 苔毛兽=2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#moss-beast; the value is a game design choice, not an external measurement. Other side (一层楼房): Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ]
       }
     },
     {
@@ -1484,8 +1950,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Tyrannosaurus",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tyrannosaurus",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；霸王龙（科学复原）=4m：成年霸王龙臀高约 3.7–4m，取 4m。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 霸王龙（科学复原）: Palaeontology references: adult T. rex hip height ~3.7–4 m; game value 4 m is the upper bound."
       }
     },
     {
@@ -1506,8 +1979,13 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#brass-bot",
+        "reviewStatus": "original_design",
+        "reviewNote": "齿轮小铜=1.29m 与 苔毛兽=2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#brass-bot; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1528,8 +2006,13 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#cloud-giant",
+        "reviewStatus": "original_design",
+        "reviewNote": "云绒团子=2.2m 与 银岩机甲=10.6m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#cloud-giant; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1550,8 +2033,13 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#cube-sprite",
+        "reviewStatus": "original_design",
+        "reviewNote": "方糖仔=0.1m 与 齿轮小铜=1.29m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#cube-sprite; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1572,8 +2060,16 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#molten-golem",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 熔岩魔像=6.5m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#molten-golem; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       }
     },
     {
@@ -1594,8 +2090,16 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#tempest-griffin",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 风暴狮鹫=3.2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#tempest-griffin; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       }
     },
     {
@@ -1616,8 +2120,16 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#frost-wyrm",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 冰霜幼龙（体长）=9m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#frost-wyrm; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       }
     },
     {
@@ -1638,8 +2150,16 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#gloom-stalker",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 暗影豹（肩高）=1.1m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#gloom-stalker; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       }
     },
     {
@@ -1660,8 +2180,16 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#molten-golem",
+        "reviewStatus": "original_design",
+        "reviewNote": "一层楼房=3m 与 熔岩魔像=6.5m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#molten-golem; the value is a game design choice, not an external measurement. Other side (一层楼房): Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ]
       }
     },
     {
@@ -1682,8 +2210,16 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#frost-wyrm",
+        "reviewStatus": "original_design",
+        "reviewNote": "一层楼房=3m 与 冰霜幼龙（体长）=9m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#frost-wyrm; the value is a game design choice, not an external measurement. Other side (一层楼房): Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ]
       }
     },
     {
@@ -1704,8 +2240,16 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#tempest-griffin",
+        "reviewStatus": "original_design",
+        "reviewNote": "一层楼房=3m 与 风暴狮鹫=3.2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#tempest-griffin; the value is a game design choice, not an external measurement. Other side (一层楼房): Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ]
       }
     },
     {
@@ -1726,8 +2270,16 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#gloom-stalker",
+        "reviewStatus": "original_design",
+        "reviewNote": "一层楼房=3m 与 暗影豹（肩高）=1.1m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#gloom-stalker; the value is a game design choice, not an external measurement. Other side (一层楼房): Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ]
       }
     },
     {
@@ -1748,8 +2300,13 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#mecha-colossus",
+        "reviewStatus": "original_design",
+        "reviewNote": "银岩机甲=10.6m 与 熔岩魔像=6.5m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#mecha-colossus; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1770,8 +2327,16 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#molten-golem",
+        "reviewStatus": "original_design",
+        "reviewNote": "霸王龙（科学复原）=4m 与 熔岩魔像=6.5m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 霸王龙（科学复原）=4m：成年霸王龙臀高约 3.7–4m，取 4m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#molten-golem; the value is a game design choice, not an external measurement. Other side (霸王龙（科学复原）): Palaeontology references: adult T. rex hip height ~3.7–4 m; game value 4 m is the upper bound.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tyrannosaurus"
+        ]
       }
     },
     {
@@ -1793,8 +2358,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#frost-wyrm",
+        "reviewStatus": "original_design",
+        "reviewNote": "冰霜幼龙（体长）=9m 与 深渊巨蜥=100m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#frost-wyrm; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1815,8 +2385,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#crystal-titan",
+        "reviewStatus": "original_design",
+        "reviewNote": "晶石巨人=40m 与 银岩机甲=10.6m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#crystal-titan; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1837,8 +2412,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#molten-golem",
+        "reviewStatus": "original_design",
+        "reviewNote": "熔岩魔像=6.5m 与 晶石巨人=40m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#molten-golem; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1859,8 +2439,13 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#tempest-griffin",
+        "reviewStatus": "original_design",
+        "reviewNote": "风暴狮鹫=3.2m 与 星藤猎人=3m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#tempest-griffin; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1881,8 +2466,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#gloom-stalker",
+        "reviewStatus": "original_design",
+        "reviewNote": "暗影豹（肩高）=1.1m 与 方糖仔=0.1m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#gloom-stalker; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1903,8 +2493,13 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#brass-bot",
+        "reviewStatus": "original_design",
+        "reviewNote": "齿轮小铜=1.29m 与 暗影豹（肩高）=1.1m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#brass-bot; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1925,8 +2520,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#cloud-giant",
+        "reviewStatus": "original_design",
+        "reviewNote": "云绒团子=2.2m 与 熔岩魔像=6.5m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#cloud-giant; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1947,8 +2547,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#starvine-hunter",
+        "reviewStatus": "original_design",
+        "reviewNote": "星藤猎人=3m 与 冰霜幼龙（体长）=9m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#starvine-hunter; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1969,8 +2574,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#moss-beast",
+        "reviewStatus": "original_design",
+        "reviewNote": "苔毛兽=2m 与 风暴狮鹫=3.2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#moss-beast; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -1991,8 +2601,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#sproutling",
+        "reviewStatus": "original_design",
+        "reviewNote": "芽芽豆=0.4m 与 暗影豹（肩高）=1.1m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#sproutling; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -2013,8 +2628,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#cube-sprite",
+        "reviewStatus": "original_design",
+        "reviewNote": "方糖仔=0.1m 与 苔毛兽=2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#cube-sprite; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -2035,8 +2655,13 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#tempest-griffin",
+        "reviewStatus": "original_design",
+        "reviewNote": "风暴狮鹫=3.2m 与 银岩机甲=10.6m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#tempest-griffin; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -2044,21 +2669,26 @@
       "reference": {
         "name": "方糖仔",
         "size": 0.1,
-        "emoji": "🧊",
+        "emoji": "🟨",
         "assetId": "cube-sprite"
       },
       "target": {
-        "name": "晶石巨人",
-        "size": 40,
-        "emoji": "💎",
-        "assetId": "crystal-titan"
+        "name": "云绒团子",
+        "size": 2.2,
+        "emoji": "☁️",
+        "assetId": "cloud-giant"
       },
       "dimension": "身高",
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#cube-sprite",
+        "reviewStatus": "original_design",
+        "reviewNote": "方糖仔=0.1m 与 云绒团子=2.2m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#cube-sprite; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -2079,31 +2709,41 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#sproutling",
+        "reviewStatus": "original_design",
+        "reviewNote": "芽芽豆=0.4m 与 银岩机甲=10.6m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#sproutling; the value is a game design choice, not an external measurement."
       }
     },
     {
       "id": "pop-44",
       "reference": {
-        "name": "方糖仔",
-        "size": 0.1,
-        "emoji": "🧊",
-        "assetId": "cube-sprite"
+        "name": "风暴狮鹫",
+        "size": 3.2,
+        "emoji": "🦅",
+        "assetId": "tempest-griffin"
       },
       "target": {
-        "name": "深渊巨蜥",
-        "size": 100,
-        "emoji": "🦎",
-        "assetId": "abyss-lizard"
+        "name": "晶石巨人",
+        "size": 40,
+        "emoji": "💎",
+        "assetId": "crystal-titan"
       },
-      "dimension": "长度",
+      "dimension": "高度",
       "memorable": true,
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#tempest-griffin",
+        "reviewStatus": "original_design",
+        "reviewNote": "风暴狮鹫=3.2m 与 晶石巨人=40m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#tempest-griffin; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -2124,8 +2764,13 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#brass-bot",
+        "reviewStatus": "original_design",
+        "reviewNote": "齿轮小铜=1.29m 与 晶石巨人=40m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#brass-bot; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -2146,8 +2791,16 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#crystal-titan",
+        "reviewStatus": "original_design",
+        "reviewNote": "成年人=1.7m 与 晶石巨人=40m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 成年人=1.7m：取全球成年人平均身高的常规近似 1.7m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#crystal-titan; the value is a game design choice, not an external measurement. Other side (成年人): Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ]
       }
     },
     {
@@ -2155,21 +2808,26 @@
       "reference": {
         "name": "苔毛兽",
         "size": 2,
-        "emoji": "🍄",
+        "emoji": "🌿",
         "assetId": "moss-beast"
       },
       "target": {
-        "name": "深渊巨蜥",
-        "size": 100,
-        "emoji": "🦎",
-        "assetId": "abyss-lizard"
+        "name": "晶石巨人",
+        "size": 40,
+        "emoji": "💎",
+        "assetId": "crystal-titan"
       },
-      "dimension": "长度",
+      "dimension": "高度",
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#moss-beast",
+        "reviewStatus": "original_design",
+        "reviewNote": "苔毛兽=2m 与 晶石巨人=40m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#moss-beast; the value is a game design choice, not an external measurement."
       }
     },
     {
@@ -2190,8 +2848,16 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#abyss-lizard",
+        "reviewStatus": "original_design",
+        "reviewNote": "霸王龙（科学复原）=4m 与 深渊巨蜥=100m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。 另一方 霸王龙（科学复原）=4m：成年霸王龙臀高约 3.7–4m，取 4m。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#abyss-lizard; the value is a game design choice, not an external measurement. Other side (霸王龙（科学复原）): Palaeontology references: adult T. rex hip height ~3.7–4 m; game value 4 m is the upper bound.",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tyrannosaurus"
+        ]
       }
     },
     {
@@ -2199,21 +2865,26 @@
       "reference": {
         "name": "方糖仔",
         "size": 0.1,
-        "emoji": "🧊",
+        "emoji": "🟨",
         "assetId": "cube-sprite"
       },
       "target": {
-        "name": "银岩机甲",
-        "size": 10.6,
-        "emoji": "🦾",
-        "assetId": "mecha-colossus"
+        "name": "星藤猎人",
+        "size": 3,
+        "emoji": "👽",
+        "assetId": "starvine-hunter"
       },
       "dimension": "身高",
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#cube-sprite",
+        "reviewStatus": "original_design",
+        "reviewNote": "方糖仔=0.1m 与 星藤猎人=3m 中的原创角色尺寸为游戏自设，设定依据见 data/original-characters.md 对应条目。",
+        "reviewEvidence": "Original character size defined in data/original-characters.md#cube-sprite; the value is a game design choice, not an external measurement."
       }
     }
   ],
@@ -2235,8 +2906,15 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Storey / Wikipedia: Moai",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Moai",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度；复活节岛石像=4m：摩艾石像平均高约 4m。",
+        "reviewEvidence": "一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m. | 复活节岛石像: Rapa Nui references: average moai height about 4 m, weight ~12.5 tonnes; game value 4 m matches."
       },
       "difficulty": 1
     },
@@ -2257,8 +2935,15 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Storey / Wikipedia / U.S. National Park Service",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Statue_of_Liberty",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度；自由女神像（含基座）=93m：地面到火炬尖 93m（含基座）。",
+        "reviewEvidence": "一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m. | 自由女神像（含基座）: U.S. National Park Service: 92.99 m (305 ft 1 in) from ground to torch; game value 93 m matches."
       },
       "difficulty": 2
     },
@@ -2279,40 +2964,25 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Storey / Wikipedia / UK Parliament",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Big_Ben",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度；大本钟=96m：伊丽莎白塔高 96m。",
+        "reviewEvidence": "一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m. | 大本钟: UK Parliament facts & figures: the Elizabeth Tower is 96 m tall; game value matches."
       },
       "difficulty": 2
     },
     {
       "id": "geo-3",
       "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
-      },
-      "target": {
         "name": "金门大桥桥塔",
         "size": 227,
         "emoji": "🌉",
         "assetId": "golden-gate-tower"
-      },
-      "dimension": "高度",
-      "status": "published",
-      "source": {
-        "name": "公开资料估算",
-        "year": 2026
-      },
-      "difficulty": 2
-    },
-    {
-      "id": "geo-4",
-      "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
       },
       "target": {
         "name": "埃菲尔铁塔",
@@ -2323,18 +2993,25 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Golden Gate Bridge / Wikipedia / toureiffel.paris",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Golden_Gate_Bridge"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "金门大桥桥塔=227m：桥塔高出水面 227m（746 英尺）；埃菲尔铁塔=330m：2022 年加装天线后总高 330m。",
+        "reviewEvidence": "金门大桥桥塔: Golden Gate Bridge references: towers rise 746 ft (227 m) above the water; game value matches. | 埃菲尔铁塔: Official Eiffel site: since 15 March 2022 the tower stands 330 m including antennas; game value matches."
       },
-      "difficulty": 3
+      "difficulty": 2
     },
     {
-      "id": "geo-5",
+      "id": "geo-4",
       "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
+        "name": "埃菲尔铁塔",
+        "size": 330,
+        "emoji": "🗼",
+        "assetId": "eiffel-tower"
       },
       "target": {
         "name": "东京铁塔",
@@ -2345,40 +3022,54 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / toureiffel.paris / Wikipedia / tokyotower.co.jp",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tokyo_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Eiffel_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "埃菲尔铁塔=330m：2022 年加装天线后总高 330m；东京铁塔=333m：东京铁塔高 332.9m，取 333m。",
+        "reviewEvidence": "埃菲尔铁塔: Official Eiffel site: since 15 March 2022 the tower stands 330 m including antennas; game value matches. | 东京铁塔: Official Tokyo Tower site: 333 m (precisely 332.9 m); game value matches."
       },
-      "difficulty": 3
+      "difficulty": 1
     },
     {
-      "id": "geo-6",
+      "id": "geo-5",
       "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
+        "name": "东京铁塔",
+        "size": 333,
+        "emoji": "🗼",
+        "assetId": "tokyo-tower"
       },
       "target": {
-        "name": "上海中心大厦",
-        "size": 632,
+        "name": "帝国大厦（含天线）",
+        "size": 443,
         "emoji": "🏙️",
-        "assetId": "shanghai-tower"
+        "assetId": "empire-state-building"
       },
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / tokyotower.co.jp / Wikipedia: Empire State Building",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Empire_State_Building",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tokyo_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "东京铁塔=333m：东京铁塔高 332.9m，取 333m；帝国大厦（含天线）=443m：含天线 443.2m（屋顶 381m），取 443m。",
+        "reviewEvidence": "东京铁塔: Official Tokyo Tower site: 333 m (precisely 332.9 m); game value matches. | 帝国大厦（含天线）: Wikipedia: 1,454 ft (443.2 m) to antenna tip, roof 381 m; game uses 443 m including antenna, as the object name states."
       },
-      "difficulty": 3
+      "difficulty": 2
     },
     {
-      "id": "geo-7",
+      "id": "geo-6",
       "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
+        "name": "上海中心大厦",
+        "size": 632,
+        "emoji": "🏙️",
+        "assetId": "shanghai-tower"
       },
       "target": {
         "name": "哈利法塔",
@@ -2389,19 +3080,84 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / CTBUH Skyscraper Center / Wikipedia: Burj Khalifa",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Shanghai_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "上海中心大厦=632m：上海中心大厦高 632m；哈利法塔=828m：哈利法塔建筑高度 828m。",
+        "reviewEvidence": "上海中心大厦: CTBUH Skyscraper Center: architectural height 632 m; game value matches. | 哈利法塔: Wikipedia infobox: architectural height 828 m (tip 829.8 m); game value 828 m matches."
       },
-      "difficulty": 3,
+      "difficulty": 2
+    },
+    {
+      "id": "geo-7",
+      "reference": {
+        "name": "广州塔",
+        "size": 604,
+        "emoji": "🗼",
+        "assetId": "canton-tower"
+      },
+      "target": {
+        "name": "哈利法塔",
+        "size": 828,
+        "emoji": "🏢",
+        "assetId": "burj-khalifa"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "Wikipedia / CTBUH / Wikipedia: Burj Khalifa",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Canton_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "广州塔=604m：广州塔总高 604m（含天线桅杆）；哈利法塔=828m：哈利法塔建筑高度 828m。",
+        "reviewEvidence": "广州塔: CTBUH Skyscraper Center: 604 m total height; game value matches. | 哈利法塔: Wikipedia infobox: architectural height 828 m (tip 829.8 m); game value 828 m matches."
+      },
+      "difficulty": 2,
       "memorable": true
     },
     {
       "id": "geo-8",
       "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
+        "name": "泰山",
+        "size": 1545,
+        "emoji": "⛰️",
+        "assetId": "mount-tai"
+      },
+      "target": {
+        "name": "上海中心大厦",
+        "size": 632,
+        "emoji": "🏙️",
+        "assetId": "shanghai-tower"
+      },
+      "dimension": "高度",
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Mount Tai / Wikipedia / CTBUH Skyscraper Center",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Shanghai_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Mount_Tai"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "泰山=1545m：玉皇顶常见引用 1545m；2007 国家测绘公布 1532.7m。沿用广为人知的 1545m；上海中心大厦=632m：上海中心大厦高 632m。",
+        "reviewEvidence": "泰山: Jade Emperor Peak is commonly reported as 1545 m, while the Chinese government survey figure is 1532.7 m; game keeps the widely cited 1545 m. | 上海中心大厦: CTBUH Skyscraper Center: architectural height 632 m; game value matches."
+      },
+      "difficulty": 3
+    },
+    {
+      "id": "geo-9",
+      "reference": {
+        "name": "珠穆朗玛峰",
+        "size": 8849,
+        "emoji": "🏔️",
+        "assetId": "mount-everest"
       },
       "target": {
         "name": "泰山",
@@ -2412,32 +3168,17 @@
       "dimension": "高度",
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Mount Everest / Wikipedia: Mount Tai",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Mount_Tai",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Mount_Everest"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "珠穆朗玛峰=8849m：2020 年中尼联合公布雪面高程 8848.86m，取整 8849m；泰山=1545m：玉皇顶常见引用 1545m；2007 国家测绘公布 1532.7m。沿用广为人知的 1545m。",
+        "reviewEvidence": "珠穆朗玛峰: 2020 China–Nepal joint announcement: 8848.86 m snow height; game value 8849 m is the rounded figure. | 泰山: Jade Emperor Peak is commonly reported as 1545 m, while the Chinese government survey figure is 1532.7 m; game keeps the widely cited 1545 m."
       },
-      "difficulty": 3
-    },
-    {
-      "id": "geo-9",
-      "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
-      },
-      "target": {
-        "name": "珠穆朗玛峰",
-        "size": 8849,
-        "emoji": "🏔️",
-        "assetId": "mount-everest"
-      },
-      "dimension": "高度",
-      "status": "published",
-      "source": {
-        "name": "公开资料估算",
-        "year": 2026
-      },
-      "difficulty": 3,
+      "difficulty": 2,
       "memorable": true
     },
     {
@@ -2458,39 +3199,24 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Moai",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Moai",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；复活节岛石像=4m：摩艾石像平均高约 4m。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 复活节岛石像: Rapa Nui references: average moai height about 4 m, weight ~12.5 tonnes; game value 4 m matches."
       }
     },
     {
       "id": "geo-11",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "自由女神像（含基座）",
         "size": 93,
         "emoji": "🗽",
         "assetId": "statue-of-liberty"
-      },
-      "dimension": "高度",
-      "difficulty": 3,
-      "status": "published",
-      "source": {
-        "name": "公开资料估算",
-        "year": 2026
-      }
-    },
-    {
-      "id": "geo-12",
-      "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
       },
       "target": {
         "name": "大本钟",
@@ -2499,55 +3225,105 @@
         "assetId": "big-ben"
       },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / U.S. National Park Service / Wikipedia / UK Parliament",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Big_Ben",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Statue_of_Liberty"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "自由女神像（含基座）=93m：地面到火炬尖 93m（含基座）；大本钟=96m：伊丽莎白塔高 96m。",
+        "reviewEvidence": "自由女神像（含基座）: U.S. National Park Service: 92.99 m (305 ft 1 in) from ground to torch; game value 93 m matches. | 大本钟: UK Parliament facts & figures: the Elizabeth Tower is 96 m tall; game value matches."
+      }
+    },
+    {
+      "id": "geo-12",
+      "reference": {
+        "name": "大本钟",
+        "size": 96,
+        "emoji": "🕰️",
+        "assetId": "big-ben"
+      },
+      "target": {
+        "name": "伦敦眼",
+        "size": 135,
+        "emoji": "🎡",
+        "assetId": "london-eye"
+      },
+      "dimension": "高度",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia / UK Parliament / Wikipedia / londoneye.com",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/London_Eye",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Big_Ben"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "大本钟=96m：伊丽莎白塔高 96m；伦敦眼=135m：伦敦眼总高 135m。",
+        "reviewEvidence": "大本钟: UK Parliament facts & figures: the Elizabeth Tower is 96 m tall; game value matches. | 伦敦眼: Official London Eye site and Wikipedia: 135 m tall; game value matches."
       }
     },
     {
       "id": "geo-13",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "埃菲尔铁塔",
         "size": 330,
         "emoji": "🗼",
         "assetId": "eiffel-tower"
       },
+      "target": {
+        "name": "东方明珠",
+        "size": 468,
+        "emoji": "📡",
+        "assetId": "oriental-pear-tower"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / toureiffel.paris / Wikipedia: Oriental Pearl Tower",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Oriental_Pearl_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Eiffel_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "埃菲尔铁塔=330m：2022 年加装天线后总高 330m；东方明珠=468m：东方明珠广播电视塔高 467.9m，取 468m。",
+        "reviewEvidence": "埃菲尔铁塔: Official Eiffel site: since 15 March 2022 the tower stands 330 m including antennas; game value matches. | 东方明珠: Shanghai tourism and Wikipedia references: 468 m (467.9 m); game value matches."
       }
     },
     {
       "id": "geo-14",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "哈利法塔",
         "size": 828,
         "emoji": "🏢",
         "assetId": "burj-khalifa"
       },
+      "target": {
+        "name": "泰山",
+        "size": 1545,
+        "emoji": "⛰️",
+        "assetId": "mount-tai"
+      },
       "dimension": "高度",
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Burj Khalifa / Wikipedia: Mount Tai",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Mount_Tai",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Burj_Khalifa"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "哈利法塔=828m：哈利法塔建筑高度 828m；泰山=1545m：玉皇顶常见引用 1545m；2007 国家测绘公布 1532.7m。沿用广为人知的 1545m。",
+        "reviewEvidence": "哈利法塔: Wikipedia infobox: architectural height 828 m (tip 829.8 m); game value 828 m matches. | 泰山: Jade Emperor Peak is commonly reported as 1545 m, while the Chinese government survey figure is 1532.7 m; game keeps the widely cited 1545 m."
       }
     },
     {
@@ -2568,8 +3344,15 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia: Golden Gate Bridge",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Golden_Gate_Bridge",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；金门大桥桥塔=227m：桥塔高出水面 227m（746 英尺）。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 金门大桥桥塔: Golden Gate Bridge references: towers rise 746 ft (227 m) above the water; game value matches."
       }
     },
     {
@@ -2590,8 +3373,15 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia / tokyotower.co.jp",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tokyo_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；东京铁塔=333m：东京铁塔高 332.9m，取 333m。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 东京铁塔: Official Tokyo Tower site: 333 m (precisely 332.9 m); game value matches."
       }
     },
     {
@@ -2612,8 +3402,15 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia / CTBUH Skyscraper Center",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Shanghai_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；上海中心大厦=632m：上海中心大厦高 632m。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 上海中心大厦: CTBUH Skyscraper Center: architectural height 632 m; game value matches."
       }
     },
     {
@@ -2625,18 +3422,25 @@
         "assetId": "mature-oak-tree"
       },
       "target": {
-        "name": "泰山",
-        "size": 1545,
-        "emoji": "⛰️",
-        "assetId": "mount-tai"
+        "name": "伦敦眼",
+        "size": 135,
+        "emoji": "🎡",
+        "assetId": "london-eye"
       },
       "dimension": "高度",
       "memorable": true,
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia / londoneye.com",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/London_Eye",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；伦敦眼=135m：伦敦眼总高 135m。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 伦敦眼: Official London Eye site and Wikipedia: 135 m tall; game value matches."
       }
     },
     {
@@ -2657,8 +3461,15 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Double-decker bus / Wikipedia / U.S. National Park Service",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Statue_of_Liberty",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Double-decker_bus"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "双层巴士=4.4m：典型双层巴士高 4.0–4.4m，取 4.4m；自由女神像（含基座）=93m：地面到火炬尖 93m（含基座）。",
+        "reviewEvidence": "双层巴士: Wrightbus and UK operator references: typical double-decker height 4.0–4.4 m; game uses 4.4 m. | 自由女神像（含基座）: U.S. National Park Service: 92.99 m (305 ft 1 in) from ground to torch; game value 93 m matches."
       }
     },
     {
@@ -2679,8 +3490,15 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Double-decker bus / Wikipedia / UK Parliament",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Big_Ben",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Double-decker_bus"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "双层巴士=4.4m：典型双层巴士高 4.0–4.4m，取 4.4m；大本钟=96m：伊丽莎白塔高 96m。",
+        "reviewEvidence": "双层巴士: Wrightbus and UK operator references: typical double-decker height 4.0–4.4 m; game uses 4.4 m. | 大本钟: UK Parliament facts & figures: the Elizabeth Tower is 96 m tall; game value matches."
       }
     },
     {
@@ -2701,118 +3519,160 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Traffic light / Wikipedia: Moai",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Moai",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Traffic_light"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "红绿灯=4.5m：按城市道路立柱式信号灯杆常见安装高度取约 4.5m（惯例估算，无单一权威数值）；复活节岛石像=4m：摩艾石像平均高约 4m。",
+        "reviewEvidence": "红绿灯: No single canonical figure exists; 4.5 m is a conventional estimate for pole-mounted road traffic signals. | 复活节岛石像: Rapa Nui references: average moai height about 4 m, weight ~12.5 tonnes; game value 4 m matches."
       }
     },
     {
       "id": "geo-22",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "东京铁塔",
         "size": 333,
-        "emoji": "📡",
+        "emoji": "🗼",
         "assetId": "tokyo-tower"
       },
+      "target": {
+        "name": "台北101",
+        "size": 508,
+        "emoji": "🏢",
+        "assetId": "taipei-101"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / tokyotower.co.jp / Wikipedia / CTBUH",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Taipei_101",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tokyo_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "东京铁塔=333m：东京铁塔高 332.9m，取 333m；台北101=508m：台北101 高 508m。",
+        "reviewEvidence": "东京铁塔: Official Tokyo Tower site: 333 m (precisely 332.9 m); game value matches. | 台北101: CTBUH/Wikipedia: 508 m architectural height; game value matches."
       }
     },
     {
       "id": "geo-23",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "上海中心大厦",
         "size": 632,
         "emoji": "🏙️",
         "assetId": "shanghai-tower"
       },
+      "target": {
+        "name": "台北101",
+        "size": 508,
+        "emoji": "🏢",
+        "assetId": "taipei-101"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / CTBUH Skyscraper Center / Wikipedia / CTBUH",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Taipei_101",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Shanghai_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "上海中心大厦=632m：上海中心大厦高 632m；台北101=508m：台北101 高 508m。",
+        "reviewEvidence": "上海中心大厦: CTBUH Skyscraper Center: architectural height 632 m; game value matches. | 台北101: CTBUH/Wikipedia: 508 m architectural height; game value matches."
       }
     },
     {
       "id": "geo-24",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "珠穆朗玛峰",
         "size": 8849,
         "emoji": "🏔️",
         "assetId": "mount-everest"
       },
+      "target": {
+        "name": "哈利法塔",
+        "size": 828,
+        "emoji": "🏢",
+        "assetId": "burj-khalifa"
+      },
       "dimension": "高度",
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Mount Everest / Wikipedia: Burj Khalifa",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Burj_Khalifa",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Mount_Everest"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "珠穆朗玛峰=8849m：2020 年中尼联合公布雪面高程 8848.86m，取整 8849m；哈利法塔=828m：哈利法塔建筑高度 828m。",
+        "reviewEvidence": "珠穆朗玛峰: 2020 China–Nepal joint announcement: 8848.86 m snow height; game value 8849 m is the rounded figure. | 哈利法塔: Wikipedia infobox: architectural height 828 m (tip 829.8 m); game value 828 m matches."
       }
     },
     {
       "id": "geo-25",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "胡夫金字塔（原高）",
         "size": 146.6,
         "emoji": "🏛️",
         "assetId": "pyramid-giza"
       },
+      "target": {
+        "name": "大本钟",
+        "size": 96,
+        "emoji": "🕰️",
+        "assetId": "big-ben"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Great Pyramid of Giza / Wikipedia / UK Parliament",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Big_Ben",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "胡夫金字塔（原高）=146.6m：原高 146.6m（现存 138.8m）；大本钟=96m：伊丽莎白塔高 96m。",
+        "reviewEvidence": "胡夫金字塔（原高）: Wikipedia: original height 146.6 m, present 138.8 m; game uses the original height and says so in the object name. | 大本钟: UK Parliament facts & figures: the Elizabeth Tower is 96 m tall; game value matches."
       }
     },
     {
       "id": "geo-26",
       "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
-      },
-      "target": {
         "name": "胡夫金字塔（原高）",
         "size": 146.6,
         "emoji": "🏛️",
         "assetId": "pyramid-giza"
       },
+      "target": {
+        "name": "自由女神像（含基座）",
+        "size": 93,
+        "emoji": "🗽",
+        "assetId": "statue-of-liberty"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Great Pyramid of Giza / Wikipedia / U.S. National Park Service",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Statue_of_Liberty",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "胡夫金字塔（原高）=146.6m：原高 146.6m（现存 138.8m）；自由女神像（含基座）=93m：地面到火炬尖 93m（含基座）。",
+        "reviewEvidence": "胡夫金字塔（原高）: Wikipedia: original height 146.6 m, present 138.8 m; game uses the original height and says so in the object name. | 自由女神像（含基座）: U.S. National Park Service: 92.99 m (305 ft 1 in) from ground to torch; game value 93 m matches."
       }
     },
     {
@@ -2833,52 +3693,73 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia: Great Pyramid of Giza",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；胡夫金字塔（原高）=146.6m：原高 146.6m（现存 138.8m）。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 胡夫金字塔（原高）: Wikipedia: original height 146.6 m, present 138.8 m; game uses the original height and says so in the object name."
       }
     },
     {
       "id": "geo-28",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "台北101",
         "size": 508,
         "emoji": "🏢",
         "assetId": "taipei-101"
       },
+      "target": {
+        "name": "东方明珠",
+        "size": 468,
+        "emoji": "📡",
+        "assetId": "oriental-pear-tower"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / CTBUH / Wikipedia: Oriental Pearl Tower",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Oriental_Pearl_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Taipei_101"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "台北101=508m：台北101 高 508m；东方明珠=468m：东方明珠广播电视塔高 467.9m，取 468m。",
+        "reviewEvidence": "台北101: CTBUH/Wikipedia: 508 m architectural height; game value matches. | 东方明珠: Shanghai tourism and Wikipedia references: 468 m (467.9 m); game value matches."
       }
     },
     {
       "id": "geo-29",
       "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
-      },
-      "target": {
         "name": "台北101",
         "size": 508,
         "emoji": "🏢",
         "assetId": "taipei-101"
       },
+      "target": {
+        "name": "广州塔",
+        "size": 604,
+        "emoji": "🗼",
+        "assetId": "canton-tower"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / CTBUH / Wikipedia / CTBUH",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Canton_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Taipei_101"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "台北101=508m：台北101 高 508m；广州塔=604m：广州塔总高 604m（含天线桅杆）。",
+        "reviewEvidence": "台北101: CTBUH/Wikipedia: 508 m architectural height; game value matches. | 广州塔: CTBUH Skyscraper Center: 604 m total height; game value matches."
       }
     },
     {
@@ -2899,8 +3780,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia / CTBUH",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Taipei_101",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；台北101=508m：台北101 高 508m。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 台北101: CTBUH/Wikipedia: 508 m architectural height; game value matches."
       }
     },
     {
@@ -2912,39 +3800,53 @@
         "assetId": "double-decker-bus"
       },
       "target": {
-        "name": "台北101",
-        "size": 508,
-        "emoji": "🏢",
-        "assetId": "taipei-101"
+        "name": "复活节岛石像",
+        "size": 4,
+        "emoji": "🗿",
+        "assetId": "easter-island-statue"
       },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Double-decker bus / Wikipedia: Moai",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Moai",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Double-decker_bus"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "双层巴士=4.4m：典型双层巴士高 4.0–4.4m，取 4.4m；复活节岛石像=4m：摩艾石像平均高约 4m。",
+        "reviewEvidence": "双层巴士: Wrightbus and UK operator references: typical double-decker height 4.0–4.4 m; game uses 4.4 m. | 复活节岛石像: Rapa Nui references: average moai height about 4 m, weight ~12.5 tonnes; game value 4 m matches."
       }
     },
     {
       "id": "geo-32",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "广州塔",
         "size": 604,
         "emoji": "🗼",
         "assetId": "canton-tower"
       },
+      "target": {
+        "name": "上海中心大厦",
+        "size": 632,
+        "emoji": "🏙️",
+        "assetId": "shanghai-tower"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / CTBUH / Wikipedia / CTBUH Skyscraper Center",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Shanghai_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Canton_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "广州塔=604m：广州塔总高 604m（含天线桅杆）；上海中心大厦=632m：上海中心大厦高 632m。",
+        "reviewEvidence": "广州塔: CTBUH Skyscraper Center: 604 m total height; game value matches. | 上海中心大厦: CTBUH Skyscraper Center: architectural height 632 m; game value matches."
       }
     },
     {
@@ -2965,118 +3867,160 @@
       "difficulty": 3,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia / CTBUH",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Canton_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；广州塔=604m：广州塔总高 604m（含天线桅杆）。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 广州塔: CTBUH Skyscraper Center: 604 m total height; game value matches."
       }
     },
     {
       "id": "geo-34",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "东方明珠",
         "size": 468,
         "emoji": "📡",
         "assetId": "oriental-pear-tower"
       },
+      "target": {
+        "name": "帝国大厦（含天线）",
+        "size": 443,
+        "emoji": "🏙️",
+        "assetId": "empire-state-building"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oriental Pearl Tower / Wikipedia: Empire State Building",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Empire_State_Building",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oriental_Pearl_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "东方明珠=468m：东方明珠广播电视塔高 467.9m，取 468m；帝国大厦（含天线）=443m：含天线 443.2m（屋顶 381m），取 443m。",
+        "reviewEvidence": "东方明珠: Shanghai tourism and Wikipedia references: 468 m (467.9 m); game value matches. | 帝国大厦（含天线）: Wikipedia: 1,454 ft (443.2 m) to antenna tip, roof 381 m; game uses 443 m including antenna, as the object name states."
       }
     },
     {
       "id": "geo-35",
       "reference": {
-        "name": "一层楼房",
-        "size": 3,
-        "emoji": "🏠",
-        "assetId": "single-storey-house"
-      },
-      "target": {
         "name": "东方明珠",
         "size": 468,
         "emoji": "📡",
         "assetId": "oriental-pear-tower"
       },
+      "target": {
+        "name": "东京铁塔",
+        "size": 333,
+        "emoji": "🗼",
+        "assetId": "tokyo-tower"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oriental Pearl Tower / Wikipedia / tokyotower.co.jp",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tokyo_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oriental_Pearl_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "东方明珠=468m：东方明珠广播电视塔高 467.9m，取 468m；东京铁塔=333m：东京铁塔高 332.9m，取 333m。",
+        "reviewEvidence": "东方明珠: Shanghai tourism and Wikipedia references: 468 m (467.9 m); game value matches. | 东京铁塔: Official Tokyo Tower site: 333 m (precisely 332.9 m); game value matches."
       }
     },
     {
       "id": "geo-36",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "帝国大厦（含天线）",
         "size": 443,
         "emoji": "🏙️",
         "assetId": "empire-state-building"
       },
+      "target": {
+        "name": "台北101",
+        "size": 508,
+        "emoji": "🏢",
+        "assetId": "taipei-101"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Empire State Building / Wikipedia / CTBUH",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Taipei_101",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Empire_State_Building"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "帝国大厦（含天线）=443m：含天线 443.2m（屋顶 381m），取 443m；台北101=508m：台北101 高 508m。",
+        "reviewEvidence": "帝国大厦（含天线）: Wikipedia: 1,454 ft (443.2 m) to antenna tip, roof 381 m; game uses 443 m including antenna, as the object name states. | 台北101: CTBUH/Wikipedia: 508 m architectural height; game value matches."
       }
     },
     {
       "id": "geo-37",
       "reference": {
-        "name": "红绿灯",
-        "size": 4.5,
-        "emoji": "🚦",
-        "assetId": "traffic-light"
+        "name": "金门大桥桥塔",
+        "size": 227,
+        "emoji": "🌉",
+        "assetId": "golden-gate-tower"
       },
       "target": {
-        "name": "帝国大厦（含天线）",
-        "size": 443,
-        "emoji": "🏙️",
-        "assetId": "empire-state-building"
+        "name": "胡夫金字塔（原高）",
+        "size": 146.6,
+        "emoji": "🏛️",
+        "assetId": "pyramid-giza"
       },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Golden Gate Bridge / Wikipedia: Great Pyramid of Giza",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Golden_Gate_Bridge"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "金门大桥桥塔=227m：桥塔高出水面 227m（746 英尺）；胡夫金字塔（原高）=146.6m：原高 146.6m（现存 138.8m）。",
+        "reviewEvidence": "金门大桥桥塔: Golden Gate Bridge references: towers rise 746 ft (227 m) above the water; game value matches. | 胡夫金字塔（原高）: Wikipedia: original height 146.6 m, present 138.8 m; game uses the original height and says so in the object name."
       }
     },
     {
       "id": "geo-38",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "悉尼歌剧院",
         "size": 65,
         "emoji": "🎭",
         "assetId": "sydney-opera-house"
       },
+      "target": {
+        "name": "比萨斜塔",
+        "size": 56,
+        "emoji": "📐",
+        "assetId": "leaning-tower-of-pisa"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Sydney Opera House / Wikipedia: Leaning Tower of Pisa",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Leaning_Tower_of_Pisa",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sydney_Opera_House"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "悉尼歌剧院=65m：最高点约 65m；比萨斜塔=56m：低侧 55.86m、高侧 56.67m，取 56m。",
+        "reviewEvidence": "悉尼歌剧院: Wikipedia infobox: height 65 m; game value matches. | 比萨斜塔: Measured height 55.86–56.67 m depending on side; game value 56 m is the conventional figure."
       }
     },
     {
@@ -3097,8 +4041,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Storey / Wikipedia: Sydney Opera House",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Sydney_Opera_House",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度；悉尼歌剧院=65m：最高点约 65m。",
+        "reviewEvidence": "一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m. | 悉尼歌剧院: Wikipedia infobox: height 65 m; game value matches."
       }
     },
     {
@@ -3119,8 +4070,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Great Pyramid of Giza / Wikipedia / londoneye.com",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/London_Eye",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "胡夫金字塔（原高）=146.6m：原高 146.6m（现存 138.8m）；伦敦眼=135m：伦敦眼总高 135m。",
+        "reviewEvidence": "胡夫金字塔（原高）: Wikipedia: original height 146.6 m, present 138.8 m; game uses the original height and says so in the object name. | 伦敦眼: Official London Eye site and Wikipedia: 135 m tall; game value matches."
       }
     },
     {
@@ -3133,7 +4091,7 @@
       },
       "target": {
         "name": "泰姬陵（主体高）",
-        "size": 74,
+        "size": 73,
         "emoji": "🕌",
         "assetId": "taj-mahal"
       },
@@ -3141,8 +4099,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Storey / Wikipedia: Taj Mahal",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Taj_Mahal",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Storey"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层楼房=3m：住宅层高约 3m，作为“一层楼房”高度；泰姬陵（主体高）=73m：主体高约 73m（240 英尺，含尖饰）。",
+        "reviewEvidence": "一层楼房: Wikipedia: residential storey height is about 3 m; game uses one storey = 3 m. | 泰姬陵（主体高）: Multiple architectural references: about 73 m (240 ft) to the finial tip; game value updated 74→73 to match."
       }
     },
     {
@@ -3163,8 +4128,15 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Colosseum / Wikipedia: Leaning Tower of Pisa",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Leaning_Tower_of_Pisa",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Colosseum"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "罗马斗兽场=48m：外立面高 48m；比萨斜塔=56m：低侧 55.86m、高侧 56.67m，取 56m。",
+        "reviewEvidence": "罗马斗兽场: Wikipedia and archaeological references: outer wall height 48 m; game value matches. | 比萨斜塔: Measured height 55.86–56.67 m depending on side; game value 56 m is the conventional figure."
       }
     },
     {
@@ -3185,8 +4157,15 @@
       "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Human height / Wikipedia: Colosseum",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Colosseum",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=1.7m：取全球成年人平均身高的常规近似 1.7m；罗马斗兽场=48m：外立面高 48m。",
+        "reviewEvidence": "成年人: Adult human height varies by population; 1.7 m is a conventional round figure near the global adult average. | 罗马斗兽场: Wikipedia and archaeological references: outer wall height 48 m; game value matches."
       }
     },
     {
@@ -3207,74 +4186,102 @@
       "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia: Colosseum",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Colosseum",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；罗马斗兽场=48m：外立面高 48m。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 罗马斗兽场: Wikipedia and archaeological references: outer wall height 48 m; game value matches."
       }
     },
     {
       "id": "geo-45",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "比萨斜塔",
         "size": 56,
         "emoji": "📐",
         "assetId": "leaning-tower-of-pisa"
       },
+      "target": {
+        "name": "泰姬陵（主体高）",
+        "size": 73,
+        "emoji": "🕌",
+        "assetId": "taj-mahal"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Leaning Tower of Pisa / Wikipedia: Taj Mahal",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Taj_Mahal",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Leaning_Tower_of_Pisa"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "比萨斜塔=56m：低侧 55.86m、高侧 56.67m，取 56m；泰姬陵（主体高）=73m：主体高约 73m（240 英尺，含尖饰）。",
+        "reviewEvidence": "比萨斜塔: Measured height 55.86–56.67 m depending on side; game value 56 m is the conventional figure. | 泰姬陵（主体高）: Multiple architectural references: about 73 m (240 ft) to the finial tip; game value updated 74→73 to match."
       }
     },
     {
       "id": "geo-46",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "伦敦眼",
         "size": 135,
         "emoji": "🎡",
         "assetId": "london-eye"
       },
+      "target": {
+        "name": "金门大桥桥塔",
+        "size": 227,
+        "emoji": "🌉",
+        "assetId": "golden-gate-tower"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia / londoneye.com / Wikipedia: Golden Gate Bridge",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Golden_Gate_Bridge",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/London_Eye"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "伦敦眼=135m：伦敦眼总高 135m；金门大桥桥塔=227m：桥塔高出水面 227m（746 英尺）。",
+        "reviewEvidence": "伦敦眼: Official London Eye site and Wikipedia: 135 m tall; game value matches. | 金门大桥桥塔: Golden Gate Bridge references: towers rise 746 ft (227 m) above the water; game value matches."
       }
     },
     {
       "id": "geo-47",
       "reference": {
-        "name": "成年人",
-        "size": 1.7,
-        "emoji": "🧍",
-        "assetId": "adult-human"
-      },
-      "target": {
         "name": "泰姬陵（主体高）",
-        "size": 74,
+        "size": 73,
         "emoji": "🕌",
         "assetId": "taj-mahal"
       },
+      "target": {
+        "name": "悉尼歌剧院",
+        "size": 65,
+        "emoji": "🎭",
+        "assetId": "sydney-opera-house"
+      },
       "dimension": "高度",
-      "difficulty": 3,
+      "difficulty": 1,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Taj Mahal / Wikipedia: Sydney Opera House",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Sydney_Opera_House",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Taj_Mahal"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "泰姬陵（主体高）=73m：主体高约 73m（240 英尺，含尖饰）；悉尼歌剧院=65m：最高点约 65m。",
+        "reviewEvidence": "泰姬陵（主体高）: Multiple architectural references: about 73 m (240 ft) to the finial tip; game value updated 74→73 to match. | 悉尼歌剧院: Wikipedia infobox: height 65 m; game value matches."
       }
     },
     {
@@ -3286,41 +4293,55 @@
         "assetId": "mature-oak-tree"
       },
       "target": {
-        "name": "万里长城（明长城全长）",
-        "size": 8851000,
-        "emoji": "🐉",
-        "assetId": "great-wall"
+        "name": "泰姬陵（主体高）",
+        "size": 73,
+        "emoji": "🕌",
+        "assetId": "taj-mahal"
       },
-      "dimension": "长度",
+      "dimension": "高度",
       "memorable": true,
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Oak / Wikipedia: Taj Mahal",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Taj_Mahal",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Oak"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年橡树=20m：成年橡树常见 20–30m，取 20m 为保守代表值；泰姬陵（主体高）=73m：主体高约 73m（240 英尺，含尖饰）。",
+        "reviewEvidence": "成年橡树: Mature oaks (e.g. Quercus robur) commonly reach 20–40 m; game uses 20 m as a conservative representative height. | 泰姬陵（主体高）: Multiple architectural references: about 73 m (240 ft) to the finial tip; game value updated 74→73 to match."
       }
     },
     {
       "id": "geo-49",
       "reference": {
-        "name": "蓝鲸（体长）",
-        "size": 26,
-        "emoji": "🐋",
-        "assetId": "blue-whale"
+        "name": "金门大桥桥塔",
+        "size": 227,
+        "emoji": "🌉",
+        "assetId": "golden-gate-tower"
       },
       "target": {
-        "name": "万里长城（明长城全长）",
-        "size": 8851000,
-        "emoji": "🐉",
-        "assetId": "great-wall"
+        "name": "上海中心大厦",
+        "size": 632,
+        "emoji": "🏙️",
+        "assetId": "shanghai-tower"
       },
-      "dimension": "长度",
+      "dimension": "高度",
       "memorable": true,
-      "difficulty": 3,
+      "difficulty": 2,
       "status": "published",
       "source": {
-        "name": "公开资料估算",
-        "year": 2026
+        "name": "Wikipedia: Golden Gate Bridge / Wikipedia / CTBUH Skyscraper Center",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Shanghai_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Golden_Gate_Bridge"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "金门大桥桥塔=227m：桥塔高出水面 227m（746 英尺）；上海中心大厦=632m：上海中心大厦高 632m。",
+        "reviewEvidence": "金门大桥桥塔: Golden Gate Bridge references: towers rise 746 ft (227 m) above the water; game value matches. | 上海中心大厦: CTBUH Skyscraper Center: architectural height 632 m; game value matches."
       }
     }
   ],
@@ -4252,6 +5273,67 @@
         "reviewNote": "现有来源是每日步数与健康结局的系统综述，讨论健康风险关联的拐点，不等同于一般成年人的实际日均步数分布。当前题干与证据口径不匹配，暂缓发布，待改写题目或补充代表性步数调查来源。",
         "url": "https://pubmed.ncbi.nlm.nih.gov/40713949/"
       }
+    },
+    {
+      "id": "num-50",
+      "q": "把明长城拉直，大约相当于多少名成年人躺下首尾相接？",
+      "a": 5000000,
+      "u": "个",
+      "note": "明长城全长 8851.8km ÷ 成人身高约 1.7m ≈ 5.2×10⁶，约 500 万人",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "Wikipedia / 国家文物局 / Wikipedia: Human height",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Great_Wall_of_China",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_height"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "国家文物局 2012 年公布明长城全长 8851.8km；成人身高取 1.7m 常规近似，8851800÷1.7≈5.2×10⁶，答案取整为 500 万。",
+        "reviewEvidence": "China State Administration of Cultural Heritage 2012 survey: Ming Great Wall 8,851.8 km. 8,851,800 m ÷ 1.7 m ≈ 5.2e6; game answer 5,000,000 is a rounded derived estimate."
+      }
+    },
+    {
+      "id": "num-51",
+      "q": "一头蓝鲸的体长，大约相当于多少只家猫的肩高叠起来？",
+      "a": 100,
+      "u": "只",
+      "note": "蓝鲸约 26m ÷ 家猫肩高约 0.25m ≈ 104，约 100 只",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Blue whale / Wikipedia: Cat",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Blue_whale",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cat"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "蓝鲸代表体长取 26m（成熟雌性约 26–27m），家猫肩高取 0.25m（常见 20–25cm），26÷0.25=104，答案取整为 100。",
+        "reviewEvidence": "Blue whale representative adult length 26 m (females physically mature at 26–27 m; max confirmed 29.9 m); domestic cat shoulder height 20–25 cm. 26 ÷ 0.25 = 104; game answer 100 is rounded."
+      }
+    },
+    {
+      "id": "num-52",
+      "q": "深渊巨蜥的体长，大约相当于多少个方糖仔叠起来？",
+      "a": 1000,
+      "u": "个",
+      "note": "深渊巨蜥 100m ÷ 方糖仔 0.1m = 1000，正好三个数量级",
+      "answerType": "point",
+      "status": "published",
+      "source": {
+        "name": "《比大小》角色设定文档 v1.0（游戏自设角色）",
+        "type": "original",
+        "year": 2026,
+        "doc": "data/original-characters.md#abyss-lizard",
+        "additionalDocs": [
+          "data/original-characters.md#cube-sprite"
+        ],
+        "reviewStatus": "original_design",
+        "reviewNote": "深渊巨蜥 100m 与方糖仔 0.1m 均为游戏自设尺寸，设定依据见角色设定文档对应条目。",
+        "reviewEvidence": "Both sizes are original game design values defined in data/original-characters.md (abyss-lizard 100 m, cube-sprite 0.1 m); 100 ÷ 0.1 = 1000 exactly."
+      }
     }
   ],
   "dailySchedule": {
@@ -4544,6 +5626,672 @@
         "num-47",
         "num-48"
       ]
+    }
+  ],
+  "weight": [
+    {
+      "id": "wt-01",
+      "reference": {
+        "name": "成年人",
+        "size": 70,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "家猫",
+        "size": 4.5,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Human body weight / Wikipedia: Cat",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cat",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_body_weight"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=70kg：成年人代表体重取 70kg（全球成人均值约 62kg，成年男性常见更高）；家猫=4.5kg：家猫常见体重 4–5kg，取 4.5kg。",
+        "reviewEvidence": "adult-human: Wikipedia: Human body weight — global adult average is about 62 kg; 70 kg is a conventional representative adult value. | house-cat: Wikipedia and veterinary references: typical domestic cat weighs 4–5 kg; game value 4.5 kg is the midpoint."
+      }
+    },
+    {
+      "id": "wt-02",
+      "reference": {
+        "name": "家猫",
+        "size": 4.5,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "target": {
+        "name": "苹果",
+        "size": 0.2,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cat / Wikipedia: Apple",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Apple",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cat"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "家猫=4.5kg：家猫常见体重 4–5kg，取 4.5kg；苹果=0.2kg：中等苹果约 180–200g，取 200g。",
+        "reviewEvidence": "house-cat: Wikipedia and veterinary references: typical domestic cat weighs 4–5 kg; game value 4.5 kg is the midpoint. | apple: A medium table apple weighs about 182 g (USDA reference); game value 200 g is a rounded representative value."
+      }
+    },
+    {
+      "id": "wt-03",
+      "reference": {
+        "name": "鸡蛋",
+        "size": 0.06,
+        "emoji": "🥚",
+        "assetId": "egg"
+      },
+      "target": {
+        "name": "网球",
+        "size": 0.058,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Chicken egg / Wikipedia: Tennis ball / ITF Rules",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tennis_ball",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Chicken_egg"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "鸡蛋=0.06kg：大号鸡蛋约 57–60g，取 60g；网球=0.058kg：ITF 规定重量 56.0–59.4g，取 58g。",
+        "reviewEvidence": "egg: USDA large egg grade is about 57 g; game value 60 g is a rounded representative value. | tennis-ball: ITF Rules of Tennis, Appendix I: mass 56.0–59.4 g; game value 58 g sits inside the regulation range."
+      },
+      "note": "一个鸡蛋和一个网球几乎一样重",
+      "memorable": true
+    },
+    {
+      "id": "wt-04",
+      "reference": {
+        "name": "手机",
+        "size": 0.2,
+        "emoji": "📱",
+        "assetId": "smartphone"
+      },
+      "target": {
+        "name": "苹果",
+        "size": 0.2,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Smartphone / Wikipedia: Apple",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Apple",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Smartphone"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "手机=0.2kg：主流旗舰手机约 170–230g，取 200g；苹果=0.2kg：中等苹果约 180–200g，取 200g。",
+        "reviewEvidence": "smartphone: Mainstream flagship smartphones weigh roughly 170–230 g; 200 g is a conventional representative value. | apple: A medium table apple weighs about 182 g (USDA reference); game value 200 g is a rounded representative value."
+      },
+      "note": "一部旗舰手机和一个苹果几乎同重",
+      "memorable": true
+    },
+    {
+      "id": "wt-05",
+      "reference": {
+        "name": "蓝鲸",
+        "size": 150000,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "target": {
+        "name": "非洲象",
+        "size": 6000,
+        "emoji": "🐘",
+        "assetId": "african-elephant"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Blue whale / Wikipedia: African bush elephant",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/African_bush_elephant",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Blue_whale"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "蓝鲸=150000kg：成年蓝鲸常见 100–160 吨，最大约 190 吨，取 150 吨为代表值；非洲象=6000kg：成年公象平均约 6 吨（5.2–6.9 吨）。",
+        "reviewEvidence": "blue-whale: Wikipedia: adult blue whales commonly weigh 100–160 t, with the largest recorded near 190 t; game uses 150 t as a representative adult value. | african-elephant: Wikipedia: adult bulls average about 6 t (range 5.2–6.9 t); game value 6,000 kg is the cited average."
+      }
+    },
+    {
+      "id": "wt-06",
+      "reference": {
+        "name": "蓝鲸",
+        "size": 150000,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "target": {
+        "name": "霸王龙",
+        "size": 9000,
+        "emoji": "🦖",
+        "assetId": "t-rex"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Blue whale / Wikipedia: Tyrannosaurus",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tyrannosaurus",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Blue_whale"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "蓝鲸=150000kg：成年蓝鲸常见 100–160 吨，最大约 190 吨，取 150 吨为代表值；霸王龙=9000kg：成年霸王龙体重估计 8–14 吨，取 9 吨为保守代表值。",
+        "reviewEvidence": "blue-whale: Wikipedia: adult blue whales commonly weigh 100–160 t, with the largest recorded near 190 t; game uses 150 t as a representative adult value. | t-rex: Palaeontology mass estimates for adult T. rex range roughly 8–14 t; game uses 9 t as a conservative representative value."
+      }
+    },
+    {
+      "id": "wt-07",
+      "reference": {
+        "name": "非洲象",
+        "size": 6000,
+        "emoji": "🐘",
+        "assetId": "african-elephant"
+      },
+      "target": {
+        "name": "小轿车",
+        "size": 1500,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: African bush elephant / Wikipedia: Sedan (automobile)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Sedan_(automobile)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/African_bush_elephant"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "非洲象=6000kg：成年公象平均约 6 吨（5.2–6.9 吨）；小轿车=1500kg：中型三厢轿车整备质量常见 1.4–1.6 吨，取 1.5 吨。",
+        "reviewEvidence": "african-elephant: Wikipedia: adult bulls average about 6 t (range 5.2–6.9 t); game value 6,000 kg is the cited average. | sedan-car: Typical mid-size sedan curb weight is 1,400–1,600 kg; 1,500 kg is a conventional representative value."
+      }
+    },
+    {
+      "id": "wt-08",
+      "reference": {
+        "name": "双层巴士",
+        "size": 12000,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "target": {
+        "name": "非洲象",
+        "size": 6000,
+        "emoji": "🐘",
+        "assetId": "african-elephant"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Double-decker bus / Wikipedia: African bush elephant",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/African_bush_elephant",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Double-decker_bus"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "双层巴士=12000kg：双层巴士整备质量常见约 11–14 吨，取 12 吨；非洲象=6000kg：成年公象平均约 6 吨（5.2–6.9 吨）。",
+        "reviewEvidence": "double-decker-bus: Typical double-decker bus unladen weight is around 11–14 t depending on model; game uses 12 t as a representative value. | african-elephant: Wikipedia: adult bulls average about 6 t (range 5.2–6.9 t); game value 6,000 kg is the cited average."
+      }
+    },
+    {
+      "id": "wt-09",
+      "reference": {
+        "name": "霸王龙",
+        "size": 9000,
+        "emoji": "🦖",
+        "assetId": "t-rex"
+      },
+      "target": {
+        "name": "双层巴士",
+        "size": 12000,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tyrannosaurus / Wikipedia: Double-decker bus",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Double-decker_bus",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tyrannosaurus"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "霸王龙=9000kg：成年霸王龙体重估计 8–14 吨，取 9 吨为保守代表值；双层巴士=12000kg：双层巴士整备质量常见约 11–14 吨，取 12 吨。",
+        "reviewEvidence": "t-rex: Palaeontology mass estimates for adult T. rex range roughly 8–14 t; game uses 9 t as a conservative representative value. | double-decker-bus: Typical double-decker bus unladen weight is around 11–14 t depending on model; game uses 12 t as a representative value."
+      }
+    },
+    {
+      "id": "wt-10",
+      "reference": {
+        "name": "长颈鹿",
+        "size": 1200,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "target": {
+        "name": "红袋鼠",
+        "size": 85,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Giraffe / Wikipedia: Red kangaroo",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_kangaroo",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Giraffe"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "长颈鹿=1200kg：成年雄性平均约 1192kg，取 1200kg；红袋鼠=85kg：成年雄性红袋鼠 55–90kg，取 85kg。",
+        "reviewEvidence": "giraffe: Wikipedia: adult male giraffes average approximately 1,192 kg; game value 1,200 kg is the rounded figure. | red-kangaroo: Wikipedia: adult male red kangaroos typically weigh 55–90 kg; game value 85 kg sits inside that range."
+      }
+    },
+    {
+      "id": "wt-11",
+      "reference": {
+        "name": "长颈鹿",
+        "size": 1200,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "target": {
+        "name": "成年人",
+        "size": 70,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Giraffe / Wikipedia: Human body weight",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Human_body_weight",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Giraffe"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "长颈鹿=1200kg：成年雄性平均约 1192kg，取 1200kg；成年人=70kg：成年人代表体重取 70kg（全球成人均值约 62kg，成年男性常见更高）。",
+        "reviewEvidence": "giraffe: Wikipedia: adult male giraffes average approximately 1,192 kg; game value 1,200 kg is the rounded figure. | adult-human: Wikipedia: Human body weight — global adult average is about 62 kg; 70 kg is a conventional representative adult value."
+      }
+    },
+    {
+      "id": "wt-12",
+      "reference": {
+        "name": "成年人",
+        "size": 70,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "帝企鹅",
+        "size": 30,
+        "emoji": "🐧",
+        "assetId": "emperor-penguin"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Human body weight / Wikipedia: Emperor penguin",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Emperor_penguin",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_body_weight"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=70kg：成年人代表体重取 70kg（全球成人均值约 62kg，成年男性常见更高）；帝企鹅=30kg：成年帝企鹅 22–45kg，取 30kg。",
+        "reviewEvidence": "adult-human: Wikipedia: Human body weight — global adult average is about 62 kg; 70 kg is a conventional representative adult value. | emperor-penguin: Wikipedia: adult emperor penguins weigh 22–45 kg depending on season and sex; game value 30 kg sits inside that range."
+      }
+    },
+    {
+      "id": "wt-13",
+      "reference": {
+        "name": "帝企鹅",
+        "size": 30,
+        "emoji": "🐧",
+        "assetId": "emperor-penguin"
+      },
+      "target": {
+        "name": "红袋鼠",
+        "size": 85,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Emperor penguin / Wikipedia: Red kangaroo",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_kangaroo",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Emperor_penguin"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "帝企鹅=30kg：成年帝企鹅 22–45kg，取 30kg；红袋鼠=85kg：成年雄性红袋鼠 55–90kg，取 85kg。",
+        "reviewEvidence": "emperor-penguin: Wikipedia: adult emperor penguins weigh 22–45 kg depending on season and sex; game value 30 kg sits inside that range. | red-kangaroo: Wikipedia: adult male red kangaroos typically weigh 55–90 kg; game value 85 kg sits inside that range."
+      }
+    },
+    {
+      "id": "wt-14",
+      "reference": {
+        "name": "红袋鼠",
+        "size": 85,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "target": {
+        "name": "成年人",
+        "size": 70,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Red kangaroo / Wikipedia: Human body weight",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Human_body_weight",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Red_kangaroo"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "红袋鼠=85kg：成年雄性红袋鼠 55–90kg，取 85kg；成年人=70kg：成年人代表体重取 70kg（全球成人均值约 62kg，成年男性常见更高）。",
+        "reviewEvidence": "red-kangaroo: Wikipedia: adult male red kangaroos typically weigh 55–90 kg; game value 85 kg sits inside that range. | adult-human: Wikipedia: Human body weight — global adult average is about 62 kg; 70 kg is a conventional representative adult value."
+      }
+    },
+    {
+      "id": "wt-15",
+      "reference": {
+        "name": "篮球",
+        "size": 0.62,
+        "emoji": "🏀",
+        "assetId": "basketball"
+      },
+      "target": {
+        "name": "足球",
+        "size": 0.43,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Basketball (ball) / Wikipedia: Football (ball) / IFAB Law 2",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Basketball_(ball)"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "篮球=0.62kg：7 号球重 567–650g，取 620g；足球=0.43kg：IFAB 规定 5 号球开赛重 410–450g，取 430g。",
+        "reviewEvidence": "basketball: Size-7 basketball specification: 567–650 g; game value 620 g sits inside the regulation range. | soccer-ball: IFAB Law 2: size-5 ball weighs 410–450 g at the start of the match; game value 430 g sits inside that range."
+      }
+    },
+    {
+      "id": "wt-16",
+      "reference": {
+        "name": "足球",
+        "size": 0.43,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "target": {
+        "name": "苹果",
+        "size": 0.2,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Football (ball) / IFAB Law 2 / Wikipedia: Apple",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Apple",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Football_(ball)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "足球=0.43kg：IFAB 规定 5 号球开赛重 410–450g，取 430g；苹果=0.2kg：中等苹果约 180–200g，取 200g。",
+        "reviewEvidence": "soccer-ball: IFAB Law 2: size-5 ball weighs 410–450 g at the start of the match; game value 430 g sits inside that range. | apple: A medium table apple weighs about 182 g (USDA reference); game value 200 g is a rounded representative value."
+      }
+    },
+    {
+      "id": "wt-17",
+      "reference": {
+        "name": "苹果",
+        "size": 0.2,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "target": {
+        "name": "鸡蛋",
+        "size": 0.06,
+        "emoji": "🥚",
+        "assetId": "egg"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Apple / Wikipedia: Chicken egg",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Chicken_egg",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Apple"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "苹果=0.2kg：中等苹果约 180–200g，取 200g；鸡蛋=0.06kg：大号鸡蛋约 57–60g，取 60g。",
+        "reviewEvidence": "apple: A medium table apple weighs about 182 g (USDA reference); game value 200 g is a rounded representative value. | egg: USDA large egg grade is about 57 g; game value 60 g is a rounded representative value."
+      }
+    },
+    {
+      "id": "wt-18",
+      "reference": {
+        "name": "网球",
+        "size": 0.058,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "target": {
+        "name": "手机",
+        "size": 0.2,
+        "emoji": "📱",
+        "assetId": "smartphone"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tennis ball / ITF Rules / Wikipedia: Smartphone",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Smartphone",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tennis_ball"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "网球=0.058kg：ITF 规定重量 56.0–59.4g，取 58g；手机=0.2kg：主流旗舰手机约 170–230g，取 200g。",
+        "reviewEvidence": "tennis-ball: ITF Rules of Tennis, Appendix I: mass 56.0–59.4 g; game value 58 g sits inside the regulation range. | smartphone: Mainstream flagship smartphones weigh roughly 170–230 g; 200 g is a conventional representative value."
+      }
+    },
+    {
+      "id": "wt-19",
+      "reference": {
+        "name": "小轿车",
+        "size": 1500,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "target": {
+        "name": "长颈鹿",
+        "size": 1200,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Sedan (automobile) / Wikipedia: Giraffe",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Giraffe",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sedan_(automobile)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "小轿车=1500kg：中型三厢轿车整备质量常见 1.4–1.6 吨，取 1.5 吨；长颈鹿=1200kg：成年雄性平均约 1192kg，取 1200kg。",
+        "reviewEvidence": "sedan-car: Typical mid-size sedan curb weight is 1,400–1,600 kg; 1,500 kg is a conventional representative value. | giraffe: Wikipedia: adult male giraffes average approximately 1,192 kg; game value 1,200 kg is the rounded figure."
+      }
+    },
+    {
+      "id": "wt-20",
+      "reference": {
+        "name": "蓝鲸",
+        "size": 150000,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "target": {
+        "name": "双层巴士",
+        "size": 12000,
+        "emoji": "🚌",
+        "assetId": "double-decker-bus"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Blue whale / Wikipedia: Double-decker bus",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Double-decker_bus",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Blue_whale"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "蓝鲸=150000kg：成年蓝鲸常见 100–160 吨，最大约 190 吨，取 150 吨为代表值；双层巴士=12000kg：双层巴士整备质量常见约 11–14 吨，取 12 吨。",
+        "reviewEvidence": "blue-whale: Wikipedia: adult blue whales commonly weigh 100–160 t, with the largest recorded near 190 t; game uses 150 t as a representative adult value. | double-decker-bus: Typical double-decker bus unladen weight is around 11–14 t depending on model; game uses 12 t as a representative value."
+      }
+    },
+    {
+      "id": "wt-21",
+      "reference": {
+        "name": "霸王龙",
+        "size": 9000,
+        "emoji": "🦖",
+        "assetId": "t-rex"
+      },
+      "target": {
+        "name": "长颈鹿",
+        "size": 1200,
+        "emoji": "🦒",
+        "assetId": "giraffe"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tyrannosaurus / Wikipedia: Giraffe",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Giraffe",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tyrannosaurus"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "霸王龙=9000kg：成年霸王龙体重估计 8–14 吨，取 9 吨为保守代表值；长颈鹿=1200kg：成年雄性平均约 1192kg，取 1200kg。",
+        "reviewEvidence": "t-rex: Palaeontology mass estimates for adult T. rex range roughly 8–14 t; game uses 9 t as a conservative representative value. | giraffe: Wikipedia: adult male giraffes average approximately 1,192 kg; game value 1,200 kg is the rounded figure."
+      }
+    },
+    {
+      "id": "wt-22",
+      "reference": {
+        "name": "家猫",
+        "size": 4.5,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "target": {
+        "name": "足球",
+        "size": 0.43,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "dimension": "重量",
+      "measure": "weight",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cat / Wikipedia: Football (ball) / IFAB Law 2",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cat"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "家猫=4.5kg：家猫常见体重 4–5kg，取 4.5kg；足球=0.43kg：IFAB 规定 5 号球开赛重 410–450g，取 430g。",
+        "reviewEvidence": "house-cat: Wikipedia and veterinary references: typical domestic cat weighs 4–5 kg; game value 4.5 kg is the midpoint. | soccer-ball: IFAB Law 2: size-5 ball weighs 410–450 g at the start of the match; game value 430 g sits inside that range."
+      }
     }
   ]
 }

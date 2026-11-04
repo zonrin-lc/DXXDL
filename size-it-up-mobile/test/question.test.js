@@ -5,7 +5,7 @@ function basePack() {
   return {
     version: '2.0.0',
     everyday: [
-      { id: 'v_d_001', reference: { name: '成年人', size: 1.7 }, target: { name: '非洲象', size: 3.3 }, dimension: 'height', source: { name: 'x', year: 2025 }, status: 'published' },
+      { id: 'v_d_001', reference: { name: '成年人', size: 1.7 }, target: { name: '非洲象', size: 3.3 }, dimension: 'height', source: { name: 'test source', year: 2025, url: 'https://example.com/source', reviewStatus: 'verified' }, status: 'published' },
     ],
     pop: [],
     geo: [],
@@ -32,6 +32,19 @@ describe('题库静态校验（GDD 6.7）', () => {
     const pendingReview = basePack();
     pendingReview.numeric[0].source.reviewStatus = 'pending_source_page_review';
     expect(validatePack(pendingReview).some((e) => e.msg.includes('reviewStatus'))).toBe(false);
+  });
+  it('已发布视觉题必须有可追溯 URL 和显式来源复核状态', () => {
+    const noUrl = basePack();
+    delete noUrl.everyday[0].source.url;
+    expect(validatePack(noUrl).some((e) => e.msg.includes('已发布视觉题必须有可追溯 source.url'))).toBe(true);
+    const badState = basePack();
+    badState.everyday[0].source.reviewStatus = 'mystery';
+    expect(validatePack(badState).some((e) => e.msg.includes('已发布视觉题必须显式记录 source.reviewStatus'))).toBe(true);
+    const pending = basePack();
+    pending.everyday[0].source.reviewStatus = 'pending_source_page_review';
+    expect(validatePack(pending).some((e) => e.msg.includes('已发布视觉题'))).toBe(false);
+    const ok = basePack();
+    expect(validatePack(ok)).toEqual([]);
   });
   it('缺 version 报错', () => {
     const p = basePack();
@@ -112,6 +125,46 @@ describe('题库静态校验（GDD 6.7）', () => {
     delete noUnit.numeric[0].u;
     expect(validatePack(noUnit).some((e) => e.msg.includes('明确单位'))).toBe(true);
   });
+  it('发布带宽：已发布视觉题 q* 跨度不得超过 32（GDD 6.5）', () => {
+    const p = basePack();
+    p.everyday[0].target.size = 1.7 * 100; // 跨度 100 > 32
+    expect(validatePack(p).some((e) => e.msg.includes('超出发布带宽'))).toBe(true);
+    const borderline = basePack();
+    borderline.everyday[0].target.size = 1.7 * 32; // 恰好 32，放行
+    expect(validatePack(borderline)).toEqual([]);
+    const reversed = basePack();
+    reversed.everyday[0].target.size = 1.7 / 40; // 目标物更小同样受限
+    expect(validatePack(reversed).some((e) => e.msg.includes('超出发布带宽'))).toBe(true);
+  });
+  it('发布带宽不拦截草稿/隔离题（未发布不受限）', () => {
+    const p = basePack();
+    p.everyday[0].target.size = 1.7 * 100;
+    p.everyday[0].status = 'review';
+    p.everyday[0].source = { name: '公开资料估算', year: 2026 }; // 隔离题不查来源
+    expect(validatePack(p).some((e) => e.msg.includes('超出发布带宽'))).toBe(false);
+  });
+  it('原创角色题走 type=original + 项目内设定文档，免外部 URL（GDD 6.5）', () => {
+    const ok = basePack();
+    ok.everyday[0].source = {
+      name: '《比大小》角色设定文档', type: 'original', year: 2026,
+      doc: 'data/original-characters.md#sproutling', reviewStatus: 'original_design',
+    };
+    expect(validatePack(ok)).toEqual([]);
+    const noDoc = basePack();
+    noDoc.everyday[0].source = { name: '设定', type: 'original', year: 2026, reviewStatus: 'original_design' };
+    expect(validatePack(noDoc).some((e) => e.msg.includes('source.doc'))).toBe(true);
+    const wrongStatus = basePack();
+    wrongStatus.everyday[0].source = { name: '设定', type: 'original', year: 2026, doc: 'data/original-characters.md#x', reviewStatus: 'verified' };
+    expect(validatePack(wrongStatus).some((e) => e.msg.includes('original_design'))).toBe(true);
+  });
+  it('原创角色数量级题同样支持 type=original', () => {
+    const p = basePack();
+    p.numeric.push({
+      id: 'n_003', answerType: 'point', q: '深渊巨蜥相当于多少个方糖仔？', a: 1000, u: '个', status: 'published',
+      source: { name: '《比大小》角色设定文档', type: 'original', year: 2026, doc: 'data/original-characters.md#abyss-lizard', reviewStatus: 'original_design' },
+    });
+    expect(validatePack(p)).toEqual([]);
+  });
   it('兜底快照 effectiveFrom 必须是有效日期且版本不能重复', () => {
     const p = basePack();
     p.fallbackPools = [
@@ -187,6 +240,35 @@ describe('每局编排（GDD 6.3）', () => {
     const out = shuffle(arr, mulberry(2));
     expect(arr).toEqual([1, 2, 3, 4, 5]);
     expect(out.length).toBe(5);
+  });
+});
+
+describe('可选度量衡池（weight，GDD 6.5）', () => {
+  const weightQ = (over) => ({
+    id: 'wt-x',
+    reference: { name: '成年人', size: 70 },
+    target: { name: '家猫', size: 4.5 },
+    dimension: '重量',
+    measure: 'weight',
+    status: 'published',
+    source: { name: 'test source', year: 2026, url: 'https://example.com/w', reviewStatus: 'verified' },
+    ...over,
+  });
+  it('老缓存包没有 weight 键也能通过（向后兼容）', () => {
+    expect(validatePack(basePack())).toEqual([]);
+  });
+  it('weight 池存在时按视觉题同口径校验（带宽/来源/measure）', () => {
+    const ok = basePack();
+    ok.weight = [weightQ()];
+    expect(validatePack(ok)).toEqual([]);
+
+    const wide = basePack();
+    wide.weight = [weightQ({ target: { name: '蓝鲸', size: 150000 } })]; // span 2142 超带宽
+    expect(validatePack(wide).some((e) => e.msg.includes('发布带宽'))).toBe(true);
+
+    const badMeasure = basePack();
+    badMeasure.weight = [weightQ({ measure: 'density' })];
+    expect(validatePack(badMeasure).some((e) => e.msg.includes('measure'))).toBe(true);
   });
 });
 

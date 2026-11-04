@@ -317,9 +317,14 @@ input[type="range"]:disabled { opacity: .5; }
 /* 首尾标签贴边不出界：首位不平移，末位整体左移 */
 .tick:first-child { transform: none; }
 .tick:last-child { transform: translateX(-100%); }
-/* 极窄屏只保留首尾刻度，避免相邻标签重叠 */
-@media (max-width: 360px) {
-  .tick:not(:first-child):not(:last-child) { display: none; }
+/* 窄屏（≤420px，覆盖主流手机）隔位隐藏刻度文字：13 个标签在 ~300px 滑轨上必然
+   相邻重叠（最左端 10⁻⁶/10⁻⁵ 最先相撞）；font-size:0 只藏文字、保留刻度线 */
+@media (max-width: 420px) {
+  .tick:nth-child(even) { font-size: 0; }
+}
+/* 极窄屏（≤340px）只保留首尾刻度文字 */
+@media (max-width: 340px) {
+  .tick:not(:first-child):not(:last-child) { font-size: 0; }
 }
 
 .fine-row { display: flex; align-items: center; gap: var(--sp-2); margin-top: var(--sp-1); }
