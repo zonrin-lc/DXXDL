@@ -20,7 +20,7 @@ const BUCKETS = [
 ];
 
 let overTotal = 0;
-for (const key of ['everyday', 'pop', 'geo', 'weight', 'area']) {
+for (const key of ['everyday', 'pop', 'geo', 'weight', 'area', 'volume', 'speed']) {
   const arr = Array.isArray(pack[key]) ? pack[key] : [];
   const rows = arr.map((q) => ({
     id: q.id,

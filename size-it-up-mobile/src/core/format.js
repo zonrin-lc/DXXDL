@@ -21,10 +21,26 @@ export function fmtArea(m2) {
   return trimNum(m2 * 1e4) + ' 平方厘米';
 }
 
-/** 按度量衡分类格式化（GDD 6.5）：length 走米/厘米，weight 走千克/吨/克，area 走平方米/公顷/平方千米，其余分类渲染器落地前回退长度 */
+/** 体积格式化：输入立方米 */
+export function fmtVolume(m3) {
+  if (m3 >= 1) return trimNum(m3) + ' 立方米';
+  if (m3 >= 1e-3) return trimNum(m3 * 1000) + ' 升';
+  return trimNum(m3 * 1e6) + ' 毫升';
+}
+
+/** 速度格式化：输入米/秒；≥36km/h 时换算为千米/时更符合直觉 */
+export function fmtSpeed(ms) {
+  const kmh = ms * 3.6;
+  if (kmh >= 10) return trimNum(Math.round(kmh * 10) / 10) + ' 千米/时';
+  return trimNum(ms) + ' 米/秒';
+}
+
+/** 按度量衡分类格式化（GDD 6.5）：length 走米/厘米，weight 走千克/吨/克，area 走平方米/公顷/平方千米，volume 走毫升/升/立方米，speed 走米每秒/千米每时 */
 export function fmtMeasure(size, measure) {
   if (measure === 'weight') return fmtWeight(size);
   if (measure === 'area') return fmtArea(size);
+  if (measure === 'volume') return fmtVolume(size);
+  if (measure === 'speed') return fmtSpeed(size);
   return fmtSize(size);
 }
 

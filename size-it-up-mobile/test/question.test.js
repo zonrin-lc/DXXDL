@@ -292,6 +292,16 @@ describe('可选度量衡池（area，GDD 6.5）', () => {
     wide.area = [areaQ({ target: { name: '摩纳哥', size: 2080000 } })]; // span 3.3e7 超带宽
     expect(validatePack(wide).some((e) => e.msg.includes('发布带宽'))).toBe(true);
   });
+  it('volume/speed 池存在时同样校验（P3）', () => {
+    const ok = basePack();
+    ok.volume = [areaQ({ id: 'vol-x', measure: 'volume', dimension: '体积' })];
+    ok.speed = [areaQ({ id: 'spd-x', measure: 'speed', dimension: '速度' })];
+    expect(validatePack(ok)).toEqual([]);
+
+    const wide = basePack();
+    wide.volume = [areaQ({ id: 'vol-x', measure: 'volume', target: { name: '波音埃弗里特工厂', size: 13300000 } })];
+    expect(validatePack(wide).some((e) => e.msg.includes('发布带宽'))).toBe(true);
+  });
 });
 
 function mulberry(seed) {

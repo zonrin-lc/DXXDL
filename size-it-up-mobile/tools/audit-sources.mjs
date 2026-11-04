@@ -21,7 +21,7 @@ const isOriginal = (q) => q.source?.type === 'original';
 const originalOk = (q) => typeof q.source?.doc === 'string' && q.source.doc.includes('.md')
   && q.source?.reviewStatus === 'original_design'
   && typeof q.source?.reviewNote === 'string' && q.source.reviewNote.trim().length > 10;
-const VISUAL_POOLS = ['everyday', 'pop', 'geo', 'weight', 'area'];
+const VISUAL_POOLS = ['everyday', 'pop', 'geo', 'weight', 'area', 'volume', 'speed'];
 const visualAll = VISUAL_POOLS.flatMap((key) => (Array.isArray(pack[key]) ? pack[key] : []));
 const visualPublished = visualAll.filter((q) => q.status === 'published' || q.status === undefined);
 const visualReviewPool = visualAll.filter((q) => ['review', 'needs-review', 'draft'].includes(q.status));

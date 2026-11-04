@@ -39,7 +39,7 @@ export function validatePack(pack) {
   // everyday/pop/geo 为必需视觉池；weight 及后续度量衡分类为可选池（存在才校验，
   // 保证老版本缓存包仍能通过校验——热更新三级加载的向后兼容）
   const VISUAL_REQUIRED = ['everyday', 'pop', 'geo'];
-  const VISUAL_OPTIONAL = ['weight', 'area'];
+  const VISUAL_OPTIONAL = ['weight', 'area', 'volume', 'speed'];
   for (const key of VISUAL_REQUIRED) {
     if (!Array.isArray(pack[key])) errors.push({ path: key, msg: '视觉题库必须是数组' });
   }

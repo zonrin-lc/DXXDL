@@ -588,7 +588,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
 <div class="app">
   <header id="hd">
     <h1><span aria-hidden="true">📏</span> 比大小</h1>
-    <p>8 种玩法 + 免费练习场 · 凭直觉，不需要专业知识</p>
+    <p>10 种玩法 + 免费练习场 · 凭直觉，不需要专业知识</p>
     <button id="settings-btn" title="设置" aria-label="设置"><span aria-hidden="true">⚙️</span></button>
   </header>
 
@@ -758,15 +758,17 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
 
 <script>
 window.__BSZ_BASE_PACK__ = {
-  "version": "3.1.0",
-  "_说明": "热更新数据包 v3.1.0（P2 面积分类）：新增 area 池 40 题（单位 m²，渲染按平方根缩放，素材复用现有插画+emoji 兜底）；视觉题全部满足 1/32≤q*≤32 带宽并带对象级来源。其余同 v3.0.0（weight 池 22 题、数量级题含 num-50~52）。",
+  "version": "3.2.0",
+  "_说明": "热更新数据包 v3.2.0（P3 体积+速度分类）：新增 volume 池 40 题（单位 m³，渲染按立方根缩放）与 speed 池 30 题（单位 m/s，线性渲染）；全部满足 1/32≤q*≤32 带宽并带对象级来源；素材复用现有插画+emoji 兜底。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态。published 题：q* 须在 [1/32,32] 带宽内；source 需 name/year/url/reviewStatus/reviewEvidence（真实对象），或 type=original + doc + reviewStatus=original_design（原创角色）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
     "dailySchedule": "每日排期：YYYY-MM-DD → {questionId(必须存在于题库), revision(正整数)}，已发布日期不可变",
     "fallbackPools": "版本化兜底快照：排期未覆盖的日期按『日期数字 % questionIds 长度』轮换",
     "weight": "重量模式题库：结构同 everyday/pop/geo，size 单位为千克（kg），measure=weight，dimension=重量；渲染时图上大小按重量的立方根显示（仅影响呈现，不影响计分）",
-    "area": "面积模式题库：结构同 everyday/pop/geo，size 单位为平方米（m²），measure=area，dimension=面积；渲染时图上边长按面积的平方根显示（仅影响呈现，不影响计分）；无 assetId 的对象用 emoji 兜底渲染"
+    "area": "面积模式题库：结构同 everyday/pop/geo，size 单位为平方米（m²），measure=area，dimension=面积；渲染时图上边长按面积的平方根显示（仅影响呈现，不影响计分）；无 assetId 的对象用 emoji 兜底渲染",
+    "volume": "体积模式题库：size 单位为立方米（m³），measure=volume，dimension=体积；渲染时图上边长按体积的立方根显示（仅影响呈现，不影响计分）",
+    "speed": "速度模式题库：size 单位为米/秒（m/s），measure=speed，dimension=速度；线性渲染（dispExp=1），巡航/冲刺/轨道速度口径以对象名括注标明"
   },
   "everyday": [
     {
@@ -8212,6 +8214,2042 @@ window.__BSZ_BASE_PACK__ = {
         "reviewEvidence": "tennis-court: ITF Rules: doubles court is 23.77 m x 10.97 m = 260.76 m2; game value 260.8 m2 matches the regulation. | single-storey-house: A modest single-storey detached house commonly occupies 80-120 m2 of floor plan; game value 100 m2 is a representative midpoint."
       }
     }
+  ],
+  "volume": [
+    {
+      "id": "vol-01",
+      "reference": {
+        "name": "网球",
+        "size": 0.00016,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "target": {
+        "name": "鸡蛋",
+        "size": 0.000055,
+        "emoji": "🥚",
+        "assetId": "egg"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tennis ball / ITF Rules / Wikipedia: Chicken egg",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Chicken_egg",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tennis_ball"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "网球=0.00016：ITF 直径 6.54–6.86cm，取 6.7cm 算球体体积约 160mL；鸡蛋=0.000055：大号鸡蛋约 55mL。",
+        "reviewEvidence": "tennis-ball-v: ITF Rules: diameter 6.54-6.86 cm; a 6.7 cm sphere has volume about 1.6e-4 m3; game value matches. | egg: A large chicken egg is about 55 mL in volume; game value 5.5e-5 m3 matches."
+      }
+    },
+    {
+      "id": "vol-02",
+      "reference": {
+        "name": "苹果",
+        "size": 0.0002,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "target": {
+        "name": "网球",
+        "size": 0.00016,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Apple / Wikipedia: Tennis ball / ITF Rules",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tennis_ball",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Apple"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "苹果=0.0002：中等苹果体积约 200mL（密度≈水，约 200g）；网球=0.00016：ITF 直径 6.54–6.86cm，取 6.7cm 算球体体积约 160mL。",
+        "reviewEvidence": "apple: A medium apple weighs about 200 g with density near water, giving volume about 2e-4 m3. | tennis-ball-v: ITF Rules: diameter 6.54-6.86 cm; a 6.7 cm sphere has volume about 1.6e-4 m3; game value matches."
+      },
+      "note": "一个苹果和一颗网球的体积几乎一样",
+      "memorable": true
+    },
+    {
+      "id": "vol-03",
+      "reference": {
+        "name": "易拉罐",
+        "size": 0.00033,
+        "emoji": "🥤",
+        "assetId": "soda-can"
+      },
+      "target": {
+        "name": "苹果",
+        "size": 0.0002,
+        "emoji": "🍎",
+        "assetId": "apple"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Beverage can / Wikipedia: Apple",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Apple",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Beverage_can"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "易拉罐=0.00033：标准易拉罐 330mL；苹果=0.0002：中等苹果体积约 200mL（密度≈水，约 200g）。",
+        "reviewEvidence": "soda-can: The standard beverage can size is 330 mL = 3.3e-4 m3; game value matches. | apple: A medium apple weighs about 200 g with density near water, giving volume about 2e-4 m3."
+      }
+    },
+    {
+      "id": "vol-04",
+      "reference": {
+        "name": "易拉罐",
+        "size": 0.00033,
+        "emoji": "🥤",
+        "assetId": "soda-can"
+      },
+      "target": {
+        "name": "网球",
+        "size": 0.00016,
+        "emoji": "🎾",
+        "assetId": "tennis-ball"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Beverage can / Wikipedia: Tennis ball / ITF Rules",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tennis_ball",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Beverage_can"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "易拉罐=0.00033：标准易拉罐 330mL；网球=0.00016：ITF 直径 6.54–6.86cm，取 6.7cm 算球体体积约 160mL。",
+        "reviewEvidence": "soda-can: The standard beverage can size is 330 mL = 3.3e-4 m3; game value matches. | tennis-ball-v: ITF Rules: diameter 6.54-6.86 cm; a 6.7 cm sphere has volume about 1.6e-4 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-05",
+      "reference": {
+        "name": "足球",
+        "size": 0.0056,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "target": {
+        "name": "易拉罐",
+        "size": 0.00033,
+        "emoji": "🥤",
+        "assetId": "soda-can"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Football (ball) / IFAB Law 2 / Wikipedia: Beverage can",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Beverage_can",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Football_(ball)"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "足球=0.0056：5 号球直径约 22cm，体积约 5.6 升；易拉罐=0.00033：标准易拉罐 330mL。",
+        "reviewEvidence": "soccer-ball-v: IFAB Law 2 size-5 circumference 68-70 cm implies diameter about 22 cm and volume about 5.6e-3 m3. | soda-can: The standard beverage can size is 330 mL = 3.3e-4 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-06",
+      "reference": {
+        "name": "篮球",
+        "size": 0.0072,
+        "emoji": "🏀",
+        "assetId": "basketball"
+      },
+      "target": {
+        "name": "足球",
+        "size": 0.0056,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Basketball (ball) / Wikipedia: Football (ball) / IFAB Law 2",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Basketball_(ball)"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "篮球=0.0072：7 号球直径约 24cm，体积约 7.2 升；足球=0.0056：5 号球直径约 22cm，体积约 5.6 升。",
+        "reviewEvidence": "basketball-v: Size-7 basketball circumference 75-76 cm implies diameter about 24 cm and volume about 7.2e-3 m3. | soccer-ball-v: IFAB Law 2 size-5 circumference 68-70 cm implies diameter about 22 cm and volume about 5.6e-3 m3."
+      }
+    },
+    {
+      "id": "vol-07",
+      "reference": {
+        "name": "家猫",
+        "size": 0.0045,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "target": {
+        "name": "足球",
+        "size": 0.0056,
+        "emoji": "⚽",
+        "assetId": "soccer-ball"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cat / Wikipedia: Football (ball) / IFAB Law 2",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cat"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "家猫=0.0045：4.5kg、密度≈水 → 约 4.5 升；足球=0.0056：5 号球直径约 22cm，体积约 5.6 升。",
+        "reviewEvidence": "house-cat: A 4.5 kg cat with body density close to water occupies about 4.5e-3 m3. | soccer-ball-v: IFAB Law 2 size-5 circumference 68-70 cm implies diameter about 22 cm and volume about 5.6e-3 m3."
+      }
+    },
+    {
+      "id": "vol-08",
+      "reference": {
+        "name": "家猫",
+        "size": 0.0045,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "target": {
+        "name": "篮球",
+        "size": 0.0072,
+        "emoji": "🏀",
+        "assetId": "basketball"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cat / Wikipedia: Basketball (ball)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Basketball_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cat"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "家猫=0.0045：4.5kg、密度≈水 → 约 4.5 升；篮球=0.0072：7 号球直径约 24cm，体积约 7.2 升。",
+        "reviewEvidence": "house-cat: A 4.5 kg cat with body density close to water occupies about 4.5e-3 m3. | basketball-v: Size-7 basketball circumference 75-76 cm implies diameter about 24 cm and volume about 7.2e-3 m3."
+      }
+    },
+    {
+      "id": "vol-09",
+      "reference": {
+        "name": "成年人",
+        "size": 0.07,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "家猫",
+        "size": 0.0045,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Human body weight / Wikipedia: Cat",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cat",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_body_weight"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=0.07：70kg、密度≈水 → 约 70 升；家猫=0.0045：4.5kg、密度≈水 → 约 4.5 升。",
+        "reviewEvidence": "adult-human: A 70 kg adult with body density close to water occupies about 0.07 m3 (70 L). | house-cat: A 4.5 kg cat with body density close to water occupies about 4.5e-3 m3."
+      }
+    },
+    {
+      "id": "vol-10",
+      "reference": {
+        "name": "成年人",
+        "size": 0.07,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "target": {
+        "name": "篮球",
+        "size": 0.0072,
+        "emoji": "🏀",
+        "assetId": "basketball"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Human body weight / Wikipedia: Basketball (ball)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Basketball_(ball)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Human_body_weight"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "成年人=0.07：70kg、密度≈水 → 约 70 升；篮球=0.0072：7 号球直径约 24cm，体积约 7.2 升。",
+        "reviewEvidence": "adult-human: A 70 kg adult with body density close to water occupies about 0.07 m3 (70 L). | basketball-v: Size-7 basketball circumference 75-76 cm implies diameter about 24 cm and volume about 7.2e-3 m3."
+      }
+    },
+    {
+      "id": "vol-11",
+      "reference": {
+        "name": "浴缸（满水）",
+        "size": 0.3,
+        "emoji": "🛁"
+      },
+      "target": {
+        "name": "成年人",
+        "size": 0.07,
+        "emoji": "🧍",
+        "assetId": "adult-human"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Bathtub / Wikipedia: Human body weight",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Human_body_weight",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Bathtub"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "浴缸（满水）=0.3：常见浴缸满水约 250–350 升，取 300 升；成年人=0.07：70kg、密度≈水 → 约 70 升。",
+        "reviewEvidence": "bathtub: A typical bathtub holds roughly 250-350 L; game value 0.3 m3 is the representative midpoint. | adult-human: A 70 kg adult with body density close to water occupies about 0.07 m3 (70 L)."
+      }
+    },
+    {
+      "id": "vol-12",
+      "reference": {
+        "name": "双门冰箱（内部容积）",
+        "size": 0.5,
+        "emoji": "🗄️"
+      },
+      "target": {
+        "name": "浴缸（满水）",
+        "size": 0.3,
+        "emoji": "🛁"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Refrigerator / Wikipedia: Bathtub",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bathtub",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Refrigerator"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "双门冰箱（内部容积）=0.5：双门冰箱内部容积常见 450–550 升，取 500 升；浴缸（满水）=0.3：常见浴缸满水约 250–350 升，取 300 升。",
+        "reviewEvidence": "fridge: A typical two-door refrigerator has about 450-550 L of internal volume; game value 0.5 m3 is the representative midpoint. | bathtub: A typical bathtub holds roughly 250-350 L; game value 0.3 m3 is the representative midpoint."
+      }
+    },
+    {
+      "id": "vol-13",
+      "reference": {
+        "name": "轿车（乘员舱）",
+        "size": 2.8,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "target": {
+        "name": "双门冰箱（内部容积）",
+        "size": 0.5,
+        "emoji": "🗄️"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Sedan (automobile) / EPA passenger volume / Wikipedia: Refrigerator",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Refrigerator",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sedan_(automobile)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "轿车（乘员舱）=2.8：中型轿车乘员舱容积约 100 立方英尺 ≈ 2.8m³；双门冰箱（内部容积）=0.5：双门冰箱内部容积常见 450–550 升，取 500 升。",
+        "reviewEvidence": "sedan-cabin: EPA passenger volume for a mid-size sedan is about 100 cubic feet, roughly 2.8 m3. | fridge: A typical two-door refrigerator has about 450-550 L of internal volume; game value 0.5 m3 is the representative midpoint."
+      }
+    },
+    {
+      "id": "vol-14",
+      "reference": {
+        "name": "轿车（乘员舱）",
+        "size": 2.8,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "target": {
+        "name": "浴缸（满水）",
+        "size": 0.3,
+        "emoji": "🛁"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Sedan (automobile) / EPA passenger volume / Wikipedia: Bathtub",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bathtub",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sedan_(automobile)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "轿车（乘员舱）=2.8：中型轿车乘员舱容积约 100 立方英尺 ≈ 2.8m³；浴缸（满水）=0.3：常见浴缸满水约 250–350 升，取 300 升。",
+        "reviewEvidence": "sedan-cabin: EPA passenger volume for a mid-size sedan is about 100 cubic feet, roughly 2.8 m3. | bathtub: A typical bathtub holds roughly 250-350 L; game value 0.3 m3 is the representative midpoint."
+      }
+    },
+    {
+      "id": "vol-15",
+      "reference": {
+        "name": "20 尺集装箱（内部）",
+        "size": 33.1,
+        "emoji": "📦"
+      },
+      "target": {
+        "name": "轿车（乘员舱）",
+        "size": 2.8,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Intermodal container / ISO / Wikipedia: Sedan (automobile) / EPA passenger volume",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Sedan_(automobile)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Intermodal_container"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "20 尺集装箱（内部）=33.1：ISO 20GP 内部容积 33.1m³；轿车（乘员舱）=2.8：中型轿车乘员舱容积约 100 立方英尺 ≈ 2.8m³。",
+        "reviewEvidence": "container-20ft: ISO 20-foot general-purpose container internal volume is 33.1 m3; game value matches. | sedan-cabin: EPA passenger volume for a mid-size sedan is about 100 cubic feet, roughly 2.8 m3."
+      }
+    },
+    {
+      "id": "vol-16",
+      "reference": {
+        "name": "蓝鲸",
+        "size": 150,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "target": {
+        "name": "20 尺集装箱（内部）",
+        "size": 33.1,
+        "emoji": "📦"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Blue whale / Wikipedia: Intermodal container / ISO",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Intermodal_container",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Blue_whale"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "蓝鲸=150：150 吨、密度≈水 → 约 150m³；20 尺集装箱（内部）=33.1：ISO 20GP 内部容积 33.1m³。",
+        "reviewEvidence": "blue-whale: A 150 t blue whale with body density close to water occupies about 150 m3. | container-20ft: ISO 20-foot general-purpose container internal volume is 33.1 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-17",
+      "reference": {
+        "name": "安-225 货舱",
+        "size": 1300,
+        "emoji": "✈️"
+      },
+      "target": {
+        "name": "蓝鲸",
+        "size": 150,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Antonov An-225 Mriya / Wikipedia: Blue whale",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Blue_whale",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Antonov_An-225_Mriya"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "安-225 货舱=1300：货舱容积 1300m³；蓝鲸=150：150 吨、密度≈水 → 约 150m³。",
+        "reviewEvidence": "an-225-cargo: Wikipedia: the An-225 cargo hold has a volume of 1,300 m3; game value matches. | blue-whale: A 150 t blue whale with body density close to water occupies about 150 m3."
+      }
+    },
+    {
+      "id": "vol-18",
+      "reference": {
+        "name": "奥运标准泳池",
+        "size": 2500,
+        "emoji": "🏊"
+      },
+      "target": {
+        "name": "安-225 货舱",
+        "size": 1300,
+        "emoji": "✈️"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Olympic-size swimming pool / Wikipedia: Antonov An-225 Mriya",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Antonov_An-225_Mriya",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "奥运标准泳池=2500：50×25×2m = 2500m³；安-225 货舱=1300：货舱容积 1300m³。",
+        "reviewEvidence": "olympic-pool: An Olympic-size pool is 50 m x 25 m x 2 m minimum depth = 2,500 m3; game value matches. | an-225-cargo: Wikipedia: the An-225 cargo hold has a volume of 1,300 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-19",
+      "reference": {
+        "name": "奥运标准泳池",
+        "size": 2500,
+        "emoji": "🏊"
+      },
+      "target": {
+        "name": "蓝鲸",
+        "size": 150,
+        "emoji": "🐋",
+        "assetId": "blue-whale"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Olympic-size swimming pool / Wikipedia: Blue whale",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Blue_whale",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "奥运标准泳池=2500：50×25×2m = 2500m³；蓝鲸=150：150 吨、密度≈水 → 约 150m³。",
+        "reviewEvidence": "olympic-pool: An Olympic-size pool is 50 m x 25 m x 2 m minimum depth = 2,500 m3; game value matches. | blue-whale: A 150 t blue whale with body density close to water occupies about 150 m3."
+      }
+    },
+    {
+      "id": "vol-20",
+      "reference": {
+        "name": "罗马万神殿（内部）",
+        "size": 53000,
+        "emoji": "🏛️"
+      },
+      "target": {
+        "name": "奥运标准泳池",
+        "size": 2500,
+        "emoji": "🏊"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Pantheon, Rome / Wikipedia: Olympic-size swimming pool",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Olympic-size_swimming_pool",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Pantheon,_Rome"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "罗马万神殿（内部）=53000：内殿直径与高均为 43.3m，圆柱+半球推算约 5.3 万 m³；奥运标准泳池=2500：50×25×2m = 2500m³。",
+        "reviewEvidence": "pantheon: Wikipedia: the rotunda interior diameter and height are both 43.3 m; cylinder plus hemisphere gives roughly 53,000 m3. | olympic-pool: An Olympic-size pool is 50 m x 25 m x 2 m minimum depth = 2,500 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-21",
+      "reference": {
+        "name": "兴登堡号飞艇（气囊）",
+        "size": 200000,
+        "emoji": "🎈"
+      },
+      "target": {
+        "name": "罗马万神殿（内部）",
+        "size": 53000,
+        "emoji": "🏛️"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: LZ 129 Hindenburg / Wikipedia: Pantheon, Rome",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Pantheon,_Rome",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/LZ_129_Hindenburg"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "兴登堡号飞艇（气囊）=200000：气囊氢气容积 20 万 m³；罗马万神殿（内部）=53000：内殿直径与高均为 43.3m，圆柱+半球推算约 5.3 万 m³。",
+        "reviewEvidence": "hindenburg: Wikipedia: the Hindenburg had a gas capacity of 200,000 m3; game value matches. | pantheon: Wikipedia: the rotunda interior diameter and height are both 43.3 m; cylinder plus hemisphere gives roughly 53,000 m3."
+      }
+    },
+    {
+      "id": "vol-22",
+      "reference": {
+        "name": "海洋交响号（总吨位折算）",
+        "size": 645000,
+        "emoji": "🚢"
+      },
+      "target": {
+        "name": "兴登堡号飞艇（气囊）",
+        "size": 200000,
+        "emoji": "🎈"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Symphony of the Seas / Wikipedia: LZ 129 Hindenburg",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/LZ_129_Hindenburg",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Symphony_of_the_Seas"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "海洋交响号（总吨位折算）=645000：总吨位 228081 GT × 2.83m³/GT ≈ 64.5 万 m³ 围蔽容积；兴登堡号飞艇（气囊）=200000：气囊氢气容积 20 万 m³。",
+        "reviewEvidence": "cruise-ship: Wikipedia: Symphony of the Seas is 228,081 GT; 1 GT corresponds to 100 ft3 (2.83 m3) of enclosed volume, giving about 645,000 m3. | hindenburg: Wikipedia: the Hindenburg had a gas capacity of 200,000 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-23",
+      "reference": {
+        "name": "海洋交响号（总吨位折算）",
+        "size": 645000,
+        "emoji": "🚢"
+      },
+      "target": {
+        "name": "罗马万神殿（内部）",
+        "size": 53000,
+        "emoji": "🏛️"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Symphony of the Seas / Wikipedia: Pantheon, Rome",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Pantheon,_Rome",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Symphony_of_the_Seas"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "海洋交响号（总吨位折算）=645000：总吨位 228081 GT × 2.83m³/GT ≈ 64.5 万 m³ 围蔽容积；罗马万神殿（内部）=53000：内殿直径与高均为 43.3m，圆柱+半球推算约 5.3 万 m³。",
+        "reviewEvidence": "cruise-ship: Wikipedia: Symphony of the Seas is 228,081 GT; 1 GT corresponds to 100 ft3 (2.83 m3) of enclosed volume, giving about 645,000 m3. | pantheon: Wikipedia: the rotunda interior diameter and height are both 43.3 m; cylinder plus hemisphere gives roughly 53,000 m3."
+      }
+    },
+    {
+      "id": "vol-24",
+      "reference": {
+        "name": "帝国大厦（容积）",
+        "size": 1050000,
+        "emoji": "🏙️",
+        "assetId": "empire-state-building"
+      },
+      "target": {
+        "name": "海洋交响号（总吨位折算）",
+        "size": 645000,
+        "emoji": "🚢"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Empire State Building / Wikipedia: Symphony of the Seas",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Symphony_of_the_Seas",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Empire_State_Building"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "帝国大厦（容积）=1050000：建筑容积约 3700 万立方英尺 ≈ 105 万 m³；海洋交响号（总吨位折算）=645000：总吨位 228081 GT × 2.83m³/GT ≈ 64.5 万 m³ 围蔽容积。",
+        "reviewEvidence": "empire-state: The Empire State Building has a volume of about 37 million cubic feet, roughly 1.05 million m3. | cruise-ship: Wikipedia: Symphony of the Seas is 228,081 GT; 1 GT corresponds to 100 ft3 (2.83 m3) of enclosed volume, giving about 645,000 m3."
+      }
+    },
+    {
+      "id": "vol-25",
+      "reference": {
+        "name": "东京巨蛋（内部）",
+        "size": 1240000,
+        "emoji": "🏟️"
+      },
+      "target": {
+        "name": "帝国大厦（容积）",
+        "size": 1050000,
+        "emoji": "🏙️",
+        "assetId": "empire-state-building"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tokyo Dome / Wikipedia: Empire State Building",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Empire_State_Building",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tokyo_Dome"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "东京巨蛋（内部）=1240000：内部容积 124 万 m³；帝国大厦（容积）=1050000：建筑容积约 3700 万立方英尺 ≈ 105 万 m³。",
+        "reviewEvidence": "tokyo-dome: Wikipedia: Tokyo Dome has an interior volume of 1,240,000 m3; game value matches. | empire-state: The Empire State Building has a volume of about 37 million cubic feet, roughly 1.05 million m3."
+      },
+      "note": "东京巨蛋内部比帝国大厦还略大",
+      "memorable": true
+    },
+    {
+      "id": "vol-26",
+      "reference": {
+        "name": "东京巨蛋（内部）",
+        "size": 1240000,
+        "emoji": "🏟️"
+      },
+      "target": {
+        "name": "海洋交响号（总吨位折算）",
+        "size": 645000,
+        "emoji": "🚢"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tokyo Dome / Wikipedia: Symphony of the Seas",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Symphony_of_the_Seas",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tokyo_Dome"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "东京巨蛋（内部）=1240000：内部容积 124 万 m³；海洋交响号（总吨位折算）=645000：总吨位 228081 GT × 2.83m³/GT ≈ 64.5 万 m³ 围蔽容积。",
+        "reviewEvidence": "tokyo-dome: Wikipedia: Tokyo Dome has an interior volume of 1,240,000 m3; game value matches. | cruise-ship: Wikipedia: Symphony of the Seas is 228,081 GT; 1 GT corresponds to 100 ft3 (2.83 m3) of enclosed volume, giving about 645,000 m3."
+      }
+    },
+    {
+      "id": "vol-27",
+      "reference": {
+        "name": "东京巨蛋（内部）",
+        "size": 1240000,
+        "emoji": "🏟️"
+      },
+      "target": {
+        "name": "兴登堡号飞艇（气囊）",
+        "size": 200000,
+        "emoji": "🎈"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tokyo Dome / Wikipedia: LZ 129 Hindenburg",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/LZ_129_Hindenburg",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tokyo_Dome"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "东京巨蛋（内部）=1240000：内部容积 124 万 m³；兴登堡号飞艇（气囊）=200000：气囊氢气容积 20 万 m³。",
+        "reviewEvidence": "tokyo-dome: Wikipedia: Tokyo Dome has an interior volume of 1,240,000 m3; game value matches. | hindenburg: Wikipedia: the Hindenburg had a gas capacity of 200,000 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-28",
+      "reference": {
+        "name": "红金字塔",
+        "size": 1694000,
+        "emoji": "🔺"
+      },
+      "target": {
+        "name": "东京巨蛋（内部）",
+        "size": 1240000,
+        "emoji": "🏟️"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Red Pyramid / Wikipedia: Tokyo Dome",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tokyo_Dome",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Red_Pyramid"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "红金字塔=1694000：体积约 169.4 万 m³；东京巨蛋（内部）=1240000：内部容积 124 万 m³。",
+        "reviewEvidence": "red-pyramid: Wikipedia: the Red Pyramid has a volume of 1,694,000 m3; game value matches. | tokyo-dome: Wikipedia: Tokyo Dome has an interior volume of 1,240,000 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-29",
+      "reference": {
+        "name": "红金字塔",
+        "size": 1694000,
+        "emoji": "🔺"
+      },
+      "target": {
+        "name": "帝国大厦（容积）",
+        "size": 1050000,
+        "emoji": "🏙️",
+        "assetId": "empire-state-building"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Red Pyramid / Wikipedia: Empire State Building",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Empire_State_Building",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Red_Pyramid"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "红金字塔=1694000：体积约 169.4 万 m³；帝国大厦（容积）=1050000：建筑容积约 3700 万立方英尺 ≈ 105 万 m³。",
+        "reviewEvidence": "red-pyramid: Wikipedia: the Red Pyramid has a volume of 1,694,000 m3; game value matches. | empire-state: The Empire State Building has a volume of about 37 million cubic feet, roughly 1.05 million m3."
+      }
+    },
+    {
+      "id": "vol-30",
+      "reference": {
+        "name": "吉萨大金字塔",
+        "size": 2580000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "target": {
+        "name": "红金字塔",
+        "size": 1694000,
+        "emoji": "🔺"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Great Pyramid of Giza / Wikipedia: Red Pyramid",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_Pyramid",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "吉萨大金字塔=2580000：体积约 258 万 m³；红金字塔=1694000：体积约 169.4 万 m³。",
+        "reviewEvidence": "giza-volume: Wikipedia: the Great Pyramid has a volume of about 2.58 million m3; game value matches. | red-pyramid: Wikipedia: the Red Pyramid has a volume of 1,694,000 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-31",
+      "reference": {
+        "name": "吉萨大金字塔",
+        "size": 2580000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "target": {
+        "name": "东京巨蛋（内部）",
+        "size": 1240000,
+        "emoji": "🏟️"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Great Pyramid of Giza / Wikipedia: Tokyo Dome",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tokyo_Dome",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "吉萨大金字塔=2580000：体积约 258 万 m³；东京巨蛋（内部）=1240000：内部容积 124 万 m³。",
+        "reviewEvidence": "giza-volume: Wikipedia: the Great Pyramid has a volume of about 2.58 million m3; game value matches. | tokyo-dome: Wikipedia: Tokyo Dome has an interior volume of 1,240,000 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-32",
+      "reference": {
+        "name": "NASA 航天器装配大楼",
+        "size": 3660000,
+        "emoji": "🚀"
+      },
+      "target": {
+        "name": "吉萨大金字塔",
+        "size": 2580000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Vehicle Assembly Building / Wikipedia: Great Pyramid of Giza",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Vehicle_Assembly_Building"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "NASA 航天器装配大楼=3660000：内部容积 366 万 m³，曾是世界容积最大建筑；吉萨大金字塔=2580000：体积约 258 万 m³。",
+        "reviewEvidence": "vab: Wikipedia: the VAB encloses about 3.66 million m3; game value matches. | giza-volume: Wikipedia: the Great Pyramid has a volume of about 2.58 million m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-33",
+      "reference": {
+        "name": "NASA 航天器装配大楼",
+        "size": 3660000,
+        "emoji": "🚀"
+      },
+      "target": {
+        "name": "东京巨蛋（内部）",
+        "size": 1240000,
+        "emoji": "🏟️"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Vehicle Assembly Building / Wikipedia: Tokyo Dome",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tokyo_Dome",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Vehicle_Assembly_Building"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "NASA 航天器装配大楼=3660000：内部容积 366 万 m³，曾是世界容积最大建筑；东京巨蛋（内部）=1240000：内部容积 124 万 m³。",
+        "reviewEvidence": "vab: Wikipedia: the VAB encloses about 3.66 million m3; game value matches. | tokyo-dome: Wikipedia: Tokyo Dome has an interior volume of 1,240,000 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-34",
+      "reference": {
+        "name": "NASA 航天器装配大楼",
+        "size": 3660000,
+        "emoji": "🚀"
+      },
+      "target": {
+        "name": "红金字塔",
+        "size": 1694000,
+        "emoji": "🔺"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Vehicle Assembly Building / Wikipedia: Red Pyramid",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_Pyramid",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Vehicle_Assembly_Building"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "NASA 航天器装配大楼=3660000：内部容积 366 万 m³，曾是世界容积最大建筑；红金字塔=1694000：体积约 169.4 万 m³。",
+        "reviewEvidence": "vab: Wikipedia: the VAB encloses about 3.66 million m3; game value matches. | red-pyramid: Wikipedia: the Red Pyramid has a volume of 1,694,000 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-35",
+      "reference": {
+        "name": "波音埃弗里特工厂",
+        "size": 13300000,
+        "emoji": "🏭"
+      },
+      "target": {
+        "name": "NASA 航天器装配大楼",
+        "size": 3660000,
+        "emoji": "🚀"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Boeing Everett Factory / Wikipedia: Vehicle Assembly Building",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Vehicle_Assembly_Building",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Boeing_Everett_Factory"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "波音埃弗里特工厂=13300000：内部容积 1330 万 m³，世界容积最大建筑；NASA 航天器装配大楼=3660000：内部容积 366 万 m³，曾是世界容积最大建筑。",
+        "reviewEvidence": "everett-factory: Wikipedia: the Boeing Everett Factory has a volume of 13.3 million m3, the largest building by volume; game value matches. | vab: Wikipedia: the VAB encloses about 3.66 million m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-36",
+      "reference": {
+        "name": "波音埃弗里特工厂",
+        "size": 13300000,
+        "emoji": "🏭"
+      },
+      "target": {
+        "name": "吉萨大金字塔",
+        "size": 2580000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Boeing Everett Factory / Wikipedia: Great Pyramid of Giza",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Boeing_Everett_Factory"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "波音埃弗里特工厂=13300000：内部容积 1330 万 m³，世界容积最大建筑；吉萨大金字塔=2580000：体积约 258 万 m³。",
+        "reviewEvidence": "everett-factory: Wikipedia: the Boeing Everett Factory has a volume of 13.3 million m3, the largest building by volume; game value matches. | giza-volume: Wikipedia: the Great Pyramid has a volume of about 2.58 million m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-37",
+      "reference": {
+        "name": "波音埃弗里特工厂",
+        "size": 13300000,
+        "emoji": "🏭"
+      },
+      "target": {
+        "name": "红金字塔",
+        "size": 1694000,
+        "emoji": "🔺"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Boeing Everett Factory / Wikipedia: Red Pyramid",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_Pyramid",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Boeing_Everett_Factory"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "波音埃弗里特工厂=13300000：内部容积 1330 万 m³，世界容积最大建筑；红金字塔=1694000：体积约 169.4 万 m³。",
+        "reviewEvidence": "everett-factory: Wikipedia: the Boeing Everett Factory has a volume of 13.3 million m3, the largest building by volume; game value matches. | red-pyramid: Wikipedia: the Red Pyramid has a volume of 1,694,000 m3; game value matches."
+      }
+    },
+    {
+      "id": "vol-38",
+      "reference": {
+        "name": "波音埃弗里特工厂",
+        "size": 13300000,
+        "emoji": "🏭"
+      },
+      "target": {
+        "name": "东京巨蛋（内部）",
+        "size": 1240000,
+        "emoji": "🏟️"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Boeing Everett Factory / Wikipedia: Tokyo Dome",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tokyo_Dome",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Boeing_Everett_Factory"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "波音埃弗里特工厂=13300000：内部容积 1330 万 m³，世界容积最大建筑；东京巨蛋（内部）=1240000：内部容积 124 万 m³。",
+        "reviewEvidence": "everett-factory: Wikipedia: the Boeing Everett Factory has a volume of 13.3 million m3, the largest building by volume; game value matches. | tokyo-dome: Wikipedia: Tokyo Dome has an interior volume of 1,240,000 m3; game value matches."
+      },
+      "note": "世界最大建筑能装下 3700 多个奥运泳池",
+      "memorable": true
+    },
+    {
+      "id": "vol-39",
+      "reference": {
+        "name": "波音埃弗里特工厂",
+        "size": 13300000,
+        "emoji": "🏭"
+      },
+      "target": {
+        "name": "帝国大厦（容积）",
+        "size": 1050000,
+        "emoji": "🏙️",
+        "assetId": "empire-state-building"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Boeing Everett Factory / Wikipedia: Empire State Building",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Empire_State_Building",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Boeing_Everett_Factory"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "波音埃弗里特工厂=13300000：内部容积 1330 万 m³，世界容积最大建筑；帝国大厦（容积）=1050000：建筑容积约 3700 万立方英尺 ≈ 105 万 m³。",
+        "reviewEvidence": "everett-factory: Wikipedia: the Boeing Everett Factory has a volume of 13.3 million m3, the largest building by volume; game value matches. | empire-state: The Empire State Building has a volume of about 37 million cubic feet, roughly 1.05 million m3."
+      }
+    },
+    {
+      "id": "vol-40",
+      "reference": {
+        "name": "帝国大厦（容积）",
+        "size": 1050000,
+        "emoji": "🏙️",
+        "assetId": "empire-state-building"
+      },
+      "target": {
+        "name": "兴登堡号飞艇（气囊）",
+        "size": 200000,
+        "emoji": "🎈"
+      },
+      "dimension": "体积",
+      "measure": "volume",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Empire State Building / Wikipedia: LZ 129 Hindenburg",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/LZ_129_Hindenburg",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Empire_State_Building"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "帝国大厦（容积）=1050000：建筑容积约 3700 万立方英尺 ≈ 105 万 m³；兴登堡号飞艇（气囊）=200000：气囊氢气容积 20 万 m³。",
+        "reviewEvidence": "empire-state: The Empire State Building has a volume of about 37 million cubic feet, roughly 1.05 million m3. | hindenburg: Wikipedia: the Hindenburg had a gas capacity of 200,000 m3; game value matches."
+      }
+    }
+  ],
+  "speed": [
+    {
+      "id": "spd-01",
+      "reference": {
+        "name": "自行车",
+        "size": 5.5,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "target": {
+        "name": "成年人步行",
+        "size": 1.4,
+        "emoji": "🚶",
+        "assetId": "adult-human"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Bicycle / Wikipedia: Walking",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Walking",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Bicycle"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "自行车=5.5：城市骑行常见 20km/h ≈ 5.5m/s；成年人步行=1.4：日常步行约 5km/h ≈ 1.4m/s。",
+        "reviewEvidence": "bicycle: A typical urban cycling speed is about 20 km/h, roughly 5.5 m/s. | adult-walk: Wikipedia: typical walking speed is about 5 km/h, roughly 1.4 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-02",
+      "reference": {
+        "name": "短跑运动员（冲刺）",
+        "size": 12.4,
+        "emoji": "🏃"
+      },
+      "target": {
+        "name": "自行车",
+        "size": 5.5,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Usain Bolt / Wikipedia: Bicycle",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bicycle",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Usain_Bolt"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "短跑运动员（冲刺）=12.4：博尔特百米峰值速度 12.4m/s；自行车=5.5：城市骑行常见 20km/h ≈ 5.5m/s。",
+        "reviewEvidence": "sprinter: Wikipedia: Bolt reached a peak speed of about 12.4 m/s in his 100 m world record; game value matches. | bicycle: A typical urban cycling speed is about 20 km/h, roughly 5.5 m/s."
+      }
+    },
+    {
+      "id": "spd-03",
+      "reference": {
+        "name": "家猫（冲刺）",
+        "size": 13.3,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "target": {
+        "name": "短跑运动员（冲刺）",
+        "size": 12.4,
+        "emoji": "🏃"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cat / Wikipedia: Usain Bolt",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Usain_Bolt",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cat"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "家猫（冲刺）=13.3：家猫冲刺约 48km/h ≈ 13.3m/s；短跑运动员（冲刺）=12.4：博尔特百米峰值速度 12.4m/s。",
+        "reviewEvidence": "house-cat-sprint: Domestic cats can sprint at about 48 km/h, roughly 13.3 m/s. | sprinter: Wikipedia: Bolt reached a peak speed of about 12.4 m/s in his 100 m world record; game value matches."
+      },
+      "note": "家猫冲刺比博尔特还快",
+      "memorable": true
+    },
+    {
+      "id": "spd-04",
+      "reference": {
+        "name": "短跑运动员（冲刺）",
+        "size": 12.4,
+        "emoji": "🏃"
+      },
+      "target": {
+        "name": "成年人步行",
+        "size": 1.4,
+        "emoji": "🚶",
+        "assetId": "adult-human"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Usain Bolt / Wikipedia: Walking",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Walking",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Usain_Bolt"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "短跑运动员（冲刺）=12.4：博尔特百米峰值速度 12.4m/s；成年人步行=1.4：日常步行约 5km/h ≈ 1.4m/s。",
+        "reviewEvidence": "sprinter: Wikipedia: Bolt reached a peak speed of about 12.4 m/s in his 100 m world record; game value matches. | adult-walk: Wikipedia: typical walking speed is about 5 km/h, roughly 1.4 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-05",
+      "reference": {
+        "name": "红袋鼠（跳跃）",
+        "size": 20,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "target": {
+        "name": "家猫（冲刺）",
+        "size": 13.3,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Red kangaroo / Wikipedia: Cat",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cat",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Red_kangaroo"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "红袋鼠（跳跃）=20：红袋鼠跳跃行进可达 70km/h ≈ 20m/s；家猫（冲刺）=13.3：家猫冲刺约 48km/h ≈ 13.3m/s。",
+        "reviewEvidence": "red-kangaroo: Wikipedia: red kangaroos can hop at up to about 70 km/h, roughly 20 m/s; game value matches. | house-cat-sprint: Domestic cats can sprint at about 48 km/h, roughly 13.3 m/s."
+      }
+    },
+    {
+      "id": "spd-06",
+      "reference": {
+        "name": "红袋鼠（跳跃）",
+        "size": 20,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "target": {
+        "name": "自行车",
+        "size": 5.5,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Red kangaroo / Wikipedia: Bicycle",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bicycle",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Red_kangaroo"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "红袋鼠（跳跃）=20：红袋鼠跳跃行进可达 70km/h ≈ 20m/s；自行车=5.5：城市骑行常见 20km/h ≈ 5.5m/s。",
+        "reviewEvidence": "red-kangaroo: Wikipedia: red kangaroos can hop at up to about 70 km/h, roughly 20 m/s; game value matches. | bicycle: A typical urban cycling speed is about 20 km/h, roughly 5.5 m/s."
+      }
+    },
+    {
+      "id": "spd-07",
+      "reference": {
+        "name": "猎豹（冲刺）",
+        "size": 33,
+        "emoji": "🐆"
+      },
+      "target": {
+        "name": "红袋鼠（跳跃）",
+        "size": 20,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cheetah / Wikipedia: Red kangaroo",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_kangaroo",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cheetah"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "猎豹（冲刺）=33：猎豹冲刺可达 120km/h ≈ 33m/s；红袋鼠（跳跃）=20：红袋鼠跳跃行进可达 70km/h ≈ 20m/s。",
+        "reviewEvidence": "cheetah: Wikipedia: cheetahs can sprint at up to about 120 km/h, roughly 33 m/s; game value matches. | red-kangaroo: Wikipedia: red kangaroos can hop at up to about 70 km/h, roughly 20 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-08",
+      "reference": {
+        "name": "轿车（高速巡航）",
+        "size": 33,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "target": {
+        "name": "猎豹（冲刺）",
+        "size": 33,
+        "emoji": "🐆"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Speed limit / Wikipedia: Cheetah",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cheetah",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Speed_limit"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "轿车（高速巡航）=33：高速限速 120km/h ≈ 33m/s；猎豹（冲刺）=33：猎豹冲刺可达 120km/h ≈ 33m/s。",
+        "reviewEvidence": "sedan-highway: A typical motorway speed limit is 120 km/h, roughly 33 m/s. | cheetah: Wikipedia: cheetahs can sprint at up to about 120 km/h, roughly 33 m/s; game value matches."
+      },
+      "note": "高速上的轿车和猎豹冲刺一样快",
+      "memorable": true
+    },
+    {
+      "id": "spd-09",
+      "reference": {
+        "name": "轿车（高速巡航）",
+        "size": 33,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "target": {
+        "name": "红袋鼠（跳跃）",
+        "size": 20,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Speed limit / Wikipedia: Red kangaroo",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_kangaroo",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Speed_limit"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "轿车（高速巡航）=33：高速限速 120km/h ≈ 33m/s；红袋鼠（跳跃）=20：红袋鼠跳跃行进可达 70km/h ≈ 20m/s。",
+        "reviewEvidence": "sedan-highway: A typical motorway speed limit is 120 km/h, roughly 33 m/s. | red-kangaroo: Wikipedia: red kangaroos can hop at up to about 70 km/h, roughly 20 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-10",
+      "reference": {
+        "name": "猎豹（冲刺）",
+        "size": 33,
+        "emoji": "🐆"
+      },
+      "target": {
+        "name": "短跑运动员（冲刺）",
+        "size": 12.4,
+        "emoji": "🏃"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cheetah / Wikipedia: Usain Bolt",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Usain_Bolt",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cheetah"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "猎豹（冲刺）=33：猎豹冲刺可达 120km/h ≈ 33m/s；短跑运动员（冲刺）=12.4：博尔特百米峰值速度 12.4m/s。",
+        "reviewEvidence": "cheetah: Wikipedia: cheetahs can sprint at up to about 120 km/h, roughly 33 m/s; game value matches. | sprinter: Wikipedia: Bolt reached a peak speed of about 12.4 m/s in his 100 m world record; game value matches."
+      }
+    },
+    {
+      "id": "spd-11",
+      "reference": {
+        "name": "高铁（巡航）",
+        "size": 97,
+        "emoji": "🚄"
+      },
+      "target": {
+        "name": "轿车（高速巡航）",
+        "size": 33,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: High-speed rail in China / Wikipedia: Speed limit",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Speed_limit",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/High-speed_rail_in_China"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "高铁（巡航）=97：复兴号运营时速 350km/h ≈ 97m/s；轿车（高速巡航）=33：高速限速 120km/h ≈ 33m/s。",
+        "reviewEvidence": "hsr: Wikipedia: Chinese high-speed trains operate at up to 350 km/h, roughly 97 m/s; game value matches. | sedan-highway: A typical motorway speed limit is 120 km/h, roughly 33 m/s."
+      }
+    },
+    {
+      "id": "spd-12",
+      "reference": {
+        "name": "高铁（巡航）",
+        "size": 97,
+        "emoji": "🚄"
+      },
+      "target": {
+        "name": "猎豹（冲刺）",
+        "size": 33,
+        "emoji": "🐆"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: High-speed rail in China / Wikipedia: Cheetah",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cheetah",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/High-speed_rail_in_China"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "高铁（巡航）=97：复兴号运营时速 350km/h ≈ 97m/s；猎豹（冲刺）=33：猎豹冲刺可达 120km/h ≈ 33m/s。",
+        "reviewEvidence": "hsr: Wikipedia: Chinese high-speed trains operate at up to 350 km/h, roughly 97 m/s; game value matches. | cheetah: Wikipedia: cheetahs can sprint at up to about 120 km/h, roughly 33 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-13",
+      "reference": {
+        "name": "民航客机（巡航）",
+        "size": 250,
+        "emoji": "✈️"
+      },
+      "target": {
+        "name": "高铁（巡航）",
+        "size": 97,
+        "emoji": "🚄"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cruise (aeronautics) / Wikipedia: High-speed rail in China",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/High-speed_rail_in_China",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cruise_(aeronautics)"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "民航客机（巡航）=250：巡航约 900km/h ≈ 250m/s；高铁（巡航）=97：复兴号运营时速 350km/h ≈ 97m/s。",
+        "reviewEvidence": "airliner: Wikipedia: typical airliner cruise speed is about 900 km/h, roughly 250 m/s; game value matches. | hsr: Wikipedia: Chinese high-speed trains operate at up to 350 km/h, roughly 97 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-14",
+      "reference": {
+        "name": "民航客机（巡航）",
+        "size": 250,
+        "emoji": "✈️"
+      },
+      "target": {
+        "name": "轿车（高速巡航）",
+        "size": 33,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cruise (aeronautics) / Wikipedia: Speed limit",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Speed_limit",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cruise_(aeronautics)"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "民航客机（巡航）=250：巡航约 900km/h ≈ 250m/s；轿车（高速巡航）=33：高速限速 120km/h ≈ 33m/s。",
+        "reviewEvidence": "airliner: Wikipedia: typical airliner cruise speed is about 900 km/h, roughly 250 m/s; game value matches. | sedan-highway: A typical motorway speed limit is 120 km/h, roughly 33 m/s."
+      }
+    },
+    {
+      "id": "spd-15",
+      "reference": {
+        "name": "声音（空气中）",
+        "size": 343,
+        "emoji": "🔊"
+      },
+      "target": {
+        "name": "民航客机（巡航）",
+        "size": 250,
+        "emoji": "✈️"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Speed of sound / Wikipedia: Cruise (aeronautics)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cruise_(aeronautics)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Speed_of_sound"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "声音（空气中）=343：20°C 空气中声速 343m/s；民航客机（巡航）=250：巡航约 900km/h ≈ 250m/s。",
+        "reviewEvidence": "sound: Wikipedia: the speed of sound in air at 20°C is 343 m/s; game value matches. | airliner: Wikipedia: typical airliner cruise speed is about 900 km/h, roughly 250 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-16",
+      "reference": {
+        "name": "声音（空气中）",
+        "size": 343,
+        "emoji": "🔊"
+      },
+      "target": {
+        "name": "高铁（巡航）",
+        "size": 97,
+        "emoji": "🚄"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Speed of sound / Wikipedia: High-speed rail in China",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/High-speed_rail_in_China",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Speed_of_sound"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "声音（空气中）=343：20°C 空气中声速 343m/s；高铁（巡航）=97：复兴号运营时速 350km/h ≈ 97m/s。",
+        "reviewEvidence": "sound: Wikipedia: the speed of sound in air at 20°C is 343 m/s; game value matches. | hsr: Wikipedia: Chinese high-speed trains operate at up to 350 km/h, roughly 97 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-17",
+      "reference": {
+        "name": "战斗机（最大）",
+        "size": 600,
+        "emoji": "🛩️"
+      },
+      "target": {
+        "name": "声音（空气中）",
+        "size": 343,
+        "emoji": "🔊"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: F-16 Fighting Falcon / Wikipedia: Speed of sound",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Speed_of_sound",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/General_Dynamics_F-16_Fighting_Falcon"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "战斗机（最大）=600：F-16 最大约 2 马赫 ≈ 600+m/s，取 600m/s；声音（空气中）=343：20°C 空气中声速 343m/s。",
+        "reviewEvidence": "fighter-jet: Wikipedia: the F-16 has a maximum speed of about Mach 2, over 600 m/s; game value 600 m/s is a conservative figure. | sound: Wikipedia: the speed of sound in air at 20°C is 343 m/s; game value matches."
+      },
+      "note": "战斗机可以飞得比声音还快",
+      "memorable": true
+    },
+    {
+      "id": "spd-18",
+      "reference": {
+        "name": "战斗机（最大）",
+        "size": 600,
+        "emoji": "🛩️"
+      },
+      "target": {
+        "name": "民航客机（巡航）",
+        "size": 250,
+        "emoji": "✈️"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: F-16 Fighting Falcon / Wikipedia: Cruise (aeronautics)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cruise_(aeronautics)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/General_Dynamics_F-16_Fighting_Falcon"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "战斗机（最大）=600：F-16 最大约 2 马赫 ≈ 600+m/s，取 600m/s；民航客机（巡航）=250：巡航约 900km/h ≈ 250m/s。",
+        "reviewEvidence": "fighter-jet: Wikipedia: the F-16 has a maximum speed of about Mach 2, over 600 m/s; game value 600 m/s is a conservative figure. | airliner: Wikipedia: typical airliner cruise speed is about 900 km/h, roughly 250 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-19",
+      "reference": {
+        "name": "国际空间站（轨道）",
+        "size": 7800,
+        "emoji": "🛰️"
+      },
+      "target": {
+        "name": "战斗机（最大）",
+        "size": 600,
+        "emoji": "🛩️"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: International Space Station / Wikipedia: F-16 Fighting Falcon",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/General_Dynamics_F-16_Fighting_Falcon",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/International_Space_Station"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "国际空间站（轨道）=7800：轨道速度约 7.66km/s ≈ 7800m/s；战斗机（最大）=600：F-16 最大约 2 马赫 ≈ 600+m/s，取 600m/s。",
+        "reviewEvidence": "iss: Wikipedia: the ISS orbits at about 7.66 km/s, roughly 7,800 m/s; game value matches. | fighter-jet: Wikipedia: the F-16 has a maximum speed of about Mach 2, over 600 m/s; game value 600 m/s is a conservative figure."
+      }
+    },
+    {
+      "id": "spd-20",
+      "reference": {
+        "name": "国际空间站（轨道）",
+        "size": 7800,
+        "emoji": "🛰️"
+      },
+      "target": {
+        "name": "声音（空气中）",
+        "size": 343,
+        "emoji": "🔊"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: International Space Station / Wikipedia: Speed of sound",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Speed_of_sound",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/International_Space_Station"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "国际空间站（轨道）=7800：轨道速度约 7.66km/s ≈ 7800m/s；声音（空气中）=343：20°C 空气中声速 343m/s。",
+        "reviewEvidence": "iss: Wikipedia: the ISS orbits at about 7.66 km/s, roughly 7,800 m/s; game value matches. | sound: Wikipedia: the speed of sound in air at 20°C is 343 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-21",
+      "reference": {
+        "name": "地球公转",
+        "size": 29780,
+        "emoji": "🌍"
+      },
+      "target": {
+        "name": "国际空间站（轨道）",
+        "size": 7800,
+        "emoji": "🛰️"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Earth's orbit / Wikipedia: International Space Station",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/International_Space_Station",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Earth%27s_orbit"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "地球公转=29780：地球公转平均速度 29.78km/s；国际空间站（轨道）=7800：轨道速度约 7.66km/s ≈ 7800m/s。",
+        "reviewEvidence": "earth-orbit: Wikipedia: Earth's average orbital speed is 29.78 km/s; game value matches. | iss: Wikipedia: the ISS orbits at about 7.66 km/s, roughly 7,800 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-22",
+      "reference": {
+        "name": "红袋鼠（跳跃）",
+        "size": 20,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "target": {
+        "name": "短跑运动员（冲刺）",
+        "size": 12.4,
+        "emoji": "🏃"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Red kangaroo / Wikipedia: Usain Bolt",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Usain_Bolt",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Red_kangaroo"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "红袋鼠（跳跃）=20：红袋鼠跳跃行进可达 70km/h ≈ 20m/s；短跑运动员（冲刺）=12.4：博尔特百米峰值速度 12.4m/s。",
+        "reviewEvidence": "red-kangaroo: Wikipedia: red kangaroos can hop at up to about 70 km/h, roughly 20 m/s; game value matches. | sprinter: Wikipedia: Bolt reached a peak speed of about 12.4 m/s in his 100 m world record; game value matches."
+      }
+    },
+    {
+      "id": "spd-23",
+      "reference": {
+        "name": "猎豹（冲刺）",
+        "size": 33,
+        "emoji": "🐆"
+      },
+      "target": {
+        "name": "自行车",
+        "size": 5.5,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cheetah / Wikipedia: Bicycle",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bicycle",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cheetah"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "猎豹（冲刺）=33：猎豹冲刺可达 120km/h ≈ 33m/s；自行车=5.5：城市骑行常见 20km/h ≈ 5.5m/s。",
+        "reviewEvidence": "cheetah: Wikipedia: cheetahs can sprint at up to about 120 km/h, roughly 33 m/s; game value matches. | bicycle: A typical urban cycling speed is about 20 km/h, roughly 5.5 m/s."
+      }
+    },
+    {
+      "id": "spd-24",
+      "reference": {
+        "name": "轿车（高速巡航）",
+        "size": 33,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "target": {
+        "name": "自行车",
+        "size": 5.5,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Speed limit / Wikipedia: Bicycle",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bicycle",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Speed_limit"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "轿车（高速巡航）=33：高速限速 120km/h ≈ 33m/s；自行车=5.5：城市骑行常见 20km/h ≈ 5.5m/s。",
+        "reviewEvidence": "sedan-highway: A typical motorway speed limit is 120 km/h, roughly 33 m/s. | bicycle: A typical urban cycling speed is about 20 km/h, roughly 5.5 m/s."
+      }
+    },
+    {
+      "id": "spd-25",
+      "reference": {
+        "name": "高铁（巡航）",
+        "size": 97,
+        "emoji": "🚄"
+      },
+      "target": {
+        "name": "红袋鼠（跳跃）",
+        "size": 20,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: High-speed rail in China / Wikipedia: Red kangaroo",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_kangaroo",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/High-speed_rail_in_China"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "高铁（巡航）=97：复兴号运营时速 350km/h ≈ 97m/s；红袋鼠（跳跃）=20：红袋鼠跳跃行进可达 70km/h ≈ 20m/s。",
+        "reviewEvidence": "hsr: Wikipedia: Chinese high-speed trains operate at up to 350 km/h, roughly 97 m/s; game value matches. | red-kangaroo: Wikipedia: red kangaroos can hop at up to about 70 km/h, roughly 20 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-26",
+      "reference": {
+        "name": "民航客机（巡航）",
+        "size": 250,
+        "emoji": "✈️"
+      },
+      "target": {
+        "name": "红袋鼠（跳跃）",
+        "size": 20,
+        "emoji": "🦘",
+        "assetId": "red-kangaroo"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cruise (aeronautics) / Wikipedia: Red kangaroo",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Red_kangaroo",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cruise_(aeronautics)"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "民航客机（巡航）=250：巡航约 900km/h ≈ 250m/s；红袋鼠（跳跃）=20：红袋鼠跳跃行进可达 70km/h ≈ 20m/s。",
+        "reviewEvidence": "airliner: Wikipedia: typical airliner cruise speed is about 900 km/h, roughly 250 m/s; game value matches. | red-kangaroo: Wikipedia: red kangaroos can hop at up to about 70 km/h, roughly 20 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-27",
+      "reference": {
+        "name": "声音（空气中）",
+        "size": 343,
+        "emoji": "🔊"
+      },
+      "target": {
+        "name": "轿车（高速巡航）",
+        "size": 33,
+        "emoji": "🚗",
+        "assetId": "sedan-car"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Speed of sound / Wikipedia: Speed limit",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Speed_limit",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Speed_of_sound"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "声音（空气中）=343：20°C 空气中声速 343m/s；轿车（高速巡航）=33：高速限速 120km/h ≈ 33m/s。",
+        "reviewEvidence": "sound: Wikipedia: the speed of sound in air at 20°C is 343 m/s; game value matches. | sedan-highway: A typical motorway speed limit is 120 km/h, roughly 33 m/s."
+      }
+    },
+    {
+      "id": "spd-28",
+      "reference": {
+        "name": "战斗机（最大）",
+        "size": 600,
+        "emoji": "🛩️"
+      },
+      "target": {
+        "name": "高铁（巡航）",
+        "size": 97,
+        "emoji": "🚄"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: F-16 Fighting Falcon / Wikipedia: High-speed rail in China",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/High-speed_rail_in_China",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/General_Dynamics_F-16_Fighting_Falcon"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "战斗机（最大）=600：F-16 最大约 2 马赫 ≈ 600+m/s，取 600m/s；高铁（巡航）=97：复兴号运营时速 350km/h ≈ 97m/s。",
+        "reviewEvidence": "fighter-jet: Wikipedia: the F-16 has a maximum speed of about Mach 2, over 600 m/s; game value 600 m/s is a conservative figure. | hsr: Wikipedia: Chinese high-speed trains operate at up to 350 km/h, roughly 97 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-29",
+      "reference": {
+        "name": "国际空间站（轨道）",
+        "size": 7800,
+        "emoji": "🛰️"
+      },
+      "target": {
+        "name": "民航客机（巡航）",
+        "size": 250,
+        "emoji": "✈️"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: International Space Station / Wikipedia: Cruise (aeronautics)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Cruise_(aeronautics)",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/International_Space_Station"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "国际空间站（轨道）=7800：轨道速度约 7.66km/s ≈ 7800m/s；民航客机（巡航）=250：巡航约 900km/h ≈ 250m/s。",
+        "reviewEvidence": "iss: Wikipedia: the ISS orbits at about 7.66 km/s, roughly 7,800 m/s; game value matches. | airliner: Wikipedia: typical airliner cruise speed is about 900 km/h, roughly 250 m/s; game value matches."
+      }
+    },
+    {
+      "id": "spd-30",
+      "reference": {
+        "name": "家猫（冲刺）",
+        "size": 13.3,
+        "emoji": "🐱",
+        "assetId": "house-cat"
+      },
+      "target": {
+        "name": "自行车",
+        "size": 5.5,
+        "emoji": "🚲",
+        "assetId": "bicycle"
+      },
+      "dimension": "速度",
+      "measure": "speed",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Cat / Wikipedia: Bicycle",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Bicycle",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Cat"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "家猫（冲刺）=13.3：家猫冲刺约 48km/h ≈ 13.3m/s；自行车=5.5：城市骑行常见 20km/h ≈ 5.5m/s。",
+        "reviewEvidence": "house-cat-sprint: Domestic cats can sprint at about 48 km/h, roughly 13.3 m/s. | bicycle: A typical urban cycling speed is about 20 km/h, roughly 5.5 m/s."
+      }
+    }
   ]
 };
 window.__BSZ_ASSET_MANIFEST__ = {
@@ -10147,7 +12185,7 @@ window.__BSZ_OBJECTS__ = {
     const ids = /* @__PURE__ */ new Set();
     const dup = /* @__PURE__ */ new Set();
     const VISUAL_REQUIRED = ["everyday", "pop", "geo"];
-    const VISUAL_OPTIONAL = ["weight", "area"];
+    const VISUAL_OPTIONAL = ["weight", "area", "volume", "speed"];
     for (const key of VISUAL_REQUIRED) {
       if (!Array.isArray(pack2[key])) errors.push({ path: key, msg: "\u89C6\u89C9\u9898\u5E93\u5FC5\u987B\u662F\u6570\u7EC4" });
     }
@@ -10827,9 +12865,21 @@ window.__BSZ_OBJECTS__ = {
     if (m2 >= 1) return trimNum(m2) + " \u5E73\u65B9\u7C73";
     return trimNum(m2 * 1e4) + " \u5E73\u65B9\u5398\u7C73";
   }
+  function fmtVolume(m3) {
+    if (m3 >= 1) return trimNum(m3) + " \u7ACB\u65B9\u7C73";
+    if (m3 >= 1e-3) return trimNum(m3 * 1e3) + " \u5347";
+    return trimNum(m3 * 1e6) + " \u6BEB\u5347";
+  }
+  function fmtSpeed(ms) {
+    const kmh = ms * 3.6;
+    if (kmh >= 10) return trimNum(Math.round(kmh * 10) / 10) + " \u5343\u7C73/\u65F6";
+    return trimNum(ms) + " \u7C73/\u79D2";
+  }
   function fmtMeasure(size, measure2) {
     if (measure2 === "weight") return fmtWeight(size);
     if (measure2 === "area") return fmtArea(size);
+    if (measure2 === "volume") return fmtVolume(size);
+    if (measure2 === "speed") return fmtSpeed(size);
     return fmtSize(size);
   }
   function trimNum(n) {
@@ -12039,6 +14089,8 @@ window.__BSZ_OBJECTS__ = {
     { id: "geo", icon: "\u{1F30D}", title: "\u5730\u7406\u5730\u6807", desc: "\u4ECE\u697C\u623F\u5230\u73E0\u5CF0\u7684\u5C3A\u5EA6\u611F", type: "visual", pool: "geo" },
     { id: "weight", icon: "\u2696\uFE0F", title: "\u91CD\u91CF\u6311\u6218", desc: "\u6309\u8D28\u91CF\u7684\u7ACB\u65B9\u6839\u663E\u793A \xB7 5 \u9898\u4E00\u5C40", type: "visual", pool: "weight" },
     { id: "area", icon: "\u{1F4D0}", title: "\u9762\u79EF\u6311\u6218", desc: "\u6309\u9762\u79EF\u7684\u5E73\u65B9\u6839\u663E\u793A \xB7 5 \u9898\u4E00\u5C40", type: "visual", pool: "area" },
+    { id: "volume", icon: "\u{1F4E6}", title: "\u4F53\u79EF\u6311\u6218", desc: "\u6309\u4F53\u79EF\u7684\u7ACB\u65B9\u6839\u663E\u793A \xB7 5 \u9898\u4E00\u5C40", type: "visual", pool: "volume" },
+    { id: "speed", icon: "\u26A1", title: "\u901F\u5EA6\u6311\u6218", desc: "\u8C01\u66F4\u5FEB \xB7 5 \u9898\u4E00\u5C40", type: "visual", pool: "speed" },
     { id: "random", icon: "\u{1F3B2}", title: "\u968F\u673A\u906D\u9047", desc: "\u4E07\u7269\u968F\u673A\u914D\u5BF9 \xB7 \u6BCF\u5C40\u5168\u65B0\u7EC4\u5408", type: "visual-random" },
     { id: "daily", icon: "\u{1F4C5}", title: "\u6BCF\u65E5\u4E00\u9898", desc: "\u6BCF\u5929\u4E00\u9053\u6570\u91CF\u7EA7 \xB7 \u9760\u7D2F\u79EF", type: "numeric", tag: "daily" },
     { id: "survival", icon: "\u{1F480}", title: "\u751F\u5B58\u6A21\u5F0F", desc: "15 \u79D2\u4E00\u9898 \xB7 \u7B54\u9519\u6263\u8840", type: "numeric" },

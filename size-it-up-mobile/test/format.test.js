@@ -81,6 +81,11 @@ describe('尺寸与比例展示', () => {
     expect(fmtMeasure(18000, 'area')).toBe('1.8 公顷');
     expect(fmtMeasure(2080000, 'area')).toBe('2.08 平方千米');
     expect(fmtMeasure(0.0624, 'area')).toBe('624 平方厘米');
+    expect(fmtMeasure(2500, 'volume')).toBe('2500 立方米');
+    expect(fmtMeasure(0.07, 'volume')).toBe('70 升');
+    expect(fmtMeasure(3.3e-4, 'volume')).toBe('330 毫升');
+    expect(fmtMeasure(1.4, 'speed')).toBe('1.4 米/秒');
+    expect(fmtMeasure(97, 'speed')).toBe('349.2 千米/时');
     expect(fmtMeasure(1.7, undefined)).toBe('1.7 米'); // 未标注分类回退长度
   });
 });
