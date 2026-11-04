@@ -60,13 +60,15 @@ function setArt(el, entry) {
   el.innerHTML = `<img src="${entry.file}" alt="" width="${w}" height="${h}" draggable="false">`;
 }
 
-/** 题目 dimension → 素材度量轴：同一素材在不同题目里可能按不同维度比较（如小轿车 长度/高度），轴随题目走 */
+/** 题目 dimension → 素材度量轴（缺省推导）；侧面带显式 axis 时以侧面为准——
+ *  题目轴与对象测量轴可能不同（如「成年人身高 vs 蓝鲸体长」的长度题），
+ *  轴必须随对象走，否则竖向素材被按宽度归一会产生数倍失真（P0 修复，见 tools/fix-axis.mjs） */
 const DIM_AXIS = { '高度': 'h', '身高': 'h', '长度': 'w', '宽度': 'w', '直径': 'w' };
 
 /** 画布边长 / 内容度量轴长：内容轴 = px 时整个画布盒子边长 = px * k */
-function kOf(entry, dim) {
+function kOf(entry, dim, sideAxis) {
   const b = entry.bounds;
-  const axis = DIM_AXIS[dim] || entry.axis || (b.w >= b.h ? 'w' : 'h');
+  const axis = sideAxis || DIM_AXIS[dim] || entry.axis || (b.w >= b.h ? 'w' : 'h');
   return entry.canvas.w / (axis === 'w' ? b.w : b.h);
 }
 
@@ -102,8 +104,8 @@ function loadRound() {
   artRef = useArt ? refArt : null;
   artTgt = useArt ? tgtArt : null;
   if (useArt) {
-    kRef = kOf(refArt, item.dimension);
-    kTgt = kOf(tgtArt, item.dimension);
+    kRef = kOf(refArt, item.dimension, item.ref.axis);
+    kTgt = kOf(tgtArt, item.dimension, item.tgt.axis);
     setArt($('v-ref-emoji'), refArt);
     setArt($('v-tgt-emoji'), tgtArt);
   } else {

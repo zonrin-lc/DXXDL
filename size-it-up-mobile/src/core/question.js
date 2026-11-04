@@ -71,6 +71,10 @@ export function validatePack(pack) {
         errors.push({ path: p, msg: `measure 必须是 length/weight/area/volume/speed: ${q.measure}` });
       }
       if (q.difficulty !== undefined && ![1, 2, 3].includes(q.difficulty)) errors.push({ path: p, msg: `difficulty 必须是 1/2/3: ${q.difficulty}` });
+      for (const sideName of ['reference', 'target']) {
+        const ax = q[sideName]?.axis;
+        if (ax !== undefined && ax !== 'h' && ax !== 'w') errors.push({ path: `${p}.${sideName}`, msg: `axis 必须是 h/w: ${ax}` });
+      }
       if (q.memorable !== undefined && typeof q.memorable !== 'boolean') errors.push({ path: p, msg: 'memorable 必须是布尔值' });
       if (q.status && !STATUSES.includes(q.status)) errors.push({ path: p, msg: `非法 status: ${q.status}` });
       if (q.status === 'published' || q.status === undefined) {

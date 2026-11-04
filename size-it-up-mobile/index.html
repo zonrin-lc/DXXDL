@@ -758,8 +758,8 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
 
 <script>
 window.__BSZ_BASE_PACK__ = {
-  "version": "3.2.0",
-  "_说明": "热更新数据包 v3.2.0（P3 体积+速度分类）：新增 volume 池 40 题（单位 m³，渲染按立方根缩放）与 speed 池 30 题（单位 m/s，线性渲染）；全部满足 1/32≤q*≤32 带宽并带对象级来源；素材复用现有插画+emoji 兜底。",
+  "version": "3.2.1",
+  "_说明": "热更新数据包 v3.2.1（P0 轴向失真修复）：length 题中题目 dimension 轴与对象测量轴不一致的侧面写入显式 axis 字段（ev-7/pop-22 成年人、pop-37 星藤猎人、pop-9 晶石巨人），渲染器按每侧 axis 归一，消除系统性失真。其余同 v3.2.0。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态。published 题：q* 须在 [1/32,32] 带宽内；source 需 name/year/url/reviewStatus/reviewEvidence（真实对象），或 type=original + doc + reviewStatus=original_design（原创角色）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
@@ -768,7 +768,8 @@ window.__BSZ_BASE_PACK__ = {
     "weight": "重量模式题库：结构同 everyday/pop/geo，size 单位为千克（kg），measure=weight，dimension=重量；渲染时图上大小按重量的立方根显示（仅影响呈现，不影响计分）",
     "area": "面积模式题库：结构同 everyday/pop/geo，size 单位为平方米（m²），measure=area，dimension=面积；渲染时图上边长按面积的平方根显示（仅影响呈现，不影响计分）；无 assetId 的对象用 emoji 兜底渲染",
     "volume": "体积模式题库：size 单位为立方米（m³），measure=volume，dimension=体积；渲染时图上边长按体积的立方根显示（仅影响呈现，不影响计分）",
-    "speed": "速度模式题库：size 单位为米/秒（m/s），measure=speed，dimension=速度；线性渲染（dispExp=1），巡航/冲刺/轨道速度口径以对象名括注标明"
+    "speed": "速度模式题库：size 单位为米/秒（m/s），measure=speed，dimension=速度；线性渲染（dispExp=1），巡航/冲刺/轨道速度口径以对象名括注标明",
+    "axis": "可选。reference/target 侧字段：该侧 size 的测量内容轴（h=竖向身高/高度，w=横向长度/宽度/直径）。缺省时渲染器按题目 dimension 推导；仅当对象测量轴与题目轴不一致时显式标注（权威来源为 data/objects.json 的 dim）"
   },
   "everyday": [
     {
@@ -980,7 +981,8 @@ window.__BSZ_BASE_PACK__ = {
         "name": "成年人",
         "size": 1.7,
         "emoji": "🧍",
-        "assetId": "adult-human"
+        "assetId": "adult-human",
+        "axis": "h"
       },
       "target": {
         "name": "蓝鲸（体长）",
@@ -1190,7 +1192,8 @@ window.__BSZ_BASE_PACK__ = {
         "name": "易拉罐",
         "size": 0.12,
         "emoji": "🥤",
-        "assetId": "soda-can"
+        "assetId": "soda-can",
+        "axis": "h"
       },
       "dimension": "长度",
       "status": "published",
@@ -1539,7 +1542,8 @@ window.__BSZ_BASE_PACK__ = {
         "name": "双层巴士",
         "size": 4.4,
         "emoji": "🚌",
-        "assetId": "double-decker-bus"
+        "assetId": "double-decker-bus",
+        "axis": "h"
       },
       "dimension": "长度",
       "difficulty": 3,
@@ -2200,7 +2204,8 @@ window.__BSZ_BASE_PACK__ = {
         "name": "一层楼房",
         "size": 3,
         "emoji": "🏠",
-        "assetId": "single-storey-house"
+        "assetId": "single-storey-house",
+        "axis": "h"
       },
       "target": {
         "name": "蓝鲸（体长）",
@@ -2501,7 +2506,8 @@ window.__BSZ_BASE_PACK__ = {
         "name": "晶石巨人",
         "size": 40,
         "emoji": "💎",
-        "assetId": "crystal-titan"
+        "assetId": "crystal-titan",
+        "axis": "h"
       },
       "target": {
         "name": "深渊巨蜥",
@@ -2870,7 +2876,8 @@ window.__BSZ_BASE_PACK__ = {
         "name": "成年人",
         "size": 1.7,
         "emoji": "🧍",
-        "assetId": "adult-human"
+        "assetId": "adult-human",
+        "axis": "h"
       },
       "target": {
         "name": "冰霜幼龙（体长）",
@@ -2960,7 +2967,8 @@ window.__BSZ_BASE_PACK__ = {
         "name": "一层楼房",
         "size": 3,
         "emoji": "🏠",
-        "assetId": "single-storey-house"
+        "assetId": "single-storey-house",
+        "axis": "h"
       },
       "target": {
         "name": "冰霜幼龙（体长）",
@@ -3297,7 +3305,8 @@ window.__BSZ_BASE_PACK__ = {
         "name": "星藤猎人",
         "size": 3,
         "emoji": "🌟",
-        "assetId": "starvine-hunter"
+        "assetId": "starvine-hunter",
+        "axis": "h"
       },
       "target": {
         "name": "冰霜幼龙（体长）",
@@ -3598,7 +3607,8 @@ window.__BSZ_BASE_PACK__ = {
         "name": "霸王龙（科学复原）",
         "size": 4,
         "emoji": "🦖",
-        "assetId": "t-rex"
+        "assetId": "t-rex",
+        "axis": "h"
       },
       "target": {
         "name": "深渊巨蜥",
@@ -12193,7 +12203,7 @@ window.__BSZ_OBJECTS__ = {
       const arr = pack2[key];
       if (!Array.isArray(arr)) continue;
       arr.forEach((q2, i) => {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g;
         const p = `${key}[${i}]`;
         if (!q2.id) errors.push({ path: p, msg: "\u7F3A\u5C11\u7A33\u5B9A id" });
         else if (ids.has(q2.id)) dup.add(q2.id);
@@ -12215,12 +12225,16 @@ window.__BSZ_OBJECTS__ = {
           errors.push({ path: p, msg: `measure \u5FC5\u987B\u662F length/weight/area/volume/speed: ${q2.measure}` });
         }
         if (q2.difficulty !== void 0 && ![1, 2, 3].includes(q2.difficulty)) errors.push({ path: p, msg: `difficulty \u5FC5\u987B\u662F 1/2/3: ${q2.difficulty}` });
+        for (const sideName of ["reference", "target"]) {
+          const ax = (_e = q2[sideName]) == null ? void 0 : _e.axis;
+          if (ax !== void 0 && ax !== "h" && ax !== "w") errors.push({ path: `${p}.${sideName}`, msg: `axis \u5FC5\u987B\u662F h/w: ${ax}` });
+        }
         if (q2.memorable !== void 0 && typeof q2.memorable !== "boolean") errors.push({ path: p, msg: "memorable \u5FC5\u987B\u662F\u5E03\u5C14\u503C" });
         if (q2.status && !STATUSES.includes(q2.status)) errors.push({ path: p, msg: `\u975E\u6CD5 status: ${q2.status}` });
         if (q2.status === "published" || q2.status === void 0) {
           checkSource(errors, p, q2, { numeric: false });
         }
-        if (((_e = q2.reference) == null ? void 0 : _e.size) && ((_f = q2.target) == null ? void 0 : _f.size) && !q2.dimension) errors.push({ path: p, msg: "\u7F3A\u5C11 dimension" });
+        if (((_f = q2.reference) == null ? void 0 : _f.size) && ((_g = q2.target) == null ? void 0 : _g.size) && !q2.dimension) errors.push({ path: p, msg: "\u7F3A\u5C11 dimension" });
       });
     }
     const numArr = pack2.numeric;
@@ -12962,9 +12976,9 @@ window.__BSZ_OBJECTS__ = {
     el.innerHTML = `<img src="${entry.file}" alt="" width="${w}" height="${h}" draggable="false">`;
   }
   var DIM_AXIS = { "\u9AD8\u5EA6": "h", "\u8EAB\u9AD8": "h", "\u957F\u5EA6": "w", "\u5BBD\u5EA6": "w", "\u76F4\u5F84": "w" };
-  function kOf(entry, dim) {
+  function kOf(entry, dim, sideAxis) {
     const b = entry.bounds;
-    const axis = DIM_AXIS[dim] || entry.axis || (b.w >= b.h ? "w" : "h");
+    const axis = sideAxis || DIM_AXIS[dim] || entry.axis || (b.w >= b.h ? "w" : "h");
     return entry.canvas.w / (axis === "w" ? b.w : b.h);
   }
   function initVisual(context) {
@@ -12995,8 +13009,8 @@ window.__BSZ_OBJECTS__ = {
     artRef = useArt ? refArt : null;
     artTgt = useArt ? tgtArt : null;
     if (useArt) {
-      kRef = kOf(refArt, item.dimension);
-      kTgt = kOf(tgtArt, item.dimension);
+      kRef = kOf(refArt, item.dimension, item.ref.axis);
+      kTgt = kOf(tgtArt, item.dimension, item.tgt.axis);
       setArt($("v-ref-emoji"), refArt);
       setArt($("v-tgt-emoji"), tgtArt);
     } else {
@@ -13972,8 +13986,8 @@ window.__BSZ_OBJECTS__ = {
     const t = item.target || item.tgt || {};
     return {
       id: item.id,
-      ref: { e: r.emoji || r.e || "\u{1F9CD}", n: r.name || r.n || "", s: r.size || r.s || 1, assetId: r.assetId || null },
-      tgt: { e: t.emoji || t.e || "\u2753", n: t.name || t.n || "", s: t.size || t.s || 1, assetId: t.assetId || null },
+      ref: { e: r.emoji || r.e || "\u{1F9CD}", n: r.name || r.n || "", s: r.size || r.s || 1, assetId: r.assetId || null, axis: r.axis || null },
+      tgt: { e: t.emoji || t.e || "\u2753", n: t.name || t.n || "", s: t.size || t.s || 1, assetId: t.assetId || null, axis: t.axis || null },
       note: item.note,
       dimension: item.dimension,
       measure: item.measure || "length"

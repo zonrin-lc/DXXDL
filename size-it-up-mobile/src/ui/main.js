@@ -62,8 +62,8 @@ function toVisual(item) {
   const t = item.target || item.tgt || {};
   return {
     id: item.id,
-    ref: { e: r.emoji || r.e || '🧍', n: r.name || r.n || '', s: r.size || r.s || 1, assetId: r.assetId || null },
-    tgt: { e: t.emoji || t.e || '❓', n: t.name || t.n || '', s: t.size || t.s || 1, assetId: t.assetId || null },
+    ref: { e: r.emoji || r.e || '🧍', n: r.name || r.n || '', s: r.size || r.s || 1, assetId: r.assetId || null, axis: r.axis || null },
+    tgt: { e: t.emoji || t.e || '❓', n: t.name || t.n || '', s: t.size || t.s || 1, assetId: t.assetId || null, axis: t.axis || null },
     note: item.note,
     dimension: item.dimension,
     measure: item.measure || 'length',
