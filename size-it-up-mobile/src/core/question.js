@@ -228,10 +228,13 @@ export function arrangeRound(pool, rounds = 5, rng = Math.random) {
 }
 
 function pickMemorable(shuffled, used) {
-  const marked = shuffled.find((q) => q.memorable && !used.has(q.id));
-  if (marked) {
-    used.add(marked.id);
-    return marked;
+  const marked = shuffled.filter((q) => q.memorable && !used.has(q.id));
+  if (marked.length) {
+    // 记忆点收尾也应维持难度爬升：多道标记题时优先最难的，避免 d1 收尾的泄气感
+    // （speed 池曾因此有 17.7% 的局以 d1 收尾——spd-17 是 d1 标记题）
+    marked.sort((a, b) => (b.difficulty || 0) - (a.difficulty || 0));
+    used.add(marked[0].id);
+    return marked[0];
   }
   const hardest = shuffled.filter((q) => !used.has(q.id)).sort((a, b) => (b.difficulty || 0) - (a.difficulty || 0))[0];
   if (hardest) used.add(hardest.id);

@@ -12610,10 +12610,11 @@ window.__BSZ_OBJECTS__ = {
     return picked.slice(0, rounds);
   }
   function pickMemorable(shuffled, used) {
-    const marked = shuffled.find((q2) => q2.memorable && !used.has(q2.id));
-    if (marked) {
-      used.add(marked.id);
-      return marked;
+    const marked = shuffled.filter((q2) => q2.memorable && !used.has(q2.id));
+    if (marked.length) {
+      marked.sort((a, b) => (b.difficulty || 0) - (a.difficulty || 0));
+      used.add(marked[0].id);
+      return marked[0];
     }
     const hardest = shuffled.filter((q2) => !used.has(q2.id)).sort((a, b) => (b.difficulty || 0) - (a.difficulty || 0))[0];
     if (hardest) used.add(hardest.id);

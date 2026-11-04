@@ -230,6 +230,18 @@ describe('每局编排（GDD 6.3）', () => {
     expect(round[3].difficulty).toBe(3);
     expect(round[4].memorable).toBe(true);
   });
+  it('多道记忆点标记题时，收尾优先最难的（避免 d1 收尾泄气）', () => {
+    const pool = [
+      mk('e1', 1, 'a'), mk('e2', 1, 'b'), mk('e3', 1, 'c'),
+      mk('m1', 2, 'd'), mk('m2', 2, 'e'),
+      mk('h1', 3, 'f'), mk('h2', 3, 'g'),
+      mk('mem-easy', 1, 'h', true), mk('mem-hard', 3, 'i', true),
+    ];
+    for (let seed = 1; seed <= 50; seed++) {
+      const round = arrangeRound(pool, 5, mulberry(seed));
+      expect(round[4].id).toBe('mem-hard');
+    }
+  });
   it('避免相邻题目标物同名', () => {
     const pool = Array.from({ length: 10 }, (_, i) => mk('q' + i, (i % 3) + 1, i < 5 ? '同名' : '异' + i));
     for (let seed = 1; seed <= 10; seed++) {
