@@ -35,6 +35,7 @@ export function initNumeric(context) {
   $('n-next').addEventListener('click', nextStep);
   $('n-report').addEventListener('click', copyReport);
   $('n-revive-ad').addEventListener('click', tryRevive);
+  $('n-revive-cancel').addEventListener('click', cancelReviveWait);
   $('n-input').addEventListener('input', onInput);
   $('n-tip-btn').addEventListener('click', () => {
     const tip = $('n-tip');
@@ -77,6 +78,7 @@ export function startNumeric(mode, opts = {}) {
     revived: false,
     reviveInFlight: false,
     reviveAttemptId: null,
+    reviveAbandoned: false,
   };
 
   $('n-survival-head').classList.toggle('hidden', mode !== 'survival');
@@ -125,6 +127,9 @@ function loadRound() {
   session.timedOut = false;
 
   syncReviveButton();
+  // 焦点管理：上一题揭晓时焦点在「继续」按钮上，进新题后移交输入框，
+  // 避免焦点掉回 body；数值模式主输入是文本框，移动端在点击手势后聚焦可直接唤起键盘
+  $('n-input').focus();
   if (session.mode === 'survival') {
     $('n-life').textContent = String(session.life);
     $('n-hearts').textContent = '❤️'.repeat(session.life) + '🖤'.repeat(SURVIVAL.maxLife - session.life);
@@ -228,9 +233,21 @@ function syncReviveButton() {
   button.classList.toggle('hidden', !canOffer);
   button.disabled = !canOffer || Boolean(session && session.reviveInFlight);
   $('n-next').disabled = Boolean(session && session.reviveInFlight);
+  // 广告等待中的取消出口：SDK 丢回调时玩家最长会被锁住 playbackTimeoutMs（120s），必须有主动放弃路径
+  const cancelBtn = $('n-revive-cancel');
+  if (cancelBtn) cancelBtn.classList.toggle('hidden', !(session && session.reviveInFlight));
   button.textContent = session && session.reviveInFlight
     ? '广告处理中…'
     : '观看广告 · 复活一次（恢复3点生命）';
+}
+
+/** 放弃等待广告回调：立即恢复可操作；迟到的完成回调不再补发奖励（ reviveAbandoned 标记） */
+function cancelReviveWait() {
+  if (!session || !session.reviveInFlight) return;
+  session.reviveInFlight = false;
+  session.reviveAbandoned = true;
+  syncReviveButton();
+  ctx.toast('已放弃本次复活等待；若广告实际已完成，本次也不会补发奖励。');
 }
 
 function storeRewardAttempt(targetSession, status) {
@@ -281,8 +298,8 @@ async function tryRevive() {
 
   targetSession.reviveInFlight = false;
   storeRewardAttempt(targetSession, 'clear');
-  // 不能把已离开的旧局奖励加到另一局，也不能据迟到回调发奖。
-  if (session !== targetSession) return;
+  // 不能把已离开的旧局奖励加到另一局，也不能据迟到回调发奖；玩家主动放弃的等待同样不发奖
+  if (session !== targetSession || targetSession.reviveAbandoned) return;
 
   if (result.status === 'completed' && targetSession.life <= 0 && !targetSession.revived) {
     targetSession.revived = true;

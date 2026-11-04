@@ -156,17 +156,18 @@ header p { font-size: var(--fs-12); color: var(--sub); margin-top: var(--sp-2); 
   font-size: var(--fs-16);
   font-weight: 700;
   color: #fff;
-  background: linear-gradient(180deg, #62b1f0, var(--blue));
+  /* 白字按钮底色加深至 AA（16px/700 需 ≥4.5:1）：亮端 5.42 / 暗端 7.15 */
+  background: linear-gradient(180deg, #2b6cb0, #205a92);
   box-shadow: 0 4px 0 #2f7cbd, inset 0 1px 0 rgba(255,255,255,.4);
   cursor: pointer;
   transition: transform .1s, box-shadow .1s;
   font-family: inherit;
 }
 .btn:active { transform: translateY(3px); box-shadow: 0 1px 0 #2f7cbd, inset 0 1px 0 rgba(255,255,255,.4); }
-.btn.green { background: linear-gradient(180deg, #8ed056, var(--green)); box-shadow: 0 4px 0 #3d8a4c, inset 0 1px 0 rgba(255,255,255,.4); }
-.btn.green:active { box-shadow: 0 1px 0 #3d8a4c; }
-.btn.lock { background: linear-gradient(180deg, #ff8b7a, var(--red)); box-shadow: 0 4px 0 #c14637, inset 0 1px 0 rgba(255,255,255,.4); }
-.btn.lock:active { box-shadow: 0 1px 0 #c14637; }
+.btn.green { background: linear-gradient(180deg, #2e7d32, #256b2a); box-shadow: 0 4px 0 #1c4d20, inset 0 1px 0 rgba(255,255,255,.4); }
+.btn.green:active { box-shadow: 0 1px 0 #1c4d20; }
+.btn.lock { background: linear-gradient(180deg, #c14637, #a93226); box-shadow: 0 4px 0 #7e2a20, inset 0 1px 0 rgba(255,255,255,.4); }
+.btn.lock:active { box-shadow: 0 1px 0 #7e2a20; }
 .btn.sub { background: linear-gradient(180deg, #f4ead4, #e9dcc0); color: var(--ink); font-size: var(--fs-14); padding: var(--sp-3); box-shadow: 0 3px 0 #cbb990; }
 .btn.sub:active { box-shadow: 0 1px 0 #cbb990; }
 /* 与上方内容留一档间距（原三处内联 margin-top:14px 收口成类） */
@@ -184,10 +185,10 @@ header p { font-size: var(--fs-12); color: var(--sub); margin-top: var(--sp-2); 
   box-shadow: 0 2px 0 var(--wood-line); position: relative;
 }
 .mini-btn:active { transform: translateY(2px); box-shadow: none; }
-/* 视觉尺寸不变，伪元素把触控命中区补到 40px 高 */
-.link-btn::after, .mini-btn::after {
+/* 视觉尺寸不变，伪元素把触控命中区补到 44px 高（WCAG 2.5.8 加强口径） */
+.link-btn::after, .mini-btn::after, .chip::after, .fine-btn::after, .back-row button::after {
   content: ''; position: absolute; left: 0; right: 0; top: 50%;
-  transform: translateY(-50%); height: 40px;
+  transform: translateY(-50%); height: 44px;
 }
 
 @keyframes pop { from { transform: scale(.94); opacity: 0; } to { transform: scale(1); opacity: 1; } }
@@ -230,8 +231,8 @@ header p { font-size: var(--fs-12); color: var(--sub); margin-top: var(--sp-2); 
   margin-left: var(--sp-1); white-space: nowrap;
 }
 .tag { font-size: var(--fs-11); font-weight: 700; padding: 2px var(--sp-2); border-radius: var(--r-sm); margin-left: var(--sp-1); vertical-align: 2px; }
-.tag.daily { background: var(--purple-soft); color: var(--purple); }
-.tag.practice { background: #eaf6ec; color: var(--green); }
+.tag.daily { background: var(--purple-soft); color: #7d4fb0; }
+.tag.practice { background: #eaf6ec; color: #256b2a; }
 /* 首屏骨架：题库加载完成后由 renderHome 的 innerHTML='' 自然替换 */
 .mode-card.skel { cursor: default; pointer-events: none; }
 .mode-card.skel .skel-ic {
@@ -256,11 +257,15 @@ header p { font-size: var(--fs-12); color: var(--sub); margin-top: var(--sp-2); 
   margin: var(--sp-3) 0; font-size: var(--fs-13); color: var(--sub); font-weight: 700;
 }
 .dots { display: flex; gap: var(--sp-1); }
-.dot { width: 10px; height: 10px; border-radius: 50%; background: #e3d7bd; transition: background-color .3s, border-color .3s, transform .3s; border: 1px solid #d2c1a0; }
-.dot.on { background: var(--blue); transform: scale(1.2); }
-.dot.done-90 { background: var(--green); }
-.dot.done-mid { background: var(--orange-deep); }
-.dot.done-bad { background: var(--red); }
+/* 进度点：颜色+符号双编码（不单靠颜色区分状态），底色对纸面 ≥3:1 */
+.dot { width: 16px; height: 16px; border-radius: 50%; background: #e3d7bd; transition: background-color .3s, border-color .3s, transform .3s; border: 1px solid #d2c1a0; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #fff; line-height: 1; }
+.dot.on { background: var(--blue); transform: scale(1.15); border-color: #2f7cbd; }
+.dot.done-90 { background: #3d8a4c; border-color: #2c6b39; }
+.dot.done-90::after { content: '✓'; }
+.dot.done-mid { background: #b3610a; border-color: #8a4c08; }
+.dot.done-mid::after { content: '~'; }
+.dot.done-bad { background: #c0392b; border-color: #962d22; }
+.dot.done-bad::after { content: '✕'; }
 
 .stage { padding: var(--sp-3) var(--sp-3) var(--sp-2); }
 .arena {
@@ -294,8 +299,8 @@ header p { font-size: var(--fs-12); color: var(--sub); margin-top: var(--sp-2); 
   padding: var(--sp-2); border-radius: var(--r-md);
 }
 .label small { display: block; font-weight: 400; font-size: var(--fs-11); color: var(--sub); margin-top: 1px; }
-.label.ref { background: var(--blue-soft); color: #2f7cbd; border: 1px solid #cfe6f7; }
-.label.tgt { background: var(--red-soft); color: #d1503f; border: 1px solid #f8d3cb; }
+.label.ref { background: var(--blue-soft); color: #1d6fa5; border: 1px solid #cfe6f7; }
+.label.tgt { background: var(--red-soft); color: #b03424; border: 1px solid #f8d3cb; }
 
 .controls { margin-top: var(--sp-4); }
 input[type="range"] { width: 100%; height: 44px; -webkit-appearance: none; background: transparent; }
@@ -340,7 +345,7 @@ input[type="range"]:disabled { opacity: .5; }
   flex: none; padding: var(--sp-3); border-radius: var(--r-lg);
   border: 2px solid var(--wood); background: var(--paper);
   color: var(--ink); font-weight: 800; font-size: var(--fs-13); cursor: pointer;
-  box-shadow: 0 3px 0 var(--wood-line); font-family: inherit; white-space: nowrap;
+  box-shadow: 0 3px 0 var(--wood-line); font-family: inherit; white-space: nowrap; position: relative;
 }
 .fine-btn:active { transform: translateY(3px); box-shadow: none; }
 .fine-btn:disabled { opacity: .5; }
@@ -363,7 +368,7 @@ input[type="range"]:disabled { opacity: .5; }
 
 /* ===== 数值模式 ===== */
 .q-card { padding: var(--sp-4); margin-top: var(--sp-1); }
-.q-card .q-tag { font-size: var(--fs-11); color: var(--purple); font-weight: 800; letter-spacing: 1px; }
+.q-card .q-tag { font-size: var(--fs-11); color: #7d4fb0; font-weight: 800; letter-spacing: 1px; }
 .q-card .q-text { font-size: var(--fs-18); font-weight: 800; line-height: 1.55; margin-top: var(--sp-2); }
 .q-card .q-hint { font-size: var(--fs-12); color: var(--sub); margin-top: var(--sp-2); line-height: 1.7; }
 .tip-box {
@@ -377,25 +382,25 @@ input[type="range"]:disabled { opacity: .5; }
   border-radius: var(--r-lg); padding: var(--sp-3); margin-top: var(--sp-3);
   box-shadow: 0 3px 0 var(--wood-line);
 }
-.num-input-row:focus-within { border-color: var(--purple); }
+.num-input-row:focus-within { border-color: #7d4fb0; }
 .num-input-row input {
   flex: 1; border: none; outline: none; font-size: var(--fs-22); font-weight: 800;
   font-family: inherit; color: var(--ink); min-width: 0; background: transparent;
 }
 .num-input-row .unit { font-size: var(--fs-13); color: var(--sub); flex: none; }
-.norm-hint { font-size: var(--fs-12); color: var(--purple); text-align: center; margin-top: var(--sp-2); font-weight: 700; }
+.norm-hint { font-size: var(--fs-12); color: #7d4fb0; text-align: center; margin-top: var(--sp-2); font-weight: 700; }
 .chips { display: flex; gap: var(--sp-2); margin-top: var(--sp-2); flex-wrap: wrap; }
 .chip {
   flex: 1; min-width: 60px; padding: var(--sp-2) var(--sp-1); border: none; border-radius: var(--r-md);
-  background: var(--purple-soft); color: var(--purple); font-weight: 800; font-size: var(--fs-13);
-  cursor: pointer; font-family: inherit;
+  background: var(--purple-soft); color: #7d4fb0; font-weight: 800; font-size: var(--fs-13);
+  cursor: pointer; font-family: inherit; position: relative;
   box-shadow: 0 3px 0 #d9c8f0;
 }
 .chip:active { transform: translateY(3px); box-shadow: none; }
 .chip:disabled { opacity: .5; }
 .draft-toggle {
   display: block; margin: var(--sp-3) auto 0; background: none; border: none;
-  color: var(--purple); font-size: var(--fs-13); font-weight: 800; cursor: pointer;
+  color: #7d4fb0; font-size: var(--fs-13); font-weight: 800; cursor: pointer;
   padding: var(--sp-1) var(--sp-3); font-family: inherit;
 }
 .draft-area {
@@ -422,7 +427,7 @@ input[type="range"]:disabled { opacity: .5; }
 .roundlist { text-align: left; font-size: var(--fs-13); color: var(--sub); margin: 0 0 var(--sp-4); line-height: 2; list-style: none; }
 .roundlist b { color: var(--ink); }
 .back-row { margin-top: var(--sp-4); text-align: center; }
-.back-row button { background: none; border: none; color: var(--sub); font-size: var(--fs-13); text-decoration: underline; cursor: pointer; padding: var(--sp-2); font-family: inherit; }
+.back-row button { background: none; border: none; color: var(--sub); font-size: var(--fs-13); text-decoration: underline; cursor: pointer; padding: var(--sp-2); font-family: inherit; position: relative; }
 
 /* ===== 提示条 / toast ===== */
 .hint-bar {
@@ -432,7 +437,7 @@ input[type="range"]:disabled { opacity: .5; }
   border: 1px solid #cfe6f7;
   animation: pop .3s ease;
 }
-#screen-numeric .hint-bar { background: var(--purple-soft); color: var(--purple); border-color: #e0d0f5; }
+#screen-numeric .hint-bar { background: var(--purple-soft); color: #7d4fb0; border-color: #e0d0f5; }
 .toast {
   position: fixed; left: 50%; bottom: 12%; transform: translateX(-50%);
   background: rgba(74, 55, 40, .94); color: #fff; font-size: var(--fs-14); font-weight: 600;
@@ -513,8 +518,8 @@ input[type="range"]:disabled { opacity: .5; }
 .guide-ops { display: flex; justify-content: space-between; align-items: center; margin-top: var(--sp-3); }
 .guide-next {
   width: auto; padding: var(--sp-2) var(--sp-7); font-size: var(--fs-14);
-  background: linear-gradient(180deg, #8ed056, var(--green));
-  box-shadow: 0 4px 0 #3d8a4c;
+  background: linear-gradient(180deg, #2e7d32, #256b2a);
+  box-shadow: 0 4px 0 #1c4d20;
 }
 .guide-next:active { box-shadow: 0 1px 0 #3d8a4c; }
 
@@ -706,6 +711,7 @@ button:focus-visible, input:focus-visible, textarea:focus-visible, [tabindex]:fo
         <button class="mini-btn" id="n-report"><span aria-hidden="true">🛠️</span> 复制反馈报告</button>
       </div>
       <button class="btn green hidden" id="n-revive-ad" type="button">观看广告 · 复活一次（恢复3点生命）</button>
+      <button class="link-btn hidden" id="n-revive-cancel" type="button">广告无响应？放弃本次等待</button>
       <button class="btn" id="n-next">下一题 →</button>
     </div>
   </div>
@@ -13294,6 +13300,7 @@ window.__BSZ_OBJECTS__ = {
     q = vToRatio(randomStartV());
     render();
     renderTicks();
+    $("v-slider").focus();
     showHint(
       "v-hint",
       "\u62D6\u52A8\u6ED1\u5757\u6216\u76F4\u63A5\u4E0A\u4E0B\u62D6\u62FD\u76EE\u6807\u7269\u6765\u8C03\u6574\u6BD4\u4F8B\uFF1B\u5DEE\u4E00\u70B9\u65F6\u7528 \xB11% \u5FAE\u8C03\u66F4\u7A33\u3002",
@@ -13441,6 +13448,7 @@ window.__BSZ_OBJECTS__ = {
     bind("v-plus", 1);
   }
   function adjust(dir, steps) {
+    if (!session || session.locked) return;
     setQ(fineAdjust(q, dir, steps));
     SFX.tick();
   }
@@ -13468,6 +13476,16 @@ window.__BSZ_OBJECTS__ = {
     let dragging = false;
     let startY = 0;
     let startQ = 1;
+    let dragRaf = 0;
+    let pendingQ = null;
+    const flush = () => {
+      dragRaf = 0;
+      if (pendingQ != null) {
+        const next = pendingQ;
+        pendingQ = null;
+        setQ(next);
+      }
+    };
     tgt.addEventListener("pointerdown", (e) => {
       if (!session || session.locked) return;
       dragging = true;
@@ -13483,13 +13501,17 @@ window.__BSZ_OBJECTS__ = {
     tgt.addEventListener("pointermove", (e) => {
       if (!dragging) return;
       const dy = startY - e.clientY;
-      const factor = Math.pow(2, dy / DRAG_PX_PER_DOUBLE);
-      setQ(startQ * factor);
+      pendingQ = startQ * Math.pow(2, dy / DRAG_PX_PER_DOUBLE);
+      if (!dragRaf) dragRaf = requestAnimationFrame(flush);
       e.preventDefault();
     });
     const end = () => {
       dragging = false;
       tgt.classList.remove("dragging");
+      if (dragRaf) {
+        cancelAnimationFrame(dragRaf);
+        flush();
+      }
     };
     ["pointerup", "pointercancel"].forEach((ev) => tgt.addEventListener(ev, end));
   }
@@ -13501,6 +13523,11 @@ window.__BSZ_OBJECTS__ = {
   function lockAnswer() {
     if (!session || session.locked) return;
     session.locked = true;
+    if (repeatTimer) {
+      clearTimeout(repeatTimer);
+      clearInterval(repeatTimer);
+      repeatTimer = null;
+    }
     setControlsEnabled(false);
     $("v-lock").classList.add("hidden");
     SFX.lock();
@@ -13822,6 +13849,7 @@ window.__BSZ_OBJECTS__ = {
     $2("n-next").addEventListener("click", nextStep);
     $2("n-report").addEventListener("click", copyReport2);
     $2("n-revive-ad").addEventListener("click", tryRevive);
+    $2("n-revive-cancel").addEventListener("click", cancelReviveWait);
     $2("n-input").addEventListener("input", onInput);
     $2("n-tip-btn").addEventListener("click", () => {
       const tip = $2("n-tip");
@@ -13860,7 +13888,8 @@ window.__BSZ_OBJECTS__ = {
       timedOut: false,
       revived: false,
       reviveInFlight: false,
-      reviveAttemptId: null
+      reviveAttemptId: null,
+      reviveAbandoned: false
     };
     $2("n-survival-head").classList.toggle("hidden", mode !== "survival");
     $2("n-draft").value = "";
@@ -13904,6 +13933,7 @@ window.__BSZ_OBJECTS__ = {
     session2.locked = false;
     session2.timedOut = false;
     syncReviveButton();
+    $2("n-input").focus();
     if (session2.mode === "survival") {
       $2("n-life").textContent = String(session2.life);
       $2("n-hearts").textContent = "\u2764\uFE0F".repeat(session2.life) + "\u{1F5A4}".repeat(SURVIVAL.maxLife - session2.life);
@@ -13978,7 +14008,16 @@ window.__BSZ_OBJECTS__ = {
     button.classList.toggle("hidden", !canOffer);
     button.disabled = !canOffer || Boolean(session2 && session2.reviveInFlight);
     $2("n-next").disabled = Boolean(session2 && session2.reviveInFlight);
+    const cancelBtn = $2("n-revive-cancel");
+    if (cancelBtn) cancelBtn.classList.toggle("hidden", !(session2 && session2.reviveInFlight));
     button.textContent = session2 && session2.reviveInFlight ? "\u5E7F\u544A\u5904\u7406\u4E2D\u2026" : "\u89C2\u770B\u5E7F\u544A \xB7 \u590D\u6D3B\u4E00\u6B21\uFF08\u6062\u590D3\u70B9\u751F\u547D\uFF09";
+  }
+  function cancelReviveWait() {
+    if (!session2 || !session2.reviveInFlight) return;
+    session2.reviveInFlight = false;
+    session2.reviveAbandoned = true;
+    syncReviveButton();
+    ctx3.toast("\u5DF2\u653E\u5F03\u672C\u6B21\u590D\u6D3B\u7B49\u5F85\uFF1B\u82E5\u5E7F\u544A\u5B9E\u9645\u5DF2\u5B8C\u6210\uFF0C\u672C\u6B21\u4E5F\u4E0D\u4F1A\u8865\u53D1\u5956\u52B1\u3002");
   }
   function storeRewardAttempt(targetSession, status) {
     if (!(ctx3 == null ? void 0 : ctx3.store) || !(targetSession == null ? void 0 : targetSession.reviveAttemptId)) return false;
@@ -14019,7 +14058,7 @@ window.__BSZ_OBJECTS__ = {
     }
     targetSession.reviveInFlight = false;
     storeRewardAttempt(targetSession, "clear");
-    if (session2 !== targetSession) return;
+    if (session2 !== targetSession || targetSession.reviveAbandoned) return;
     if (result.status === "completed" && targetSession.life <= 0 && !targetSession.revived) {
       targetSession.revived = true;
       targetSession.life = Math.min(3, SURVIVAL.maxLife);

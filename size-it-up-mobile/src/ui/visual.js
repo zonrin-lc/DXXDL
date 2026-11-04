@@ -135,6 +135,9 @@ function loadRound() {
   render();
 
   renderTicks();
+  // 焦点管理：上一题揭晓时焦点在「下一题」按钮上，进入新题后它随揭晓面板隐藏，
+  // 不移交会掉回 body；滑块是视觉模式主输入（range 不弹软键盘），焦点交给它
+  $('v-slider').focus();
   showHint(
     'v-hint',
     '拖动滑块或直接上下拖拽目标物来调整比例；差一点时用 ±1% 微调更稳。',
@@ -303,6 +306,8 @@ function bindFine() {
 }
 
 function adjust(dir, steps) {
+  // 长按连发的 interval 不带 locked 检查：锁定后必须停手，由这里兜底
+  if (!session || session.locked) return;
   setQ(fineAdjust(q, dir, steps));
   SFX.tick();
 }
@@ -333,6 +338,16 @@ function bindDrag() {
   let dragging = false;
   let startY = 0;
   let startQ = 1;
+  let dragRaf = 0;      // pointermove 合帧句柄：高频移动事件每帧最多渲染一次
+  let pendingQ = null;
+  const flush = () => {
+    dragRaf = 0;
+    if (pendingQ != null) {
+      const next = pendingQ;
+      pendingQ = null;
+      setQ(next);
+    }
+  };
   tgt.addEventListener('pointerdown', (e) => {
     if (!session || session.locked) return;
     dragging = true;
@@ -345,13 +360,17 @@ function bindDrag() {
   tgt.addEventListener('pointermove', (e) => {
     if (!dragging) return;
     const dy = startY - e.clientY; // 上拖变大
-    const factor = Math.pow(2, dy / DRAG_PX_PER_DOUBLE);
-    setQ(startQ * factor);
+    pendingQ = startQ * Math.pow(2, dy / DRAG_PX_PER_DOUBLE);
+    if (!dragRaf) dragRaf = requestAnimationFrame(flush);
     e.preventDefault();
   });
   const end = () => {
     dragging = false;
     tgt.classList.remove('dragging');
+    if (dragRaf) {
+      cancelAnimationFrame(dragRaf);
+      flush();
+    }
   };
   ['pointerup', 'pointercancel'].forEach((ev) => tgt.addEventListener(ev, end));
 }
@@ -367,6 +386,12 @@ function setControlsEnabled(on) {
 function lockAnswer() {
   if (!session || session.locked) return;
   session.locked = true;
+  // 可能仍有长按微调未松手：锁定即停连发
+  if (repeatTimer) {
+    clearTimeout(repeatTimer);
+    clearInterval(repeatTimer);
+    repeatTimer = null;
+  }
   setControlsEnabled(false); // 揭晓后输入全部锁定，只能看结果或进下一题
   $('v-lock').classList.add('hidden');
   SFX.lock();
