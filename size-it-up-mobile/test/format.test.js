@@ -77,6 +77,10 @@ describe('尺寸与比例展示', () => {
     expect(fmtMeasure(150000, 'weight')).toBe('150 吨');
     expect(fmtMeasure(0.058, 'weight')).toBe('58 克');
     expect(fmtMeasure(0.2, 'weight')).toBe('200 克');
+    expect(fmtMeasure(7140, 'area')).toBe('7140 平方米');
+    expect(fmtMeasure(18000, 'area')).toBe('1.8 公顷');
+    expect(fmtMeasure(2080000, 'area')).toBe('2.08 平方千米');
+    expect(fmtMeasure(0.0624, 'area')).toBe('624 平方厘米');
     expect(fmtMeasure(1.7, undefined)).toBe('1.7 米'); // 未标注分类回退长度
   });
 });

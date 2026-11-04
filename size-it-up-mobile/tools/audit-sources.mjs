@@ -21,7 +21,7 @@ const isOriginal = (q) => q.source?.type === 'original';
 const originalOk = (q) => typeof q.source?.doc === 'string' && q.source.doc.includes('.md')
   && q.source?.reviewStatus === 'original_design'
   && typeof q.source?.reviewNote === 'string' && q.source.reviewNote.trim().length > 10;
-const VISUAL_POOLS = ['everyday', 'pop', 'geo', 'weight'];
+const VISUAL_POOLS = ['everyday', 'pop', 'geo', 'weight', 'area'];
 const visualAll = VISUAL_POOLS.flatMap((key) => (Array.isArray(pack[key]) ? pack[key] : []));
 const visualPublished = visualAll.filter((q) => q.status === 'published' || q.status === undefined);
 const visualReviewPool = visualAll.filter((q) => ['review', 'needs-review', 'draft'].includes(q.status));
@@ -87,7 +87,7 @@ console.log(`Published generic source labels: ${genericSource.length}`);
 console.log(`Future schedules pointing at non-published questions: ${badUpcomingSchedule.length}`);
 console.log(`Future schedules using questions not directly verified: ${scheduledPendingReview.length}`);
 console.log(`Latest fallback snapshot: ${latestFallback?.version || 'none'}; unresolved entries: ${fallbackPendingReview.length}`);
-console.log(`Published visual questions (everyday/pop/geo/weight): ${visualPublished.length}`);
+console.log(`Published visual questions (everyday/pop/geo/weight/area): ${visualPublished.length}`);
 console.log(`Visual excluded by review/draft status: ${visualReviewPool.length}`);
 console.log(`Visual missing source.url: ${visualMissingUrl.length}`);
 console.log(`Original-design questions with bad doc/status: ${badOriginal.length + visualBadOriginal.length}`);

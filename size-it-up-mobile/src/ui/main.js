@@ -194,6 +194,7 @@ const MODES = [
   { id: 'pop', icon: '🎬', title: '脑洞影视', desc: '芽芽豆、银岩机甲到底有多大？', type: 'visual', pool: 'pop' },
   { id: 'geo', icon: '🌍', title: '地理地标', desc: '从楼房到珠峰的尺度感', type: 'visual', pool: 'geo' },
   { id: 'weight', icon: '⚖️', title: '重量挑战', desc: '按质量的立方根显示 · 5 题一局', type: 'visual', pool: 'weight' },
+  { id: 'area', icon: '📐', title: '面积挑战', desc: '按面积的平方根显示 · 5 题一局', type: 'visual', pool: 'area' },
   { id: 'random', icon: '🎲', title: '随机遭遇', desc: '万物随机配对 · 每局全新组合', type: 'visual-random' },
   { id: 'daily', icon: '📅', title: '每日一题', desc: '每天一道数量级 · 靠累积', type: 'numeric', tag: 'daily' },
   { id: 'survival', icon: '💀', title: '生存模式', desc: '15 秒一题 · 答错扣血', type: 'numeric' },

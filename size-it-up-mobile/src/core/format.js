@@ -13,9 +13,18 @@ export function fmtWeight(kg) {
   return trimNum(kg * 1000) + ' 克';
 }
 
-/** 按度量衡分类格式化（GDD 6.5）：length 走米/厘米，weight 走千克/吨/克，其余分类渲染器落地前回退长度 */
+/** 面积格式化：输入平方米 */
+export function fmtArea(m2) {
+  if (m2 >= 1e6) return trimNum(m2 / 1e6) + ' 平方千米';
+  if (m2 >= 1e4) return trimNum(m2 / 1e4) + ' 公顷';
+  if (m2 >= 1) return trimNum(m2) + ' 平方米';
+  return trimNum(m2 * 1e4) + ' 平方厘米';
+}
+
+/** 按度量衡分类格式化（GDD 6.5）：length 走米/厘米，weight 走千克/吨/克，area 走平方米/公顷/平方千米，其余分类渲染器落地前回退长度 */
 export function fmtMeasure(size, measure) {
   if (measure === 'weight') return fmtWeight(size);
+  if (measure === 'area') return fmtArea(size);
   return fmtSize(size);
 }
 

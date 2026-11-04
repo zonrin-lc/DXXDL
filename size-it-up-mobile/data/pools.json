@@ -1,12 +1,13 @@
 {
-  "version": "3.0.0",
-  "_说明": "热更新数据包 v3.0.0（P1 重量分类 + 随机遭遇层地基）：新增 weight 池 22 题（单位 kg，渲染按立方根缩放，素材复用现有插画）；视觉题全部满足 1/32≤q*≤32 带宽并带对象级来源；数量级题含 num-50~52 超带宽换算题。随机遭遇模式由构建注入的 data/objects.json 驱动，不占本题库。",
+  "version": "3.1.0",
+  "_说明": "热更新数据包 v3.1.0（P2 面积分类）：新增 area 池 40 题（单位 m²，渲染按平方根缩放，素材复用现有插画+emoji 兜底）；视觉题全部满足 1/32≤q*≤32 带宽并带对象级来源。其余同 v3.0.0（weight 池 22 题、数量级题含 num-50~52）。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态。published 题：q* 须在 [1/32,32] 带宽内；source 需 name/year/url/reviewStatus/reviewEvidence（真实对象），或 type=original + doc + reviewStatus=original_design（原创角色）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
     "dailySchedule": "每日排期：YYYY-MM-DD → {questionId(必须存在于题库), revision(正整数)}，已发布日期不可变",
     "fallbackPools": "版本化兜底快照：排期未覆盖的日期按『日期数字 % questionIds 长度』轮换",
-    "weight": "重量模式题库：结构同 everyday/pop/geo，size 单位为千克（kg），measure=weight，dimension=重量；渲染时图上大小按重量的立方根显示（仅影响呈现，不影响计分）"
+    "weight": "重量模式题库：结构同 everyday/pop/geo，size 单位为千克（kg），measure=weight，dimension=重量；渲染时图上大小按重量的立方根显示（仅影响呈现，不影响计分）",
+    "area": "面积模式题库：结构同 everyday/pop/geo，size 单位为平方米（m²），measure=area，dimension=面积；渲染时图上边长按面积的平方根显示（仅影响呈现，不影响计分）；无 assetId 的对象用 emoji 兜底渲染"
   },
   "everyday": [
     {
@@ -6291,6 +6292,1165 @@
         "reviewStatus": "verified",
         "reviewNote": "家猫=4.5kg：家猫常见体重 4–5kg，取 4.5kg；足球=0.43kg：IFAB 规定 5 号球开赛重 410–450g，取 430g。",
         "reviewEvidence": "house-cat: Wikipedia and veterinary references: typical domestic cat weighs 4–5 kg; game value 4.5 kg is the midpoint. | soccer-ball: IFAB Law 2: size-5 ball weighs 410–450 g at the start of the match; game value 430 g sits inside that range."
+      }
+    }
+  ],
+  "area": [
+    {
+      "id": "ar-01",
+      "reference": {
+        "name": "A4 纸",
+        "size": 0.0624,
+        "emoji": "📄"
+      },
+      "target": {
+        "name": "手机正面",
+        "size": 0.011,
+        "emoji": "📱",
+        "assetId": "smartphone"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: ISO 216 (A4) / Wikipedia: Smartphone",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Smartphone",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/ISO_216"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "A4 纸=0.0624m²：A4 = 210×297mm = 0.06237m²，取 0.0624m²；手机正面=0.011m²：主流旗舰手机正面约 16×7.5cm，取 0.011m²。",
+        "reviewEvidence": "a4-paper: ISO 216: A4 is defined as 210 mm x 297 mm = 0.06237 m2; game value 0.0624 m2 is the rounded figure. | smartphone-face: Mainstream flagship phones measure roughly 16 x 7.5 cm, giving a face area around 0.012 m2; game value 0.011 m2 is a representative value."
+      }
+    },
+    {
+      "id": "ar-02",
+      "reference": {
+        "name": "标准房门",
+        "size": 1.8,
+        "emoji": "🚪",
+        "assetId": "standard-door"
+      },
+      "target": {
+        "name": "A4 纸",
+        "size": 0.0624,
+        "emoji": "📄"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Door / Wikipedia: ISO 216 (A4)",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/ISO_216",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Door"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "标准房门=1.8m²：常见室内门 2.0×0.9m，取 1.8m²；A4 纸=0.0624m²：A4 = 210×297mm = 0.06237m²，取 0.0624m²。",
+        "reviewEvidence": "standard-door: Common interior door leaf is about 2.0 m x 0.9 m = 1.8 m2; game value is the representative product. | a4-paper: ISO 216: A4 is defined as 210 mm x 297 mm = 0.06237 m2; game value 0.0624 m2 is the rounded figure."
+      }
+    },
+    {
+      "id": "ar-03",
+      "reference": {
+        "name": "乒乓球台",
+        "size": 4.18,
+        "emoji": "🏓"
+      },
+      "target": {
+        "name": "标准房门",
+        "size": 1.8,
+        "emoji": "🚪",
+        "assetId": "standard-door"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Table tennis / ITTF / Wikipedia: Door",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Door",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Table_tennis"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "乒乓球台=4.18m²：ITTF 规定台面 2.74×1.525m = 4.18m²；标准房门=1.8m²：常见室内门 2.0×0.9m，取 1.8m²。",
+        "reviewEvidence": "pingpong-table: ITTF Laws: the table is 2.74 m long and 1.525 m wide = 4.18 m2; game value matches the regulation. | standard-door: Common interior door leaf is about 2.0 m x 0.9 m = 1.8 m2; game value is the representative product."
+      }
+    },
+    {
+      "id": "ar-04",
+      "reference": {
+        "name": "标准停车位",
+        "size": 12.5,
+        "emoji": "🅿️"
+      },
+      "target": {
+        "name": "乒乓球台",
+        "size": 4.18,
+        "emoji": "🏓"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Parking space / Wikipedia: Table tennis / ITTF",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Table_tennis",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Parking_space"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "标准停车位=12.5m²：常见标准车位 2.5×5m，取 12.5m²；乒乓球台=4.18m²：ITTF 规定台面 2.74×1.525m = 4.18m²。",
+        "reviewEvidence": "parking-space: A common standard parking bay is 2.5 m x 5.0 m = 12.5 m2; game value is the representative product. | pingpong-table: ITTF Laws: the table is 2.74 m long and 1.525 m wide = 4.18 m2; game value matches the regulation."
+      }
+    },
+    {
+      "id": "ar-05",
+      "reference": {
+        "name": "标准停车位",
+        "size": 12.5,
+        "emoji": "🅿️"
+      },
+      "target": {
+        "name": "标准房门",
+        "size": 1.8,
+        "emoji": "🚪",
+        "assetId": "standard-door"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Parking space / Wikipedia: Door",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Door",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Parking_space"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "标准停车位=12.5m²：常见标准车位 2.5×5m，取 12.5m²；标准房门=1.8m²：常见室内门 2.0×0.9m，取 1.8m²。",
+        "reviewEvidence": "parking-space: A common standard parking bay is 2.5 m x 5.0 m = 12.5 m2; game value is the representative product. | standard-door: Common interior door leaf is about 2.0 m x 0.9 m = 1.8 m2; game value is the representative product."
+      }
+    },
+    {
+      "id": "ar-06",
+      "reference": {
+        "name": "羽毛球场（双打）",
+        "size": 81.7,
+        "emoji": "🏸"
+      },
+      "target": {
+        "name": "标准停车位",
+        "size": 12.5,
+        "emoji": "🅿️"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Badminton / BWF / Wikipedia: Parking space",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Parking_space",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Badminton"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "羽毛球场（双打）=81.7m²：BWF 双打场地 13.4×6.1m = 81.7m²；标准停车位=12.5m²：常见标准车位 2.5×5m，取 12.5m²。",
+        "reviewEvidence": "badminton-court: BWF Laws: doubles court is 13.4 m x 6.1 m = 81.74 m2; game value 81.7 m2 matches the regulation. | parking-space: A common standard parking bay is 2.5 m x 5.0 m = 12.5 m2; game value is the representative product."
+      }
+    },
+    {
+      "id": "ar-07",
+      "reference": {
+        "name": "羽毛球场（双打）",
+        "size": 81.7,
+        "emoji": "🏸"
+      },
+      "target": {
+        "name": "乒乓球台",
+        "size": 4.18,
+        "emoji": "🏓"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Badminton / BWF / Wikipedia: Table tennis / ITTF",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Table_tennis",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Badminton"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "羽毛球场（双打）=81.7m²：BWF 双打场地 13.4×6.1m = 81.7m²；乒乓球台=4.18m²：ITTF 规定台面 2.74×1.525m = 4.18m²。",
+        "reviewEvidence": "badminton-court: BWF Laws: doubles court is 13.4 m x 6.1 m = 81.74 m2; game value 81.7 m2 matches the regulation. | pingpong-table: ITTF Laws: the table is 2.74 m long and 1.525 m wide = 4.18 m2; game value matches the regulation."
+      }
+    },
+    {
+      "id": "ar-08",
+      "reference": {
+        "name": "一层平房（占地）",
+        "size": 100,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "羽毛球场（双打）",
+        "size": 81.7,
+        "emoji": "🏸"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: House / Wikipedia: Badminton / BWF",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Badminton",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/House"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层平房（占地）=100m²：普通独栋平房占地常见 80–120m²，取 100m²；羽毛球场（双打）=81.7m²：BWF 双打场地 13.4×6.1m = 81.7m²。",
+        "reviewEvidence": "single-storey-house: A modest single-storey detached house commonly occupies 80-120 m2 of floor plan; game value 100 m2 is a representative midpoint. | badminton-court: BWF Laws: doubles court is 13.4 m x 6.1 m = 81.74 m2; game value 81.7 m2 matches the regulation."
+      },
+      "note": "一座平房占地和一片羽毛球场几乎一样大",
+      "memorable": true
+    },
+    {
+      "id": "ar-09",
+      "reference": {
+        "name": "排球场",
+        "size": 162,
+        "emoji": "🏐"
+      },
+      "target": {
+        "name": "一层平房（占地）",
+        "size": 100,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Volleyball / FIVB / Wikipedia: House",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/House",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Volleyball"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "排球场=162m²：FIVB 场地 18×9m = 162m²；一层平房（占地）=100m²：普通独栋平房占地常见 80–120m²，取 100m²。",
+        "reviewEvidence": "volleyball-court: FIVB Rules: the playing court is 18 m x 9 m = 162 m2; game value matches the regulation. | single-storey-house: A modest single-storey detached house commonly occupies 80-120 m2 of floor plan; game value 100 m2 is a representative midpoint."
+      }
+    },
+    {
+      "id": "ar-10",
+      "reference": {
+        "name": "排球场",
+        "size": 162,
+        "emoji": "🏐"
+      },
+      "target": {
+        "name": "羽毛球场（双打）",
+        "size": 81.7,
+        "emoji": "🏸"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Volleyball / FIVB / Wikipedia: Badminton / BWF",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Badminton",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Volleyball"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "排球场=162m²：FIVB 场地 18×9m = 162m²；羽毛球场（双打）=81.7m²：BWF 双打场地 13.4×6.1m = 81.7m²。",
+        "reviewEvidence": "volleyball-court: FIVB Rules: the playing court is 18 m x 9 m = 162 m2; game value matches the regulation. | badminton-court: BWF Laws: doubles court is 13.4 m x 6.1 m = 81.74 m2; game value 81.7 m2 matches the regulation."
+      }
+    },
+    {
+      "id": "ar-11",
+      "reference": {
+        "name": "网球场（双打）",
+        "size": 260.8,
+        "emoji": "🎾"
+      },
+      "target": {
+        "name": "排球场",
+        "size": 162,
+        "emoji": "🏐"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tennis court / ITF / Wikipedia: Volleyball / FIVB",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Volleyball",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tennis_court"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "网球场（双打）=260.8m²：ITF 双打场地 23.77×10.97m = 260.8m²；排球场=162m²：FIVB 场地 18×9m = 162m²。",
+        "reviewEvidence": "tennis-court: ITF Rules: doubles court is 23.77 m x 10.97 m = 260.76 m2; game value 260.8 m2 matches the regulation. | volleyball-court: FIVB Rules: the playing court is 18 m x 9 m = 162 m2; game value matches the regulation."
+      }
+    },
+    {
+      "id": "ar-12",
+      "reference": {
+        "name": "网球场（双打）",
+        "size": 260.8,
+        "emoji": "🎾"
+      },
+      "target": {
+        "name": "羽毛球场（双打）",
+        "size": 81.7,
+        "emoji": "🏸"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tennis court / ITF / Wikipedia: Badminton / BWF",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Badminton",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tennis_court"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "网球场（双打）=260.8m²：ITF 双打场地 23.77×10.97m = 260.8m²；羽毛球场（双打）=81.7m²：BWF 双打场地 13.4×6.1m = 81.7m²。",
+        "reviewEvidence": "tennis-court: ITF Rules: doubles court is 23.77 m x 10.97 m = 260.76 m2; game value 260.8 m2 matches the regulation. | badminton-court: BWF Laws: doubles court is 13.4 m x 6.1 m = 81.74 m2; game value 81.7 m2 matches the regulation."
+      }
+    },
+    {
+      "id": "ar-13",
+      "reference": {
+        "name": "篮球场（FIBA）",
+        "size": 420,
+        "emoji": "🏀"
+      },
+      "target": {
+        "name": "网球场（双打）",
+        "size": 260.8,
+        "emoji": "🎾"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Basketball court / FIBA / Wikipedia: Tennis court / ITF",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tennis_court",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Basketball_court"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "篮球场（FIBA）=420m²：FIBA 场地 28×15m = 420m²；网球场（双打）=260.8m²：ITF 双打场地 23.77×10.97m = 260.8m²。",
+        "reviewEvidence": "basketball-court: FIBA: the court is 28 m x 15 m = 420 m2; game value matches the regulation. | tennis-court: ITF Rules: doubles court is 23.77 m x 10.97 m = 260.76 m2; game value 260.8 m2 matches the regulation."
+      }
+    },
+    {
+      "id": "ar-14",
+      "reference": {
+        "name": "篮球场（FIBA）",
+        "size": 420,
+        "emoji": "🏀"
+      },
+      "target": {
+        "name": "排球场",
+        "size": 162,
+        "emoji": "🏐"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Basketball court / FIBA / Wikipedia: Volleyball / FIVB",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Volleyball",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Basketball_court"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "篮球场（FIBA）=420m²：FIBA 场地 28×15m = 420m²；排球场=162m²：FIVB 场地 18×9m = 162m²。",
+        "reviewEvidence": "basketball-court: FIBA: the court is 28 m x 15 m = 420 m2; game value matches the regulation. | volleyball-court: FIVB Rules: the playing court is 18 m x 9 m = 162 m2; game value matches the regulation."
+      }
+    },
+    {
+      "id": "ar-15",
+      "reference": {
+        "name": "一层平房（占地）",
+        "size": 100,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "target": {
+        "name": "标准停车位",
+        "size": 12.5,
+        "emoji": "🅿️"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: House / Wikipedia: Parking space",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Parking_space",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/House"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "一层平房（占地）=100m²：普通独栋平房占地常见 80–120m²，取 100m²；标准停车位=12.5m²：常见标准车位 2.5×5m，取 12.5m²。",
+        "reviewEvidence": "single-storey-house: A modest single-storey detached house commonly occupies 80-120 m2 of floor plan; game value 100 m2 is a representative midpoint. | parking-space: A common standard parking bay is 2.5 m x 5.0 m = 12.5 m2; game value is the representative product."
+      }
+    },
+    {
+      "id": "ar-16",
+      "reference": {
+        "name": "标准足球场",
+        "size": 7140,
+        "emoji": "🏟️"
+      },
+      "target": {
+        "name": "篮球场（FIBA）",
+        "size": 420,
+        "emoji": "🏀"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Football pitch / FIFA / Wikipedia: Basketball court / FIBA",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Basketball_court",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Football_pitch"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "标准足球场=7140m²：FIFA 标准 105×68m = 7140m²；篮球场（FIBA）=420m²：FIBA 场地 28×15m = 420m²。",
+        "reviewEvidence": "football-pitch: FIFA Laws / standard international pitch: 105 m x 68 m = 7,140 m2; game value matches the standard. | basketball-court: FIBA: the court is 28 m x 15 m = 420 m2; game value matches the regulation."
+      }
+    },
+    {
+      "id": "ar-17",
+      "reference": {
+        "name": "标准足球场",
+        "size": 7140,
+        "emoji": "🏟️"
+      },
+      "target": {
+        "name": "网球场（双打）",
+        "size": 260.8,
+        "emoji": "🎾"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Football pitch / FIFA / Wikipedia: Tennis court / ITF",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Tennis_court",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Football_pitch"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "标准足球场=7140m²：FIFA 标准 105×68m = 7140m²；网球场（双打）=260.8m²：ITF 双打场地 23.77×10.97m = 260.8m²。",
+        "reviewEvidence": "football-pitch: FIFA Laws / standard international pitch: 105 m x 68 m = 7,140 m2; game value matches the standard. | tennis-court: ITF Rules: doubles court is 23.77 m x 10.97 m = 260.76 m2; game value 260.8 m2 matches the regulation."
+      }
+    },
+    {
+      "id": "ar-18",
+      "reference": {
+        "name": "网球场（双打）",
+        "size": 260.8,
+        "emoji": "🎾"
+      },
+      "target": {
+        "name": "标准停车位",
+        "size": 12.5,
+        "emoji": "🅿️"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tennis court / ITF / Wikipedia: Parking space",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Parking_space",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tennis_court"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "网球场（双打）=260.8m²：ITF 双打场地 23.77×10.97m = 260.8m²；标准停车位=12.5m²：常见标准车位 2.5×5m，取 12.5m²。",
+        "reviewEvidence": "tennis-court: ITF Rules: doubles court is 23.77 m x 10.97 m = 260.76 m2; game value 260.8 m2 matches the regulation. | parking-space: A common standard parking bay is 2.5 m x 5.0 m = 12.5 m2; game value is the representative product."
+      }
+    },
+    {
+      "id": "ar-19",
+      "reference": {
+        "name": "埃菲尔铁塔（塔基）",
+        "size": 15625,
+        "emoji": "🗼",
+        "assetId": "eiffel-tower"
+      },
+      "target": {
+        "name": "标准足球场",
+        "size": 7140,
+        "emoji": "🏟️"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Eiffel Tower / Wikipedia: Football pitch / FIFA",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_pitch",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Eiffel_Tower"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "埃菲尔铁塔（塔基）=15625m²：塔基四条腿外接正方形 125×125m = 15625m²；标准足球场=7140m²：FIFA 标准 105×68m = 7140m²。",
+        "reviewEvidence": "eiffel-base: Wikipedia: the tower base is a square measuring 125 m on each side = 15,625 m2; game value is that base square. | football-pitch: FIFA Laws / standard international pitch: 105 m x 68 m = 7,140 m2; game value matches the standard."
+      },
+      "note": "埃菲尔铁塔底座比两个足球场还大",
+      "memorable": true
+    },
+    {
+      "id": "ar-20",
+      "reference": {
+        "name": "悉尼歌剧院（建筑）",
+        "size": 18000,
+        "emoji": "🎭",
+        "assetId": "sydney-opera-house"
+      },
+      "target": {
+        "name": "埃菲尔铁塔（塔基）",
+        "size": 15625,
+        "emoji": "🗼",
+        "assetId": "eiffel-tower"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Sydney Opera House / Wikipedia: Eiffel Tower",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sydney_Opera_House"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "悉尼歌剧院（建筑）=18000m²：建筑占地 1.8 公顷 = 18000m²；埃菲尔铁塔（塔基）=15625m²：塔基四条腿外接正方形 125×125m = 15625m²。",
+        "reviewEvidence": "sydney-opera: Wikipedia: the building covers 1.8 hectares (4.4 acres) of land = 18,000 m2; game value matches. | eiffel-base: Wikipedia: the tower base is a square measuring 125 m on each side = 15,625 m2; game value is that base square."
+      }
+    },
+    {
+      "id": "ar-21",
+      "reference": {
+        "name": "悉尼歌剧院（建筑）",
+        "size": 18000,
+        "emoji": "🎭",
+        "assetId": "sydney-opera-house"
+      },
+      "target": {
+        "name": "标准足球场",
+        "size": 7140,
+        "emoji": "🏟️"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Sydney Opera House / Wikipedia: Football pitch / FIFA",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_pitch",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Sydney_Opera_House"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "悉尼歌剧院（建筑）=18000m²：建筑占地 1.8 公顷 = 18000m²；标准足球场=7140m²：FIFA 标准 105×68m = 7140m²。",
+        "reviewEvidence": "sydney-opera: Wikipedia: the building covers 1.8 hectares (4.4 acres) of land = 18,000 m2; game value matches. | football-pitch: FIFA Laws / standard international pitch: 105 m x 68 m = 7,140 m2; game value matches the standard."
+      }
+    },
+    {
+      "id": "ar-22",
+      "reference": {
+        "name": "罗马斗兽场（基底）",
+        "size": 24000,
+        "emoji": "🏛️",
+        "assetId": "colosseum"
+      },
+      "target": {
+        "name": "悉尼歌剧院（建筑）",
+        "size": 18000,
+        "emoji": "🎭",
+        "assetId": "sydney-opera-house"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Colosseum / Wikipedia: Sydney Opera House",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Sydney_Opera_House",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Colosseum"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "罗马斗兽场（基底）=24000m²：椭圆基底 189×156m，基底面积约 24000m²；悉尼歌剧院（建筑）=18000m²：建筑占地 1.8 公顷 = 18000m²。",
+        "reviewEvidence": "colosseum-base: Wikipedia: the Colosseum is 189 m x 156 m in plan with a base area of about 24,000 m2; game value matches. | sydney-opera: Wikipedia: the building covers 1.8 hectares (4.4 acres) of land = 18,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-23",
+      "reference": {
+        "name": "罗马斗兽场（基底）",
+        "size": 24000,
+        "emoji": "🏛️",
+        "assetId": "colosseum"
+      },
+      "target": {
+        "name": "埃菲尔铁塔（塔基）",
+        "size": 15625,
+        "emoji": "🗼",
+        "assetId": "eiffel-tower"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Colosseum / Wikipedia: Eiffel Tower",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Colosseum"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "罗马斗兽场（基底）=24000m²：椭圆基底 189×156m，基底面积约 24000m²；埃菲尔铁塔（塔基）=15625m²：塔基四条腿外接正方形 125×125m = 15625m²。",
+        "reviewEvidence": "colosseum-base: Wikipedia: the Colosseum is 189 m x 156 m in plan with a base area of about 24,000 m2; game value matches. | eiffel-base: Wikipedia: the tower base is a square measuring 125 m on each side = 15,625 m2; game value is that base square."
+      }
+    },
+    {
+      "id": "ar-24",
+      "reference": {
+        "name": "罗马斗兽场（基底）",
+        "size": 24000,
+        "emoji": "🏛️",
+        "assetId": "colosseum"
+      },
+      "target": {
+        "name": "标准足球场",
+        "size": 7140,
+        "emoji": "🏟️"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Colosseum / Wikipedia: Football pitch / FIFA",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_pitch",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Colosseum"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "罗马斗兽场（基底）=24000m²：椭圆基底 189×156m，基底面积约 24000m²；标准足球场=7140m²：FIFA 标准 105×68m = 7140m²。",
+        "reviewEvidence": "colosseum-base: Wikipedia: the Colosseum is 189 m x 156 m in plan with a base area of about 24,000 m2; game value matches. | football-pitch: FIFA Laws / standard international pitch: 105 m x 68 m = 7,140 m2; game value matches the standard."
+      }
+    },
+    {
+      "id": "ar-25",
+      "reference": {
+        "name": "吉萨大金字塔（底面）",
+        "size": 53000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "target": {
+        "name": "罗马斗兽场（基底）",
+        "size": 24000,
+        "emoji": "🏛️",
+        "assetId": "colosseum"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Great Pyramid of Giza / Wikipedia: Colosseum",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Colosseum",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "吉萨大金字塔（底面）=53000m²：底面边长约 230.4m，底面积约 53000m²；罗马斗兽场（基底）=24000m²：椭圆基底 189×156m，基底面积约 24000m²。",
+        "reviewEvidence": "giza-base: Wikipedia: the base side is about 230.4 m, giving a base area around 53,000 m2; game value matches. | colosseum-base: Wikipedia: the Colosseum is 189 m x 156 m in plan with a base area of about 24,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-26",
+      "reference": {
+        "name": "吉萨大金字塔（底面）",
+        "size": 53000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "target": {
+        "name": "悉尼歌剧院（建筑）",
+        "size": 18000,
+        "emoji": "🎭",
+        "assetId": "sydney-opera-house"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Great Pyramid of Giza / Wikipedia: Sydney Opera House",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Sydney_Opera_House",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "吉萨大金字塔（底面）=53000m²：底面边长约 230.4m，底面积约 53000m²；悉尼歌剧院（建筑）=18000m²：建筑占地 1.8 公顷 = 18000m²。",
+        "reviewEvidence": "giza-base: Wikipedia: the base side is about 230.4 m, giving a base area around 53,000 m2; game value matches. | sydney-opera: Wikipedia: the building covers 1.8 hectares (4.4 acres) of land = 18,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-27",
+      "reference": {
+        "name": "吉萨大金字塔（底面）",
+        "size": 53000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "target": {
+        "name": "埃菲尔铁塔（塔基）",
+        "size": 15625,
+        "emoji": "🗼",
+        "assetId": "eiffel-tower"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Great Pyramid of Giza / Wikipedia: Eiffel Tower",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Eiffel_Tower",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "吉萨大金字塔（底面）=53000m²：底面边长约 230.4m，底面积约 53000m²；埃菲尔铁塔（塔基）=15625m²：塔基四条腿外接正方形 125×125m = 15625m²。",
+        "reviewEvidence": "giza-base: Wikipedia: the base side is about 230.4 m, giving a base area around 53,000 m2; game value matches. | eiffel-base: Wikipedia: the tower base is a square measuring 125 m on each side = 15,625 m2; game value is that base square."
+      }
+    },
+    {
+      "id": "ar-28",
+      "reference": {
+        "name": "吉萨大金字塔（底面）",
+        "size": 53000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "target": {
+        "name": "标准足球场",
+        "size": 7140,
+        "emoji": "🏟️"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Great Pyramid of Giza / Wikipedia: Football pitch / FIFA",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Football_pitch",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "吉萨大金字塔（底面）=53000m²：底面边长约 230.4m，底面积约 53000m²；标准足球场=7140m²：FIFA 标准 105×68m = 7140m²。",
+        "reviewEvidence": "giza-base: Wikipedia: the base side is about 230.4 m, giving a base area around 53,000 m2; game value matches. | football-pitch: FIFA Laws / standard international pitch: 105 m x 68 m = 7,140 m2; game value matches the standard."
+      }
+    },
+    {
+      "id": "ar-29",
+      "reference": {
+        "name": "泰姬陵（建筑群）",
+        "size": 170000,
+        "emoji": "🕌",
+        "assetId": "taj-mahal"
+      },
+      "target": {
+        "name": "吉萨大金字塔（底面）",
+        "size": 53000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Taj Mahal / Wikipedia: Great Pyramid of Giza",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Taj_Mahal"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "泰姬陵（建筑群）=170000m²：整个建筑群占地 17 公顷 = 170000m²；吉萨大金字塔（底面）=53000m²：底面边长约 230.4m，底面积约 53000m²。",
+        "reviewEvidence": "taj-mahal-complex: Wikipedia: the Taj Mahal complex covers 17 hectares = 170,000 m2; game value matches. | giza-base: Wikipedia: the base side is about 230.4 m, giving a base area around 53,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-30",
+      "reference": {
+        "name": "泰姬陵（建筑群）",
+        "size": 170000,
+        "emoji": "🕌",
+        "assetId": "taj-mahal"
+      },
+      "target": {
+        "name": "罗马斗兽场（基底）",
+        "size": 24000,
+        "emoji": "🏛️",
+        "assetId": "colosseum"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Taj Mahal / Wikipedia: Colosseum",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Colosseum",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Taj_Mahal"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "泰姬陵（建筑群）=170000m²：整个建筑群占地 17 公顷 = 170000m²；罗马斗兽场（基底）=24000m²：椭圆基底 189×156m，基底面积约 24000m²。",
+        "reviewEvidence": "taj-mahal-complex: Wikipedia: the Taj Mahal complex covers 17 hectares = 170,000 m2; game value matches. | colosseum-base: Wikipedia: the Colosseum is 189 m x 156 m in plan with a base area of about 24,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-31",
+      "reference": {
+        "name": "梵蒂冈（国土）",
+        "size": 490000,
+        "emoji": "🇻🇦"
+      },
+      "target": {
+        "name": "泰姬陵（建筑群）",
+        "size": 170000,
+        "emoji": "🕌",
+        "assetId": "taj-mahal"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Vatican City / Wikipedia: Taj Mahal",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Taj_Mahal",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Vatican_City"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "梵蒂冈（国土）=490000m²：国土面积 0.49km² = 49 公顷 = 490000m²；泰姬陵（建筑群）=170000m²：整个建筑群占地 17 公顷 = 170000m²。",
+        "reviewEvidence": "vatican-city: Wikipedia: Vatican City has an area of 0.49 km2 (49 ha) = 490,000 m2; game value matches. | taj-mahal-complex: Wikipedia: the Taj Mahal complex covers 17 hectares = 170,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-32",
+      "reference": {
+        "name": "梵蒂冈（国土）",
+        "size": 490000,
+        "emoji": "🇻🇦"
+      },
+      "target": {
+        "name": "吉萨大金字塔（底面）",
+        "size": 53000,
+        "emoji": "🔺",
+        "assetId": "pyramid-giza"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Vatican City / Wikipedia: Great Pyramid of Giza",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Great_Pyramid_of_Giza",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Vatican_City"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "梵蒂冈（国土）=490000m²：国土面积 0.49km² = 49 公顷 = 490000m²；吉萨大金字塔（底面）=53000m²：底面边长约 230.4m，底面积约 53000m²。",
+        "reviewEvidence": "vatican-city: Wikipedia: Vatican City has an area of 0.49 km2 (49 ha) = 490,000 m2; game value matches. | giza-base: Wikipedia: the base side is about 230.4 m, giving a base area around 53,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-33",
+      "reference": {
+        "name": "故宫（紫禁城）",
+        "size": 720000,
+        "emoji": "🏯"
+      },
+      "target": {
+        "name": "泰姬陵（建筑群）",
+        "size": 170000,
+        "emoji": "🕌",
+        "assetId": "taj-mahal"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Forbidden City / Wikipedia: Taj Mahal",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Taj_Mahal",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Forbidden_City"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "故宫（紫禁城）=720000m²：占地 72 公顷 = 720000m²；泰姬陵（建筑群）=170000m²：整个建筑群占地 17 公顷 = 170000m²。",
+        "reviewEvidence": "forbidden-city: Wikipedia: the Forbidden City covers 72 hectares (720,000 m2); game value matches. | taj-mahal-complex: Wikipedia: the Taj Mahal complex covers 17 hectares = 170,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-34",
+      "reference": {
+        "name": "故宫（紫禁城）",
+        "size": 720000,
+        "emoji": "🏯"
+      },
+      "target": {
+        "name": "梵蒂冈（国土）",
+        "size": 490000,
+        "emoji": "🇻🇦"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 3,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Forbidden City / Wikipedia: Vatican City",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Vatican_City",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Forbidden_City"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "故宫（紫禁城）=720000m²：占地 72 公顷 = 720000m²；梵蒂冈（国土）=490000m²：国土面积 0.49km² = 49 公顷 = 490000m²。",
+        "reviewEvidence": "forbidden-city: Wikipedia: the Forbidden City covers 72 hectares (720,000 m2); game value matches. | vatican-city: Wikipedia: Vatican City has an area of 0.49 km2 (49 ha) = 490,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-35",
+      "reference": {
+        "name": "摩纳哥（国土）",
+        "size": 2080000,
+        "emoji": "🇲🇨"
+      },
+      "target": {
+        "name": "故宫（紫禁城）",
+        "size": 720000,
+        "emoji": "🏯"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Monaco / Wikipedia: Forbidden City",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Forbidden_City",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Monaco"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "摩纳哥（国土）=2080000m²：国土面积 2.08km² = 2080000m²；故宫（紫禁城）=720000m²：占地 72 公顷 = 720000m²。",
+        "reviewEvidence": "monaco: Wikipedia: Monaco has an area of 2.08 km2 = 2,080,000 m2; game value matches. | forbidden-city: Wikipedia: the Forbidden City covers 72 hectares (720,000 m2); game value matches."
+      }
+    },
+    {
+      "id": "ar-36",
+      "reference": {
+        "name": "摩纳哥（国土）",
+        "size": 2080000,
+        "emoji": "🇲🇨"
+      },
+      "target": {
+        "name": "梵蒂冈（国土）",
+        "size": 490000,
+        "emoji": "🇻🇦"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Monaco / Wikipedia: Vatican City",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Vatican_City",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Monaco"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "摩纳哥（国土）=2080000m²：国土面积 2.08km² = 2080000m²；梵蒂冈（国土）=490000m²：国土面积 0.49km² = 49 公顷 = 490000m²。",
+        "reviewEvidence": "monaco: Wikipedia: Monaco has an area of 2.08 km2 = 2,080,000 m2; game value matches. | vatican-city: Wikipedia: Vatican City has an area of 0.49 km2 (49 ha) = 490,000 m2; game value matches."
+      },
+      "note": "摩纳哥差不多有 4 个梵蒂冈那么大",
+      "memorable": true
+    },
+    {
+      "id": "ar-37",
+      "reference": {
+        "name": "纽约中央公园",
+        "size": 3410000,
+        "emoji": "🌳"
+      },
+      "target": {
+        "name": "摩纳哥（国土）",
+        "size": 2080000,
+        "emoji": "🇲🇨"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Central Park / Wikipedia: Monaco",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Monaco",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Central_Park"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "纽约中央公园=3410000m²：占地 843 英亩 ≈ 3.41km² = 3410000m²；摩纳哥（国土）=2080000m²：国土面积 2.08km² = 2080000m²。",
+        "reviewEvidence": "central-park: Wikipedia: Central Park covers 843 acres, about 3.41 km2 = 3,410,000 m2; game value matches. | monaco: Wikipedia: Monaco has an area of 2.08 km2 = 2,080,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-38",
+      "reference": {
+        "name": "纽约中央公园",
+        "size": 3410000,
+        "emoji": "🌳"
+      },
+      "target": {
+        "name": "故宫（紫禁城）",
+        "size": 720000,
+        "emoji": "🏯"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Central Park / Wikipedia: Forbidden City",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Forbidden_City",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Central_Park"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "纽约中央公园=3410000m²：占地 843 英亩 ≈ 3.41km² = 3410000m²；故宫（紫禁城）=720000m²：占地 72 公顷 = 720000m²。",
+        "reviewEvidence": "central-park: Wikipedia: Central Park covers 843 acres, about 3.41 km2 = 3,410,000 m2; game value matches. | forbidden-city: Wikipedia: the Forbidden City covers 72 hectares (720,000 m2); game value matches."
+      }
+    },
+    {
+      "id": "ar-39",
+      "reference": {
+        "name": "纽约中央公园",
+        "size": 3410000,
+        "emoji": "🌳"
+      },
+      "target": {
+        "name": "梵蒂冈（国土）",
+        "size": 490000,
+        "emoji": "🇻🇦"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 2,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Central Park / Wikipedia: Vatican City",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/Vatican_City",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Central_Park"
+        ],
+        "reviewStatus": "verified",
+        "reviewNote": "纽约中央公园=3410000m²：占地 843 英亩 ≈ 3.41km² = 3410000m²；梵蒂冈（国土）=490000m²：国土面积 0.49km² = 49 公顷 = 490000m²。",
+        "reviewEvidence": "central-park: Wikipedia: Central Park covers 843 acres, about 3.41 km2 = 3,410,000 m2; game value matches. | vatican-city: Wikipedia: Vatican City has an area of 0.49 km2 (49 ha) = 490,000 m2; game value matches."
+      }
+    },
+    {
+      "id": "ar-40",
+      "reference": {
+        "name": "网球场（双打）",
+        "size": 260.8,
+        "emoji": "🎾"
+      },
+      "target": {
+        "name": "一层平房（占地）",
+        "size": 100,
+        "emoji": "🏠",
+        "assetId": "single-storey-house"
+      },
+      "dimension": "面积",
+      "measure": "area",
+      "difficulty": 1,
+      "status": "published",
+      "source": {
+        "name": "Wikipedia: Tennis court / ITF / Wikipedia: House",
+        "year": 2026,
+        "url": "https://en.wikipedia.org/wiki/House",
+        "additionalUrls": [
+          "https://en.wikipedia.org/wiki/Tennis_court"
+        ],
+        "reviewStatus": "derived",
+        "reviewNote": "网球场（双打）=260.8m²：ITF 双打场地 23.77×10.97m = 260.8m²；一层平房（占地）=100m²：普通独栋平房占地常见 80–120m²，取 100m²。",
+        "reviewEvidence": "tennis-court: ITF Rules: doubles court is 23.77 m x 10.97 m = 260.76 m2; game value 260.8 m2 matches the regulation. | single-storey-house: A modest single-storey detached house commonly occupies 80-120 m2 of floor plan; game value 100 m2 is a representative midpoint."
       }
     }
   ]

@@ -272,6 +272,28 @@ describe('可选度量衡池（weight，GDD 6.5）', () => {
   });
 });
 
+describe('可选度量衡池（area，GDD 6.5）', () => {
+  const areaQ = (over) => ({
+    id: 'ar-x',
+    reference: { name: 'A4 纸', size: 0.0624 },
+    target: { name: '标准房门', size: 1.8 },
+    dimension: '面积',
+    measure: 'area',
+    status: 'published',
+    source: { name: 'test source', year: 2026, url: 'https://example.com/a', reviewStatus: 'verified' },
+    ...over,
+  });
+  it('area 池存在时按视觉题同口径校验（带宽/来源/measure）', () => {
+    const ok = basePack();
+    ok.area = [areaQ()];
+    expect(validatePack(ok)).toEqual([]);
+
+    const wide = basePack();
+    wide.area = [areaQ({ target: { name: '摩纳哥', size: 2080000 } })]; // span 3.3e7 超带宽
+    expect(validatePack(wide).some((e) => e.msg.includes('发布带宽'))).toBe(true);
+  });
+});
+
 function mulberry(seed) {
   let a = seed >>> 0;
   return function () {
