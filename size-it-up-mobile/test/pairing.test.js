@@ -7,7 +7,8 @@ import { VISUAL_MAX_RATIO } from '../src/core/constants.js';
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const objectsTable = JSON.parse(readFileSync(path.join(root, 'data', 'objects.json'), 'utf8'));
-const OBJECTS = Object.entries(objectsTable.objects).map(([assetId, o]) => ({ assetId, ...o }));
+// 与运行时 objectPool 同口径：无素材对象以作用域键为身份
+const OBJECTS = Object.entries(objectsTable.objects).map(([key, o]) => ({ ...o, assetId: o.assetId || key }));
 
 function pairSpan(a, b) {
   return Math.max(a.size, b.size) / Math.min(a.size, b.size);
@@ -74,6 +75,20 @@ describe('samplePairs 随机抽对', () => {
     const pairs = samplePairs(tiny, 5, mulberry32(1));
     expect(pairs.length).toBeLessThanOrEqual(1);
   });
+  it('多度量对象表：同一 assetId 跨 measure 是不同对象，抽对不串度量', () => {
+    const byId = OBJECTS.filter((o) => o.assetId === 'adult-human');
+    expect(byId.length).toBeGreaterThanOrEqual(3); // length/weight/volume/speed 至少三处
+    const sizes = new Set(byId.map((o) => `${o.measure}:${o.size}`));
+    expect(sizes.size).toBe(byId.length);
+    // 无素材对象以作用域键为身份且能成对（同 measure 内）
+    const weightObjs = OBJECTS.filter((o) => o.measure === 'weight');
+    const pairs = samplePairs(weightObjs, 3, mulberry32(99));
+    expect(pairs.length).toBeGreaterThanOrEqual(1);
+    for (const [ref, tgt] of pairs) {
+      expect(ref.measure).toBe('weight');
+      expect(tgt.measure).toBe('weight');
+    }
+  });
 });
 
 describe('buildRandomQuestion 题目组装', () => {
@@ -83,7 +98,7 @@ describe('buildRandomQuestion 题目组装', () => {
 
   it('产出与精选池同构的题目（published、带宽内、难度已推导）', () => {
     const q = buildRandomQuestion(human, cat);
-    expect(q.id).toBe('rv:adult-human>house-cat');
+    expect(q.id).toBe('rv:length:adult-human>house-cat');
     expect(q.status).toBe('published');
     expect(q.reference.name).toBe(human.name);
     expect(q.target.size).toBe(cat.size);

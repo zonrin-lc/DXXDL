@@ -73,21 +73,27 @@ function toVisual(item) {
 // 比较维度 → 方向组（与 tools/extract-objects.mjs 同口径）：竖向与横向互不随机配对
 const DIM_GROUP = { 高度: 'v', 身高: 'v', 长度: 'h', 宽度: 'h', 直径: 'h' };
 
-/** 随机遭遇层的对象表：优先用构建注入的 objects.json（含对象级来源），缺失时从当前题库推导 */
+/** 随机遭遇层的对象表：优先用构建注入的 objects.json（含对象级来源），缺失时从当前题库推导。
+ *  无素材对象的 assetId 回退为对象表作用域键——配对器用它做唯一身份，
+ *  渲染层查 manifest 落空后走 emoji（与 curated 题同路径）。 */
 function objectPool() {
   if (OBJECTS_TABLE && OBJECTS_TABLE.objects) {
-    return Object.entries(OBJECTS_TABLE.objects).map(([assetId, o]) => ({ assetId, ...o }));
+    return Object.entries(OBJECTS_TABLE.objects).map(([key, o]) => ({ ...o, assetId: o.assetId || key }));
   }
   const byId = new Map();
-  for (const key of ['everyday', 'pop', 'geo']) {
+  for (const key of ['everyday', 'pop', 'geo', 'weight', 'area', 'volume', 'speed']) {
     for (const q of (pack && pack[key]) || []) {
       if (!(q.status === 'published' || q.status === undefined)) continue;
+      const measure = q.measure || 'length';
       for (const side of ['reference', 'target']) {
         const o = q[side];
-        if (o?.assetId && !byId.has(o.assetId)) {
-          byId.set(o.assetId, {
-            assetId: o.assetId, name: o.name, size: o.size, emoji: o.emoji,
-            measure: q.measure || 'length', dim: q.dimension, dimGroup: DIM_GROUP[q.dimension],
+        const scoped = `${measure}:${o?.assetId || 'name:' + o?.name}`;
+        if (o && !byId.has(scoped)) {
+          byId.set(scoped, {
+            assetId: o.assetId || scoped, name: o.name, size: o.size, emoji: o.emoji,
+            measure, dim: q.dimension,
+            // 非长度度量没有横竖方向概念，方向组直接用度量名（配对已约束同 measure）
+            dimGroup: measure === 'length' ? DIM_GROUP[q.dimension] : measure,
           });
         }
       }

@@ -29,7 +29,7 @@ describe('视觉题轴向一致性（P0）', () => {
         for (const sideName of ['reference', 'target']) {
           const side = q[sideName];
           if (!side?.assetId || !manifest[side.assetId]) continue;
-          const obj = objects[side.assetId];
+          const obj = objects[`length:${side.assetId}`];
           expect(obj, `${q.id} ${side.assetId} 不在对象表`).toBeTruthy();
           const canonical = DIM_AXIS[obj.dim];
           expect(canonical, `${q.id} ${side.assetId} 的 dim=${obj.dim} 无法映射轴`).toBeTruthy();
@@ -51,7 +51,7 @@ describe('视觉题轴向一致性（P0）', () => {
           const side = q[sideName];
           if (side?.axis === undefined) continue;
           expect(['h', 'w']).toContain(side.axis);
-          const obj = objects[side.assetId];
+          const obj = objects[`${q.measure || 'length'}:${side.assetId}`];
           if (obj) expect(side.axis).toBe(DIM_AXIS[obj.dim]);
         }
       }

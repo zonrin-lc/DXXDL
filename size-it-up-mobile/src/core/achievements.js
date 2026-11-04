@@ -1,13 +1,18 @@
 // 成就系统（轻成就，GDD 7.4）：本地判定、只记录不加成，首批 ≤10 个，判定条件只增不改。
+// 视觉模式全集（perfect_run 适用）：随度量衡分类扩展同步维护
+const VISUAL_MODES = ['everyday', 'pop', 'geo', 'weight', 'area', 'volume', 'speed', 'random'];
+// 全部可玩模式（all_modes 适用）：与 main.js MODES 一一对应
+const ALL_MODES = [...VISUAL_MODES, 'daily', 'survival', 'practice'];
+
 export const ACHIEVEMENTS = [
   { id: 'first_reveal', name: '初次揭晓', icon: '✨', desc: '完成第一道题', type: 'guide' },
   { id: 'first_perfect', name: '首个满分', icon: '🎯', desc: '任一题拿到 100 分', type: 'exp' },
-  { id: 'perfect_run', name: '完美一局', icon: '🏆', desc: '视觉模式单局 500 分', type: 'challenge' },
+  { id: 'perfect_run', name: '完美一局', icon: '🏆', desc: '任一视觉模式单局满分', type: 'challenge' },
   { id: 'streak_7', name: '连胜一周', icon: '🔥', desc: '每日一题连胜 ≥ 7 天', type: 'retain' },
   { id: 'survival_30', name: '生存 30 题', icon: '💀', desc: '生存模式单局答满 30 题', type: 'challenge' },
   { id: 'geo_all_green', name: '地理全绿', icon: '🌍', desc: '地理模式一局五题均 ≥ 90', type: 'challenge' },
   { id: 'fermi_30', name: '费米思想家', icon: '🧠', desc: '累计完成 30 道数量级题', type: 'milestone' },
-  { id: 'all_modes', name: '五模式通行', icon: '🗝️', desc: '五种模式各完成至少一局', type: 'guide' },
+  { id: 'all_modes', name: '全模式通行', icon: '🗝️', desc: '全部 11 种模式各体验至少一次', type: 'guide' },
   { id: 'streak_30', name: '坚持三十天', icon: '📅', desc: '每日一题连胜 ≥ 30 天', type: 'retain' },
   { id: 'daily_100', name: '每日满分', icon: '🌟', desc: '每日一题拿到 100 分', type: 'exp' },
 ];
@@ -34,7 +39,7 @@ export function evaluateAchievements(state, event) {
       // payload: { mode, total, rounds, scores, perfectAny }
       unlock('first_reveal');
       if (event.perfectAny) unlock('first_perfect');
-      if (event.mode === 'everyday' || event.mode === 'pop' || event.mode === 'geo') {
+      if (VISUAL_MODES.includes(event.mode)) {
         if (event.total >= event.rounds * 100) unlock('perfect_run');
         if (event.mode === 'geo' && event.scores && event.scores.length === event.rounds && event.scores.every((s) => s >= 90)) unlock('geo_all_green');
       }
@@ -57,7 +62,7 @@ export function evaluateAchievements(state, event) {
     case 'mode_seen': {
       const seen = new Set(stats.modesSeen || []);
       seen.add(event.mode);
-      if ([...['everyday', 'pop', 'geo', 'daily', 'survival']].every((m) => seen.has(m))) unlock('all_modes');
+      if (ALL_MODES.every((m) => seen.has(m))) unlock('all_modes');
       break;
     }
     default:

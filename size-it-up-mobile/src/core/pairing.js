@@ -77,7 +77,8 @@ function inBand(x, y) {
 export function buildRandomQuestion(refObj, tgtObj) {
   const span = Math.max(refObj.size, tgtObj.size) / Math.min(refObj.size, tgtObj.size);
   const q = {
-    id: `rv:${refObj.assetId}>${tgtObj.assetId}`,
+    // id 带 measure：同一对对象在不同度量下是不同题（如 轿车vs成年人 的体长题与速度题）
+    id: `rv:${refObj.measure}:${refObj.assetId}>${tgtObj.assetId}`,
     reference: { name: refObj.name, size: refObj.size, emoji: refObj.emoji, assetId: refObj.assetId },
     target: { name: tgtObj.name, size: tgtObj.size, emoji: tgtObj.emoji, assetId: tgtObj.assetId },
     dimension: tgtObj.dim,
@@ -88,6 +89,12 @@ export function buildRandomQuestion(refObj, tgtObj) {
   const source = composeSource(refObj, tgtObj);
   if (source) q.source = source;
   return q;
+}
+
+// 合成来源备注里的尺寸单位（仅展示用，与 fmtMeasure 的基准单位一致）
+const MEASURE_UNIT = { length: 'm', weight: 'kg', area: 'm²', volume: 'm³', speed: 'm/s' };
+function fmtSize(o) {
+  return `${o.name}=${o.size}${MEASURE_UNIT[o.measure] || ''}`;
 }
 
 function composeSource(refObj, tgtObj) {
@@ -106,11 +113,11 @@ function composeSource(refObj, tgtObj) {
       year: 2026,
       doc: (rOrig ? r : t).doc,
       reviewStatus: 'original_design',
-      reviewNote: `${refObj.name}=${refObj.size}m 与 ${tgtObj.name}=${tgtObj.size}m 中的 ${origObj.name} 尺寸为游戏自设，设定依据见角色设定文档对应条目。`,
+      reviewNote: `${fmtSize(refObj)} 与 ${fmtSize(tgtObj)} 中的 ${origObj.name} 尺寸为游戏自设，设定依据见角色设定文档对应条目。`,
     };
     if (other && other.type === 'reference') {
       src.additionalUrls = [other.url];
-      src.reviewNote += ` 另一方 ${otherObj.name}=${otherObj.size}m：${other.note}。`;
+      src.reviewNote += ` 另一方 ${fmtSize(otherObj)}：${other.note}。`;
     }
     return src;
   }
@@ -121,6 +128,6 @@ function composeSource(refObj, tgtObj) {
     url: t.url,
     additionalUrls: [r.url],
     reviewStatus: r.reviewStatus === 'verified' && t.reviewStatus === 'verified' ? 'verified' : 'derived',
-    reviewNote: `${refObj.name}=${refObj.size}m：${r.note}；${tgtObj.name}=${tgtObj.size}m：${t.note}。`,
+    reviewNote: `${fmtSize(refObj)}：${r.note}；${fmtSize(tgtObj)}：${t.note}。`,
   };
 }
