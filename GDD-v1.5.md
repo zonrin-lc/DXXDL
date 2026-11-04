@@ -1,6 +1,6 @@
 # 《比大小》（Scale Sense）游戏设计文档 GDD
 
-> **GDD 文档版本**：v1.5.7（构建自包含修复版）
+> **GDD 文档版本**：v1.5.8（流程与门禁修复版）
 > **日期**：2026-11-04
 > **文档性质**：产品与玩法主设计文档
 > **基线**：GDD v1.4 成熟度补全版；原型核对结论见附录 C（本次修订不代表代码缺陷已修复）
@@ -1417,6 +1417,12 @@ GDD 中大量数值与公式要求必须由机器保证，而不是靠人工回�
 ---
 
 # 变更记录
+
+## v1.5.8（2026-11-04）流程与每日题门禁修复
+
+1. **生存局离开即中止（外部审计 P1）**：`numeric.js` 新增 `abortNumeric()`，`main.js` `showScreen` 离开数值屏时调用——此前返回主页不停计时器，隐藏屏的生存局仍按 deadline 扣血并结算。
+2. **生存倒计时读屏播报（外部审计 P0-4 降级项）**：计时进度条保持 `aria-hidden`，新增 `n-timer-sr`  visually-hidden aria-live 区，在剩余 10/5/4/3/2/1 秒时节流播报。
+3. **每日题 published 门禁（外部审计 P1）**：`validatePack` 升级为「dailySchedule / fallbackPools 只能引用 published 数量级题」（status 缺省按已发布处理，兼容老缓存包）；`resolveDailyQuestion` 运行时同口径兜底，命中未发布题返回 `question_not_published` 不出局。数据连带修复：2026-10-20 排期原指向 review 中的 num-20，重映射到 num-31（revision 1→2）；fallback v1~v3 快照剔除 5~9 个 review 题 id；v1~v3 的 `effectiveFrom` 由占位 1970-01-01 改为真实引入日 2026-10-23（git 初始提交日，选版语义不变）。包版本 v3.2.1→v3.2.2。
 
 ## v1.5.7（2026-11-04）构建 fail-closed 与单文件自包含
 

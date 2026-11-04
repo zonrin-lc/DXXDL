@@ -117,6 +117,19 @@ describe('题库静态校验（GDD 6.7）', () => {
     expect(errs.some((e) => e.msg.includes('questionId 不存在'))).toBe(true);
     expect(errs.some((e) => e.msg.includes('正整数'))).toBe(true);
   });
+  it('dailySchedule / 兜底快照只允许引用 published 数量级题', () => {
+    const p = basePack();
+    p.numeric[1].status = 'review';
+    p.dailySchedule['2026-10-26'] = { questionId: 'n_002', revision: 1 };
+    const errs = validatePack(p);
+    expect(errs.some((e) => e.path.startsWith('dailySchedule') && e.msg.includes('未发布题'))).toBe(true);
+    expect(errs.some((e) => e.path.startsWith('fallbackPools') && e.msg.includes('未发布题'))).toBe(true);
+    // status 缺省按已发布处理（老缓存包兼容）
+    const legacy = basePack();
+    delete legacy.numeric[0].status;
+    delete legacy.numeric[1].status;
+    expect(validatePack(legacy).some((e) => e.msg.includes('未发布题'))).toBe(false);
+  });
   it('已发布数量级题必须提供年份和单位', () => {
     const noYear = basePack();
     delete noYear.numeric[0].source.year;

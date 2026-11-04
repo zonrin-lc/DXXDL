@@ -14,6 +14,7 @@ const $ = (id) => document.getElementById(id);
 let ctx = null;
 let session = null;
 let tickHandle = null;
+let lastTickSec = null; // 上次已向读屏播报的剩余秒数（节流，只在 10/5/4/3/2/1 播报）
 
 const GENERIC_TIP = '把问题拆成「人数 × 人均 × 频率」这类小块，分别估出数量级再相乘；10 的幂比精确数字重要。';
 const rewardedVideoAd = createTapTapRewardedAd({ adUnitId: TAPTAP_REWARDED_VIDEO_AD_UNIT_ID });
@@ -137,6 +138,7 @@ function loadRound() {
 
 function startTimer() {
   stopTimer();
+  lastTickSec = null;
   tickHandle = setInterval(tickTimer, 120);
   tickTimer();
 }
@@ -161,6 +163,13 @@ function tickTimer() {
       : timerColor(remain, session.totalMs) === 'orange'
         ? 'var(--orange-deep)'
         : 'var(--red)';
+  // 读屏倒计时：进度条本身 aria-hidden，剩余秒数在 10/5/4/3/2/1 秒时摘点播报，
+  // 既不漏掉时间压力，也不会每 120ms 刷爆 aria-live 队列
+  const sec = Math.ceil(remain / 1000);
+  if (sec !== lastTickSec && (sec === 10 || (sec <= 5 && sec >= 1))) {
+    lastTickSec = sec;
+    $('n-timer-sr').textContent = `剩余 ${sec} 秒`;
+  }
   if (remain <= 0) checkTimeout();
 }
 
@@ -482,6 +491,13 @@ function reset() {
   session = null;
   $('n-revive-ad').classList.add('hidden');
   $('n-next').disabled = false;
+}
+
+/** 离开数值屏但未走正常结算流程时中止本局：停计时、清会话。
+ *  否则生存局的 interval 会在隐藏屏继续按 deadline 扣血并结算（外部审计 P1）。 */
+export function abortNumeric() {
+  if (!session) return;
+  reset();
 }
 
 // ---------- 纠错复制报告 ----------

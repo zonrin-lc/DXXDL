@@ -9,7 +9,7 @@ import { squareFor } from '../core/constants.js';
 import { setPrefs, SFX } from './audio.js';
 import { setReducedMotion } from './effects.js';
 import { initVisual, startVisual } from './visual.js';
-import { initNumeric, startNumeric, fmtDateCN } from './numeric.js';
+import { initNumeric, startNumeric, fmtDateCN, abortNumeric } from './numeric.js';
 
 const $ = (id) => document.getElementById(id);
 // 内置兜底题库：构建时由 build.mjs 以 window.__BSZ_BASE_PACK__ 注入
@@ -173,6 +173,8 @@ function showScreen(name) {
       if (name === 'home' && !confirm('草稿还没有用完，离开将丢弃，确定返回主页？')) return false;
       d.value = '';
     }
+    // 离开即中止未结算的局：生存计时器不得在隐藏屏继续扣血（正常结算路径已 reset，此处为兜底）
+    abortNumeric();
   }
   currentScreen = name;
   ['home', 'visual', 'numeric', 'end'].forEach((s) => {

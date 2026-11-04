@@ -1,6 +1,6 @@
 {
-  "version": "3.2.1",
-  "_说明": "热更新数据包 v3.2.1（P0 轴向失真修复）：length 题中题目 dimension 轴与对象测量轴不一致的侧面写入显式 axis 字段（ev-7/pop-22 成年人、pop-37 星藤猎人、pop-9 晶石巨人），渲染器按每侧 axis 归一，消除系统性失真。其余同 v3.2.0。",
+  "version": "3.2.2",
+  "_说明": "热更新数据包 v3.2.2（每日题门禁修复）：fallback v1~v3 的 effectiveFrom 由占位 1970-01-01 改为真实引入日 2026-10-23（选版语义不变：同日晒 tie 按数组序取最新，v4 仍自 2026-10-24 生效）；每日排期/兜底快照校验升级为只允许引用 published 数量级题。",
   "_字段": {
     "everyday/pop/geo": "视觉模式题库：reference=参考物(标注尺寸) target=目标物，name/size(米)/emoji/assetId，dimension=比较维度，status=状态。published 题：q* 须在 [1/32,32] 带宽内；source 需 name/year/url/reviewStatus/reviewEvidence（真实对象），或 type=original + doc + reviewStatus=original_design（原创角色）",
     "numeric": "数量级题库：q=问题 a=标准答案 answerType='point'(带 a) u=单位(白名单) note=揭晓冷知识",
@@ -5351,8 +5351,8 @@
   ],
   "dailySchedule": {
     "2026-10-20": {
-      "questionId": "num-20",
-      "revision": 1
+      "questionId": "num-31",
+      "revision": 2
     },
     "2026-10-23": {
       "questionId": "num-7",
@@ -5482,9 +5482,7 @@
         "num-0",
         "num-1",
         "num-2",
-        "num-3",
         "num-4",
-        "num-5",
         "num-6",
         "num-7",
         "num-8",
@@ -5496,12 +5494,9 @@
         "num-14",
         "num-15",
         "num-16",
-        "num-17",
-        "num-18",
-        "num-19",
-        "num-20"
+        "num-17"
       ],
-      "effectiveFrom": "1970-01-01"
+      "effectiveFrom": "2026-10-23"
     },
     {
       "version": "fallback_v2",
@@ -5509,9 +5504,7 @@
         "num-0",
         "num-1",
         "num-2",
-        "num-3",
         "num-4",
-        "num-5",
         "num-6",
         "num-7",
         "num-8",
@@ -5524,9 +5517,6 @@
         "num-15",
         "num-16",
         "num-17",
-        "num-18",
-        "num-19",
-        "num-20",
         "num-21",
         "num-22",
         "num-23",
@@ -5535,7 +5525,7 @@
         "num-26",
         "num-27"
       ],
-      "effectiveFrom": "1970-01-01"
+      "effectiveFrom": "2026-10-23"
     },
     {
       "version": "fallback_v3",
@@ -5543,9 +5533,7 @@
         "num-0",
         "num-1",
         "num-2",
-        "num-3",
         "num-4",
-        "num-5",
         "num-6",
         "num-7",
         "num-8",
@@ -5558,9 +5546,6 @@
         "num-15",
         "num-16",
         "num-17",
-        "num-18",
-        "num-19",
-        "num-20",
         "num-21",
         "num-22",
         "num-23",
@@ -5570,16 +5555,13 @@
         "num-27",
         "num-28",
         "num-29",
-        "num-30",
         "num-31",
         "num-32",
         "num-33",
         "num-34",
-        "num-35",
         "num-36",
         "num-37",
         "num-38",
-        "num-39",
         "num-40",
         "num-41",
         "num-42",
@@ -5588,10 +5570,9 @@
         "num-45",
         "num-46",
         "num-47",
-        "num-48",
-        "num-49"
+        "num-48"
       ],
-      "effectiveFrom": "1970-01-01"
+      "effectiveFrom": "2026-10-23"
     },
     {
       "version": "fallback_v4_2026-10-24",

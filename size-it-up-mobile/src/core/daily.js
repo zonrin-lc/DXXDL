@@ -69,6 +69,11 @@ export function findNumericById(pack, id) {
   return pack.numeric.find((q) => q.id === id) || null;
 }
 
+/** 与选题校验同口径：status 缺省按已发布处理（老缓存包没有 status 字段） */
+function isPublished(q) {
+  return q && (q.status === 'published' || q.status === undefined);
+}
+
 /**
  * 迁移期兼容：优先级为 dailySchedule > 旧 daily 整题覆盖 > 版本化兜底。
  * 新排期与旧 daily 不得双重选择：排期覆盖的日期一律以排期为准。
@@ -79,9 +84,9 @@ export function resolveDailyQuestion(key, pack, opts = {}) {
 
   if (r && r.source === 'schedule') {
     const q = findNumericById(pack, r.questionId);
-    if (q) return { question: q, meta: r };
-    // 排期指向的题不存在 → 结构不完整，调用方应回退内置题库并报告校验错误
-    return { question: null, meta: { ...r, error: 'question_not_found' } };
+    if (isPublished(q)) return { question: q, meta: r };
+    // 排期指向的题不存在或未发布 → 不出局；validatePack 在构建期已拦截，此处是热更新包的运行时兜底
+    return { question: null, meta: { ...r, error: q ? 'question_not_published' : 'question_not_found' } };
   }
 
   // 旧格式兼容（迁移期）：排期未覆盖该日期时，运营旧覆盖仍生效
@@ -91,8 +96,8 @@ export function resolveDailyQuestion(key, pack, opts = {}) {
 
   if (r && r.source === 'fallback') {
     const q = findNumericById(pack, r.questionId);
-    if (q) return { question: q, meta: r };
-    return { question: null, meta: { ...r, error: 'question_not_found' } };
+    if (isPublished(q)) return { question: q, meta: r };
+    return { question: null, meta: { ...r, error: q ? 'question_not_published' : 'question_not_found' } };
   }
   return { question: null, meta: null };
 }

@@ -82,6 +82,23 @@ describe('每日不可变排期（GDD 4.1 本版确定）', () => {
     expect(r.question).toBeNull();
     expect(r.meta.error).toBe('question_not_found');
   });
+  it('排期指向未发布题 → 不出局（热更新包的运行时兜底，构建期由 validatePack 拦截）', () => {
+    const withReview = JSON.parse(JSON.stringify(pack));
+    withReview.numeric.push({ id: 'numeric_007', answerType: 'point', q: '审核中', a: 7, u: '个', status: 'review' });
+    const r = resolveDailyQuestion('2026-10-23', withReview);
+    expect(r.question).toBeNull();
+    expect(r.meta.error).toBe('question_not_published');
+  });
+  it('兜底快照解析到未发布题 → 不出局', () => {
+    const withReview = JSON.parse(JSON.stringify(pack));
+    withReview.numeric.push({ id: 'numeric_001', answerType: 'point', q: '同名旧题', a: 1, u: '个' });
+    // numeric_001 无 status 视为 published；这里改测 fallback 命中 review 题的路径
+    withReview.numeric = withReview.numeric.map((q) => (q.id === 'numeric_004' ? { ...q, status: 'review' } : q));
+    const r = resolveDailyQuestion('2026-11-05', withReview);
+    expect(r.meta.source).toBe('fallback');
+    expect(r.question).toBeNull();
+    expect(r.meta.error).toBe('question_not_published');
+  });
   it('迁移期旧 daily 覆盖格式仍可读取', () => {
     const r = resolveDailyQuestion('2026-01-01', { ...pack, dailySchedule: null });
     expect(r.question.q).toBe('旧覆盖题');

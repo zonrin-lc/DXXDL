@@ -4,6 +4,11 @@ import { SCALE_MIN, SCALE_MAX, VISUAL_MAX_RATIO } from './constants.js';
 const STATUSES = ['draft', 'review', 'approved', 'published', 'retired'];
 const REVIEW_STATUSES = ['verified', 'derived', 'pending_source_page_review', 'original_design'];
 
+/** 与运行时同口径：status 缺省按已发布处理（老缓存包没有 status 字段） */
+function isPublishedStatus(status) {
+  return status === 'published' || status === undefined;
+}
+
 /** 已发布题的来源校验：真实对象需可追溯 URL；原创角色走 type='original' + 项目内设定文档 */
 function checkSource(errors, p, q, { numeric }) {
   const src = q.source;
@@ -86,7 +91,9 @@ export function validatePack(pack) {
 
   const numArr = pack.numeric;
   if (!Array.isArray(numArr)) errors.push({ path: 'numeric', msg: '数量级题库必须是数组' });
-  else {
+  const numStatus = new Map(); // numeric id → status：排期/兜底只能引用已发布数量级题
+  if (Array.isArray(numArr)) {
+    numArr.forEach((q) => { if (q.id) numStatus.set(q.id, q.status); });
     numArr.forEach((q, i) => {
       const p = `numeric[${i}]`;
       if (!q.id) errors.push({ path: p, msg: '缺少稳定 id' });
@@ -123,7 +130,10 @@ export function validatePack(pack) {
       if (seenDates.has(date)) errors.push({ path: p, msg: '日期重复' });
       seenDates.add(date);
       if (!entry || !entry.questionId) errors.push({ path: p, msg: '缺少 questionId' });
-      else if (!ids.has(entry.questionId)) errors.push({ path: p, msg: `questionId 不存在: ${entry.questionId}` });
+      else if (!numStatus.has(entry.questionId)) errors.push({ path: p, msg: `questionId 不存在于数量级题库: ${entry.questionId}` });
+      else if (!isPublishedStatus(numStatus.get(entry.questionId))) {
+        errors.push({ path: p, msg: `questionId 指向未发布题: ${entry.questionId}（status=${numStatus.get(entry.questionId)}），每日排期只能引用 published 题` });
+      }
       if (entry && entry.revision !== undefined && !(Number.isInteger(entry.revision) && entry.revision > 0)) errors.push({ path: p, msg: 'revision 必须为正整数' });
     }
   }
@@ -143,7 +153,10 @@ export function validatePack(pack) {
       }
       if (!Array.isArray(fb.questionIds) || !fb.questionIds.length) errors.push({ path: p, msg: '兜底快照缺少 questionIds' });
       else fb.questionIds.forEach((id, j) => {
-        if (!ids.has(id)) errors.push({ path: `${p}.questionIds[${j}]`, msg: `id 不存在: ${id}` });
+        if (!numStatus.has(id)) errors.push({ path: `${p}.questionIds[${j}]`, msg: `id 不存在于数量级题库: ${id}` });
+        else if (!isPublishedStatus(numStatus.get(id))) {
+          errors.push({ path: `${p}.questionIds[${j}]`, msg: `id 指向未发布题: ${id}（status=${numStatus.get(id)}），兜底快照只能引用 published 题` });
+        }
       });
     });
   }

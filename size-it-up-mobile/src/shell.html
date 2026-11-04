@@ -95,8 +95,9 @@
         <span style="flex:1"></span>
         <span class="life-hearts" id="n-hearts"></span>
       </div>
-      <!-- 纯视觉进度条：剩余时间文案由下方 n-count 提供 -->
+      <!-- 纯视觉进度条：读屏的剩余秒数由 n-timer-sr 在 10/5/4/3/2/1 秒时节流播报 -->
       <div class="timer-track" aria-hidden="true"><div class="timer-fill" id="n-timer"></div></div>
+      <div class="sr-only" aria-live="polite" id="n-timer-sr"></div>
       <div class="surv-count" id="n-count"></div>
     </div>
     <div class="q-card">
