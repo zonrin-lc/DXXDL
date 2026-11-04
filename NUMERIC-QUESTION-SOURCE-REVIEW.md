@@ -1,5 +1,7 @@
 # 数量级题库来源核验台账
 
+> ⚠️ **时点记录（已归档）**：本文是 2026-10 发布候选阶段的历史审查/核验记录，其中描述的题库版本、分支状态与工具链已被后续迭代超越。当前状态以 [`GDD-v1.5.md`](GDD-v1.5.md) 变更记录与 `npm run verify` 结果为准。
+
 - 数据基线：`size-it-up-mobile/data/pools.json` v2.8.2
 - 更新日期：2026-10-24
 - 重要：URL 存在不等于来源已核验；只有带有逐页核验说明和 `source.reviewEvidence` 的 `verified/derived` 才算完成。
