@@ -18,6 +18,10 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  group: size-it-up-mobile-verify-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
 jobs:
   verify:
     runs-on: ubuntu-latest
@@ -35,9 +39,9 @@ jobs:
           cache-dependency-path: size-it-up-mobile/package-lock.json
       - name: Install dependencies
         run: npm ci
+      - name: Block high and critical dependency advisories
+        run: npm audit --audit-level=high
       - name: Summarize dependency advisories
-        # 非阻断：当前 dev 依赖（vitest/jimp 传递链）存在已知 high 级公告，仅汇总不卡红灯
-        continue-on-error: true
         run: |
           npm audit --json > /tmp/npm-audit.json || true
           node -e "const r=require('/tmp/npm-audit.json'); console.log(JSON.stringify({metadata:r.metadata?.vulnerabilities, packages:Object.entries(r.vulnerabilities||{}).map(([name,v])=>({name,severity:v.severity,isDirect:v.isDirect,range:v.range,fixAvailable:v.fixAvailable}))},null,2))"
